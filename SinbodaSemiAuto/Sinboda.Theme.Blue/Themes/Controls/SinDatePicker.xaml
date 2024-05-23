@@ -1,0 +1,129 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+                    xmlns:Convert="clr-namespace:Sinboda.Framework.Control.Converts;assembly=Sinboda.Framework.Control"
+                    xmlns:sinchromes="clr-namespace:Sinboda.Framework.Control.Chromes;assembly=Sinboda.Framework.Control"
+                    xmlns:localConvert="clr-namespace:Sinboda.Theme.Blue.Themes.Converter"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <localConvert:DateFormtConverter x:Key="DateFormtConverter"/>
+
+    <Style TargetType="{x:Type sin:SinDatePicker}">
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource ContentFontSize}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Height" Value="36"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BoxBorderBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sin:SinDatePicker}">
+                    <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="MinWidth" Value="0"/>
+                                <Setter Property="Width" Value="auto"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <sinchromes:ButtonChrome Style="{DynamicResource EditChrome}"
+                                     RenderFocused="{TemplateBinding IsKeyboardFocusWithin}"  
+                                     BorderBrush="{TemplateBinding BorderBrush}"
+                                     Background="{TemplateBinding Background}"
+                                     HorizontalAlignment="Stretch"
+                                     RenderMouseOver="{TemplateBinding IsMouseOver}">
+
+                            <Grid x:Name="PART_Root" HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+
+                                <sin:SinTextBox Style="{DynamicResource EmptyTextBox}" x:Name="PART_TextBox"
+                                     Focusable="{TemplateBinding Focusable}" HorizontalContentAlignment="Stretch"
+                                     VerticalContentAlignment="Center" NullText="{TemplateBinding NullText}"
+                                     Text="{Binding Path=Text ,Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                <sin:GlyphButton x:Name="PART_Button" BorderThickness="0"  Grid.Column="1" Glyph="Glyphicon-calendar" FontSize="18" HorizontalAlignment="Right"/>
+
+                                <Grid x:Name="PART_DisabledVisual" Grid.ColumnSpan="2" Grid.Column="0" IsHitTestVisible="False" Opacity="0" Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Grid.Column="0" Fill="#A5FFFFFF" RadiusY="1" Grid.Row="0" RadiusX="1"/>
+                                    <Rectangle Grid.Column="1" Fill="#A5FFFFFF" Height="18" Margin="3,0,3,0" RadiusY="1" Grid.Row="0" RadiusX="1" Width="19"/>
+                                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_TextBox}" StaysOpen="False" Width="auto" Height="auto">
+                                        
+                                    </Popup>
+                                </Grid>
+                            </Grid>
+
+                        </sinchromes:ButtonChrome>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDataError" Value="true">
+                            <Setter Property="BorderBrush" Value="Red"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" Value="#FFEBEBEB"/>
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding Source={x:Static SystemParameters.HighContrast}}" Value="false">
+                            <Setter Property="Foreground" TargetName="PART_TextBox" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type sin:SinDateTimePicker}">
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource ContentFontSize}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Height" Value="36"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BoxBorderBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sin:SinDateTimePicker}">
+                    <Grid>
+                        <sinchromes:ButtonChrome Style="{DynamicResource EditChrome}"
+                                     RenderFocused="{TemplateBinding IsKeyboardFocusWithin}"  
+                                     BorderBrush="{TemplateBinding BorderBrush}"
+                                     Background="{TemplateBinding Background}"
+                                     HorizontalAlignment="Stretch"
+                                     RenderMouseOver="{TemplateBinding IsMouseOver}">
+
+                            <Grid x:Name="PART_Root" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <sin:SinTextBox Style="{DynamicResource EmptyTextBox}" x:Name="PART_TextBox" Grid.Column="0"
+                                     Focusable="{TemplateBinding Focusable}" HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center" NullText="{TemplateBinding NullText}" 
+                                     />
+
+                                <sin:GlyphButton x:Name="PART_Button" BorderThickness="0" Grid.Column="1" Glyph="Glyphicon-calendar" FontSize="18" HorizontalAlignment="Right"/>
+                            </Grid>
+
+                        </sinchromes:ButtonChrome>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDataError" Value="true">
+                            <Setter Property="BorderBrush" Value="Red"/>
+                        </Trigger>
+
+                        <DataTrigger Binding="{Binding Source={x:Static SystemParameters.HighContrast}}" Value="false">
+                            <Setter Property="Foreground" TargetName="PART_TextBox" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

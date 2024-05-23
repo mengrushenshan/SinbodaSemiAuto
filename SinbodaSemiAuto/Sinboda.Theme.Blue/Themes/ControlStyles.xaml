@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Glyphicons.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Windows/AppWindow.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Windows/SinWindow.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Navigation/NavigationFrame.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/Button.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/SplitButton.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/BreadcrumbBar.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/SinGroupBox.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/SinTabControl.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/ScrollViewer.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/SinTextBox.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/SinComboBox.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/SinDatePicker.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/ConcaveBox.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/GridControl.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/Label.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/TextBlock.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/CheckBox.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/RadioButton.xaml"/>
+        <ResourceDictionary Source="/Sinboda.Theme.Blue;component/Themes/Controls/TreeListControl.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

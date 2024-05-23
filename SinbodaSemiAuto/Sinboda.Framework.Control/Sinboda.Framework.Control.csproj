@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7E60E250-84E5-40AC-968E-ADD432A17715}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sinboda.Framework.Control</RootNamespace>
+    <AssemblyName>Sinboda.Framework.Control</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\SinbodaSemiAuto\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Mvvm.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v17.1.Core, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Assistance\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Chromes\ButtonChrome.cs" />
+    <Compile Include="Controls\BreadcrumbBar.cs" />
+    <Compile Include="Controls\ConcaveBox.cs" />
+    <Compile Include="Controls\GlyphButton.cs" />
+    <Compile Include="Controls\Navigation\IJournal.cs" />
+    <Compile Include="Controls\Navigation\INavigationContainer.cs" />
+    <Compile Include="Controls\Navigation\INavigationContentProvider.cs" />
+    <Compile Include="Controls\Navigation\INavigationFrame.cs" />
+    <Compile Include="Controls\Navigation\IViewModelNavigation.cs" />
+    <Compile Include="Controls\Navigation\Journal.cs" />
+    <Compile Include="Controls\Navigation\JournalEntry.cs" />
+    <Compile Include="Controls\Navigation\JournalEntryStack.cs" />
+    <Compile Include="Controls\Navigation\NavigationContentProvider.cs" />
+    <Compile Include="Controls\Navigation\NavigationFrame.cs" />
+    <Compile Include="Controls\Navigation\NavigationItem.cs" />
+    <Compile Include="Controls\Navigation\NavigationPage.cs" />
+    <Compile Include="Controls\SinButton.cs" />
+    <Compile Include="Controls\SinButtonsControl.cs" />
+    <Compile Include="Controls\SinComboBox.cs" />
+    <Compile Include="Controls\SinDatePicker.cs" />
+    <Compile Include="Controls\SinDateTimePicker.cs" />
+    <Compile Include="Controls\SinGrid.cs" />
+    <Compile Include="Controls\SinGroupBox.cs" />
+    <Compile Include="Controls\SinMessageBox.xaml.cs">
+      <DependentUpon>SinMessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SinMessageBoxEx.xaml.cs">
+      <DependentUpon>SinMessageBoxEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SinNumricTextBox.cs" />
+    <Compile Include="Controls\SinPasswordBox.cs" />
+    <Compile Include="Controls\SinTabControl.cs" />
+    <Compile Include="Controls\SinTextBox.cs" />
+    <Compile Include="Controls\SinWindow.cs" />
+    <Compile Include="Controls\SplitButton.cs" />
+    <Compile Include="Controls\TablePanle.cs" />
+    <Compile Include="Controls\TimerView.xaml.cs">
+      <DependentUpon>TimerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converts\GlyphIconConverter.cs" />
+    <Compile Include="Converts\ItemSelectionConverter.cs" />
+    <Compile Include="DataPage\DataPageControl.xaml.cs">
+      <DependentUpon>DataPageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DateTimePickers\DateTimePicker.xaml.cs">
+      <DependentUpon>DateTimePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DateTimePickers\IconButton.xaml.cs">
+      <DependentUpon>IconButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DateTimePickers\TDateTimeView.xaml.cs">
+      <DependentUpon>TDateTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DateTimePickers\THourView.xaml.cs">
+      <DependentUpon>THourView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DateTimePickers\TMinSexView.xaml.cs">
+      <DependentUpon>TMinSexView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GridColumnSetting\ColumnSetting.cs" />
+    <Compile Include="GridColumnSetting\GridColumnSetting.xaml.cs">
+      <DependentUpon>GridColumnSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GridColumnSetting\GridColumnSettingWindow.xaml.cs">
+      <DependentUpon>GridColumnSettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemSelection\ItemSelectionButton.cs" />
+    <Compile Include="ItemSelection\ItemSelectionUserControl.xaml.cs">
+      <DependentUpon>ItemSelectionUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemSelection\ItemSelectionUserControlBase.cs" />
+    <Compile Include="Loading\LoadingRing.xaml.cs">
+      <DependentUpon>LoadingRing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Loading\LoadingWindows.xaml.cs">
+      <DependentUpon>LoadingWindows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MultiCheckComboBox\MultiSelectComboBox.xaml.cs">
+      <DependentUpon>MultiSelectComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProgressBar\DefaultAsynNotify.cs" />
+    <Compile Include="ProgressBar\IAsynNotifyProgress.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\AssemblyHelper.cs" />
+    <Compile Include="Utils\MayBe.cs" />
+    <Compile Include="Utils\OperationLogBusiness.cs" />
+    <Compile Include="Utils\ViewHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\SinMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SinMessageBoxEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TimerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataPage\DataPageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DateTimePickers\DateTimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DateTimePickers\IconButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DateTimePickers\TDateTimeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DateTimePickers\THourView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DateTimePickers\TMinSexView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GridColumnSetting\GridColumnSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GridColumnSetting\GridColumnSettingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemSelection\ItemSelectionUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Loading\LoadingRing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Loading\LoadingWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MultiCheckComboBox\MultiSelectComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sinboda.Framework.Common\Sinboda.Framework.Common.csproj">
+      <Project>{e19f772f-4a54-4aec-af62-bcaedb9de5da}</Project>
+      <Name>Sinboda.Framework.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\C.png" />
+    <Content Include="Images\CR.png" />
+    <Content Include="Images\CRS.png" />
+    <Content Include="Images\CS.png" />
+    <Content Include="Images\down.png" />
+    <Content Include="Images\R.png" />
+    <Content Include="Images\RS.png" />
+    <Content Include="Images\S.png" />
+    <Content Include="Images\up.png" />
+    <Content Include="Images\X.png" />
+    <Content Include="Images\XC.png" />
+    <Content Include="Images\XCR.png" />
+    <Content Include="Images\XCRS.png" />
+    <Content Include="Images\XCS.png" />
+    <Content Include="Images\XR.png" />
+    <Content Include="Images\XRS.png" />
+    <Content Include="Images\XS.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,34 @@
+﻿<sin:SinWindow x:Class="Sinboda.Framework.Control.GridColumnSetting.GridColumnSettingWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls"
+             xmlns:local="clr-namespace:Sinboda.Framework.Control.GridColumnSetting"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             Title="{MultiLang:StringResource 6727,DefaultValue=表格设置}"
+             d:DesignHeight="580" d:DesignWidth="600">
+    <Grid x:Name="mainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <local:GridColumnSetting x:Name="gridColumnSetting" Grid.Row="0"/>
+    </Grid>
+    <sin:SinWindow.BottomPanel>
+        <Button  Margin="10,0,0,0" Click="saveButton_Click" Tag="save">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Path Data="{DynamicResource Glyphicon-Ok}" 
+                  Width="18" Height="18" Stretch="Uniform" Fill="White" HorizontalAlignment="Center" />
+                <TextBlock Text="{MultiLang:StringResource 60,DefaultValue=保存}" Margin="10,0,0,0"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="cancelButton" Margin="10,0,10,0" Click="cancelButton_Click" Tag="cancel">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Path Data="{DynamicResource Glyphicon-Remove}" 
+                  Width="18" Height="18" Stretch="Uniform" Fill="White" HorizontalAlignment="Center" />
+                <TextBlock Text="{MultiLang:StringResource 144,DefaultValue=关闭}" Margin="10,0,0,0"/>
+            </StackPanel>
+        </Button>
+    </sin:SinWindow.BottomPanel>
+</sin:SinWindow>

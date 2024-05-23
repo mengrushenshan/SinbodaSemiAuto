@@ -1,0 +1,30 @@
+﻿using Sinboda.Framework.Core.AbstractClass;
+using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Sinboda.SemiAuto.Model.DataOperation.SemiAuto
+{
+    public class Sin_Item_DataOperation : EFDataOperationBase<Sin_Item_DataOperation, Sin_Item, Sin_DbContext>
+    {
+        public Sin_Item GetSinItemByName(string itemName)
+        {
+            Sin_Item item = null;
+            if (string.IsNullOrEmpty(itemName))
+            {
+                return item;
+            }
+
+            var itemList = Query(o => o.ItemName == itemName);
+            if (itemList.Count > 0)
+            {
+                item = itemList.FirstOrDefault();
+                return item;
+            }
+            return item;
+        }
+    }
+}

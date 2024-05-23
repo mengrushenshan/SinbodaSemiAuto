@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Sinboda.Framework.MainWindow.Blue.Views.StateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.Framework.MainWindow.Blue.Views"
+             xmlns:core="clr-namespace:Sinboda.Framework.Core.StaticResource;assembly=Sinboda.Framework.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <core:SystemResources x:Key="SystemResources"/>
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Horizontal" >
+        <TextBlock x:Name="currentState" Text="{Binding Source={StaticResource SystemResources}, Path=Instance.CurrentState}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+        <TextBlock x:Name="remainTime" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0"/>
+    </StackPanel>
+</UserControl>

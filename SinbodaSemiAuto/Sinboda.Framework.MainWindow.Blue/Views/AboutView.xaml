@@ -1,0 +1,19 @@
+﻿<sin:SinWindow x:Class="Sinboda.Framework.MainWindow.Blue.Views.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:local="clr-namespace:Sinboda.Framework.MainWindow.Blue.Views"
+             xmlns:infrastructure="clr-namespace:Sinboda.Framework.Infrastructure;assembly=Sinboda.Framework.Infrastructure"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <ContentControl infrastructure:RegionManager.RegionName="about"/>
+    </Grid>
+    <sin:SinWindow.BottomPanel>
+        <!--<dr:DrButton x:Name="btnRegist" Content="{MultiLang:StringResource 2124,DefaultValue=注册}" Margin="0" Click="btnRegist_Click"/>-->
+        <sin:SinButton x:Name="btnClose" Content="{MultiLang:StringResource 144,DefaultValue=关闭}" Margin="0" Click="btnClose_Click"/>
+    </sin:SinWindow.BottomPanel>
+</sin:SinWindow>

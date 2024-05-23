@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="17.1.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="xtraReport1" DisplayName="Customer Order" Margins="51, 49, 20, 25" PaperKind="A4" PageWidth="827" PageHeight="1169" Version="17.1" RequestParameters="false" DataSource="#Ref-0">
+  <FormattingRuleSheet>
+    <Item1 Ref="2" Name="formattingRule1" DataMember="OrderDetails" Condition="([DataSource.CurrentRowIndex] % [Parameters.MaxRowCountParameter]  == 0) And ([DataSource.CurrentRowIndex] != 0)">
+      <Formatting Ref="3" Visible="True" BorderStyle="Inset" StringFormat="Near;Near;0;None;Character;Default" />
+    </Item1>
+  </FormattingRuleSheet>
+  <Parameters>
+    <Item1 Ref="5" Visible="false" Description="Parameter1" Name="UserID" />
+  </Parameters>
+  <Bands>
+    <Item1 Ref="6" ControlType="DetailBand" Name="Detail" HeightF="38.24997" TextAlignment="TopLeft" Padding="0,0,0,0,100">
+      <Controls>
+        <Item1 Ref="7" ControlType="XRLabel" Name="label12" Text="label12" TextAlignment="MiddleLeft" SizeF="386.6667,23" LocationFloat="317.499969, 0" Padding="2,2,0,0,100">
+          <DataBindings>
+            <Item1 Ref="8" PropertyName="Text" DataMember="Message" />
+          </DataBindings>
+          <StylePriority Ref="9" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="10" ControlType="XRLabel" Name="label11" Text="label11" TextAlignment="MiddleCenter" SizeF="148.9999,23" LocationFloat="163.541672, 0" Padding="2,2,0,0,100">
+          <DataBindings>
+            <Item1 Ref="11" PropertyName="Text" DataMember="UserID" />
+          </DataBindings>
+          <StylePriority Ref="12" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="13" ControlType="XRLabel" Name="label1" Text="label1" TextAlignment="MiddleCenter" SizeF="148.9999,23" LocationFloat="9.33344, 0" Padding="2,2,0,0,100">
+          <DataBindings>
+            <Item1 Ref="14" PropertyName="Text" DataMember="Datetime" />
+          </DataBindings>
+          <StylePriority Ref="15" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="16" ControlType="XRLine" Name="line1" SizeF="722.9166,2.083334" LocationFloat="0, 32.12502" ForeColor="Silver">
+          <StylePriority Ref="17" UseForeColor="false" />
+        </Item4>
+      </Controls>
+    </Item1>
+    <Item2 Ref="18" ControlType="ReportHeaderBand" Name="ReportHeader" HeightF="2.499994" TextAlignment="MiddleRight" Padding="0,0,0,0,100" />
+    <Item3 Ref="19" ControlType="PageHeaderBand" Name="PageHeader" HeightF="149.1666" TextAlignment="TopLeft" Font="Tahoma, 9.75pt, style=Bold" BackColor="Transparent" Padding="0,0,0,0,100">
+      <Controls>
+        <Item1 Ref="20" ControlType="XRLine" Name="line4" LineWidth="2" SizeF="722.9166,2.083334" LocationFloat="3, 139.3333" ForeColor="Black">
+          <StylePriority Ref="21" UseForeColor="false" />
+        </Item1>
+        <Item2 Ref="22" ControlType="XRLine" Name="line3" LineWidth="2" SizeF="722.9166,2.083334" LocationFloat="3.083356, 100.4166" ForeColor="Black">
+          <StylePriority Ref="23" UseForeColor="false" />
+        </Item2>
+        <Item3 Ref="24" ControlType="XRLabel" Name="label8" Text="日志内容" TextAlignment="MiddleCenter" SizeF="72.14597,33" LocationFloat="313.3333, 105.3333" Padding="2,2,0,0,100" Tag_type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Tag="1953">
+          <StylePriority Ref="25" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="26" ControlType="XRLabel" Name="label7" Text="用户名" TextAlignment="MiddleCenter" SizeF="70,33" LocationFloat="203.958328, 105.3333" Padding="2,2,0,0,100" Tag_type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Tag="1129">
+          <StylePriority Ref="27" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="28" ControlType="XRLabel" Name="label6" Text="时间" TextAlignment="MiddleCenter" SizeF="70,33" LocationFloat="49.7916679, 105.3333" Padding="2,2,0,0,100" Tag_type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Tag="1142">
+          <StylePriority Ref="29" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="30" ControlType="XRLabel" Name="label4" Text="系统日志" TextAlignment="MiddleCenter" SizeF="342.7083,38.95832" LocationFloat="177.0833, 45.99998" Font="Times New Roman, 16pt, style=Bold" Padding="2,2,0,0,100" Tag_type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Tag="1456">
+          <StylePriority Ref="31" UseFont="false" UseTextAlignment="false" />
+        </Item6>
+      </Controls>
+      <StylePriority Ref="32" UseBackColor="false" UseBorderColor="false" />
+    </Item3>
+    <Item4 Ref="33" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="25" TextAlignment="TopLeft" Padding="0,0,0,0,100" />
+    <Item5 Ref="34" ControlType="TopMarginBand" Name="topMarginBand1" HeightF="20" />
+    <Item6 Ref="35" ControlType="PageFooterBand" Name="PageFooter" HeightF="40.625">
+      <Controls>
+        <Item1 Ref="36" ControlType="XRLabel" Name="label5" Text="label5" SizeF="69.79166,18.75" LocationFloat="222.6463, 10.00001" Padding="2,2,0,0,100">
+          <DataBindings>
+            <Item1 Ref="38" Parameter="#Ref-5" PropertyName="Text" DataMember="UserID" />
+          </DataBindings>
+        </Item1>
+        <Item2 Ref="39" ControlType="XRLine" Name="line5" LineWidth="2" SizeF="722.9166,2" LocationFloat="3.083356, 5.000031" />
+        <Item3 Ref="40" ControlType="XRPageInfo" Name="pageInfo1" PageInfo="Number" TextAlignment="MiddleCenter" SizeF="32.29167,18.75" LocationFloat="626.7708, 10" Padding="2,2,0,0,100">
+          <StylePriority Ref="41" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="42" ControlType="XRPageInfo" Name="pageInfo2" PageInfo="Total" TextAlignment="MiddleCenter" SizeF="28.12506,18.75" LocationFloat="671.5625, 10" Padding="2,2,0,0,100">
+          <StylePriority Ref="43" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="44" ControlType="XRLabel" Name="label23" Text="/" TextAlignment="MiddleCenter" SizeF="12.5,18.75" LocationFloat="659.0623, 9.999974" Padding="2,2,0,0,100">
+          <StylePriority Ref="45" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="46" ControlType="XRPageInfo" Name="pageInfo3" PageInfo="DateTime" Format="{0:yyyy-MM-dd HH:mm}" TextAlignment="MiddleLeft" SizeF="148.9999,18.75" LocationFloat="403.2285, 10" Padding="2,2,0,0,100">
+          <StylePriority Ref="47" UseTextAlignment="false" />
+        </Item6>
+        <Item7 Ref="48" ControlType="XRLabel" Name="label26" Text="打印时间" TextAlignment="MiddleCenter" SizeF="70.83334,18.75" LocationFloat="331.3126, 10" Padding="2,2,0,0,100" Tag_type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Tag="2168">
+          <StylePriority Ref="49" UseTextAlignment="false" />
+        </Item7>
+        <Item8 Ref="50" ControlType="XRLabel" Name="label27" Text="打印者" TextAlignment="MiddleCenter" SizeF="70.83334,18.75" LocationFloat="151.813, 10" Padding="2,2,0,0,100" Tag_type="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Tag="2167">
+          <StylePriority Ref="51" UseTextAlignment="false" />
+        </Item8>
+      </Controls>
+    </Item6>
+  </Bands>
+  <StyleSheet>
+    <Item1 Ref="52" Name="EvenStyle" BorderStyle="Inset" Font="Tahoma, 8.25pt" ForeColor="Black" BackColor="255,250,250,240" BorderColor="255,196,207,189" Sides="Left, Right, Bottom" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
+    <Item2 Ref="53" Name="OddStyle" BorderStyle="Inset" Font="Tahoma, 8.25pt" ForeColor="Black" BackColor="255,225,232,220" BorderColor="255,196,207,189" Sides="Left, Right, Bottom" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
+  </StyleSheet>
+  <ReportPrintOptions Ref="54" DetailCountAtDesignTime="7" />
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v17.1" Ref="0" Content="~Xtra#NULL" Type="System.Collections.Generic.List`1[[Sinboda.Framework.Core.CommonModels.LogModelPrint, Sinboda.Framework.Core, Version=1.0.0.10, Culture=neutral, PublicKeyToken=null]]" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>
