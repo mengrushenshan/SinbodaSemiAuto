@@ -24,10 +24,5 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
         {
             InitializeComponent();
         }
-
-        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
 }
