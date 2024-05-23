@@ -132,6 +132,15 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
         #endregion
 
+        /// <summary>
+        /// 孔位变化数据
+        /// </summary>
+        /// <param name="data">孔位号</param>
+        public void HoleIndexChange(string data)
+        {
+
+        }
+
         public SamplesRegisterPageViewModel()
         {
             SampleRigesterCmd = new RelayCommand(SampleRigester);

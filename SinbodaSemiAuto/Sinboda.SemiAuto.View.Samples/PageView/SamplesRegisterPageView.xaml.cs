@@ -18,6 +18,7 @@ namespace Sinboda.SemiAuto.View.Samples.PageView
             DataContext = viewModel = new SamplesRegisterPageViewModel();
             sampleRoundMonitorControl = new SampleRoundMonitorControl();
             sampleRoundMonitorControl.DataContext = viewModel;
+            sampleRoundMonitorControl.orderEventHandler += viewModel.HoleIndexChange;
             SampleGrid.Children.Add(sampleRoundMonitorControl);
         }
     }
