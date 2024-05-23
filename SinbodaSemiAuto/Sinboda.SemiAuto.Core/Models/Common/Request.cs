@@ -130,6 +130,20 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// </summary>
         BuzzerEnable = 502,
 
+        /// <summary>
+        /// 电机原点
+        /// </summary>
+        MotorOrigin = 901,
+        
+        /// <summary>
+        /// 电机原点
+        /// </summary>
+        FanStatus = 902,
+
+        /// <summary>
+        /// 仓门状态
+        /// </summary>
+        DoorStatus = 903,
 
     }
 
@@ -184,7 +198,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
     }
 
     /// <summary>
-    /// 复位请求
+    /// 平台复位请求
     /// </summary>
     public class ReqPlatformReset : Request
     {
@@ -246,7 +260,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         public int Dir { get; set; }
 
         /// <summary>
-        /// 是否使用高速 1:高速 2:慢速
+        /// 是否使用高速 1:高速 0:慢速
         /// </summary>
         [JsonProperty("UseFastSpeed")]
         public int UseFastSpeed { get; set; }

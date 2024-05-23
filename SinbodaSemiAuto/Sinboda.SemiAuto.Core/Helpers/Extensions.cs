@@ -1,6 +1,8 @@
 ﻿using Mapster;
 using MapsterMapper;
 using Newtonsoft.Json;
+using Sinboda.SemiAuto.Core.Interfaces;
+using Sinboda.SemiAuto.Core.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,14 +44,32 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <returns></returns>
         public static T JsonDeserialize<T>(this string data)
         {
-            try
-            { return JsonConvert.DeserializeObject<T>(data); }
-            catch(Exception e) 
+            return JsonConvert.DeserializeObject<T>(data);
+        } 
+        
+        /// <summary>
+        /// json字符串转应答类
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static IResponse CreateResponse(this IDataFrame data)
+        {
+            IResponse resp = null;
+            if (data.GetAct() == ActionType.MotorOrigin)
             {
-                return JsonConvert.DeserializeObject<T>(null);
+                resp= data.GetUPData().JsonDeserialize<ResMotorOrigin>();
             }
-            
+            else if (data.GetAct() == ActionType.FanStatus)
+            {
+                resp= data.GetUPData().JsonDeserialize<ResFanStatus>();
+            }
+            else if (data.GetAct() == ActionType.DoorStatus)
+            {
+                resp= data.GetUPData().JsonDeserialize<ResDoorStatus>();
+            }
+            return resp;
         }
+            
 
         /// <summary>
         /// 检查路径是否存在 不存在则创建

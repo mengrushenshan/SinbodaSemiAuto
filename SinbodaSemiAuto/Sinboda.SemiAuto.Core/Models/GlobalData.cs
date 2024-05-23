@@ -80,22 +80,22 @@ namespace Sinboda.SemiAuto.Core.Models
         /// <summary>
         /// ximc电机慢速 steps/s
         /// </summary>
-        public const uint XimcSlowSpeed = 100;
+        public const uint XimcSlowSpeed = 300;
 
         /// <summary>
         /// ximc电机慢速 加速度 steps/s^2
         /// </summary>
-        public const uint XimcSlowAccel = 100;
+        public const uint XimcSlowAccel = 300;
 
         /// <summary>
         /// ximc电机快速 steps/s
         /// </summary>
-        public const uint XimcFastSpeed = 5000;
+        public const uint XimcFastSpeed = 3000;
 
         /// <summary>
         /// ximc电机快速 加速度 steps/s^2
         /// </summary>
-        public const uint XimcFastAccel = 5000;
+        public const uint XimcFastAccel = 1000;
 
         /// <summary>
         /// ip地址
@@ -131,8 +131,16 @@ namespace Sinboda.SemiAuto.Core.Models
         private static int _frameID = 0;
 
         //消息通知的令牌
+        public const string TokenCamera = "Camera";
         public const string TokenAlarmData = "AlarmData";
-        public const string TMainWinMouseWheelEvent = "MouseWheelEvent";
+        //¼üÊóÊÂ¼þ
+        public const string WinMouseWheelEvent = "MouseWheelEvent";
+        public const string WinKeyBoardEvent = "KeyBoardEvent";
+        public const string WinMouseDown = "MouseDown";
+        public const string WinMouseMove = "MouseMove";
+        public const string WinMouseUp = "MouseUp";
+        //tcpÖ÷ÍÆÏûÏ¢ÁîÅÆ
+        public const string TokenTcpMsg = "TokenTcpMag";
 
         /// <summary>
         /// 初始化

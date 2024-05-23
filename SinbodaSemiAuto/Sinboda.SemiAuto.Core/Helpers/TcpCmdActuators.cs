@@ -1,4 +1,5 @@
-﻿using Sinboda.Framework.Common.Log;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Sinboda.Framework.Common.Log;
 using Sinboda.SemiAuto.Core.Interfaces;
 using Sinboda.SemiAuto.Core.Models;
 using Sinboda.SemiAuto.Core.Models.Common;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Threading;
 
 namespace Sinboda.SemiAuto.Core.Helpers
 {
@@ -170,6 +172,10 @@ namespace Sinboda.SemiAuto.Core.Helpers
                         {
                             LogHelper.logCommunication.Info($"message frame receive, FrameID:[{frameRcv.FrameID()}] cmd:[{frameRcv.GetCmd()}]");
                             //TODO::消息帧暂不做处理
+                            Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+                            {
+                                Messenger.Default.Send<IResponse>(frameRcv.CreateResponse(), GlobalData.TokenTcpMsg);
+                            }));
                         }
                     }
                 }
@@ -269,17 +275,22 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <returns></returns>
         private string GetDataFrameString()
         {
+            //包尾位置
             int last = -1;
+            //包头位置
             int First = -1;
+            //包完整标记
             int numParenthesesLeft = 0;
             for (int i = 0; i < sbRev.Count; i++)
             {
                 char c = sbRev[i];
+                //包头
                 if (c == '{')
                 {
                     numParenthesesLeft++;
                     First = i;
                 }
+                //包尾
                 else if (c == '}')
                     numParenthesesLeft--;
                 //获取到完整包
@@ -289,11 +300,11 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     break;
                 }
             }
-            if (First < 0 || last < 0)
+            if (First < 0 || last <= First)
                 return string.Empty;
             List<char> chars = sbRev.GetRange(First, last - First + 1);
-            //去除解析过的数据
-            sbRev.RemoveRange(First, last - First + 1);
+            //去除解析过的数据 以及不完整的碎片帧
+            sbRev.RemoveRange(0, last + 1);
             return new string(chars.ToArray());
         }
 

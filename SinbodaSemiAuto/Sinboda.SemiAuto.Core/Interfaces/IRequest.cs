@@ -72,5 +72,11 @@ namespace Sinboda.SemiAuto.Core.Interfaces
         /// </summary>
         /// <returns></returns>
         CmdType GetCmd();
+
+        /// <summary>
+        /// 获取动作类型
+        /// </summary>
+        /// <returns></returns>
+        ActionType GetAct();
     }
 }
