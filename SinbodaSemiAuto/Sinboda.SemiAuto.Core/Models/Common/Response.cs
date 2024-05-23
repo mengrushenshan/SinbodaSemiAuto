@@ -74,6 +74,11 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         [JsonProperty("ErrorCode")]
         public ErrType ErrorCode { get; set; }
 
+        public ActionType GetAct()
+        {
+            return Act;
+        }
+
         public CmdType GetCmd()
         {
             return Cmd;
@@ -128,6 +133,117 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         public override IResponse UnPacking(string data)
         {
             return data.JsonDeserialize<ResMove>();
+        }
+    }
+
+    /// <summary>
+    /// x,y电机原点
+    /// </summary>
+    public class ResMotorOrigin : Response
+    {
+        public ResMotorOrigin() : base()
+        {
+            Act = ActionType.MotorOrigin;
+        }
+
+        public ResMotorOrigin(IRequest req) : base(req)
+        {
+        }
+
+        /// <summary>
+        /// 0-1: 电机编号
+        /// </summary>
+        [JsonProperty("ID")]
+        public int ID { get; set; }
+
+        /// <summary>
+        /// 0:离开 1:进入
+        /// </summary>
+        [JsonProperty("InOrg")]
+        public int InOrg { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override IResponse UnPacking(string data)
+        {
+            return data.JsonDeserialize<ResMotorOrigin>();
+        }
+    }
+    
+    /// <summary>
+    /// 风扇状态
+    /// </summary>
+    public class ResFanStatus : Response
+    {
+        public ResFanStatus() : base()
+        {
+            Act = ActionType.FanStatus;
+        }
+
+        public ResFanStatus(IRequest req) : base(req)
+        {
+        }
+
+        /// <summary>
+        /// 0-1: 电机编号
+        /// </summary>
+        [JsonProperty("ID")]
+        public int ID { get; set; }
+
+        /// <summary>
+        /// 0:正常 1:堵转
+        /// </summary>
+        [JsonProperty("Status")]
+        public int Status { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override IResponse UnPacking(string data)
+        {
+            return data.JsonDeserialize<ResFanStatus>();
+        }
+    } 
+    
+    /// <summary>
+    /// 风扇状态
+    /// </summary>
+    public class ResDoorStatus : Response
+    {
+        public ResDoorStatus() : base()
+        {
+            Act = ActionType.FanStatus;
+        }
+
+        public ResDoorStatus(IRequest req) : base(req)
+        {
+        }
+
+        /// <summary>
+        /// 0-1: 电机编号
+        /// </summary>
+        [JsonProperty("ID")]
+        public int ID { get; set; }
+
+        /// <summary>
+        /// 0:打开 1:关闭
+        /// </summary>
+        [JsonProperty("DoorClosed")]
+        public int DoorClosed { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override IResponse UnPacking(string data)
+        {
+            return data.JsonDeserialize<ResDoorStatus>();
         }
     }
 }

@@ -52,10 +52,22 @@ namespace Sinboda.SemiAuto.Core.Interfaces
         CmdType GetCmd();
 
         /// <summary>
+        /// 获取动作类型
+        /// </summary>
+        /// <returns></returns>
+        ActionType GetAct();
+
+        /// <summary>
         /// 指令返回结果
         /// </summary>
         /// <returns></returns>
         ErrType GetError();
+        
+        /// <summary>
+        /// 获取应答
+        /// </summary>
+        /// <returns></returns>
+        IResponse GetResponse();
 
         /// <summary>
         /// 设置指令返回结果

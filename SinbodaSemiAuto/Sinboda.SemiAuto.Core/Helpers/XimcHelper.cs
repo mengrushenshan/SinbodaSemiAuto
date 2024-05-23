@@ -652,6 +652,98 @@ namespace Sinboda.SemiAuto.Core.Helpers
         }
 
         /// <summary>
+        /// 快速向左移动
+        /// </summary>
+        /// <param name="devId"></param>
+        /// <returns></returns>
+        public bool Cmd_Left_Fast(XimcArm arm)
+        {
+            //先将电机速度设置为快速
+            move_settings_t move_Settings_T = arm.Move_Setting;
+            move_Settings_T.Accel = GlobalData.XimcFastAccel;
+            move_Settings_T.Speed = GlobalData.XimcFastSpeed;
+            if (Set_Move_Settings(arm.DeveiceId, ref move_Settings_T) != Result.ok)
+                return false;
+
+            //连续向左移动
+            Result res = API.command_left(arm.DeveiceId);
+            if (res != Result.ok)
+            {
+                LogHelper.logSoftWare.Error("command_left Error " + res.ToString());
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 慢速向左移动
+        /// </summary>
+        /// <param name="devId"></param>
+        /// <returns></returns>
+        public bool Cmd_Left_Slow(XimcArm arm)
+        {
+            //先将电机速度设置为慢速
+            move_settings_t move_Settings_T = arm.Move_Setting;
+            move_Settings_T.Accel = GlobalData.XimcSlowAccel;
+            move_Settings_T.Speed = GlobalData.XimcSlowSpeed;
+            if (Set_Move_Settings(arm.DeveiceId, ref move_Settings_T) != Result.ok)
+                return false;
+
+            //连续向左移动
+            Result res = API.command_left(arm.DeveiceId);
+            if (res != Result.ok)
+            {
+                LogHelper.logSoftWare.Error("command_left Error " + res.ToString());
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 慢速向右移动
+        /// </summary>
+        /// <param name="devId"></param>
+        /// <returns></returns>
+        public bool Cmd_Right_Slow(XimcArm arm)
+        {
+            //先将电机速度设置为慢速
+            move_settings_t move_Settings_T = arm.Move_Setting;
+            move_Settings_T.Accel = GlobalData.XimcSlowAccel;
+            move_Settings_T.Speed = GlobalData.XimcSlowSpeed;
+            if (Set_Move_Settings(arm.DeveiceId, ref move_Settings_T) != Result.ok)
+                return false;
+
+            //连续向右移动
+            Result res = API.command_right(arm.DeveiceId);
+            if (res != Result.ok)
+            {
+                LogHelper.logSoftWare.Error("command_right Error " + res.ToString());
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 快速向右移动
+        /// </summary>
+        /// <param name="devId"></param>
+        /// <returns></returns>
+        public bool Cmd_Right_Fast(XimcArm arm)
+        {
+            //先将电机速度设置为快速
+            move_settings_t move_Settings_T = arm.Move_Setting;
+            move_Settings_T.Accel = GlobalData.XimcFastAccel;
+            move_Settings_T.Speed = GlobalData.XimcFastSpeed;
+            if (Set_Move_Settings(arm.DeveiceId, ref move_Settings_T) != Result.ok)
+                return false;
+
+            //连续向右移动
+            Result res = API.command_right(arm.DeveiceId);
+            if (res != Result.ok)
+            {
+                LogHelper.logSoftWare.Error("command_right Error " + res.ToString());
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 电机移动 绝对移动
         /// </summary>
         /// <param name="devId"></param>
@@ -697,6 +789,48 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 LogHelper.logSoftWare.Error("command_movr Error " + res.ToString());
             }
             return res;
+        }
+
+        /// <summary>
+        /// 电机移动 相对移动
+        /// </summary>
+        /// <param name="SerId"></param>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public bool Cmd_Move_Relative(XimcArm arm, bool fast, int pos)
+        {
+            //未找到电机
+            if (arm.IsNull())
+            {
+                LogHelper.logSoftWare.Error($"No device for ctrlName:{arm.CtrlName}");
+                return fast;
+            }
+            if (fast)
+            {
+                //先将电机速度设置为快速
+                move_settings_t move_Settings_T = arm.Move_Setting;
+                move_Settings_T.Accel = GlobalData.XimcFastAccel;
+                move_Settings_T.Speed = GlobalData.XimcFastSpeed;
+                if (Set_Move_Settings(arm.DeveiceId, ref move_Settings_T) != Result.ok)
+                    return false;
+            }
+            else
+            {
+                //先将电机速度设置为快速
+                move_settings_t move_Settings_T = arm.Move_Setting;
+                move_Settings_T.Accel = GlobalData.XimcSlowAccel;
+                move_Settings_T.Speed = GlobalData.XimcSlowSpeed;
+                if (Set_Move_Settings(arm.DeveiceId, ref move_Settings_T) != Result.ok)
+                    return false;
+            }
+
+            //相对移动一段距离 直流电机uPosition忽略
+            Result res = API.command_movr(arm.DeveiceId, pos, 0);
+            if (res != Result.ok)
+            {
+                LogHelper.logSoftWare.Error("command_movr Error " + res.ToString());
+            }
+            return true;
         }
 
     }

@@ -83,6 +83,20 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         {
             return OutFrame;
         }
+
+        public ActionType GetAct()
+        {
+            if (!Request.IsNull())
+                return Request.GetAct();
+            else if (!Response.IsNull())
+                return Response.GetAct();
+            return ActionType.None;
+        }
+
+        public IResponse GetResponse()
+        {
+            return Response;
+        }
     }
 
     public class DataFrame : DataFrameBase
