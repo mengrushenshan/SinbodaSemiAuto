@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Sinboda.Framework.Control.DateTimePickers.IconButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.Framework.Control.DateTimePickers"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="ButtonEmptyStyle" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="ButtonBorder" CornerRadius="3" BorderThickness="1" SnapsToDevicePixels="True" BorderBrush="Transparent" Background="{TemplateBinding Background}" Margin="0"/>
+                            <Path Data="{DynamicResource ResourceKey= Glyphicon-Remove}" Fill="{TemplateBinding Foreground}" Stretch="Uniform" Height="10" Width="10"/>
+                            <ContentPresenter/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Button x:Name="button" Background="Transparent" Style="{StaticResource ButtonEmptyStyle}" Padding="0" Focusable="False" FocusVisualStyle="{x:Null}"/>
+</UserControl>

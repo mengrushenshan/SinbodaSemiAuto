@@ -1,0 +1,377 @@
+﻿<UserControl x:Class="Sinboda.Framework.View.SystemManagement.View.SysUserManagePageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.Framework.View.SystemManagement.View"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:vm="clr-namespace:Sinboda.Framework.View.SystemManagement.ViewModel"
+             xmlns:cvt="clr-namespace:Sinboda.Framework.View.SystemManagement.Converter"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             xmlns:Permission="clr-namespace:Sinboda.Framework.Core.ResourceExtensions;assembly=Sinboda.Framework.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1186" x:Name="资源管理">
+    <UserControl.DataContext>
+        <vm:SysUserManagerViewModel/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <cvt:SysLanguageIDConverter x:Key="SysLanguageIDConverter" />
+            <cvt:LanguageConverter x:Key="LanguageConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="grid" Background="WhiteSmoke">
+        <sin:SinTabControl x:Name="drTabControl" Grid.Row="0" Grid.Column="0" SelectedItem="{Binding TabSelectedValue,UpdateSourceTrigger=PropertyChanged}">
+            <sin:SinTabItem x:Name="tabRole" Header="{MultiLang:StringResource 3903,DefaultValue=角色设置}" HorizontalAlignment="Left" Visibility="{Permission:PermissionResource RoleManagePage}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <dxg:GridControl Grid.Column="0" ItemsSource="{Binding RoleList}" SelectedItem="{Binding SelectRole}"  Grid.Row="0">
+                        <dxg:GridControl.View>
+                            <dxg:TableView ShowGroupPanel="False" AutoWidth="True" AllowEditing="False" NavigationStyle="Row"/>
+                        </dxg:GridControl.View>
+                        <dxg:GridControl.Columns>
+                            <dxg:GridColumn Header="{MultiLang:StringResource 3905,DefaultValue=角色编码}" FieldName="RoleID" ReadOnly="True"/>
+                            <dxg:GridColumn Header="{MultiLang:StringResource 1712,DefaultValue=详细描述}" FieldName="Description" ReadOnly="True" />
+                            <dxg:GridColumn Header="{MultiLang:StringResource 3906,DefaultValue=语言编号}" FieldName="LangID" ReadOnly="True"
+                                        DisplayMemberBinding="{Binding LangID, Converter={StaticResource SysLanguageIDConverter}}"/>
+                            <dxg:GridColumn Header="{MultiLang:StringResource 181,DefaultValue=级别}" FieldName="Level" ReadOnly="True"/>
+                        </dxg:GridControl.Columns>
+                    </dxg:GridControl>
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{MultiLang:StringResource 3905,DefaultValue=角色编码}" Grid.Row="1" Grid.Column="1"  />
+                        <sin:SinTextBox Text="{Binding RoleID}" Grid.Row="1" Grid.Column="3" MaxLength="50" IsEnabled="{Binding RoleIDEnabled,UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Content="{MultiLang:StringResource 1712,DefaultValue=详细描述}"  Grid.Row="1" Grid.Column="5"  />
+                        <sin:SinTextBox Text="{Binding RoleDescription}" Grid.Row="1" Grid.Column="7" MaxLength="50"/>
+                        <Label Content="{MultiLang:StringResource 3906,DefaultValue=语言编号}"  Grid.Row="1" Grid.Column="9"  />
+                        <sin:SinTextBox Text="{Binding RoleLanguageID}" Grid.Row="1" Grid.Column="11" MaxLength="50" />
+                        <Label Content="{MultiLang:StringResource 181,DefaultValue=级别}"  Grid.Row="1" Grid.Column="13"  />
+                        <sin:SinTextBox Text="{Binding Level}" Grid.Row="1" Grid.Column="15"  MaxLength="50"/>
+                        <!--<Button Content="{MultiLang:StringResource 3909,DefaultValue=清空输入}" Width="100" Command="{Binding RoleClearCommand}" Grid.Column="2"/>-->
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="4" Grid.ColumnSpan="3">
+                        <sin:SinButton Content="{MultiLang:StringResource 392,DefaultValue=添加}" Width="140" Command="{Binding AddRoleCommand}"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 58,DefaultValue=修改}" Margin="5,0,0,0" Width="140" Command="{Binding ModifyRoleCommand}"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 59,DefaultValue=删除}" Margin="5,0,0,0" Width="140" Command="{Binding DelRoleCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </sin:SinTabItem>
+
+            <sin:SinTabItem x:Name="tabModule" Header="{MultiLang:StringResource 6374,DefaultValue=业务模块设置}" HorizontalAlignment="Left" Visibility="{Permission:PermissionResource BusinessModuleManagePage}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3.6*"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <dxg:TreeListControl ItemsSource="{Binding ModuleList}" SelectedItem="{Binding SelectModule}">
+                        <dxg:TreeListControl.View>
+                            <dxg:TreeListView KeyFieldName="ModuleIDKey" ParentFieldName="ParentID" ShowHorizontalLines="False" AllowSorting="False" AllowEditing="False" AllowRecursiveNodeChecking="True" 
+                                          ShowIndicator="False" ShowVerticalLines="False" AutoWidth="True" AutoExpandAllNodes="True" HorizontalAlignment="Left" NavigationStyle="Row"/>
+                        </dxg:TreeListControl.View>
+                        <dxg:TreeListControl.Columns>
+                            <dxg:TreeListColumn Header="{MultiLang:StringResource 4317,DefaultValue=资源名称}" FieldName="Description" ReadOnly="True"/>
+                            <dxg:TreeListColumn Header="{MultiLang:StringResource 4320,DefaultValue=类名称}" FieldName="ModuleID" ReadOnly="True"/>
+                            <dxg:TreeListColumn Header="{MultiLang:StringResource 4318,DefaultValue=资源编码}" FieldName="ModuleIDKey" ReadOnly="True"/>
+                            <!--<dxg:TreeListColumn Header="{MultiLang:StringResource 0,DefaultValue=语言编码}" FieldName="LangID" ReadOnly="True"/>-->
+                            <!--<dxg:TreeListColumn Header="{MultiLang:StringResource 0,DefaultValue=上级模块编码}" FieldName="ParentID" ReadOnly="True"/>-->
+                            <dxg:TreeListColumn Header="{MultiLang:StringResource 3914,DefaultValue=动态库名称}" FieldName="DllName" ReadOnly="True"/>
+                            <!--<dxg:TreeListColumn Header="{MultiLang:StringResource 0,DefaultValue=命名空间}" FieldName="NameSpace" ReadOnly="True"/>-->
+                            <dxg:TreeListColumn Header="{MultiLang:StringResource 3916,DefaultValue=显示顺序}" FieldName="ShowOrder" ReadOnly="True"/>
+                            <!--<dxg:TreeListColumn Header="{MultiLang:StringResource 0,DefaultValue=正常时图标}" FieldName="IconCommon" ReadOnly="True"/>-->
+                            <dxg:TreeListColumn Header="{MultiLang:StringResource 4321,DefaultValue=菜单分类}" FieldName="ModuleType" ReadOnly="True" 
+                                        DisplayMemberBinding="{Binding ModuleType, Converter={StaticResource LanguageConverter}}"/>
+                        </dxg:TreeListControl.Columns>
+                    </dxg:TreeListControl>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="2,0,2,0" Grid.Column="1" >
+                        <sin:GlyphButton Glyph="Glyphicon-step_Topward" Cursor="Hand" ToolTip="{MultiLang:StringResource 5966,DefaultValue=置顶}" MinHeight="80" Margin="0,0,0,10" Width="40" BorderThickness="0,0,0,0" Background="#FF1792E8" FontSize="25"
+                                    Command="{Binding TopwardCommand,UpdateSourceTrigger=PropertyChanged}"/>
+                        <sin:GlyphButton Glyph="Glyphicon-step_Beforeward" Cursor="Hand" ToolTip="{MultiLang:StringResource 270,DefaultValue=上移}" MinHeight="80" Margin="0,0,0,10" Width="40" BorderThickness="0,0,0,0" Background="#FF1792E8" FontSize="25"
+                                    Command="{Binding BeforewardCommand,UpdateSourceTrigger=PropertyChanged}"/>
+                        <sin:GlyphButton Glyph="Glyphicon-step_Nextward" Cursor="Hand" ToolTip="{MultiLang:StringResource 5965,DefaultValue=下移}" MinHeight="80" Margin="0,0,0,10" Width="40" BorderThickness="0,0,0,0" Background="#FF1792E8" FontSize="25"
+                                    Command="{Binding NextwardCommand,UpdateSourceTrigger=PropertyChanged}"/>
+                        <sin:GlyphButton Glyph="Glyphicon-step_Bottomward" Cursor="Hand" ToolTip="{MultiLang:StringResource 5966,DefaultValue=置底}" MinHeight="80" Margin="0,0,0,10" Width="40" BorderThickness="0,0,0,0" Background="#FF1792E8" FontSize="25"
+                                    Command="{Binding BottomwardCommand,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="{MultiLang:StringResource 4317,DefaultValue=资源名称}"  Grid.Row="1" Grid.Column="1"  />
+                        <sin:SinTextBox Text="{Binding ModuleDescription}" Grid.Row="1" Grid.Column="3" MaxLength="50"/>
+                        <Label Content="{MultiLang:StringResource 3906,DefaultValue=语言编号}"  Grid.Row="1" Grid.Column="5"  />
+                        <sin:SinTextBox Text="{Binding ModuleLanguageID}" Grid.Row="1" Grid.Column="7" MaxLength="50" />
+                        <Label Content="{MultiLang:StringResource 4318,DefaultValue=资源编码}"  Grid.Row="1" Grid.Column="9"  />
+                        <sin:SinTextBox Text="{Binding ModuleIDKey}" Grid.Row="1" Grid.Column="11" MaxLength="50"/>
+                        <Label Content="{MultiLang:StringResource 6375,DefaultValue=上级资源名称}"  Grid.Row="1" Grid.Column="13"  />
+                        <sin:SinComboBox Grid.Row="1" Grid.Column="15" ItemsSource="{Binding ParentDicList}" SelectedItem="{Binding ParentDic}" DisplayMemberPath="Values" IsEditable="False"  />
+
+                        <Label Content="{MultiLang:StringResource 3914,DefaultValue=动态库名称}" Grid.Row="3" Grid.Column="1"  />
+                        <sin:SinTextBox Text="{Binding DllName}" Grid.Row="3" Grid.Column="3"  IsEnabled="{Binding IsChecked,ElementName=cheIsMenu}"/>
+                        <Label Content="{MultiLang:StringResource 3915,DefaultValue=命名空间}" Grid.Row="3" Grid.Column="5"  />
+                        <sin:SinTextBox Text="{Binding NameSpace}" Grid.Row="3" Grid.Column="7"  IsEnabled="{Binding IsChecked,ElementName=cheIsMenu}"/>
+                        <Label Content="{MultiLang:StringResource 4320,DefaultValue=类名称}"  Grid.Row="3" Grid.Column="9"  />
+                        <sin:SinTextBox Text="{Binding ModuleID}"  Grid.Row="3" Grid.Column="11" />
+                        <Label Content="{MultiLang:StringResource 3916,DefaultValue=显示顺序}" Grid.Row="3" Grid.Column="13"  />
+                        <sin:SinTextBox Text="{Binding ShowOrder}" Grid.Row="3" Grid.Column="15"  MaxLength="50" IsEnabled="{Binding IsChecked,ElementName=cheIsMenu}"/>
+
+                        <Label Content="{MultiLang:StringResource 3574,DefaultValue=图标}" Grid.Row="5" Grid.Column="1"  />
+                        <sin:SinComboBox x:Name="txtIconCommon"  SelectedValue="{Binding IconCommon}" SelectedValuePath="Text" Grid.Row="5" Grid.Column="3"  IsEnabled="{Binding IsChecked,ElementName=cheIsMenu}">
+                            <sin:SinComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path Data="{Binding Icon}" Width="18" Height="18" Stretch="Uniform" Fill="#FF404040" HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding Text}" Margin="8,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </sin:SinComboBox.ItemTemplate>
+                        </sin:SinComboBox>
+                        <Label Content="{MultiLang:StringResource 4321,DefaultValue=菜单分类}" Grid.Row="5" Grid.Column="5"  />
+                        <sin:SinComboBox Grid.Row="5" Grid.Column="7" ItemsSource="{Binding ModuleTypeColletion,Mode=TwoWay}"  SelectedItem="{Binding ModuleType}" DisplayMemberPath="Values"/>
+                        <Label Content="{MultiLang:StringResource 6376,DefaultValue=菜单显示}" Grid.Row="5" Grid.Column="9"  />
+                        <CheckBox Grid.Row="5" Grid.Column="11" IsChecked="{Binding IsMenuShow,UpdateSourceTrigger=PropertyChanged}"  />
+
+                        <Label Content="{MultiLang:StringResource 3921,DefaultValue=角色权限}" Grid.Row="5" Grid.Column="13"  />
+                        <CheckBox Grid.Row="5" Grid.Column="15" IsChecked="{Binding IsDisplayEnable,UpdateSourceTrigger=PropertyChanged}"  />
+
+                        <!--<Button Content="{MultiLang:StringResource 3909,DefaultValue=清空输入}" Width="100" Command="{Binding ModuleClearCommand}" Grid.Column="2"/>-->
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="4" Grid.ColumnSpan="2">
+                        <sin:SinButton Content="{MultiLang:StringResource 392,DefaultValue=添加}" Width="140" Command="{Binding AddModuleCommand}"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 58,DefaultValue=修改}" Margin="5,0,0,0" Width="140" Command="{Binding ModifyModuleCommand}"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 59,DefaultValue=删除}" Margin="5,0,0,0" Width="140" Command="{Binding DelModuleCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </sin:SinTabItem>
+
+            <sin:SinTabItem x:Name="tabModuleInfo" Header="{MultiLang:StringResource 6377,DefaultValue=联机模块设置}" HorizontalAlignment="Left" Visibility="{Permission:PermissionResource ModuleInfoManagePage}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="2.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <sin:SinGroupBox Header="{MultiLang:StringResource 1242,DefaultValue=类型}"  Grid.Column="0"  Grid.Row="0">
+                        <dxg:GridControl ItemsSource="{Binding ModuleTypeList}" SelectedItem="{Binding SelectModuleType}">
+                            <dxg:GridControl.View>
+                                <dxg:TableView ShowGroupPanel="False" ShowIndicator="False" ShowColumnHeaders="False" AutoWidth="True" AllowEditing="False" NavigationStyle="Row"/>
+                            </dxg:GridControl.View>
+                            <dxg:GridControl.Columns>
+                                <dxg:GridColumn Header="{MultiLang:StringResource 6378,DefaultValue=模块类型名称}" FieldName="ModuleTypeName" ReadOnly="True"/>
+                            </dxg:GridControl.Columns>
+                        </dxg:GridControl>
+                    </sin:SinGroupBox>
+                    <sin:SinGroupBox Header="{MultiLang:StringResource 1434,DefaultValue=详细信息}" Grid.Column="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3.6*"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <dxg:GridControl ItemsSource="{Binding ModuleInfoList}" SelectedItem="{Binding SelectModuleInfo}">
+                                <dxg:GridControl.View>
+                                    <dxg:TableView ShowGroupPanel="False" AutoWidth="True" AllowEditing="False" NavigationStyle="Row"/>
+                                </dxg:GridControl.View>
+                                <dxg:GridControl.Columns>
+                                    <dxg:GridColumn Header="{MultiLang:StringResource 3911,DefaultValue=模块编码}" FieldName="ModuleID" ReadOnly="True"/>
+                                    <dxg:GridColumn Header="{MultiLang:StringResource 1383,DefaultValue=模块名称}" FieldName="ModuleName" ReadOnly="True"/>
+                                </dxg:GridControl.Columns>
+                            </dxg:GridControl>
+
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Content="{MultiLang:StringResource 3911,DefaultValue=模块编码}"  Grid.Row="1" Grid.Column="1"  />
+                                <sin:SinTextBox Text="{Binding ModuleInfoID}" Grid.Row="1" Grid.Column="3" MaxLength="20" />
+                                <Label Content="{MultiLang:StringResource 1383,DefaultValue=模块名称}"  Grid.Row="1" Grid.Column="5"  />
+                                <sin:SinTextBox Text="{Binding ModuleInfoName}" Grid.Row="1" Grid.Column="7" MaxLength="20" />
+                            </Grid>
+                        </Grid>
+                    </sin:SinGroupBox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="2">
+                        <sin:SinButton Content="{MultiLang:StringResource 392,DefaultValue=添加}" Width="140" Command="{Binding InsertModuleInfoCommand}"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 58,DefaultValue=修改}" Width="140" Command="{Binding UpdateModuleInfoCommand}" Margin="5,0,0,0"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 59,DefaultValue=删除}" Width="140" Command="{Binding DeleteModuleInfoCommand}" Margin="5,0,0,0"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 6379,DefaultValue=类型设置}" Width="140" Command="{Binding AddModuleTypeCommand}" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </sin:SinTabItem>
+
+            <sin:SinTabItem x:Name="tabSysDataDictionary" Header="{MultiLang:StringResource 6380,DefaultValue=数据字典}" HorizontalAlignment="Left" Visibility="{Permission:PermissionResource SysDataDictionaryManagePage}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="2.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <sin:SinGroupBox Header="{MultiLang:StringResource 1242,DefaultValue=类型}" Grid.Row="0" Grid.Column="0">
+                        <dxg:GridControl ItemsSource="{Binding SysDataDictionaryTypeList}"
+                                 SelectedItem="{Binding SelectSysDataDictionaryType}">
+                            <dxg:GridControl.View>
+                                <dxg:TableView ShowGroupPanel="False" ShowIndicator="False" AllowEditing="False" AutoWidth="True" ShowColumnHeaders="False" NavigationStyle="Row"/>
+                            </dxg:GridControl.View>
+                            <dxg:GridControl.Columns>
+                                <dxg:GridColumn FieldName="Values" Header="{MultiLang:StringResource 1131,DefaultValue=名称}" />
+                            </dxg:GridControl.Columns>
+                        </dxg:GridControl>
+                    </sin:SinGroupBox>
+                    <sin:SinGroupBox Header="{MultiLang:StringResource 1434,DefaultValue=详细信息}" Grid.Row="0" Grid.Column="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3.6*"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <dxg:GridControl  SelectionMode="Row"
+                                 ItemsSource="{Binding SysDataDictionaryInfoList}"
+                                 SelectedItem="{Binding SelectSysDataDictionaryInfo}">
+                                <dxg:GridControl.Columns>
+                                    <dxg:GridColumn FieldName="Code" Header="{MultiLang:StringResource 6381,DefaultValue=编码}" Width="100"/>
+                                    <dxg:GridColumn FieldName="DisplayValue" Header="{MultiLang:StringResource 1131,DefaultValue=名称}" Width="180"/>
+                                    <dxg:GridColumn FieldName="Order" Header="{MultiLang:StringResource 3916,DefaultValue=显示顺序}" Width="100"/>
+                                    <dxg:GridColumn FieldName="IsEnable" Header="{MultiLang:StringResource 226,DefaultValue=启用}" Width="180"/>
+                                </dxg:GridControl.Columns>
+                                <dxg:GridControl.View>
+                                    <dxg:TableView ShowGroupPanel="False" AutoWidth="True" NavigationStyle="Row" AllowEditing="False"/>
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
+
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Label Content="{MultiLang:StringResource 6381,DefaultValue=编码}"  Grid.Row="1" Grid.Column="1"  />
+                                <sin:SinTextBox Text="{Binding SysDataDicCode}" Grid.Row="1" Grid.Column="3"/>
+                                <Label Content="{MultiLang:StringResource 1131,DefaultValue=名称}"  Grid.Row="1" Grid.Column="5"  />
+                                <sin:SinTextBox Text="{Binding SysDataDicValue}" Grid.Row="1" Grid.Column="7"/>
+                                <Label Content="{MultiLang:StringResource 3906,DefaultValue=语言编号}"  Grid.Row="1" Grid.Column="9"  />
+                                <sin:SinTextBox Text="{Binding SysDataDicLanguageID}" Grid.Row="1" Grid.Column="11"/>
+                                <Label Content="{MultiLang:StringResource 3916,DefaultValue=显示顺序}" Grid.Row="3" Grid.Column="1"  />
+                                <sin:SinTextBox Text="{Binding SysDataDicOrder}" Grid.Row="3" Grid.Column="3"  MaxLength="50" />
+                                <Label Content="{MultiLang:StringResource 226,DefaultValue=启用}" Grid.Row="3" Grid.Column="5"  />
+                                <CheckBox Grid.Row="3" Grid.Column="7" IsChecked="{Binding SysDataDicIsEnable,UpdateSourceTrigger=PropertyChanged}"  />
+                            </Grid>
+                        </Grid>
+                    </sin:SinGroupBox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="2">
+                        <sin:SinButton Content="{MultiLang:StringResource 392,DefaultValue=添加}" Width="140" Command="{Binding InsertSysDataDicCommand}"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 58,DefaultValue=修改}" Width="140" Command="{Binding UpdateSysDataDicCommand}" Margin="5,0,0,0"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 59,DefaultValue=删除}" Width="140" Command="{Binding DeleteSysDataDicCommand}" Margin="5,0,0,0"/>
+                        <sin:SinButton Content="{MultiLang:StringResource 6379,DefaultValue=类型设置}" Width="140" Command="{Binding AddSysTypeCommand}" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </sin:SinTabItem>
+
+        </sin:SinTabControl>
+    </Grid>
+</UserControl>

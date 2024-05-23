@@ -1,0 +1,602 @@
+﻿<UserControl x:Class="Sinboda.SemiAuto.View.MachineryDebug.PageView.MachineryDebugPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.SemiAuto.View.MachineryDebug.PageView"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             xmlns:myStaticResource="clr-namespace:Sinboda.SemiAuto.Model.DatabaseModel.Resource;assembly=Sinboda.SemiAuto.Model"
+             mc:Ignorable="d" 
+             MouseWheel="UserControl_MouseWheel"
+             KeyDown="UserControl_KeyDown"
+             KeyUp="UserControl_KeyUp"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <sin:SinTabControl Grid.Column="0" SelectedIndex="0">
+            <sin:SinTabItem Header="{MultiLang:StringResource 0, DefaultValue=电机}">
+                <sin:SinGrid  Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <sin:SinGroupBox Grid.Row="0">
+                        <sin:SinGroupBox.Header>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=平台}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                                </StackPanel>
+                            </Grid>
+                        </sin:SinGroupBox.Header>
+                        <sin:SinGrid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Command="{Binding PlatformResetCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台机械原点复位}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="1" Command="{Binding PlatformResetLogicalCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台工作原点复位}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </sin:SinGrid>
+                    </sin:SinGroupBox>
+                    
+                    <sin:SinGroupBox Grid.Row="1">
+                        <sin:SinGroupBox.Header>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=Z轴}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                                </StackPanel>
+                            </Grid>
+                        </sin:SinGroupBox.Header>
+                        <sin:SinGrid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="2*" />
+                            </Grid.RowDefinitions>
+                            <sin:SinGrid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--#region 第一个电机-->
+                                <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=电机速度}" />
+                                <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=加速度}" />
+                                <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=位置}" />
+                                <TextBlock Grid.Column="12" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=原点状态}" />
+
+
+                                <sin:SinTextBox Grid.Column="2" Grid.Row="0" Text="{Binding ZaxisMotor.Speed, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="6" Grid.Row="0" Text="{Binding ZaxisMotor.Accel, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="10" Grid.Row="0" Text="{Binding ZaxisMotor.Postion, UpdateSourceTrigger=PropertyChanged}"/>
+                                <!--#endregion-->
+                            </sin:SinGrid>
+                           
+                            <sin:SinGrid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--#region 第一个电机-->
+                                <sin:SinButton Grid.Column="0" Grid.Row="0" Command="{Binding XimcSlowMoveCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=慢速移动}" />
+                                <sin:SinButton Grid.Column="2" Grid.Row="0" Command="{Binding XimcFastMoveCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=快速移动}" />
+                                <sin:SinButton Grid.Column="4" Grid.Row="0" Command="{Binding XimcRightAlwaysCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=一直右移}" />
+                                <sin:SinButton Grid.Column="6" Grid.Row="0" Command="{Binding XimcLeftAlwaysCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=一直左移}" />
+                                <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding XimcWorkResetCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=工作原点复位}" />
+                                <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding XimcResetCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=机械原点复位}" />
+                                <sin:SinButton Grid.Column="12" Grid.Row="0" Command="{Binding XimcStopCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=停止}" />
+                                <sin:SinButton Grid.Column="14" Grid.Row="0" Command="{Binding XimcSetOriginCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=定位原点}" />
+                                <sin:SinButton Grid.Column="0" Grid.Row="2" Command="{Binding XimcSaveCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=保存}" />
+                                <!--#endregion-->
+                            </sin:SinGrid>
+                        </sin:SinGrid>
+                        
+                    </sin:SinGroupBox>
+                    
+                    <sin:SinGroupBox Grid.Row="2">
+                        <sin:SinGroupBox.Header>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=X轴}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                                </StackPanel>
+                            </Grid>
+                        </sin:SinGroupBox.Header>
+                        <sin:SinGrid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <sin:SinGrid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--#region 第二个电机-->
+                                <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=电机速率}" />
+                                <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=方向}" />
+                                <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=步数}" />
+                                <TextBlock Grid.Column="12" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=位置}" />
+                                <TextBlock Grid.Column="16" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=工作原点}" />
+
+                                <sin:SinComboBox  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{x:Static myStaticResource:EnumTypeResource.DirectionSource}"
+                                                  SelectedValue="{Binding MotorList[0].UseFastSpeed}" VerticalContentAlignment="Center" SelectedValuePath="Value" DisplayMemberPath="DisplayValue"/>
+                                <sin:SinTextBox Grid.Column="2" Grid.Row="0" Text="{Binding MotorList[0].UseFastSpeed, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="6" Grid.Row="0" Text="{Binding MotorList[0].Dir, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="10" Grid.Row="0" Text="{Binding MotorList[0].Steps, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="14" Grid.Row="0" Text="{Binding MotorList[0].TargetPos, UpdateSourceTrigger=PropertyChanged}"/>
+                                <sin:SinTextBox Grid.Column="18" Grid.Row="0" Text="{Binding MotorList[0].OriginPoint, UpdateSourceTrigger=PropertyChanged}"/>
+                                <!--#endregion-->
+                            </sin:SinGrid>
+
+                            <sin:SinGrid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--#region 第二个电机-->
+                                <sin:SinButton Grid.Column="0" Grid.Row="0" Command="{Binding MoveRelateCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=相对移动}" />
+                                <sin:SinButton Grid.Column="2" Grid.Row="0" Command="{Binding MoveAbsoluteCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=绝对移动}" />
+                                <sin:SinButton Grid.Column="4" Grid.Row="0" Command="{Binding AlwaysCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=一直移动}" />
+                                <sin:SinButton Grid.Column="6" Grid.Row="0" Command="{Binding ResetCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=复位机械原点}" />
+                                <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding StopCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=停止}" />
+                                <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding ResetLogicalCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=复位工作原点}" />
+                                <sin:SinButton Grid.Column="12" Grid.Row="0" Command="{Binding SetOriginCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=定位原点}"/>
+                                <sin:SinButton Grid.Column="14" Grid.Row="0" Command="{Binding SaveCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=保存}" IsEnabled="False"/>
+                                <!--#endregion-->
+                            </sin:SinGrid>
+                        </sin:SinGrid>
+                    </sin:SinGroupBox>
+                    
+                    <sin:SinGroupBox Grid.Row="3">
+                        <sin:SinGroupBox.Header>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=Y轴}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                                </StackPanel>
+                            </Grid>
+                        </sin:SinGroupBox.Header>
+                        <sin:SinGrid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <sin:SinGrid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--#region 第三个电机-->
+                                <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=电机速率}" />
+                                <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=方向}" />
+                                <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=步数}" />
+                                <TextBlock Grid.Column="12" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=位置}" />
+                                <TextBlock Grid.Column="16" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=工作原点}" />
+
+                                <sin:SinTextBox Grid.Column="2" Grid.Row="0" Text="{Binding MotorList[1].UseFastSpeed, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="6" Grid.Row="0" Text="{Binding MotorList[1].Dir, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="10" Grid.Row="0" Text="{Binding MotorList[1].Steps, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="14" Grid.Row="0" Text="{Binding MotorList[1].TargetPos, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="18" Grid.Row="0" Text="{Binding MotorList[1].OriginPoint, UpdateSourceTrigger=PropertyChanged}"/>
+                                <!--#endregion-->
+                            </sin:SinGrid>
+
+                            <sin:SinGrid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--#region 第三个电机-->
+                                <sin:SinButton Grid.Column="0" Grid.Row="0" Command="{Binding MoveRelateCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=相对移动}" />
+                                <sin:SinButton Grid.Column="2" Grid.Row="0" Command="{Binding MoveAbsoluteCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=绝对移动}" />
+                                <sin:SinButton Grid.Column="4" Grid.Row="0" Command="{Binding AlwaysCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=一直移动}" />
+                                <sin:SinButton Grid.Column="6" Grid.Row="0" Command="{Binding ResetCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=复位机械原点}" />
+                                <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding StopCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=停止}" />
+                                <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding ResetLogicalCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=复位工作原点}" />
+                                <sin:SinButton Grid.Column="12" Grid.Row="0" Command="{Binding SetOriginCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=定位原点}" />
+                                <sin:SinButton Grid.Column="14" Grid.Row="0" Command="{Binding SaveCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=保存}" IsEnabled="False" />
+                                <!--#endregion-->
+                            </sin:SinGrid>
+                        </sin:SinGrid>
+                        
+                    </sin:SinGroupBox>
+                </sin:SinGrid>
+                
+            </sin:SinTabItem>
+            
+            <sin:SinTabItem Header="{MultiLang:StringResource 0, DefaultValue=风扇}">
+                <sin:SinGroupBox Grid.Row="1">
+                    <sin:SinGroupBox.Header>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=风扇0}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                            </StackPanel>
+                        </Grid>
+                    </sin:SinGroupBox.Header>
+                    <sin:SinGrid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--#region 第一个风扇-->
+                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=风扇}" />
+                        <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=频率}" />
+                        <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=占空比}" />
+
+                        <sin:SinTextBox Grid.Column="2" Grid.Row="0" Text="{Binding FanList[0].Id}" IsEnabled="False" />
+                        <sin:SinTextBox Grid.Column="6" Grid.Row="0" Text="{Binding FanList[0].Frequency, UpdateSourceTrigger=PropertyChanged}" />
+                        <sin:SinTextBox Grid.Column="10" Grid.Row="0" Text="{Binding FanList[0].DutyRatio, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <sin:SinButton Grid.Column="12" Grid.Row="0" Command="{Binding CtrlFanCommand}" CommandParameter="{Binding FanList[0]}" Content="{Binding Fan1ButtonText}" />
+                        <sin:SinButton Grid.Column="14" Grid.Row="0" CommandParameter="{Binding FanList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=设置}" IsEnabled="False" />
+                        <!--#endregion-->
+
+                        <!--#region 第二个风扇-->
+                        <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=风扇}" />
+                        <TextBlock Grid.Column="4" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=频率}" />
+                        <TextBlock Grid.Column="8" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=占空比}" />
+
+                        <sin:SinTextBox Grid.Column="2" Grid.Row="2" Text="{Binding FanList[1].Id}" IsEnabled="False" />
+                        <sin:SinTextBox Grid.Column="6" Grid.Row="2" Text="{Binding FanList[1].Frequency, UpdateSourceTrigger=PropertyChanged}" />
+                        <sin:SinTextBox Grid.Column="10" Grid.Row="2" Text="{Binding FanList[1].DutyRatio, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <sin:SinButton Grid.Column="12" Grid.Row="2" Command="{Binding CtrlFanCommand}" CommandParameter="{Binding FanList[1]}" Content="{Binding Fan1ButtonText}" />
+                        <sin:SinButton Grid.Column="14" Grid.Row="2" CommandParameter="{Binding FanList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=设置}" IsEnabled="False" />
+                        <!--#endregion-->
+
+                        <!--#region 第三个风扇-->
+                        <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=风扇}" />
+                        <TextBlock Grid.Column="4" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=频率}" />
+                        <TextBlock Grid.Column="8" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=占空比}" />
+
+                        <sin:SinTextBox Grid.Column="2" Grid.Row="4" Text="{Binding FanList[2].Id}" IsEnabled="False" />
+                        <sin:SinTextBox Grid.Column="6" Grid.Row="4" Text="{Binding FanList[2].Frequency, UpdateSourceTrigger=PropertyChanged}" />
+                        <sin:SinTextBox Grid.Column="10" Grid.Row="4" Text="{Binding FanList[2].DutyRatio, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <sin:SinButton Grid.Column="12" Grid.Row="4" Command="{Binding CtrlFanCommand}" CommandParameter="{Binding FanList[2]}" Content="{Binding Fan1ButtonText}" />
+                        <sin:SinButton Grid.Column="14" Grid.Row="4" CommandParameter="{Binding FanList[2]}" Content="{MultiLang:StringResource 0, DefaultValue=设置}" IsEnabled="False" />
+                        <!--#endregion-->
+
+                    </sin:SinGrid>
+                </sin:SinGroupBox>
+            </sin:SinTabItem>
+
+            <sin:SinTabItem Header="{MultiLang:StringResource 0, DefaultValue=激光器}">
+                <sin:SinGroupBox Grid.Row="2">
+                    <sin:SinGroupBox.Header>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=蜂鸣器}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                            </StackPanel>
+                        </Grid>
+                    </sin:SinGroupBox.Header>
+
+                    <sin:SinGrid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--#region 蜂鸣器-->
+                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=蜂鸣器}" />
+                        <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=频率}" />
+                        <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=占空比}" />
+
+                        <sin:SinTextBox Grid.Column="2" Grid.Row="0" />
+                        <sin:SinTextBox Grid.Column="6" Grid.Row="0" />
+                        <sin:SinTextBox Grid.Column="10" Grid.Row="0" />
+                        <!--#endregion-->
+
+                    </sin:SinGrid>
+                </sin:SinGroupBox>
+            </sin:SinTabItem>
+
+            <sin:SinTabItem Header="{MultiLang:StringResource 0, DefaultValue=蜂鸣器}">
+                <sin:SinGroupBox Grid.Row="3">
+                    <sin:SinGroupBox.Header>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=激光器}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                            </StackPanel>
+                        </Grid>
+                    </sin:SinGroupBox.Header>
+                    <sin:SinGrid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--#region 激光器-->
+                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=激光器}" />
+                        <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=频率}" />
+                        <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=占空比}" />
+
+                        <sin:SinTextBox Grid.Column="2" Grid.Row="0" />
+                        <sin:SinTextBox Grid.Column="6" Grid.Row="0" />
+                        <sin:SinTextBox Grid.Column="10" Grid.Row="0" />
+                        <!--#endregion-->
+
+                    </sin:SinGrid>
+                </sin:SinGroupBox>
+            </sin:SinTabItem>
+        </sin:SinTabControl>
+
+        <sin:SinGroupBox Grid.Column="1">
+            <sin:SinGroupBox.Header>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=相机设置}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                    </StackPanel>
+                </Grid>
+            </sin:SinGroupBox.Header>
+            <sin:SinGrid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="0" Width="600" Height="600" Stretch="Fill" Source="{Binding CameraSouce}" />
+                
+                <sin:SinGrid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Row="0" Grid.Column="0" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Row="0" Grid.Column="2" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </sin:SinGrid>
+            </sin:SinGrid>
+        </sin:SinGroupBox>
+    </Grid>
+</UserControl>

@@ -1,0 +1,150 @@
+﻿<sin:SinWindow x:Class="Sinboda.Framework.View.SystemAlarm.Win.AlarmsHistoryInfoWin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"    
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:local="clr-namespace:Sinboda.Framework.View.SystemAlarm.Win"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:vm="clr-namespace:Sinboda.Framework.View.SystemAlarm.ViewModel"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             xmlns:cvt="clr-namespace:Sinboda.Framework.View.SystemAlarm.Converter"
+             Title="{MultiLang:StringResource 1714,DefaultValue=报警历史}"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1750">
+    <Window.DataContext>
+        <vm:AlarmHistoryInfoViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <!--转换显示多语言报警类型使用-->
+            <cvt:AlarmsStyleColumnConverter x:Key="AlarmsStyleColumnConverter" />
+            <!--转换显示多语言报警级别使用-->
+            <cvt:AlarmsLevelColumnConverter x:Key="AlarmsLevelColumnConverter" />
+            <cvt:AlarmModuleTypeColumnConverter x:Key="AlarmModuleTypeColumnConverter" />
+            <cvt:RoolConverter x:Key="RoolConverter" />
+
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Column="1" Grid.RowSpan="8" Grid.ColumnSpan="3"/>
+
+        <StackPanel Grid.Column="1" Margin="2,2,0,2" Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3">
+            <Label Content="{MultiLang:StringResource 600,DefaultValue=日期}" VerticalAlignment="Center"/>
+            <sin:SinDatePicker DisplayDate="{x:Static system:DateTime.Today}" SelectedDate="{Binding StartDate}" Width="180" Margin="5,0,0,0" />
+            <Label HorizontalContentAlignment="Center" Content="-" VerticalAlignment="Center" Margin="2,0,2,0"/>
+            <sin:SinDatePicker DisplayDate="{x:Static system:DateTime.Today}" SelectedDate="{Binding EndDate}" Width="180"/>
+            <!--报警类型-->
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{MultiLang:StringResource 1699,DefaultValue=报警类型}" Margin="10,0,0,0" />
+            <sin:SinComboBox x:Name="alarmsType" IsReadOnly="True" Width="150" Margin="5,0,0,0" 
+                       ItemsSource="{Binding LookUpEditSourceType}"
+       			       SelectedItem="{Binding SelectAlarmsTypeIndex}" 
+       			       DisplayMemberPath="DisplayValue"/>
+            <!--报警级别-->
+            <Label Content="{MultiLang:StringResource 1702,DefaultValue=报警级别}" VerticalAlignment="Center"  Margin="10,0,0,0" />
+            <sin:SinComboBox IsReadOnly="True" Margin="5,0,0,0"  Width="200"
+                       ItemsSource="{Binding LookUpEditSourceLevel}"
+                       SelectedItem="{Binding SelectAlarmsLevelIndex}"
+                       DisplayMemberPath="DisplayValue"/>
+            <!--模块列表-->
+            <Label x:Name="lblModuleInfo" VerticalAlignment="Center" Content="{MultiLang:StringResource 197,DefaultValue=模块}" Margin="10,0,0,0" 
+                                    Visibility="{Binding ModuleInfoVisibility}"/>
+            <sin:SinComboBox x:Name="cbxModuleInfo" ItemsSource="{Binding ModuleInfoSource}" IsReadOnly="True" Margin="5,0,0,0" Width="300"
+       			                    SelectedValue="{Binding SelectedModuleInfo}" DisplayMemberPath="ModuleName"
+                                    Visibility="{Binding ModuleInfoVisibility}"/>
+
+            <!--报警码-->
+            <Label x:Name="lblCode"  VerticalAlignment="Center" Content="{MultiLang:StringResource 1708,DefaultValue=报警码}" Margin="10,0,0,0"/>
+            <sin:SinTextBox Name="text_Code" RegexText="^\d+\-\d+$" MaxLength="9"  VerticalAlignment="Center" Text="{Binding StrCode,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="5,0,0,0"  Width="150" RegexTextErrorMsg="{MultiLang:StringResource 6716,DefaultValue=不符合输入规则}" >
+
+            </sin:SinTextBox>
+
+            <sin:SinButton IsEnabled="{Binding ElementName=text_Code, Path=IsDataError, Converter={StaticResource RoolConverter}}" Content="{MultiLang:StringResource 244,DefaultValue=搜索}" Command="{Binding QueryCommand}"  Margin="10,0,0,0" Height="35" Width="100"/>
+
+        </StackPanel>
+
+        <dxg:GridControl Grid.Column="1" Margin="0" Grid.Row="3" ItemsSource="{Binding GridCtrlSource,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectRow}" Grid.ColumnSpan="3">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowGroupPanel="False"  AllowEditing="False" UseIndicatorForSelection="False"  
+                                   NavigationStyle="Row" SearchPanelHorizontalAlignment="Stretch" 
+                                   ShowValidationAttributeErrors="False" IsRowCellMenuEnabled="False"/>
+            </dxg:GridControl.View>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="ModuleTypeName" Header="{MultiLang:StringResource 4407,DefaultValue=模块类型}" Width="100" Visible="{Binding ModuleInfoVisible}"
+                            DisplayMemberBinding="{Binding ModuleTypeName, Converter={StaticResource AlarmModuleTypeColumnConverter}}"/>
+                <dxg:GridColumn FieldName="ModuleName"  ReadOnly="True"  Width="100" Header="{MultiLang:StringResource 197,DefaultValue=模块}" Visible="{Binding ModuleInfoVisible}"/>
+                <dxg:GridColumn FieldName="Code"  ReadOnly="True"  Width="120" Header="{MultiLang:StringResource 1708,DefaultValue=报警码}"/>
+                <dxg:GridColumn FieldName="CodeLevel" ReadOnly="True"  Width="150"  Header="{MultiLang:StringResource 1702,DefaultValue=报警级别}"
+                                    DisplayMemberBinding="{Binding CodeLevel, Converter={StaticResource AlarmsLevelColumnConverter}}"/>
+                <dxg:GridColumn FieldName="Info" ReadOnly="True"  Width="500" Header="{MultiLang:StringResource 1709,DefaultValue=报警内容}"/>
+                <dxg:GridColumn FieldName="AlarmTime" ReadOnly="True" Width="180" Header="{MultiLang:StringResource 1711,DefaultValue=报警时间}">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:DateEditSettings Mask="G" MaskUseAsDisplayFormat="True"/>
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="AlarmStyle"  ReadOnly="True" Width="100" Header="{MultiLang:StringResource 1699,DefaultValue=报警类型}"
+                                    DisplayMemberBinding="{Binding AlarmStyle, Converter={StaticResource AlarmsStyleColumnConverter}}"/>
+                <!--<dxg:GridColumn FieldName="Parameters" Header="{MultiLang:StringResource 4270,DefaultValue=参数}" Width="120"/>-->
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+
+        <!--详细描述-->
+        <Label HorizontalAlignment="Left" VerticalContentAlignment="Bottom" Grid.Column="1" Grid.Row="4" Content="{MultiLang:StringResource 1712,DefaultValue=详细描述}"/>
+        <Border BorderBrush="Gray" BorderThickness="1"  Grid.Row="5" Grid.Column="1" >
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="2" >
+                <TextBlock Text="{Binding DetailInfo}" Margin="2" TextWrapping="WrapWithOverflow"/>
+            </ScrollViewer>
+        </Border>
+        <!--解决办法-->
+        <Label HorizontalAlignment="Left" VerticalContentAlignment="Bottom" Grid.Column="3" Grid.Row="4" Content="{MultiLang:StringResource 4069,DefaultValue=处理措施}"/>
+        <Border BorderBrush="Gray" BorderThickness="1"  Grid.Row="5" Grid.Column="3">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="2">
+                <TextBlock Text="{Binding Solution}" Margin="2" TextWrapping="WrapWithOverflow"/>
+            </ScrollViewer>
+        </Border>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="1">
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="{MultiLang:StringResource 6371,DefaultValue=当前列表条数：}" Margin="5,0,0,0" />
+            <Label x:Name="lblTimes"  VerticalAlignment="Center" Content="{Binding StrCodeTimes}" Margin="5,0,0,0" />
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="{MultiLang:StringResource 3294,DefaultValue=项}" Margin="5,0,0,0" />
+        </StackPanel>
+        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="5" Grid.Column="1">
+        <dataPageControl:DataPageControl Grid.Row="1" VerticalAlignment="Center" x:Name="pagecontrol" 
+                                     TotalCount="{Binding TotalCount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                     PageRecordCount="{Binding PageRecordCount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                     >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="OnPageIndexChanged">
+                    <mvvm:EventToCommand PassEventArgsToCommand="True" Command="{Binding OnPageIndexChangedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </dataPageControl:DataPageControl>
+    </StackPanel>-->
+    </Grid>
+    <sin:SinWindow.BottomPanel>
+        <sin:SinButton x:Name="btnClose" Click="btnClose_Click"  Grid.Column="7" Grid.Row="7" Content="{MultiLang:StringResource 144,DefaultValue=关闭}" Margin="10,0,0,0"/>
+    </sin:SinWindow.BottomPanel>
+
+</sin:SinWindow>

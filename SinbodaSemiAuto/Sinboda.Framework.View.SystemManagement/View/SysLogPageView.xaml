@@ -1,0 +1,119 @@
+﻿<UserControl x:Class="Sinboda.Framework.View.SystemManagement.View.SysLogPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"    
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:local="clr-namespace:Sinboda.Framework.View.SystemManagement.View"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:vm="clr-namespace:Sinboda.Framework.View.SystemManagement.ViewModel"
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1186"
+             x:Name="系统日志">
+    <UserControl.DataContext>
+        <vm:SysLogViewModel/>
+    </UserControl.DataContext>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <ei:CallMethodAction TargetObject="{Binding}" MethodName="LoadedPage"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid x:Name="grid" Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <!--<RowDefinition Height="Auto"/>
+        <RowDefinition Height="5"/>-->
+            <RowDefinition Height="54"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="2,2,0,2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="drLabel" Content="{MultiLang:StringResource 1951,DefaultValue=日志类型}" Grid.Column="1"  VerticalAlignment="Center"/>
+            <sin:SinComboBox Grid.Column="3" ItemsSource="{Binding LogTypeList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                       SelectedItem="{Binding SelectLogTypeIndex}" DisplayMemberPath="DisplayValue" IsReadOnly="True"/>
+            <Label x:Name="drLabel_Copy" Content="{MultiLang:StringResource 600,DefaultValue=日期}" Grid.Column="5"  VerticalAlignment="Center"/>
+            <sin:SinDatePicker Grid.Column="7" DisplayDate="{x:Static system:DateTime.Today}" SelectedDate="{Binding StartDate}" />
+            <Label x:Name="drLabel_Copy1" Content="{MultiLang:StringResource 1308,DefaultValue=至}" Grid.Column="9" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+            <sin:SinDatePicker Grid.Column="11" DisplayDate="{x:Static system:DateTime.Today}"  SelectedDate="{Binding EndDate}" />
+            <Label Content="{MultiLang:StringResource 1129,DefaultValue=用户名}" Grid.Column="13"  VerticalAlignment="Center"/>
+            <sin:SinComboBox Grid.Column="15" ItemsSource="{Binding UserList}" SelectedIndex="{Binding SelectUserIndex}" IsReadOnly="True"/>
+
+            <sin:SinButton Grid.Column="17" Content="{MultiLang:StringResource 244,DefaultValue=搜索}" Command="{Binding QueryCommand}"  Height="35" Width="100"/>
+        </Grid>
+
+        <dxg:GridControl ItemsSource="{Binding LogList}" SelectedItem="{Binding SelectLog}" Grid.Column="1" Grid.ColumnSpan="16" Grid.Row="1">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowGroupPanel="False" AllowEditing="False" NavigationStyle="Row" />
+            </dxg:GridControl.View>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn Header="ID" FieldName="ID" Width="200" Visible="False"/>
+                <dxg:GridColumn Header="{MultiLang:StringResource 1142,DefaultValue=时间}" FieldName="Datetime" Width="300">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:DateEditSettings Mask="G" MaskUseAsDisplayFormat="True"/>
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn Header="{MultiLang:StringResource 1129,DefaultValue=用户名}" FieldName="UserID" Width="200"/>
+                <dxg:GridColumn Header="{MultiLang:StringResource 1953,DefaultValue=日志内容}" FieldName="Message" Width="600"/>
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+
+        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
+        <dataPageControl:DataPageControl Grid.Row="1" VerticalAlignment="Center" x:Name="pagecontrol" 
+                                     TotalCount="{Binding TotalCount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                     PageRecordCount="{Binding PageRecordCount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                     >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="OnPageIndexChanged">
+                    <mvvm:EventToCommand PassEventArgsToCommand="True" Command="{Binding OnPageIndexChangedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </dataPageControl:DataPageControl>
+    </StackPanel>-->
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2"  VerticalAlignment="Center" Margin="0,5,0,0">
+            <sin:SinButton x:Name="btnExport" Height="auto" Width="151" MaxHeight="55"  
+                     MinHeight="45" MinWidth="151" Margin="0,0,10,0" Command="{Binding ExportLogCommand}">
+                <sin:SinButton.Content>
+                    <TextBlock Text="{MultiLang:StringResource 1269,DefaultValue=导出}" TextWrapping="Wrap"/>
+                </sin:SinButton.Content>
+            </sin:SinButton>
+
+            <sin:SinButton x:Name="btnPrint"  Height="auto" Width="151" MaxHeight="55"  
+                     MinHeight="45" MinWidth="151" Command="{Binding PrintLogCommand}">
+                <sin:SinButton.Content>
+                    <TextBlock Text="{MultiLang:StringResource 1106,DefaultValue=打印}" TextWrapping="Wrap"/>
+                </sin:SinButton.Content>
+            </sin:SinButton>
+        </StackPanel>
+    </Grid>
+</UserControl>

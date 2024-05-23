@@ -1,0 +1,252 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+                    xmlns:Convert="clr-namespace:Sinboda.Framework.Control.Converts;assembly=Sinboda.Framework.Control"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--关闭、最大化，最小化-->
+    <Style x:Key="DrWindowBtnStyle" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Width" Value="45"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="backRectangle" Storyboard.TargetProperty="(UIElement.Opacity)" To="0" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="backRectangle" Storyboard.TargetProperty="(UIElement.Opacity)" To="0.15" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="backRectangle" Storyboard.TargetProperty="(UIElement.Opacity)" To="0.05" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Rectangle x:Name="backRectangle" Fill="{TemplateBinding Foreground}" Opacity="0"/>
+                        <ContentPresenter/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--DrWindow 的默认样式-->
+    <Style TargetType="{x:Type sin:SinWindow}">
+        <Setter Property="BorderBrush" Value="#FF0855AE"/>
+        <Setter Property="Background" Value="#FFF4F4F4" />
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource TitleFontSize}"/>
+        <Setter Property="TitleBackground" Value="{DynamicResource DrWindowTitleBackground}"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="Auto"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="TitleBorderBrush" Value="{DynamicResource DrWindowTitleBorderBrush}"/>
+        <Setter Property="TitleHeight" Value="50"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sin:SinWindow}">
+                    <!--必须应用 SystemParameters.WindowNonClientFrameThickness，否则在 SizeToContent="WidthAndHeight"  时窗口大小有问题-->
+                    <Border x:Name="WindowBorder" Background="{TemplateBinding BorderBrush}" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Margin="{Binding Source={x:Static SystemParameters.WindowNonClientFrameThickness}}">
+                        
+                        <AdornerDecorator>
+                            <Grid x:Name="LayoutRoot" Margin="1" SnapsToDevicePixels="True" Background="{TemplateBinding Background}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="{TemplateBinding TitleHeight,Converter={x:Static Convert:SinConverts.DoubleToGridLenghtConverter}}" Name="titleRow" />
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto" Name="bottomRow"/>
+                                </Grid.RowDefinitions>
+
+                                <!--背景内容-->
+                                <ContentControl Grid.RowSpan="2" Content="{TemplateBinding BackgroundContent}" />
+
+                                <!--标题栏-->
+                                <Border Name="bdTitle"
+                                        BorderBrush="{TemplateBinding TitleBorderBrush}" 
+                                        Background="{TemplateBinding TitleBackground}" 
+                                        BorderThickness="0,0,0,2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--标题-->
+                                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                                            <!--ICON-->
+                                            <Path Data="{TemplateBinding GlyphIcon, Converter={x:Static Convert:SinConverts.GlyphIconConverter}}"  
+                                                  Margin="8,0,0,0"  Name="icon"
+                                                  Fill="{TemplateBinding TitleForeground}" Height="20" Stretch="Uniform"/>
+                                            <TextBlock Text="{TemplateBinding Title}" FontSize="{DynamicResource TitleFontSize}"
+                                                       Margin="8,0,0,0" Foreground="{TemplateBinding TitleForeground}" 
+                                                       VerticalAlignment="Center"/>
+                                        </StackPanel>
+
+                                        <!--系统按钮-->
+                                        <StackPanel Grid.Column="1" 
+                                                    Orientation="Horizontal"
+                                                    VerticalAlignment="Top" 
+                                                    WindowChrome.IsHitTestVisibleInChrome="True">
+
+                                            <!--最小化-->
+                                            <sin:SinButton Name="btnMinimized" 
+                                                    Height="{TemplateBinding TitleHeight}"
+                                                    Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" 
+                                                    Style="{StaticResource DrWindowBtnStyle}">
+                                                <sin:SinButton.Content>
+                                                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <Rectangle Width="14" Height="1" Fill="White" Margin="0,0,0,0"/>
+                                                    </Grid>
+                                                </sin:SinButton.Content>
+                                            </sin:SinButton>
+
+                                            <Grid Margin="1,0,1,0">
+                                                <!--恢复-->
+                                                <sin:SinButton x:Name="btnRestore" Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}"  
+                                                        Style="{StaticResource DrWindowBtnStyle}" 
+                                                        Height="{TemplateBinding TitleHeight}"
+                                                        Visibility="Collapsed" >
+                                                    <sin:SinButton.Content>
+                                                        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,2,3,0">
+                                                            <Rectangle Width="10" Height="10" Stroke="White"/>
+                                                            <Rectangle Width="10" Height="1" Fill="White" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-4,-4,0" />
+                                                            <Rectangle Width="3" Height="1" Fill="White" HorizontalAlignment="Right" Margin="0,5,-3,0" VerticalAlignment="Top" />
+                                                            <Rectangle Width="1" Height="9" Fill="White" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-3,-4,0"/>
+                                                            <Rectangle Width="1" Height="3" Fill="White" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-3,5,0"/>
+                                                        </Grid>
+                                                    </sin:SinButton.Content>
+                                                </sin:SinButton>
+                                                <!--最大化-->
+                                                <sin:SinButton x:Name="btnMaximize" 
+                                                        Height="{TemplateBinding TitleHeight}"
+                                                        Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}"  
+                                                        Style="{StaticResource DrWindowBtnStyle}" >
+                                                    <sin:SinButton.Content>
+                                                        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                            <Rectangle Width="12" Height="12" Stroke="White"/>
+                                                        </Grid>
+                                                    </sin:SinButton.Content>
+                                                </sin:SinButton>
+                                            </Grid>
+                                            <!--关闭-->
+                                            <sin:SinButton Name="btnClose" 
+                                                    Height="{TemplateBinding TitleHeight}"
+                                                    Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"  
+                                                    Style="{StaticResource DrWindowBtnStyle}" >
+                                                <sin:SinButton.Content>
+                                                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <Rectangle Width="16" Height="1.2" Fill="White" RenderTransformOrigin="0.5,0.5">
+                                                            <Rectangle.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <RotateTransform Angle="45"/>
+                                                                </TransformGroup>
+                                                            </Rectangle.RenderTransform>
+                                                        </Rectangle>
+                                                        <Rectangle Width="16" Height="1.2" Fill="White" RenderTransformOrigin="0.5,0.5">
+                                                            <Rectangle.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <RotateTransform Angle="-45"/>
+                                                                </TransformGroup>
+                                                            </Rectangle.RenderTransform>
+                                                        </Rectangle>
+                                                    </Grid>
+                                                </sin:SinButton.Content>
+                                            </sin:SinButton>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <ContentPresenter x:Name="ContentFrame" Grid.Row="1" Margin="{TemplateBinding Padding}"/>
+                                <!-- resize grip -->
+                                <Grid Grid.Row="2" x:Name="ResizeGrip" Background="Transparent" 
+                                      Visibility="Collapsed" HorizontalAlignment="Right"
+                                      VerticalAlignment="Bottom" 
+                                      WindowChrome.ResizeGripDirection="BottomRight">
+
+                                    <Path Width="12" Height="12" Margin="1" 
+                                              Stroke="#FF92ADC5"
+                                              StrokeThickness="1"
+                                              Stretch="None"
+                                              Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
+                                </Grid>
+
+                                <!--功能按键区-->
+                                <Border Grid.Row="2" Background="#FFFAFAFA" BorderThickness="0,1,0,0" BorderBrush="#FFE1E1E1">
+                                    <ItemsControl Name="PART_BottomItems" Visibility="Visible" Margin="8">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" IsItemsHost="True" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </Border>
+
+                            </Grid>
+                        </AdornerDecorator>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsBottomPanel" Value="false">
+                            <!--<Setter TargetName="PART_BottomItems" Property="Visibility" Value="Collapsed"/>-->
+                            <Setter TargetName="bottomRow" Property="Height" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="GlyphIcon" Value="">
+                            <Setter TargetName="icon" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsActive" Value="True">
+                            <!--<Setter Property="BorderBrush" Value="{DynamicResource WindowBorderActive}" />-->
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMaximize" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="btnRestore" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="LayoutRoot" Property="Margin" Value="7" />
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnMaximize" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="btnRestore" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <!--<Trigger Property="WindowStyle" Value="None">
+                            <Setter TargetName="bdTitle" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="titleRow" Property="Height" Value="0"/>
+                        </Trigger>-->
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter TargetName="btnMinimized" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="btnRestore" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="btnMaximize" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="btnClose" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="CanMinimize">
+                            <Setter TargetName="btnRestore" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="btnMaximize" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ResizeMode" Value="CanResizeWithGrip" />
+                                <Condition Property="WindowState" Value="Normal" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="ResizeGrip" Property="Visibility" Value="Visible" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CornerRadius="0" CaptionHeight="40"  GlassFrameThickness="1"  
+                              UseAeroCaptionButtons="False" NonClientFrameEdges="None" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

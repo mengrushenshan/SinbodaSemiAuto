@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="Sinboda.Framework.Control.DataPage.DataPageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.Framework.Control.DataPage"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             >
+    <StackPanel Orientation="Horizontal">
+        <Label  Margin="5,0,0,0"  Style="{x:Null}" x:Name="currentCount" Width="Auto" Content="{MultiLang:StringResource 1913,DefaultValue=总记录数}" VerticalAlignment="Center"/>
+        <Label  Margin="5,0,0,0"  Style="{x:Null}"  Width="Auto" Content=" " VerticalAlignment="Center"/>
+        <Label  Margin="5,0,0,0"  Style="{x:Null}" x:Name="totalCount" Width="Auto" Content="0" VerticalAlignment="Center"/>
+        <Button Margin="5,0,0,0" Style="{x:Null}" x:Name="FirstBtn" Content="{MultiLang:StringResource 86,DefaultValue=首页}" IsEnabled="True" Click="FirstBtn_Click"/>
+        <Button Margin="5,0,0,0" Style="{x:Null}" x:Name="UpPageBtn" Content="{MultiLang:StringResource 87,DefaultValue=上一页}" IsEnabled="True" Click="UpPageBtn_Click"/>
+        <Button Margin="5,0,0,0" Style="{x:Null}" x:Name="NextPageBtn" Content="{MultiLang:StringResource 88,DefaultValue=下一页}" IsEnabled="True" Click="NextPageBtn_Click"/>
+        <Button Margin="5,0,0,0" Style="{x:Null}" x:Name="LastPageBtn" Content="{MultiLang:StringResource 89,DefaultValue=尾页}" IsEnabled="True" Click="LastPageBtn_Click"/>
+        <sin:SinNumricTextBox Margin="5,0,0,0" x:Name="IndexTB" Width="Auto" KeyDown="IndexTB_KeyDown" Text="1" DecimalDigtsNum="0" MaxLength="9" VerticalAlignment="Center" HorizontalContentAlignment="Right"/>
+        <Label Margin="5,0,0,0"  Style="{x:Null}" x:Name="totalPageCount" Width="Auto" Content="/1页" VerticalAlignment="Center"/>
+        <Button Margin="5,0,0,0" Style="{x:Null}" x:Name="GoToPageBtn" Content="{MultiLang:StringResource 90,DefaultValue=跳转}" IsEnabled="True" Click="GoToPageBtn_Click"/>
+    </StackPanel>
+</UserControl>

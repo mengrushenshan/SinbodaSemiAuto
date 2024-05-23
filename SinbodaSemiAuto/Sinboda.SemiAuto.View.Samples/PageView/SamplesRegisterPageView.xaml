@@ -1,0 +1,148 @@
+﻿<UserControl x:Class="Sinboda.SemiAuto.View.Samples.PageView.SamplesRegisterPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.SemiAuto.View.Samples.PageView"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             xmlns:ctl="clr-namespace:Sinboda.SemiAuto.View.Samples.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <sin:SinGroupBox Grid.Row="0">
+                <sin:SinGroupBox.Header>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{MultiLang:StringResource 807, DefaultValue=样本信息}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                        </StackPanel>
+                    </Grid>
+                 </sin:SinGroupBox.Header>
+                <sin:SinGrid  Margin="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontSize="25" Text="{MultiLang:StringResource 182, DefaultValue=样本号}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="0" Grid.Column="4" FontSize="25" Text="{MultiLang:StringResource 844, DefaultValue=架号/位置}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="0" Grid.Column="8" FontSize="25" Text="{MultiLang:StringResource 6729, DefaultValue=登记数量}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" FontSize="25" Text="{MultiLang:StringResource 1234, DefaultValue=项目}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="2" Grid.Column="4" FontSize="25" Text="{MultiLang:StringResource 1843, DefaultValue=条码号}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                    <sin:SinNumricTextBox Grid.Row="0" Grid.Column="2" Width="100" MinValue="1" MaxValue="99999999" HorizontalAlignment="Left" Text="{Binding SampleCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <!--#region 架号位置-->
+                    <Grid Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <sin:SinComboBox Grid.Column="0" Width="80" HorizontalAlignment="Left" ItemsSource="{Binding RackSouce}" SelectedItem="{Binding RackDish, Mode= TwoWay}"/>
+                        <TextBlock Grid.Column="1" FontSize="40" Text="-" VerticalAlignment="Center"/>
+                        <sin:SinComboBox Grid.Column="2" Width="80" HorizontalAlignment="Left" ItemsSource="{Binding PosSouce}" SelectedItem="{Binding Position, Mode= TwoWay}"/>
+                    </Grid>
+                    <!--#endregion-->
+                    <sin:SinNumricTextBox Grid.Row="0" Grid.Column="10" Width="100" HorizontalAlignment="Left" Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <sin:SinComboBox Grid.Row="2" Grid.Column="2" Width="100" ItemsSource="{Binding SinItemSource}" SelectedItem="{Binding SelectItem}" HorizontalAlignment="Left"/>
+                    <sin:SinTextBox Grid.Row="2" Grid.Column="6" Width="180" HorizontalAlignment="Left" Text="{Binding Barcode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="11"  Orientation="Horizontal"  HorizontalAlignment="Right">
+                        <Button x:Name="btnDelete" Content="{MultiLang:StringResource 1306, DefaultValue=样本删除}" Command="{Binding SampleDeleteCommand}" Margin="0,0,10,0"/>
+                        <Button x:Name="btnReset" Content="{MultiLang:StringResource 1925, DefaultValue=重置}" Command="{Binding ResetCommand}" Margin="0,0,10,0"/>
+                        <Button x:Name="btnRigester" Content="{MultiLang:StringResource 525, DefaultValue=样本登记}" Command="{Binding SampleRigesterCmd}" Margin="0,0,10,0"/>
+                    </StackPanel>
+                    
+
+                </sin:SinGrid>
+            </sin:SinGroupBox>
+
+            <sin:SinGroupBox Grid.Row="1">
+                <sin:SinGroupBox.Header>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{MultiLang:StringResource 1854, DefaultValue=样本状态}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="30,0,0,0">
+                                <Ellipse  Fill="#FFE1E1E1" Height="20" Width="20" Margin="0,0,10,0"   HorizontalAlignment="Center" Stroke="#FFC7C7C7"/>
+                                <TextBlock Text="{MultiLang:StringResource 1564,DefaultValue=未登记}"  VerticalAlignment="Center" Margin="0,0,13,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="30,0,0,0">
+                                <Ellipse  Fill="#F3BC13" Height="20" Width="20" Margin="0,0,10,0" Grid.Row="15" Grid.Column="0"  HorizontalAlignment="Center" Stroke="#F3BC13"/>
+                                <TextBlock Text="{MultiLang:StringResource 292,DefaultValue=未完成}"  VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="30,0,0,0">
+                                <Ellipse  Fill="#3BD0C4" Height="20" Width="20" Margin="0,0,10,0" Grid.Row="15" Grid.Column="0"  HorizontalAlignment="Center" Stroke="#3BD0C4"/>
+                                <TextBlock Text="{MultiLang:StringResource 1237,DefaultValue=测试中}"  VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="30,0,0,0">
+                                <Ellipse  Fill="#7FBF71" Height="20" Width="20" Margin="0,0,10,0" Grid.Row="15" Grid.Column="0"  HorizontalAlignment="Center" Stroke="#7FBF71"/>
+                                <TextBlock Text="{MultiLang:StringResource 283,DefaultValue=完成}"  VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="30,0,0,0">
+                                <Ellipse  Fill="#F55353" Height="20" Width="20" Margin="0,0,10,0" Grid.Row="15" Grid.Column="0"  HorizontalAlignment="Center" Stroke="#F55353"/>
+                                <TextBlock Text="{MultiLang:StringResource 1137,DefaultValue=失败}"  VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </sin:SinGroupBox.Header>
+                <sin:SinGrid x:Name="SampleGrid" Margin="1">
+                </sin:SinGrid>
+            </sin:SinGroupBox>
+        </Grid>
+        <Grid Grid.Column="1">
+            <sin:SinGroupBox>
+                <sin:SinGroupBox.Header>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=图像信息}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                        </StackPanel>
+                    </Grid>
+                </sin:SinGroupBox.Header>
+            </sin:SinGroupBox>
+        </Grid>
+    </Grid>
+</UserControl>

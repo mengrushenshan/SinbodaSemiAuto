@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+                    xmlns:sinNav="clr-namespace:Sinboda.Framework.Control.Controls.Navigation;assembly=Sinboda.Framework.Control"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="{x:Type sinNav:NavigationFrame}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#FFDADADA"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sinNav:NavigationFrame}">
+                    <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2">
+
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <sin:BreadcrumbBar x:Name="PART_Bar" Visibility="{TemplateBinding NavBarVisbility}" BorderThickness="0,0,0,1"  Height="32" BorderBrush="Silver" Background="#DEDEDE">
+                                <sin:BreadcrumbBar.Buttons>
+                                    <sin:SinButton x:Name="PART_BackBtn" IsEnabled="{Binding Journal.CanGoBack, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Content="后退" Height="25" Visibility="Collapsed" Width="75" Margin="0,0,5,0"/>
+                                    <sin:SinButton x:Name="PART_ForwardBtn" IsEnabled="{Binding Journal.CanGoForward, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Content="前进" Height="25" Visibility="Collapsed" Width="75" Margin="0,0,5,0" />
+                                </sin:BreadcrumbBar.Buttons>
+                            </sin:BreadcrumbBar>
+
+                            <ContentControl Content="{TemplateBinding Content}" Grid.Row="1"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                            Margin="{TemplateBinding Padding}"
+                                            FontSize="{DynamicResource TitleFontSize}"/>
+
+                            <!-- display progress bar while content is being loaded -->
+                            <!--<ProgressBar IsIndeterminate="{TemplateBinding IsLoadingContent}"
+                                         HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Top"
+                                         Height="1"
+                                         Margin="0,-4,0,0" />-->
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

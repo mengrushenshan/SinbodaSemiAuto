@@ -1,0 +1,88 @@
+﻿<Window x:Class="Sinboda.Framework.MainWindow.Blue.Views.MainLogin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+             xmlns:vm="clr-namespace:Sinboda.Framework.MainWindow.Blue.ViewModels"
+             xmlns:local="clr-namespace:Sinboda.Framework.MainWindow.Blue.Views"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             mc:Ignorable="d" 
+             AllowsTransparency="True"
+             WindowStyle="None"
+             TextOptions.TextFormattingMode="Display"
+             Height="270" Width="500"
+             ResizeMode="NoResize" 
+             WindowStartupLocation="CenterScreen" 
+             Background="{x:Null}"
+        >
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closed">
+            <mvvm:EventToCommand PassEventArgsToCommand="True" Command="{Binding ExitCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.DataContext>
+        <vm:MainLoginViewModel/>
+    </Window.DataContext>
+    <Border CornerRadius="10" Background="#FF1E599B">
+        <Border CornerRadius="10" Margin="1">
+            <Border.Background>
+                <ImageBrush ImageSource="/Sinboda.Framework.MainWindow.Blue;component/images/loginback.png"/>
+            </Border.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="52"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{MultiLang:StringResource 1,DefaultValue=登录}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                <sin:SinGrid x:Name="checkGrid" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{MultiLang:StringResource 1129,DefaultValue=用户名}" Margin="0,0,5,0" FontSize="15" Grid.Row="1" Grid.Column="1" Foreground="White"/>
+                    <sin:SinComboBox x:Name="cbxUserName"  VerticalAlignment="Center" 
+                                   Grid.Row="1" Grid.Column="2" Margin="0,5" Height="35" FontSize="16" IsDataErrorCannotInput="True"
+                                   ItemsSource="{Binding UserNameList,UpdateSourceTrigger=PropertyChanged}" Text="{Binding UserName,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                                   IsEditable="True"
+                                   Maxlenth="50" 
+                                   RegexTextPattern="{MultiLang:StringResource 6679,DefaultValue=只能输入汉字、字母、数字}"/>
+
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{MultiLang:StringResource 4,DefaultValue=密码}" Margin="0,0,5,0" FontSize="15" Grid.Row="2" Grid.Column="1" Foreground="White"/>
+                    <PasswordBox x:Name="tbxPassWord" Margin="0,5" VerticalAlignment="Center" FontSize="16" Grid.Row="2" Grid.Column="2" 
+                             Height="35" VerticalContentAlignment="Center"
+                             sin:SinPasswordBoxHelper.Attach="True"
+                             sin:SinPasswordBoxHelper.Password="{Binding PassWord,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" MaxLength="24">
+                        <PasswordBox.CommandBindings>
+                            <CommandBinding Command="ApplicationCommands.Paste" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute"/>
+                        </PasswordBox.CommandBindings>
+                    </PasswordBox>
+                </sin:SinGrid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3">
+                    <sin:SinButton HorizontalAlignment="Center" VerticalAlignment="Center" Content="{MultiLang:StringResource 1,DefaultValue=登录}" FontSize="15" 
+                        Width="120" Height="35" IsDefault="True" BorderThickness="1"
+                        Command="{Binding LoginCommand,UpdateSourceTrigger=PropertyChanged}" />
+
+                    <sin:SinButton HorizontalAlignment="Center" VerticalAlignment="Center" Content="{MultiLang:StringResource 2,DefaultValue=退出}" FontSize="15"
+                        Width="120" Height="35" BorderThickness="1" Margin="10,0,0,0" Command="{Binding ExitCommand}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

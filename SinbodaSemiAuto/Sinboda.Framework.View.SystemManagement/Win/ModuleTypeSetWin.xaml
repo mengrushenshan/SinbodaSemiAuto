@@ -1,0 +1,57 @@
+﻿<sin:SinWindow x:Class="Sinboda.Framework.View.SystemManagement.Win.ModuleTypeSetWin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:local="clr-namespace:Sinboda.Framework.View.SystemManagement.Win"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             Title="{MultiLang:StringResource 6423,DefaultValue=模块类型设置}"
+             d:DesignHeight="580" d:DesignWidth="720">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <dxg:GridControl ItemsSource="{Binding ModuleTypeList}" SelectedItem="{Binding SelectModuleType}">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowGroupPanel="False" ShowIndicator="False" AllowEditing="False" AutoWidth="True" NavigationStyle="Row"/>
+            </dxg:GridControl.View>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="ModuleTypeCode" Header="{MultiLang:StringResource 6381,DefaultValue=编码}" />
+                <dxg:GridColumn FieldName="ModuleTypeName" Header="{MultiLang:StringResource 1131,DefaultValue=名称}" />
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Content="{MultiLang:StringResource 6381,DefaultValue=编码}"  Grid.Row="1" Grid.Column="1"  />
+            <sin:SinTextBox Text="{Binding ModuleTypeCode}" Grid.Row="1" Grid.Column="3"/>
+            <Label Content="{MultiLang:StringResource 1131,DefaultValue=名称}"  Grid.Row="1" Grid.Column="5"  />
+            <sin:SinTextBox Text="{Binding ModuleTypeName}" Grid.Row="1" Grid.Column="7"/>
+        </Grid>
+    </Grid>
+    <sin:SinWindow.BottomPanel>
+        <sin:SinButton Content="{MultiLang:StringResource 392,DefaultValue=添加}" Command="{Binding InsertModuleTypeCommand}"/>
+        <sin:SinButton Content="{MultiLang:StringResource 58,DefaultValue=修改}" Command="{Binding UpdateModuleTypeCommand}" Margin="5,0,0,0"/>
+        <sin:SinButton Content="{MultiLang:StringResource 59,DefaultValue=删除}" Command="{Binding DeleteModuleTypeCommand}" Margin="5,0,0,0"/>
+        <sin:SinButton Content="{MultiLang:StringResource 144,DefaultValue=关闭}" Click="Button_Click" Margin="5,0,0,0"/>
+    </sin:SinWindow.BottomPanel>
+</sin:SinWindow>

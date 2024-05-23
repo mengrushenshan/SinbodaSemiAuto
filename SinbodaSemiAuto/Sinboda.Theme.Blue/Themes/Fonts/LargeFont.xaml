@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib">
+    <!--字体-->
+    <FontFamily x:Key="DefaultFontFamily">Arial,Microsoft YaHei</FontFamily>
+
+    <!--字体大小类别-->
+    <System:Double x:Key="TitleFontSize">21</System:Double>
+    <System:Double x:Key="ContentFontSize">21</System:Double>
+    <System:Double x:Key="MessageFontSize">18</System:Double>
+</ResourceDictionary>

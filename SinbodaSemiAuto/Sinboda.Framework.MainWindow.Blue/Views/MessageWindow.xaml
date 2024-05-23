@@ -1,0 +1,13 @@
+﻿<Window x:Class="Sinboda.Framework.MainWindow.Blue.Views.MessageWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.Framework.MainWindow.Blue.Views"
+             mc:Ignorable="d" Title="Software.Client"
+             d:DesignHeight="200" d:DesignWidth="200"
+             Loaded="Window_Loaded">
+    <Grid>
+            
+    </Grid>
+</Window>

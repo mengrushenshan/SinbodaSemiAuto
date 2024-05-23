@@ -1,0 +1,448 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+                    xmlns:sinchromes="clr-namespace:Sinboda.Framework.Control.Chromes;assembly=Sinboda.Framework.Control"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    
+    <LinearGradientBrush x:Key="mouseOverBtnBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFEAF6FD" Offset="0"/>
+        <GradientStop Color="#FFD7EFFC" Offset="0.5"/>
+        <GradientStop Color="#FFBDE6FD" Offset="0.5"/>
+        <GradientStop Color="#FFA6D9F4" Offset="1"/>
+    </LinearGradientBrush>
+
+    <Geometry x:Key="RightArrow">M0,0 L5,3.5 0,7 z</Geometry>
+    <Geometry x:Key="DownArrow">M0,3 L7,3 3.5,7 z</Geometry>
+    <Geometry x:Key="OverflowArrow">F1 M7,0 L4,3 7,6 M3,0 L0,3 3,6</Geometry>
+
+    <Style TargetType="{x:Type sinchromes:ButtonChrome}">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="BorderBrush" Value="#60000000"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sinchromes:ButtonChrome}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            SnapsToDevicePixels="False" 
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border x:Name="border"
+                                BorderThickness="0.5,0.5,1.5,1.5"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                            <Grid>
+                                <Border x:Name="shadeBorder" BorderThickness="0" Opacity="0" 
+                                        CornerRadius="{TemplateBinding CornerRadius}" 
+                                        Background="{DynamicResource ShadeColor}" />
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </Border>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="RenderMouseOver" Value="True">
+                            <Setter Property="Opacity" TargetName="shadeBorder" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="RenderPressed" Value="True">
+                            <Setter Property="BorderThickness" TargetName="border" Value="1.5,1.5,0.5,0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--多模块菜单-->
+    <Style x:Key="ModuleSysMenuContextMenu" TargetType="{x:Type ContextMenu}">
+        <Setter Property="BorderBrush" Value="{DynamicResource MainWindowCommonBorderBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MainWindowCommonBackground}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource TitleFontSize}"/>
+        <Setter Property="Width" Value="280"/>
+        <Setter Property="MaxHeight" Value="500"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContextMenu}">
+                    <Grid SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Width="{TemplateBinding Width}">
+                        <Rectangle Fill="{TemplateBinding BorderBrush}" RadiusX="4" RadiusY="4" />
+                        <Rectangle Fill="{TemplateBinding Background}" RadiusX="4" RadiusY="4" Margin="1,1,1.5,1.5"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="0,0,0,1" BorderBrush="#4CFFFFFF">
+                                <TextBlock Text="菜单" Margin="0,10" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                <ItemsPresenter x:Name="ItemsPresenter" Margin="0,0,0,0"
+                                                KeyboardNavigation.DirectionalNavigation="Contained" 
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type sin:SplitButton}">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Mode" Value="Split"/>
+        <Setter Property="Background" Value="{StaticResource mouseOverBtnBrush}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="HorizontalOffset" Value="0"/>
+        <Setter Property="VerticalOffset" Value="2"/>
+        <Setter Property="Placement" Value="Bottom"/>
+        <Setter Property="MenuStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sin:SplitButton}">
+                    <Grid Margin="{TemplateBinding Padding}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!--左侧按钮-->
+                        <sinchromes:ButtonChrome Grid.Column="0"   
+                                         Visibility="Visible"
+                                         Focusable="False"
+                                         x:Name="PART_Btn" 
+                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                         Background="{TemplateBinding Background}"
+                                         RenderPressed="{TemplateBinding IsPressed}"  
+                                         RenderMouseOver="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
+                                         CornerRadius="4,0,0,4">
+                            <sinchromes:ButtonChrome.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter Content="{TemplateBinding Content}"  Margin="2,0,2,0"/>
+
+                                    <!--<Border Name="bd" Width="20" Grid.Column="2"  Visibility="Collapsed">
+                                        <Path Fill="Black" x:Name="dropDownPath2"  Data="{StaticResource RightArrow}" 
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              SnapsToDevicePixels="True"/>
+                                    </Border>-->
+                                </Grid>
+                            </sinchromes:ButtonChrome.Content>
+                        </sinchromes:ButtonChrome>
+                        <!--右侧菜单按钮-->
+                        <sinchromes:ButtonChrome Grid.Column="1" 
+                                         x:Name="PART_DropDown"
+                                         Focusable="False"
+                                         MinWidth="20"
+                                         Margin="-1,0,0,0"
+                                         Background="{TemplateBinding Background}"
+                                         RenderPressed="{TemplateBinding IsContextMenuOpen}"
+                                         RenderMouseOver="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
+                                         ContentTemplate="{TemplateBinding DropDownContentTemplate}" CornerRadius="0,4,4,0" >
+                            <sinchromes:ButtonChrome.Content>
+                                <Path x:Name="dropDownPath" Fill="Black" 
+                                      Data="{DynamicResource RightArrow}" 
+                                      SnapsToDevicePixels="True"  
+                                      HorizontalAlignment="Center"/>
+                            </sinchromes:ButtonChrome.Content>
+                            <sinchromes:ButtonChrome.ContextMenu>
+                                <ContextMenu x:Name="PART_Menu"            
+                                             Style="{Binding MenuStyle, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                             IsTextSearchEnabled="True"
+                                             HorizontalOffset="{TemplateBinding HorizontalOffset}"
+                                             ItemContainerStyle="{x:Null}"
+                                             VerticalOffset="{TemplateBinding VerticalOffset}"
+                                             Placement="{TemplateBinding Placement}"
+                                             ItemsSource="{TemplateBinding SplitButtonItemsSource}"
+                                             IsOpen="{Binding IsContextMenuOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                </ContextMenu>
+                            </sinchromes:ButtonChrome.ContextMenu>
+                        </sinchromes:ButtonChrome>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsContextMenuOpen" Value="true">
+                            <Setter Property="RenderMouseOver" Value="true" TargetName="PART_DropDown"/>
+                            <Setter Property="Data" Value="{DynamicResource DownArrow}" TargetName="dropDownPath"/>
+                            <!--<Setter Property="Data" Value="{DynamicResource DownArrow}" TargetName="dropDownPath2"/>-->
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="RenderMouseOver" Value="true" TargetName="PART_Btn"/>
+                        </Trigger>
+                        <Trigger Property="Mode" Value="Dropdown">
+                            <Setter Property="Visibility" TargetName="PART_DropDown" Value="Collapsed"/>
+                            <!--<Setter Property="Visibility" TargetName="bd" Value="Visible"/>-->
+                            <Setter Property="CornerRadius" TargetName="PART_Btn" Value="4"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Mode" Value="Dropdown"/>
+                                <Condition Property="IsContextMenuOpen" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="RenderMouseOver" Value="true" TargetName="PART_Btn"/>
+                            <Setter Property="RenderPressed" Value="true" TargetName="PART_Btn"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--主窗体右上角按钮，使用时必须设置 Width 属性，否则下拉菜单不能与按钮等宽-->
+    <Style x:Key="SysSplitButton" TargetType="{x:Type sin:SplitButton}">
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource TitleFontSize}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Mode" Value="Dropdown"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="HorizontalOffset" Value="-1"/>
+        <Setter Property="VerticalOffset" Value="0"/>
+        <Setter Property="Placement" Value="Bottom"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sin:SplitButton}">
+                    <Grid Name="root" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!--左侧按钮-->
+                        <sinchromes:ButtonChrome Grid.Column="0"   
+                                         Visibility="Visible"
+                                         Focusable="False"
+                                         x:Name="PART_Btn" 
+                                         HorizontalContentAlignment="Stretch"
+                                         BorderBrush="Transparent"
+                                         Background="{TemplateBinding Background}"
+                                         RenderPressed="{TemplateBinding IsPressed}"  
+                                         RenderMouseOver="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
+                                         CornerRadius="0">
+                            <sinchromes:ButtonChrome.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                        <ContentPresenter Content="{TemplateBinding Content}" 
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          Margin="2,0,2,0"/>
+                                    
+                                    <Viewbox Name="bd" Width="15" Grid.Column="1" Height="15" Margin="0,0,15,0">
+                                        <Path Fill="#FF18416F" x:Name="dropDownPath2"
+                                              Data="{StaticResource RightArrow}" />
+                                    </Viewbox>
+                                </Grid>
+                            </sinchromes:ButtonChrome.Content>
+                            <sinchromes:ButtonChrome.ContextMenu>
+                                <ContextMenu x:Name="PART_Menu" 
+                                             Style="{DynamicResource SysSplitButtonContentMenu}"
+                                             IsTextSearchEnabled="True"
+                                             HorizontalOffset="0"
+                                             Width="{Binding Width, RelativeSource={RelativeSource TemplatedParent}}"
+                                             VerticalOffset="{TemplateBinding VerticalOffset}"
+                                             Placement="{TemplateBinding Placement}"
+                                             ItemsSource="{TemplateBinding SplitButtonItemsSource}"
+                                             ItemContainerStyle="{DynamicResource SysMenuItem}"
+                                             IsOpen="{Binding IsContextMenuOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                </ContextMenu>
+                            </sinchromes:ButtonChrome.ContextMenu>
+                        </sinchromes:ButtonChrome>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsContextMenuOpen" Value="true">
+                            <Setter Property="Data" Value="{DynamicResource DownArrow}" TargetName="dropDownPath2"/>
+                        </Trigger>
+                        <Trigger Property="Image" Value="{x:Null}">
+                            
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="RenderMouseOver" Value="true" TargetName="PART_Btn"/>
+                        </Trigger>
+                        <Trigger Property="Mode" Value="Dropdown">
+                            <Setter Property="Visibility" TargetName="bd" Value="Visible"/>
+                            <Setter Property="CornerRadius" TargetName="PART_Btn" Value="0"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Mode" Value="Dropdown"/>
+                                <Condition Property="IsContextMenuOpen" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="RenderMouseOver" Value="true" TargetName="PART_Btn"/>
+                            <Setter Property="RenderPressed" Value="true" TargetName="PART_Btn"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SysMenuItem" TargetType="{x:Type MenuItem}">
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource TitleFontSize}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="Foreground" Value="#FFE7EAEE"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="BorderBrush" Value="#FF1B426D"/>
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>
+        <Setter Property="Padding" Value="10,20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="52"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Border Name="Border" BorderThickness="0,1,0,0" Grid.ColumnSpan="2" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}"/>
+                        <Border Name="bk" BorderThickness="0,1,0,0" Grid.ColumnSpan="2" BorderBrush="Transparent" Background="{DynamicResource ShadeColor}" Visibility="Hidden"/>
+                        <ContentPresenter ContentSource="Icon" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter Grid.Column="1"
+                                          x:Name="contentPresenter" 
+                                          Margin="{TemplateBinding Padding}" 
+                                          Content="{TemplateBinding Header}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bk" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--主窗体下拉菜单-->
+    <Style x:Key="SysSplitButtonContentMenu" TargetType="{x:Type ContextMenu}">
+        <Setter Property="BorderBrush" Value="{DynamicResource MainWindowCommonBorderBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MainWindowCommonBackground}"/>
+        <Setter Property="BorderThickness" Value="1,0,1,1"/>
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource TitleFontSize}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContextMenu}">
+                    <Grid SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <Border Background="{TemplateBinding Background}"/>
+                        <Border BorderThickness="{TemplateBinding BorderThickness}" 
+                                Padding="{TemplateBinding Padding}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="0" >
+                            <ItemsPresenter Name="ItemsPresenter" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--多模块菜单子菜单-->
+    <Style x:Key="ModuleSysMenuMenuItem" TargetType="{x:Type MenuItem}">
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}"/>
+        <Setter Property="FontSize" Value="{DynamicResource TitleFontSize}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource MainWindowCommonBorderBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource MainWindowCommonBackground}"/>
+        <Setter Property="Width" Value="280"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <Border Name="border" BorderThickness="0,0,0,1" 
+                            Background="Transparent" 
+                            BorderBrush="#4CFFFFFF" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <Grid SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" x:Name="iconColumn"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Name="bd" Background="Black"  Grid.ColumnSpan="3" Opacity="0"/>
+                            <!--图标-->
+                            <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" ContentSource="Icon" 
+                                                  Margin="4,0,6,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                            <!--内容-->
+                            <ContentPresenter Grid.Column="1" RecognizesAccessKey="True" VerticalAlignment="Center"
+                                              ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+
+                            <!--箭头-->
+                            <Path Name="arrow" Data="{DynamicResource Glyphicon-play}" Fill="{TemplateBinding Foreground}" Width="10"
+                                      Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                      Stretch="Uniform"/>
+                            <!--二级菜单-->
+                            <Popup x:Name="SubMenuPopup" AllowsTransparency="true" 
+                                       IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" 
+                                       Placement="Right"  Focusable="false" HorizontalOffset="3" VerticalOffset="0"
+                                       PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
+
+                                <Grid Width="{TemplateBinding Width}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                    <Rectangle Fill="{TemplateBinding BorderBrush}" RadiusX="4" RadiusY="4" />
+                                    <Rectangle Fill="{TemplateBinding Background}" RadiusX="4" RadiusY="4" Margin="1,1,1.5,1.5"/>
+
+                                    <StackPanel Margin="0" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Role" Value="TopLevelHeader">
+                            <Setter Property="Visibility" TargetName="arrow" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="Role" Value="TopLevelItem">
+                            <Setter Property="Visibility" TargetName="arrow" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="Role" Value="SubmenuHeader">
+                            <Setter Property="Visibility" TargetName="arrow" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="Role" Value="SubMenuItem">
+                            <Setter Property="Visibility" TargetName="arrow" Value="Collapsed"/>
+                        </Trigger>
+                        <!--不启用-->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="border" Value="#CCF7F7F7"/>
+                            <Setter Property="Foreground" Value="#FF747474"/>
+                        </Trigger>
+                        <!--高亮状态-->
+                        <Trigger Property="IsHighlighted" Value="true">
+                            <Setter Property="Opacity" TargetName="bd" Value="0.15"></Setter>
+                        </Trigger>
+                        <!--子菜单展开-->
+                        <Trigger Property="IsSubmenuOpen" Value="true" >
+                            <!--<Setter Property="Foreground" TargetName="arrow" Value="{StaticResource CheckedForeground}" ></Setter>-->
+                        </Trigger>
+                        <!--按下-->
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Opacity" TargetName="bd" Value="0.25"></Setter>
+                        </Trigger>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter Property="Width" TargetName="iconColumn" Value="10"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

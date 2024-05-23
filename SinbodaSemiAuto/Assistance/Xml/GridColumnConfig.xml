@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Grid GridName="SampleInfoGrid">
+    <Column FieldName="Print" Header="打印" Index="1" IsVisible="True" Width="80" />
+    <Column FieldName="ItemName" Header="项目名称" Index="2" IsVisible="True" Width="90" />
+    <Column FieldName="TestType" Header="测试模式" Index="3" IsVisible="True" Width="120" />
+    <Column FieldName="TestUserResult" Header="检测结果" Index="0" IsVisible="True" Width="110" />
+  </Grid>
+</root>

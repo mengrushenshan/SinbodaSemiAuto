@@ -1,0 +1,96 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- 图片资源 -->
+    <BitmapImage  x:Key="Logo_PNG" DecodePixelWidth="198" DecodePixelHeight="88" UriSource="/Sinboda.Theme.Blue;component/Images/System/logo.png"/>
+    <BitmapImage x:Key="About_PNG" DecodePixelWidth="32" DecodePixelHeight="32" UriSource="/Sinboda.Theme.Blue;component/Images/System/About.png"/>
+    <BitmapImage x:Key="Exit_PNG" DecodePixelWidth="32" DecodePixelHeight="32" UriSource="/Sinboda.Theme.Blue;component/Images/System/Exit.png"/>
+    <BitmapImage x:Key="Help_PNG" DecodePixelWidth="32" DecodePixelHeight="32" UriSource="/Sinboda.Theme.Blue;component/Images/System/help.png"/>
+    <BitmapImage x:Key="ChangeUser_PNG" DecodePixelWidth="32" DecodePixelHeight="32" UriSource="/Sinboda.Theme.Blue;component/Images/System/ChangeUser.png"/>
+    <BitmapImage x:Key="Warning_PNG" DecodePixelWidth="48" DecodePixelHeight="48" UriSource="/Sinboda.Theme.Blue;component/Images/System/warning.png"/>
+    <BitmapImage x:Key="None_PNG" DecodePixelWidth="48" DecodePixelHeight="48" UriSource="/Sinboda.Theme.Blue;component/Images/System/none.png"/>
+    <BitmapImage x:Key="Error_PNG" DecodePixelWidth="48" DecodePixelHeight="48" UriSource="/Sinboda.Theme.Blue;component/Images/System/Error.png"/>
+    <BitmapImage x:Key="Timer_PNG" DecodePixelWidth="24" DecodePixelHeight="24" UriSource="/Sinboda.Theme.Blue;component/Images/System/Timer.png"/>
+    <BitmapImage x:Key="User_PNG" DecodePixelWidth="48" DecodePixelHeight="48" UriSource="/Sinboda.Theme.Blue;component/Images/System/User.png"/>
+    <BitmapImage x:Key="More_PNG" DecodePixelWidth="42" DecodePixelHeight="42" UriSource="/Sinboda.Theme.Blue;component/Images/System/more.png"/>
+    <BitmapImage x:Key="Hand_PNG" DecodePixelWidth="30" DecodePixelHeight="30" UriSource="/Sinboda.Theme.Blue;component/Images/System/hand.png"/>
+    <BitmapImage x:Key="Instrument_Connected_PNG" DecodePixelWidth="38" DecodePixelHeight="38" UriSource="/Sinboda.Theme.Blue;component/Images/System/Instrument_Connected.png"/>
+    <BitmapImage x:Key="Instrument_NotConnected_PNG" DecodePixelWidth="38" DecodePixelHeight="38" UriSource="/Sinboda.Theme.Blue;component/Images/System/Instrument_NotConnected.png"/>
+    <BitmapImage x:Key="LIS_Connected_PNG" DecodePixelWidth="38" DecodePixelHeight="38" UriSource="/Sinboda.Theme.Blue;component/Images/System/LIS_Connected.png"/>
+    <BitmapImage x:Key="LIS_NotConnected_PNG" DecodePixelWidth="38" DecodePixelHeight="38" UriSource="/Sinboda.Theme.Blue;component/Images/System/LIS_NotConnected.png"/>
+    <BitmapImage x:Key="Printer_Connect_PNG" DecodePixelWidth="38" DecodePixelHeight="38" UriSource="/Sinboda.Theme.Blue;component/Images/System/Printer_Connect.png"/>
+    <BitmapImage x:Key="Printer_NotConnect_PNG" DecodePixelWidth="38" DecodePixelHeight="38" UriSource="/Sinboda.Theme.Blue;component/Images/System/Printer_NotConnect.png"/>
+    <BitmapImage  x:Key="StartTest" DecodePixelWidth="41" DecodePixelHeight="41" UriSource="/Sinboda.Theme.Blue;component/Images/System/StartTest.png"/>
+    <BitmapImage  x:Key="SuspendTest" DecodePixelWidth="41" DecodePixelHeight="41" UriSource="/Sinboda.Theme.Blue;component/Images/System/SuspendTest.png"/>
+    <BitmapImage  x:Key="StopReagent" DecodePixelWidth="41" DecodePixelHeight="41" UriSource="/Sinboda.Theme.Blue;component/Images/System/StopReagent.png"/>
+    <BitmapImage  x:Key="StopTest" DecodePixelWidth="41" DecodePixelHeight="41" UriSource="/Sinboda.Theme.Blue;component/Images/System/StopTest.png"/>
+    <BitmapImage  x:Key="Reset" DecodePixelWidth="40" DecodePixelHeight="40" UriSource="/Sinboda.Theme.Blue;component/Images/System/Reset.png"/>
+    
+    <!-- 颜色设置 -->
+    <Color x:Key="AccentColor">#393973</Color>
+    <!-- 表示主色调，应用到控件边框，背景色 -->
+    <SolidColorBrush x:Key="Accent" Color="{DynamicResource AccentColor}" />
+
+    <!--// 应用程序界面界面资源 //-->
+    <!--标题栏背景-->
+    <LinearGradientBrush x:Key="MainWindowTitleBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#4D4D9B"/>
+        <GradientStop Color="#393973" Offset="0.458"/>
+        <GradientStop Color="#3E3E7B" Offset="0.988"/>
+    </LinearGradientBrush>
+    
+    <!--标题栏右上角按钮-->
+    <SolidColorBrush x:Key="MainWindowCommonBackground" Color="#393973"/>
+    <!--下拉菜单背景色-->
+    <SolidColorBrush x:Key="MainWindowCommonBorderBrush" Color="#FF233F5F"/>
+    <!--下拉菜单边框颜色-->
+
+    <!--状态栏背景-->
+    <SolidColorBrush x:Key="MainWindowStatusBarBackground" Color="#393973"/>
+
+    <!--遮罩层颜色-->
+    <SolidColorBrush x:Key="ShadeColor" Color="#19000000"/>
+
+    <!--按钮颜色-->
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#393973"/>
+    <!--边框颜色-->
+    <LinearGradientBrush x:Key="ButtonBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <!--背景颜色-->
+        <GradientStop Color="#424282" Offset="1"/>
+        <GradientStop Color="#6565B1" Offset="0"/>
+    </LinearGradientBrush>
+
+    <!--// DrWindow //-->
+    <!--标题栏背景色-->
+    <LinearGradientBrush x:Key="DrWindowTitleBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#424282" Offset="1"/>
+        <GradientStop Color="#6565B1" Offset="0"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="DrWindowTitleBorderBrush" Color="#424282"/>
+
+    <!--// 滚动条资源 //-->
+    <!--鼠标经过时颜色-->
+    <SolidColorBrush x:Key="ScrollBarMouseOverBrush" Color="#40348F"/>
+    <!--默认的背景色-->
+    <SolidColorBrush x:Key="ScrollBarDefaultBackgroundBrush" Color="#FF9EB8CF"/>
+
+    <!--// 输入框，下拉框资源 //-->
+    <!--边框颜色-->
+    <SolidColorBrush x:Key="BoxBorderBrush" Color="#FFBBBDBF"/>
+    <!--鼠标经过是的边框颜色-->
+    <SolidColorBrush x:Key="BoxMouseOverBorderBrush" Color="#40348F"/>
+    <!--IsEnabled = false 时的背景色-->
+    <SolidColorBrush x:Key="BoxNotEnableBackground" Color="#FFEBEBEB"/>
+    <!--水印颜色-->
+    <SolidColorBrush x:Key="BoxWatermarkBrush" Color="#FF6C6C6C"/>
+
+    <SolidColorBrush x:Key="PanelBorderBrush" Color="#5748BD"/>
+    
+    <!--LoadingBox-->
+    <SolidColorBrush x:Key="LoadingBoxBackground" Color="WhiteSmoke"></SolidColorBrush>
+    <SolidColorBrush x:Key="LoadingBoxContentForeColor" Color="#40348F"/>
+    <sys:Double x:Key="LoadingBoxMessageTextSize">18</sys:Double>
+
+    <sys:Double x:Key="DisableOpacity">0.5</sys:Double>
+</ResourceDictionary>

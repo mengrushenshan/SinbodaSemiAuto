@@ -1,0 +1,91 @@
+﻿<sin:SinWindow x:Class="Sinboda.Framework.View.SystemSetup.Win.DataDictionayTypeSetWin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:local="clr-namespace:Sinboda.Framework.View.SystemSetup.Win"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             Title="{MultiLang:StringResource 6462,DefaultValue=基础信息类型设置}"
+             d:DesignHeight="690" d:DesignWidth="960" x:Name="datadictionarytest">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <dxg:GridControl ItemsSource="{Binding DataDictionaryTypeAllList}" SelectedItem="{Binding SelectType}">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowGroupPanel="False" ShowIndicator="False" AllowEditing="False" AutoWidth="True" NavigationStyle="Row"/>
+            </dxg:GridControl.View>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="TypeCode" Header="{MultiLang:StringResource 6381,DefaultValue=编码}" />
+                <dxg:GridColumn FieldName="TypeValues" Header="{MultiLang:StringResource 1131,DefaultValue=名称}" />
+                <dxg:GridColumn FieldName="IsSetHotKey" Header="{MultiLang:StringResource 6463,DefaultValue=设置助记符}" />
+                <dxg:GridColumn FieldName="IsSetDefault" Header="{MultiLang:StringResource 6464,DefaultValue=设置默认项}" />
+                <dxg:GridColumn FieldName="IsSetParentCode" Header="{MultiLang:StringResource 6465,DefaultValue=设置上级名称}" />
+                <dxg:GridColumn FieldName="ShowOrder" Header="{MultiLang:StringResource 3916,DefaultValue=显示顺序}" />
+                <dxg:GridColumn FieldName="IsEnable" Header="{MultiLang:StringResource 226,DefaultValue=启用}" />
+            </dxg:GridControl.Columns>
+        </dxg:GridControl>
+        <sin:SinGrid x:Name="checkGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Content="{MultiLang:StringResource 6381,DefaultValue=编码}"  Grid.Row="1" Grid.Column="1" />
+            <sin:SinTextBox Text="{Binding TypeModel.TypeCode}" Grid.Row="1" Grid.Column="3" IsDataRequire="True"/>
+            <Label Content="{MultiLang:StringResource 3906,DefaultValue=语言编号}"  Grid.Row="1" Grid.Column="5" />
+            <sin:SinTextBox Text="{Binding TypeModel.LanguageIDString}" Grid.Row="1" Grid.Column="7" IsDataRequire="True"
+                  RegexText="^[0-9]+$" RegexTextPattern="{MultiLang:StringResource 9798,DefaultValue=正整数}" 
+                  RegexTextErrorMsg="{MultiLang:StringResource 5947,DefaultValue=只能输入正整数}"
+                  />
+            <Label Content="{MultiLang:StringResource 1131,DefaultValue=名称}"  Grid.Row="1" Grid.Column="9" />
+            <sin:SinTextBox Text="{Binding TypeModel.TypeValues}" Grid.Row="1" Grid.Column="11" IsDataRequire="True"/>
+            <Label Content="{MultiLang:StringResource 6463,DefaultValue=设置助记符}"  Grid.Row="3" Grid.Column="1" />
+            <CheckBox IsChecked="{Binding TypeModel.IsSetHotKey}" Grid.Row="3" Grid.Column="3" />
+            <Label Content="{MultiLang:StringResource 6464,DefaultValue=设置默认项}"  Grid.Row="3" Grid.Column="5" />
+            <CheckBox IsChecked="{Binding TypeModel.IsSetDefault}" Grid.Row="3" Grid.Column="7" />
+            <Label Content="{MultiLang:StringResource 6466,DefaultValue=上级名称}"  Grid.Row="3" Grid.Column="9"/>
+            <sin:SinComboBox ItemsSource="{Binding ParentTypeList}" SelectedValue="{Binding TypeModel.ParentCode}" 
+                   SelectedValuePath="TypeCode" DisplayMemberPath="TypeValues" Grid.Row="3" Grid.Column="11" />
+            <Label Content="{MultiLang:StringResource 3916,DefaultValue=显示顺序}" Grid.Row="5" Grid.Column="1"  />
+            <sin:SinTextBox Text="{Binding TypeModel.ShowOrderString}" Grid.Row="5" Grid.Column="3"  MaxLength="50" IsDataRequire="True"
+                  RegexText="^[0-9]+$" RegexTextPattern="{MultiLang:StringResource 9798,DefaultValue=正整数}" 
+                  RegexTextErrorMsg="{MultiLang:StringResource 5947,DefaultValue=只能输入正整数}"/>
+            <Label Content="{MultiLang:StringResource 226,DefaultValue=启用}" Grid.Row="5" Grid.Column="5"  />
+            <CheckBox Grid.Row="5" Grid.Column="7" IsChecked="{Binding TypeModel.IsEnable,UpdateSourceTrigger=PropertyChanged}"  />
+
+            <Label Content="{MultiLang:StringResource 99999,DefaultValue=子项是否可以删除}" Grid.Row="5" Grid.Column="9"  />
+            <CheckBox Grid.Row="5" Grid.Column="11" IsChecked="{Binding TypeModel.IsChildCanDelete,UpdateSourceTrigger=PropertyChanged}"  />
+        </sin:SinGrid>
+    </Grid>
+    <sin:SinWindow.BottomPanel>
+        <sin:SinButton Content="{MultiLang:StringResource 392,DefaultValue=添加}" Source="{Binding ElementName=checkGrid}" Command="{Binding InsertDataDicTypeCommand}"/>
+        <sin:SinButton Content="{MultiLang:StringResource 58,DefaultValue=修改}" Source="{Binding ElementName=checkGrid}" Command="{Binding UpdateDataDicTypeCommand}" Margin="5,0,0,0"/>
+        <sin:SinButton Content="{MultiLang:StringResource 59,DefaultValue=删除}" Command="{Binding DeleteDataDicTypeCommand}" Margin="5,0,0,0"/>
+        <sin:SinButton Content="{MultiLang:StringResource 144,DefaultValue=关闭}" Click="Button_Click" Margin="5,0,0,0"/>
+    </sin:SinWindow.BottomPanel>
+</sin:SinWindow>

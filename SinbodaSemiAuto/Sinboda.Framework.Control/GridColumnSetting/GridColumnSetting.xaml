@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Sinboda.Framework.Control.GridColumnSetting.GridColumnSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.Framework.Control.GridColumnSetting"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="{MultiLang:StringResource 92,DefaultValue=可用列}" VerticalAlignment="Bottom"></TextBlock>
+        <ListBox x:Name="HiddenGridColumnNameList" Grid.Row="1" Grid.Column="0" SelectionMode="Extended" MouseDoubleClick="HiddenGridColumnNameList_MouseDoubleClick" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding ColumnHeader}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center">
+            <sin:GlyphButton x:Name="moveRightBtn" Glyph="Glyphicon-play" Cursor="Hand" Click="moveRightBtn_Click" ToolTip="{MultiLang:StringResource 94,DefaultValue=右移}"   MinHeight="40" Margin="2" Width="40" BorderThickness="0,0,0,0" Background="#FF1792E8" FontSize="25" />
+            <sin:GlyphButton x:Name="moveLeftBtn" Glyph="Glyphicon-play2" Cursor="Hand" Click="moveLeftBtn_Click" ToolTip="{MultiLang:StringResource 93,DefaultValue=左移}"   MinHeight="40" Margin="2,2,2,55" Width="40" BorderThickness="0,0,0,0" Background="#FF1792E8" FontSize="25" />
+            <!--<Button x:Name="MoveAllRightBtn"  Height="40" Width="120" Content=">>" Margin="0,5,0,0" Click="MoveAllRightBtn_Click"></Button>
+        <Button x:Name="MoveAllLeftBtn" Height="40" Width="120" Content="&lt;&lt;" Margin="0,5,0,0" Click="MoveAllLeftBtn_Click"></Button>-->
+            <!--<Button x:Name="SetDefaulValueBtn" Height="40" Width="120" Content="恢复默认" Margin="0,5,0,0" Click="SetDefaulValueBtn_Click" Visibility="Collapsed"></Button>-->
+        </StackPanel>
+
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="{MultiLang:StringResource 91,DefaultValue=选定列}" VerticalAlignment="Bottom"></TextBlock>
+        <ListBox x:Name="ShowGridColumnNameList" Grid.Row="1" Grid.Column="2" SelectionMode="Extended" MouseDoubleClick="ShowGridColumnNameList_MouseDoubleClick" SelectionChanged="ShowGridColumnNameList_SelectionChanged"  >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding ColumnHeader}"/>
+                            <TextBlock Text="["/>
+                            <TextBlock Text="{Binding ColumnWidth,Mode=TwoWay}"/>
+                            <TextBlock Text="]"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center">
+            <sin:GlyphButton x:Name="moveUptBtn" Glyph="Glyphicon-step_Beforeward" Cursor="Hand" ToolTip="{MultiLang:StringResource 270,DefaultValue=上移}"  Click="moveUptBtn_Click" MinHeight="40" Margin="2" Width="40" BorderThickness="0,0,0,0" Background="#FF1792E8" FontSize="25" />
+            <sin:GlyphButton x:Name="moveDownBtn" Glyph="Glyphicon-step_Nextward" Cursor="Hand" ToolTip="{MultiLang:StringResource 271,DefaultValue=下移}"  Click="moveDownBtn_Click" MinHeight="40" Margin="2" Width="40" BorderThickness="0,0,0,0" Background="#FF1792E8" FontSize="25" />
+            <TextBlock x:Name="widthTextBlock" Text="{MultiLang:StringResource 84,DefaultValue=宽度}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" ></TextBlock>
+            <sin:SinNumricTextBox MinValue="5" MaxValue="999" MaxLength="3"  x:Name="columnWidthTextBox" Text="{Binding ColumnWidth,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,2" Width="55"  LostKeyboardFocus="columnWidthTextBox_LostFocus" PreviewTextInput="columnWidthTextBox_PreviewTextInput"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

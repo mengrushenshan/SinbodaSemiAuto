@@ -1,0 +1,168 @@
+﻿<sin:SinWindow x:Class="Sinboda.Framework.View.SystemAlarm.Win.AlarmsSettingWin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+             xmlns:local="clr-namespace:Sinboda.Framework.View.SystemAlarm.Win"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:vm="clr-namespace:Sinboda.Framework.View.SystemAlarm.ViewModel"
+             xmlns:cvt="clr-namespace:Sinboda.Framework.View.SystemAlarm.Converter"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Window.DataContext>
+        <vm:AlarmSettingViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <!--转换显示多语言报警级别使用-->
+            <cvt:AlarmsLevelColumnConverter x:Key="AlarmsLevelColumnConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <sin:SinTabControl Margin="10,0" SelectedIndex="{Binding TabSelectedIndex}">
+            <sin:SinTabItem Header="{MultiLang:StringResource 2176,DefaultValue=报警信息}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16*"/>
+                        <ColumnDefinition Width="113*"/>
+                        <ColumnDefinition Width="988*"/>
+                        <ColumnDefinition Width="17*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="1" Margin="2,2,0,2" Orientation="Horizontal" Grid.ColumnSpan="2">
+                        <!--模块列表-->
+                        <Label x:Name="lblModuleInfo" VerticalAlignment="Center" Content="{MultiLang:StringResource 4407,DefaultValue=模块类型}"
+                            Visibility="{Binding ModuleInfoVisibility}"/>
+                        <sin:SinComboBox x:Name="cbxModuleInfo" IsReadOnly="True" Width="150" Margin="5,0,0,0"
+                           ItemsSource="{Binding ModuleInfoSource}"
+       			           SelectedValue="{Binding SelectedModuleInfo}" 
+                           DisplayMemberPath="ModuleTypeName"
+                           Visibility="{Binding ModuleInfoVisibility}"/>
+                        <Label Content="{MultiLang:StringResource 1708,DefaultValue=报警码}" Margin="10,0,0,0"/>
+                        <sin:SinTextBox RegexText="^\d+\-\d+$" MaxLength="9" IsDataError="{Binding IsDataError, Mode=TwoWay}" VerticalAlignment="Center" Text="{Binding StrCode,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="5,0,0,0"  Width="150" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <mvvm:EventToCommand Command="{Binding SearchCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </sin:SinTextBox>
+                        <!--<dr:DrComboBox IsReadOnly="True" ItemsSource="{Binding StrCodePreSource}" SelectedValue="{Binding StrCodePre}" Width="150" Margin="5,0,0,0"/>
+                    <Label Grid.Column="4" HorizontalContentAlignment="Center" Content="-" VerticalAlignment="Center" Margin="2,0,2,0"/>
+                    <dr:DrComboBox IsReadOnly="True" ItemsSource="{Binding StrCodeAfterSource}" SelectedValue="{Binding StrCodeAfter}" Width="150"/>-->
+                    </StackPanel>
+                    <dxg:GridControl Grid.Row="2" Grid.Column="1"  
+               		ItemsSource="{Binding GetAlarmIns,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectRow, Mode=TwoWay}" Grid.ColumnSpan="2">
+                        <dxg:GridControl.View>
+                            <dxg:TableView ShowGroupPanel="False"  AllowEditing="True" AutoWidth="True">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="CellValueChanging">
+                                        <!--<mvvm:EventToCommand PassEventArgsToCommand="True" Command="{Binding ChangeVisibleFlagCommand}" />-->
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </dxg:TableView>
+                        </dxg:GridControl.View>
+                        <dxg:GridControl.Columns >
+                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center" FieldName="CodeVisibility" AllowFocus="True" Width="60" Header="{MultiLang:StringResource 226,DefaultValue=启用}">
+                                <!--<dxg:GridColumn.EditSettings>
+                                -->
+                                <!-- 此处用的是dev的控件，后期需要替换掉 -->
+                                <!--
+                                <dxe:CheckEditSettings/>
+                            </dxg:GridColumn.EditSettings>-->
+                                <dxg:GridColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox VerticalAlignment="Center" IsChecked="{Binding RowData.Row.CodeVisibility, Mode=TwoWay}" HorizontalAlignment="Center"
+								Click="CheckBox_Click"/>
+                                    </DataTemplate>
+                                </dxg:GridColumn.CellTemplate>
+                            </dxg:GridColumn>
+                            <dxg:GridColumn HorizontalHeaderContentAlignment="Center" FieldName="HaveSound" Width="150" Header="{MultiLang:StringResource 5232,DefaultValue=报警提示音}">
+                                <dxg:GridColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox VerticalAlignment="Center" IsChecked="{Binding RowData.Row.HaveSound, Mode=TwoWay}" HorizontalAlignment="Center"
+								Click="CheckSound_Click"/>
+                                    </DataTemplate>
+                                </dxg:GridColumn.CellTemplate>
+                            </dxg:GridColumn>
+                            <dxg:GridColumn FieldName="ModuleTypeName" ReadOnly="True" AllowFocus="False"  Width="150" Header="{MultiLang:StringResource 4407,DefaultValue=模块类型}" Visible="{Binding ModuleInfoVisible}"/>
+                            <dxg:GridColumn FieldName="Code" ReadOnly="True" AllowFocus="False" Width="150" Header="{MultiLang:StringResource 1708,DefaultValue=报警码}"/>
+                            <dxg:GridColumn FieldName="CodeLevel" ReadOnly="True" AllowFocus="False" Width="200"
+                                                DisplayMemberBinding="{Binding CodeLevel, Converter={StaticResource AlarmsLevelColumnConverter}}" Header="{MultiLang:StringResource 1702,DefaultValue=报警级别}"/>
+                            <dxg:GridColumn FieldName="Info" ReadOnly="True" AllowFocus="False" Width="500" Header="{MultiLang:StringResource 1709,DefaultValue=报警内容}"/>
+
+                        </dxg:GridControl.Columns>
+                    </dxg:GridControl>
+                </Grid>
+            </sin:SinTabItem>
+            <sin:SinTabItem Header="{MultiLang:StringResource 6372,DefaultValue=报警启用设置}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="1" Grid.Row="1"    Content="{MultiLang:StringResource 1703,DefaultValue=注意级别}"/>
+                    <CheckBox Grid.Column="3" Grid.Row="1" IsChecked="{Binding WarningLevelVisibleUse,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                            VerticalAlignment="Center" HorizontalAlignment="Left" Content="{MultiLang:StringResource 226,DefaultValue=启用}"/>
+                    <CheckBox Grid.Column="5" Grid.Row="1" IsChecked="{Binding CautionLevelHaveSound,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                            VerticalAlignment="Center" HorizontalAlignment="Left" Content="{MultiLang:StringResource 0,DefaultValue=提示音}"/>
+                    <Label Grid.Column="7" Grid.Row="1"    Content="{MultiLang:StringResource 0,DefaultValue=提示音文件}"/>
+                    <sin:SinTextBox Grid.Column="9" Grid.Row="1" Text="{Binding CautionAlarmSoundPath}" IsEnabled="False"/>
+                    <sin:SinButton Grid.Column="11" Grid.Row="1" Content="..." Width="60"  Command="{Binding GetCautionCommnad}"/>
+
+                    <Label Grid.Column="1" Grid.Row="3"    Content="{MultiLang:StringResource 1704,DefaultValue=加样停止级别}"/>
+                    <CheckBox  Grid.Column="3" Grid.Row="3" IsChecked="{Binding SampleStopLevelVisibleUse,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                            VerticalAlignment="Center" HorizontalAlignment="Left" Content="{MultiLang:StringResource 226,DefaultValue=启用}"/>
+                    <CheckBox  Grid.Column="5" Grid.Row="3" IsChecked="{Binding WarningLevelHaveSound,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                            VerticalAlignment="Center" HorizontalAlignment="Left" Content="{MultiLang:StringResource 0,DefaultValue=提示音}"/>
+                    <Label Grid.Column="7" Grid.Row="3"    Content="{MultiLang:StringResource 0,DefaultValue=提示音文件}"/>
+                    <sin:SinTextBox Grid.Column="9" Grid.Row="3" Text="{Binding WarningAlarmSoundPath}" IsEnabled="False"/>
+                    <sin:SinButton Grid.Column="11" Grid.Row="3" Content="..." Width="60"  Command="{Binding GetWarningCommnad}"/>
+
+                    <Label Grid.Column="1" Grid.Row="5"    Content="{MultiLang:StringResource 4256,DefaultValue=停止级别}"/>
+                    <CheckBox Grid.Column="3" Grid.Row="5" IsChecked="{Binding StopLevelVisibleUse,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                            VerticalAlignment="Center" HorizontalAlignment="Left" Content="{MultiLang:StringResource 226,DefaultValue=启用}"/>
+                    <CheckBox Grid.Column="5" Grid.Row="5" IsChecked="{Binding StopLevelHaveSound,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                            VerticalAlignment="Center" HorizontalAlignment="Left" Content="{MultiLang:StringResource 0,DefaultValue=提示音}"/>
+                    <Label Grid.Column="7" Grid.Row="5"    Content="{MultiLang:StringResource 0,DefaultValue=提示音文件}"/>
+                    <sin:SinTextBox Grid.Column="9" Grid.Row="5" Text="{Binding StopAlarmSoundPath}" IsEnabled="False"/>
+                    <sin:SinButton Grid.Column="11" Grid.Row="5" Content="..." Width="60" Command="{Binding GetStopCommnad}"/>
+
+                </Grid>
+            </sin:SinTabItem>
+        </sin:SinTabControl>
+    </Grid>
+    <sin:SinWindow.BottomPanel>
+        <sin:SinButton Content="{MultiLang:StringResource 60,DefaultValue=保存}" Command="{Binding SaveEnabledCommnad}" Margin="10,0,0,0" Visibility="{Binding SaveVisibility}"/>
+        <sin:SinButton Command="{Binding ResetCommand}" Content="{MultiLang:StringResource 2045,DefaultValue=恢复默认}" Margin="10,0,0,0"/>
+        <sin:SinButton x:Name="btnClose"   Click="btnClose_Click" Content="{MultiLang:StringResource 144,DefaultValue=关闭}" Margin="10,0,0,0"/>
+    </sin:SinWindow.BottomPanel>
+</sin:SinWindow>
