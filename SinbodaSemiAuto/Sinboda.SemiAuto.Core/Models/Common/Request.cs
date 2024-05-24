@@ -143,7 +143,12 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// <summary>
         /// 查询门状态
         /// </summary>
-        GetDoorStatus = 802,
+        GetDoorStatus = 802, 
+        
+        /// <summary>
+        /// 下位机版本
+        /// </summary>
+        GetVersion = 899,
 
         /// <summary>
         /// 电机原点
@@ -271,6 +276,17 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         public ReqGetDoorStatus() : base()
         {
             Act = ActionType.GetDoorStatus;
+        }
+    } 
+    
+    /// <summary>
+    /// 查询下位机版本状态
+    /// </summary>
+    public class ReqGetVersion : Request
+    {
+        public ReqGetVersion() : base()
+        {
+            Act = ActionType.GetVersion;
         }
     }
 

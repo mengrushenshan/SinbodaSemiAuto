@@ -173,6 +173,43 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         }
     }
 
+     /// <summary>
+    /// 获取下位机版本应答
+    /// </summary>
+    public class ResGetVersion : Response
+    {
+        public ResGetVersion() : base()
+        {
+            Act = ActionType.GetVersion;
+        }
+
+        public ResGetVersion(IRequest req) : base(req)
+        {
+        }
+
+        /// <summary>
+        /// 下位机核心版本号
+        /// </summary>
+        [JsonProperty("Core")]
+        public int Core { get; set; }
+
+        /// <summary>
+        /// 下位机RTOS版本号
+        /// </summary>
+        [JsonProperty("RTOS")]
+        public int RTOS { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override IResponse UnPacking(string data)
+        {
+            return data.JsonDeserialize<ResGetVersion>();
+        }
+    }
+
     /// <summary>
     /// x,y电机原点
     /// </summary>
