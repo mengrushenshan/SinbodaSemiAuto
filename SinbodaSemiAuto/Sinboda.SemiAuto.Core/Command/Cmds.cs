@@ -266,6 +266,31 @@ namespace sin_mole_flu_analyzer.Models.Command
             return ExeAsyncInternal(req, res);
         }
     }
+    
+    /// <summary>
+    /// 查询下位机版本
+    /// </summary>
+    public class CmdGetVersion : CmdBase
+    {
+
+        public override bool Execute()
+        {
+            IRequest req = new ReqGetVersion()
+            {
+            };
+            IResponse res = new ResGetVersion(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqGetVersion()
+            {
+            };
+            IResponse res = new ResGetVersion(req);
+            return ExeAsyncInternal(req, res);
+        }
+    }
 
     /// <summary>
     /// Z轴复位指令（到工作原点）
