@@ -87,6 +87,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     if (camName.IsNull())
                     {
                         LogHelper.logSoftWare.Error("No camera found in the system !");
+                        NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "没有找到相机"));
                         return;
                     }
                     camCtrl.Open(camName);

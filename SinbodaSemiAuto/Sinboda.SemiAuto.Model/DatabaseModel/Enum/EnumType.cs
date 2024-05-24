@@ -381,11 +381,11 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     [EnumAnnotate("速率", 0)]
     public enum Rate
     {
-        [EnumAnnotate("快速", 0)]
-        fast = 1,
-
         [EnumAnnotate("慢速", 0)]
-        slow
+        slow,
+
+        [EnumAnnotate("快速", 0)]
+        fast
     }
     #endregion
 

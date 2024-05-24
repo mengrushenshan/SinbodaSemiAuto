@@ -2,6 +2,7 @@
 using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,11 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         /// 步数
         /// </summary>
         public int Steps { get; set; }
+
+        /// <summary>
+        /// 原点位置
+        /// </summary>
+        public int OriginPoint { get; set; }
 
         /// <summary>
         /// 目标位置
