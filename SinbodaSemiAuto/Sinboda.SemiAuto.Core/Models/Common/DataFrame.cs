@@ -70,7 +70,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         public ErrType GetError()
         {
             if (Response.IsNull())
-                return ErrType.None;
+                return ErrType.EC_NoError;
             return Response.GetError();
         }
 

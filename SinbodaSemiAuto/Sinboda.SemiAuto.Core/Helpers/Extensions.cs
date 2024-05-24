@@ -45,8 +45,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
         public static T JsonDeserialize<T>(this string data)
         {
             return JsonConvert.DeserializeObject<T>(data);
-        } 
-        
+        }
+
         /// <summary>
         /// json字符串转应答类
         /// </summary>
@@ -57,19 +57,19 @@ namespace Sinboda.SemiAuto.Core.Helpers
             IResponse resp = null;
             if (data.GetAct() == ActionType.MotorOrigin)
             {
-                resp= data.GetUPData().JsonDeserialize<ResMotorOrigin>();
+                resp = data.GetUPData().JsonDeserialize<ResMotorOrigin>();
             }
             else if (data.GetAct() == ActionType.FanStatus)
             {
-                resp= data.GetUPData().JsonDeserialize<ResFanStatus>();
+                resp = data.GetUPData().JsonDeserialize<ResFanStatus>();
             }
             else if (data.GetAct() == ActionType.DoorStatus)
             {
-                resp= data.GetUPData().JsonDeserialize<ResDoorStatus>();
+                resp = data.GetUPData().JsonDeserialize<ResDoorStatus>();
             }
             return resp;
         }
-            
+
 
         /// <summary>
         /// 检查路径是否存在 不存在则创建

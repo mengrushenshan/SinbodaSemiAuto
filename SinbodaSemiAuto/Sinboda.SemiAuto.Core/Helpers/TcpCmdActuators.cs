@@ -137,7 +137,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                         if (frameRcv.GetCmd() == CmdType.Confirm)
                         {
                             //TODO：确认帧返回错误 无需等待结果帧 具体处理暂缺
-                            if (frameRcv.GetError() != ErrType.None)
+                            if (frameRcv.GetError() != ErrType.EC_NoError)
                             {
                                 kpFrame.Value.UnPacking(frameRcv.GetUPData());
                                 LogHelper.logCommunication.Error($"Confirm frame error, FrameID:[{frameRcv.FrameID()}] cmd:[{frameRcv.GetCmd()}] error:[{frameRcv.GetError()}]");
@@ -155,7 +155,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                             kpFrame.Value.UnPacking(frameRcv.GetUPData());
                             FramesConfirmd.Remove(frameRcv.FrameID());
                             //TODO:结果帧返回错误  具体处理暂缺
-                            if (frameRcv.GetError() != ErrType.None)
+                            if (frameRcv.GetError() != ErrType.EC_NoError)
                             {
                                 LogHelper.logCommunication.Error($"Result frame error , FrameID:[{frameRcv.FrameID()}] cmd:[{frameRcv.GetCmd()}] error:[{frameRcv.GetError()}]");
                             }

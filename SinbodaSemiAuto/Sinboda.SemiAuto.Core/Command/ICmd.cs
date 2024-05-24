@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sinboda.SemiAuto.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,11 @@ namespace Sinboda.SemiAuto.Core.Command
         /// 执行
         /// </summary>
         bool ExecuteAsync();
+
+        /// <summary>
+        /// 获取应答信息
+        /// </summary>
+        /// <returns></returns>
+        IResponse GetResponse();
     }
 }
