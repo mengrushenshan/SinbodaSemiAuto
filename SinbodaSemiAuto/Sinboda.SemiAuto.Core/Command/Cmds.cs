@@ -1,17 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using Sinboda.SemiAuto.Core.Command;
 using Sinboda.SemiAuto.Core.Helpers;
 using Sinboda.SemiAuto.Core.Interfaces;
 using Sinboda.SemiAuto.Core.Models.Common;
 using Sinboda.SemiAuto.Core.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using ximc;
+using Newtonsoft.Json;
 
-namespace Sinboda.SemiAuto.Core.Command
+namespace sin_mole_flu_analyzer.Models.Command
 {
     /// <summary>
     /// 命令
@@ -32,9 +29,11 @@ namespace Sinboda.SemiAuto.Core.Command
                     Thread.Sleep(tSleep);
                     continue;
                 }
-                return frame.GetError() == ErrType.None;
+                response = frame.GetResponse();
+                return frame.GetError() == ErrType.EC_NoError;
             }
             //超时
+            response = frame.GetResponse();
             return false;
         }
 
@@ -135,7 +134,7 @@ namespace Sinboda.SemiAuto.Core.Command
             {
                 ReturnHome = ReturnHome,
             };
-            IResponse res = new Response(req);
+            IResponse res = new ResPlatformReset(req);
             return ExeInternal(req, res);
         }
 
@@ -145,7 +144,150 @@ namespace Sinboda.SemiAuto.Core.Command
             {
                 ReturnHome = ReturnHome,
             };
-            IResponse res = new Response(req);
+            IResponse res = new ResPlatformReset(req);
+            return ExeAsyncInternal(req, res);
+        }
+    }
+
+    /// <summary>
+    /// 平台移动指令
+    /// </summary>
+    public class CmdPlatformMove : CmdBase
+    {
+        /// <summary>
+        /// x坐标
+        /// </summary>
+        public int X { get; set; }
+
+        /// <summary>
+        /// y坐标
+        /// </summary>
+        public int Y { get; set; }
+
+        public override bool Execute()
+        {
+            IRequest req = new ReqMovePos()
+            {
+                X = X,
+                Y = Y,
+            };
+            IResponse res = new ResPlatformReset(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqMovePos()
+            {
+                X = X,
+                Y = Y,
+            };
+            IResponse res = new ResPlatformReset(req);
+            return ExeAsyncInternal(req, res);
+        }
+    }
+
+    /// <summary>
+    /// 平台停止指令
+    /// </summary>
+    public class CmdPlatformStop : CmdBase
+    {
+        public override bool Execute()
+        {
+            IRequest req = new ReqStopMove()
+            {
+            };
+            IResponse res = new ResPlatformReset(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqStopMove()
+            {
+            };
+            IResponse res = new ResPlatformReset(req);
+            return ExeAsyncInternal(req, res);
+        }
+    }
+
+    /// <summary>
+    /// 查询电机状态
+    /// </summary>
+    public class CmdGetMotorStatus : CmdBase
+    {
+        /// <summary>
+        /// 0-1: 电机编号
+        /// </summary>
+        public int Id { get; set; }
+
+        public override bool Execute()
+        {
+            IRequest req = new ReqGetMotorStatus()
+            {
+                Id = Id,
+            };
+            IResponse res = new ResMotorStatus(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqGetMotorStatus()
+            {
+                Id = Id,
+            };
+            IResponse res = new ResMotorStatus(req);
+            return ExeAsyncInternal(req, res);
+        }
+    } 
+    
+    /// <summary>
+    /// 查询仓门状态
+    /// </summary>
+    public class CmdGetDoorStatus : CmdBase
+    {
+
+        public override bool Execute()
+        {
+            IRequest req = new ReqGetDoorStatus()
+            {
+            };
+            IResponse res = new ResDoorStatus(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqGetDoorStatus()
+            {
+            };
+            IResponse res = new ResDoorStatus(req);
+            return ExeAsyncInternal(req, res);
+        }
+    }
+    
+    /// <summary>
+    /// 查询下位机版本
+    /// </summary>
+    public class CmdGetVersion : CmdBase
+    {
+
+        public override bool Execute()
+        {
+            IRequest req = new ReqGetVersion()
+            {
+            };
+            IResponse res = new ResGetVersion(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqGetVersion()
+            {
+            };
+            IResponse res = new ResGetVersion(req);
             return ExeAsyncInternal(req, res);
         }
     }
@@ -184,7 +326,7 @@ namespace Sinboda.SemiAuto.Core.Command
             throw new NotImplementedException();
         }
     }
-    
+
     /// <summary>
     /// Z轴复位指令（到机械原点）
     /// </summary>
@@ -208,6 +350,184 @@ namespace Sinboda.SemiAuto.Core.Command
             if (!XimcHelper.Instance.Cmd_Home(arm))
                 return false;
             return WaitZStop(arm);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Z轴停止指令
+    /// </summary>
+    public class CmdZStop : CmdBase
+    {
+        /// <summary>
+        /// 电机id
+        /// </summary>
+        public XimcArm arm;
+
+        public override bool Execute()
+        {
+            if (arm.IsNull())
+                return false;
+            //指令执行错误或者 未等到结束
+            if (XimcHelper.Instance.Cmd_SlowStop(arm.DeveiceId) != Result.ok)
+                return false;
+            return WaitZStop(arm);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Z轴左移指令
+    /// </summary>
+    public class CmdZLeft : CmdBase
+    {
+        /// <summary>
+        /// 电机id
+        /// </summary>
+        public XimcArm arm;
+
+        /// <summary>
+        /// 是否快速移动
+        /// </summary>
+        public bool fast;
+
+        public override bool Execute()
+        {
+            if (arm.IsNull())
+                return false;
+
+            //指令执行错误或者 未等到结束
+            if (fast)
+            {
+                if (XimcHelper.Instance.Cmd_Left_Fast(arm))
+                    return false;
+            }
+            else
+            {
+                if (XimcHelper.Instance.Cmd_Left_Slow(arm))
+                    return false;
+            }
+            return true;
+        }
+
+        public override bool ExecuteAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// z轴相对移动指令
+    /// </summary>
+    public class Cmd_Move_Relative : CmdBase
+    {
+        /// <summary>
+        /// 电机id
+        /// </summary>
+        public XimcArm arm;
+
+        /// <summary>
+        /// 是否快速移动
+        /// </summary>
+        public bool fast;
+
+        /// <summary>
+        /// 距离
+        /// </summary>
+        public int pos;
+
+        public override bool Execute()
+        {
+            if (arm.IsNull())
+                return false;
+
+            //指令执行错误或者 未等到结束
+            if (XimcHelper.Instance.Cmd_Move_Relative(arm, fast, pos))
+                return false;
+            return WaitZStop(arm);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// z轴相对移动指令 不等停止
+    /// </summary>
+    public class Cmd_Move_Relative_Immediate : CmdBase
+    {
+        /// <summary>
+        /// 电机id
+        /// </summary>
+        public XimcArm arm;
+
+        /// <summary>
+        /// 是否快速移动
+        /// </summary>
+        public bool fast;
+
+        /// <summary>
+        /// 距离
+        /// </summary>
+        public int pos;
+
+        public override bool Execute()
+        {
+            if (arm.IsNull())
+                return false;
+
+            //指令执行错误或者 未等到结束
+            return XimcHelper.Instance.Cmd_Move_Relative(arm, fast, pos);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Z轴右移指令
+    /// </summary>
+    public class CmdZRight : CmdBase
+    {
+        /// <summary>
+        /// 电机id
+        /// </summary>
+        public XimcArm arm;
+
+        /// <summary>
+        /// 是否快速移动
+        /// </summary>
+        public bool fast;
+
+        public override bool Execute()
+        {
+            if (arm.IsNull())
+                return false;
+
+            //指令执行错误或者 未等到结束
+            if (fast)
+            {
+                if (XimcHelper.Instance.Cmd_Right_Fast(arm))
+                    return false;
+            }
+            else
+            {
+                if (XimcHelper.Instance.Cmd_Right_Slow(arm))
+                    return false;
+            }
+            return true;
         }
 
         public override bool ExecuteAsync()
@@ -294,7 +614,7 @@ namespace Sinboda.SemiAuto.Core.Command
         public int Dir { get; set; }
 
         /// <summary>
-        /// 是否使用高速 1:高速 2:慢速
+        /// 是否使用高速 1:高速 0:慢速
         /// </summary>
         public int UseFastSpeed { get; set; }
 
@@ -367,7 +687,7 @@ namespace Sinboda.SemiAuto.Core.Command
     public class CmdMoveAbsolute : CmdBase
     {
         /// <summary>
-        /// 目标位置
+        /// 步数
         /// </summary>
         public int TargetPos { get; set; }
 
@@ -586,3 +906,5 @@ namespace Sinboda.SemiAuto.Core.Command
 
 
 }
+
+

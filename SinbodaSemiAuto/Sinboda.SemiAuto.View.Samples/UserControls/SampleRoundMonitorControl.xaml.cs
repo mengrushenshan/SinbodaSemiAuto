@@ -24,5 +24,23 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
         {
             InitializeComponent();
         }
+
+        public OrderEventHandler orderEventHandler;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SampleControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            orderEventHandler?.Invoke((sender as SampleControl).Tag.ToString());
+        }
     }
+
+    /// <summary>
+    /// 事件
+    /// </summary>
+    /// <param name="Tag"></param>
+    public delegate void OrderEventHandler(string Tag);
 }

@@ -66,6 +66,11 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         MovePos = 103,
 
         /// <summary>
+        /// 平台停止
+        /// </summary>
+        PlatformStop = 104,
+
+        /// <summary>
         /// 电机参数设置
         /// </summary>
         MotorParam = 201,
@@ -131,10 +136,25 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         BuzzerEnable = 502,
 
         /// <summary>
+        /// 查询电机状态
+        /// </summary>
+        GetMotorStatus = 801,
+
+        /// <summary>
+        /// 查询门状态
+        /// </summary>
+        GetDoorStatus = 802, 
+        
+        /// <summary>
+        /// 下位机版本
+        /// </summary>
+        GetVersion = 899,
+
+        /// <summary>
         /// 电机原点
         /// </summary>
         MotorOrigin = 901,
-        
+
         /// <summary>
         /// 电机原点
         /// </summary>
@@ -215,7 +235,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
     }
 
     /// <summary>
-    /// 移动请求
+    /// 平台移动请求
     /// </summary>
     public class ReqMovePos : Request
     {
@@ -235,6 +255,39 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// </summary>
         [JsonProperty("Y")]
         public int Y { get; set; }
+    }
+    
+    /// <summary>
+    /// 平台停止请求
+    /// </summary>
+    public class ReqStopMove : Request
+    {
+        public ReqStopMove() : base()
+        {
+            Act = ActionType.PlatformStop;
+        }
+    }  
+    
+    /// <summary>
+    /// 查询仓门状态
+    /// </summary>
+    public class ReqGetDoorStatus : Request
+    {
+        public ReqGetDoorStatus() : base()
+        {
+            Act = ActionType.GetDoorStatus;
+        }
+    } 
+    
+    /// <summary>
+    /// 查询下位机版本状态
+    /// </summary>
+    public class ReqGetVersion : Request
+    {
+        public ReqGetVersion() : base()
+        {
+            Act = ActionType.GetVersion;
+        }
     }
 
     /// <summary>
@@ -404,7 +457,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         public int State { get; set; }
     }
 
-      /// <summary>
+    /// <summary>
     /// 电机复位请求
     /// </summary>
     public class ReqMotorReset : Request
@@ -425,6 +478,23 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// </summary>
         [JsonProperty("ReturnHome")]
         public int ReturnHome { get; set; }
+    }
+
+    /// <summary>
+    /// 获取电机状态请求
+    /// </summary>
+    public class ReqGetMotorStatus : Request
+    {
+        public ReqGetMotorStatus() : base()
+        {
+            Act = ActionType.GetMotorStatus;
+        }
+
+        /// <summary>
+        /// 电机编号
+        /// </summary>
+        [JsonProperty("ID")]
+        public int Id { get; set; }
     }
 
 
