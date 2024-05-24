@@ -134,6 +134,43 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         {
             return data.JsonDeserialize<ResMove>();
         }
+    } 
+    
+    /// <summary>
+    /// 平台复位应答
+    /// </summary>
+    public class ResPlatformReset : Response
+    {
+        public ResPlatformReset() : base()
+        {
+            Act = ActionType.PlatformReset;
+        }
+
+        public ResPlatformReset(IRequest req) : base(req)
+        {
+        }
+
+        /// <summary>
+        /// X当前坐标
+        /// </summary>
+        [JsonProperty("CurrPosX")]
+        public int CurrPosX { get; set; }
+
+        /// <summary>
+        /// y当前坐标
+        /// </summary>
+        [JsonProperty("CurrPosY")]
+        public int CurrPosY { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override IResponse UnPacking(string data)
+        {
+            return data.JsonDeserialize<ResPlatformReset>();
+        }
     }
 
     /// <summary>
@@ -225,12 +262,6 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         }
 
         /// <summary>
-        /// 0-1: 电机编号
-        /// </summary>
-        [JsonProperty("ID")]
-        public int ID { get; set; }
-
-        /// <summary>
         /// 0:打开 1:关闭
         /// </summary>
         [JsonProperty("DoorClosed")]
@@ -248,7 +279,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
     }
 
     /// <summary>
-    /// 风扇状态
+    /// 电机状态
     /// </summary>
     public class ResMotorStatus : Response
     {

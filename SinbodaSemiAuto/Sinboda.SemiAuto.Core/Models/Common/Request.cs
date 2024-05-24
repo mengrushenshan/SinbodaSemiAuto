@@ -66,6 +66,11 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         MovePos = 103,
 
         /// <summary>
+        /// 平台停止
+        /// </summary>
+        PlatformStop = 104,
+
+        /// <summary>
         /// 电机参数设置
         /// </summary>
         MotorParam = 201,
@@ -225,7 +230,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
     }
 
     /// <summary>
-    /// 移动请求
+    /// 平台移动请求
     /// </summary>
     public class ReqMovePos : Request
     {
@@ -245,6 +250,28 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// </summary>
         [JsonProperty("Y")]
         public int Y { get; set; }
+    }
+    
+    /// <summary>
+    /// 平台停止请求
+    /// </summary>
+    public class ReqStopMove : Request
+    {
+        public ReqStopMove() : base()
+        {
+            Act = ActionType.PlatformStop;
+        }
+    }  
+    
+    /// <summary>
+    /// 查询仓门状态
+    /// </summary>
+    public class ReqGetDoorStatus : Request
+    {
+        public ReqGetDoorStatus() : base()
+        {
+            Act = ActionType.GetDoorStatus;
+        }
     }
 
     /// <summary>
