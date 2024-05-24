@@ -86,7 +86,15 @@ namespace Sinboda.SemiAuto.Core.Command
             return false;
         }
 
+        /// <summary>
+        /// 应答信息
+        /// </summary>
+        private IResponse response;
 
+        public IResponse GetResponse()
+        {
+            return response;
+        }
     }
 
     /// <summary>

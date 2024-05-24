@@ -22,7 +22,7 @@
             <sin:SinTabItem Header="{MultiLang:StringResource 0, DefaultValue=电机}">
                 <sin:SinGrid  Grid.Row="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="2*"/>
@@ -43,6 +43,10 @@
                             </Grid>
                         </sin:SinGroupBox.Header>
                         <sin:SinGrid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -51,8 +55,18 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Command="{Binding PlatformResetCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台机械原点复位}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Button Grid.Column="1" Command="{Binding PlatformResetLogicalCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台工作原点复位}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="0" Grid.Row="0" Command="{Binding PlatformResetCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台机械原点复位}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="1" Grid.Row="0" Command="{Binding PlatformResetLogicalCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台工作原点复位}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="2" Grid.Row="0" Command="{Binding SetCellCommand}" CommandParameter="1" Content="{MultiLang:StringResource 0, DefaultValue=设置点位1}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="3" Grid.Row="0" Command="{Binding SetCellCommand}" CommandParameter="2" Content="{MultiLang:StringResource 0, DefaultValue=设置点位2}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="4" Grid.Row="0" Command="{Binding SetCellCommand}" CommandParameter="3" Content="{MultiLang:StringResource 0, DefaultValue=设置点位3}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="5" Grid.Row="0" Command="{Binding CalCellCommand}" Content="{MultiLang:StringResource 0, DefaultValue=计算所有点}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <StackPanel Grid.Column="0" Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Center">
+                                <sin:SinComboBox  Width="70" Margin="10,0,0,0" ItemsSource="{Binding RackSouce}" SelectedItem="{Binding RackDish}" />
+                                <TextBlock Text="-" Margin="5,20,0,0" />
+                                <sin:SinComboBox  Width="70" Margin="10,0,0,0" ItemsSource="{Binding PosSouce}" SelectedItem="{Binding Position}" />
+                            </StackPanel>
+                            <Button Grid.Column="1" Grid.Row="1" Command="{Binding MoveCellCommand}" Content="{MultiLang:StringResource 0, DefaultValue=移动}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </sin:SinGrid>
                     </sin:SinGroupBox>
                     
@@ -213,13 +227,13 @@
                                 <TextBlock Grid.Column="12" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=位置}" />
                                 <TextBlock Grid.Column="16" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=工作原点}" />
 
-                                <sin:SinComboBox  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{x:Static myStaticResource:EnumTypeResource.DirectionSource}"
+                                <sin:SinComboBox  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{x:Static myStaticResource:EnumTypeResource.RateSource}" Width="150"
                                                   SelectedValue="{Binding MotorList[0].UseFastSpeed}" VerticalContentAlignment="Center" SelectedValuePath="Value" DisplayMemberPath="DisplayValue"/>
-                                <sin:SinTextBox Grid.Column="2" Grid.Row="0" Text="{Binding MotorList[0].UseFastSpeed, UpdateSourceTrigger=PropertyChanged}" />
-                                <sin:SinTextBox Grid.Column="6" Grid.Row="0" Text="{Binding MotorList[0].Dir, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinComboBox  Grid.Column="6" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{x:Static myStaticResource:EnumTypeResource.DirectionSource}" Width="150"
+                                                  SelectedValue="{Binding MotorList[0].Dir}" VerticalContentAlignment="Center" SelectedValuePath="Value" DisplayMemberPath="DisplayValue"/>
                                 <sin:SinTextBox Grid.Column="10" Grid.Row="0" Text="{Binding MotorList[0].Steps, UpdateSourceTrigger=PropertyChanged}" />
-                                <sin:SinTextBox Grid.Column="14" Grid.Row="0" Text="{Binding MotorList[0].TargetPos, UpdateSourceTrigger=PropertyChanged}"/>
-                                <sin:SinTextBox Grid.Column="18" Grid.Row="0" Text="{Binding MotorList[0].OriginPoint, UpdateSourceTrigger=PropertyChanged}"/>
+                                <sin:SinTextBox Grid.Column="14" Grid.Row="0" Text="{Binding PosXaxis, UpdateSourceTrigger=PropertyChanged}"/>
+                                <sin:SinTextBox Grid.Column="18" Grid.Row="0" Text="{Binding OriginYaxis, UpdateSourceTrigger=PropertyChanged}"/>
                                 <!--#endregion-->
                             </sin:SinGrid>
 
@@ -252,10 +266,10 @@
                                 <sin:SinButton Grid.Column="2" Grid.Row="0" Command="{Binding MoveAbsoluteCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=绝对移动}" />
                                 <sin:SinButton Grid.Column="4" Grid.Row="0" Command="{Binding AlwaysCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=一直移动}" />
                                 <sin:SinButton Grid.Column="6" Grid.Row="0" Command="{Binding ResetCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=复位机械原点}" />
-                                <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding StopCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=停止}" />
-                                <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding ResetLogicalCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=复位工作原点}" />
+                                <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding ResetLogicalCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=复位工作原点}" />
+                                <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding StopCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=停止}" />
                                 <sin:SinButton Grid.Column="12" Grid.Row="0" Command="{Binding SetOriginCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=定位原点}"/>
-                                <sin:SinButton Grid.Column="14" Grid.Row="0" Command="{Binding SaveCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=保存}" IsEnabled="False"/>
+                                <sin:SinButton Grid.Column="14" Grid.Row="0" Command="{Binding SaveCommand}" CommandParameter="{Binding MotorList[0]}" Content="{MultiLang:StringResource 0, DefaultValue=保存}"/>
                                 <!--#endregion-->
                             </sin:SinGrid>
                         </sin:SinGrid>
@@ -316,11 +330,13 @@
                                 <TextBlock Grid.Column="12" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=位置}" />
                                 <TextBlock Grid.Column="16" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=工作原点}" />
 
-                                <sin:SinTextBox Grid.Column="2" Grid.Row="0" Text="{Binding MotorList[1].UseFastSpeed, UpdateSourceTrigger=PropertyChanged}" />
-                                <sin:SinTextBox Grid.Column="6" Grid.Row="0" Text="{Binding MotorList[1].Dir, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinComboBox  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{x:Static myStaticResource:EnumTypeResource.RateSource}" Width="150"
+                                                  SelectedValue="{Binding MotorList[1].UseFastSpeed}" VerticalContentAlignment="Center" SelectedValuePath="Value" DisplayMemberPath="DisplayValue"/>
+                                <sin:SinComboBox  Grid.Column="6" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{x:Static myStaticResource:EnumTypeResource.DirectionSource}" Width="150"
+                                                  SelectedValue="{Binding MotorList[1].Dir}" VerticalContentAlignment="Center" SelectedValuePath="Value" DisplayMemberPath="DisplayValue"/>
                                 <sin:SinTextBox Grid.Column="10" Grid.Row="0" Text="{Binding MotorList[1].Steps, UpdateSourceTrigger=PropertyChanged}" />
-                                <sin:SinTextBox Grid.Column="14" Grid.Row="0" Text="{Binding MotorList[1].TargetPos, UpdateSourceTrigger=PropertyChanged}" />
-                                <sin:SinTextBox Grid.Column="18" Grid.Row="0" Text="{Binding MotorList[1].OriginPoint, UpdateSourceTrigger=PropertyChanged}"/>
+                                <sin:SinTextBox Grid.Column="14" Grid.Row="0" Text="{Binding PosYaxis, UpdateSourceTrigger=PropertyChanged}" />
+                                <sin:SinTextBox Grid.Column="18" Grid.Row="0" Text="{Binding OriginYaxis, UpdateSourceTrigger=PropertyChanged}"/>
                                 <!--#endregion-->
                             </sin:SinGrid>
 
@@ -353,10 +369,10 @@
                                 <sin:SinButton Grid.Column="2" Grid.Row="0" Command="{Binding MoveAbsoluteCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=绝对移动}" />
                                 <sin:SinButton Grid.Column="4" Grid.Row="0" Command="{Binding AlwaysCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=一直移动}" />
                                 <sin:SinButton Grid.Column="6" Grid.Row="0" Command="{Binding ResetCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=复位机械原点}" />
-                                <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding StopCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=停止}" />
-                                <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding ResetLogicalCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=复位工作原点}" />
+                                <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding ResetLogicalCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=复位工作原点}" />
+                                <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding StopCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=停止}" />
                                 <sin:SinButton Grid.Column="12" Grid.Row="0" Command="{Binding SetOriginCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=定位原点}" />
-                                <sin:SinButton Grid.Column="14" Grid.Row="0" Command="{Binding SaveCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=保存}" IsEnabled="False" />
+                                <sin:SinButton Grid.Column="14" Grid.Row="0" Command="{Binding SaveCommand}" CommandParameter="{Binding MotorList[1]}" Content="{MultiLang:StringResource 0, DefaultValue=保存}" />
                                 <!--#endregion-->
                             </sin:SinGrid>
                         </sin:SinGrid>
