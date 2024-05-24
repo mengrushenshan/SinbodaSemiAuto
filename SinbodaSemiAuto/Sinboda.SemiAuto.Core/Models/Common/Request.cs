@@ -131,10 +131,20 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         BuzzerEnable = 502,
 
         /// <summary>
+        /// 查询电机状态
+        /// </summary>
+        GetMotorStatus = 801,
+
+        /// <summary>
+        /// 查询门状态
+        /// </summary>
+        GetDoorStatus = 802,
+
+        /// <summary>
         /// 电机原点
         /// </summary>
         MotorOrigin = 901,
-        
+
         /// <summary>
         /// 电机原点
         /// </summary>
@@ -404,7 +414,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         public int State { get; set; }
     }
 
-      /// <summary>
+    /// <summary>
     /// 电机复位请求
     /// </summary>
     public class ReqMotorReset : Request
@@ -425,6 +435,23 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// </summary>
         [JsonProperty("ReturnHome")]
         public int ReturnHome { get; set; }
+    }
+
+    /// <summary>
+    /// 获取电机状态请求
+    /// </summary>
+    public class ReqGetMotorStatus : Request
+    {
+        public ReqGetMotorStatus() : base()
+        {
+            Act = ActionType.GetMotorStatus;
+        }
+
+        /// <summary>
+        /// 电机编号
+        /// </summary>
+        [JsonProperty("ID")]
+        public int Id { get; set; }
     }
 
 

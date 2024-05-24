@@ -172,7 +172,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
             return data.JsonDeserialize<ResMotorOrigin>();
         }
     }
-    
+
     /// <summary>
     /// 风扇状态
     /// </summary>
@@ -208,16 +208,16 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         {
             return data.JsonDeserialize<ResFanStatus>();
         }
-    } 
-    
+    }
+
     /// <summary>
-    /// 风扇状态
+    /// 仓门状态
     /// </summary>
     public class ResDoorStatus : Response
     {
         public ResDoorStatus() : base()
         {
-            Act = ActionType.FanStatus;
+            Act = ActionType.DoorStatus;
         }
 
         public ResDoorStatus(IRequest req) : base(req)
@@ -244,6 +244,55 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         public override IResponse UnPacking(string data)
         {
             return data.JsonDeserialize<ResDoorStatus>();
+        }
+    }
+
+    /// <summary>
+    /// 风扇状态
+    /// </summary>
+    public class ResMotorStatus : Response
+    {
+        public ResMotorStatus() : base()
+        {
+            Act = ActionType.GetMotorStatus;
+        }
+
+        public ResMotorStatus(IRequest req) : base(req)
+        {
+        }
+
+        /// <summary>
+        /// 电机编号
+        /// </summary>
+        [JsonProperty("ID")]
+        public int Id { get; set; }
+
+        /// <summary>
+        ///0:离开 1:进入
+        /// </summary>
+        [JsonProperty("InOrg")]
+        public int InOrg { get; set; }
+
+        /// <summary>
+        ///0:停止 1:运动
+        /// </summary>
+        [JsonProperty("Running")]
+        public int Running { get; set; }
+
+        /// <summary>
+        ///当前位置(编码器)
+        /// </summary>
+        [JsonProperty("CurrPos")]
+        public int CurrPos { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override IResponse UnPacking(string data)
+        {
+            return data.JsonDeserialize<ResMotorStatus>();
         }
     }
 }
