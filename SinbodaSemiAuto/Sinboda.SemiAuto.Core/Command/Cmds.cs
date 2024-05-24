@@ -30,7 +30,7 @@ namespace sin_mole_flu_analyzer.Models.Command
                     continue;
                 }
                 response = frame.GetResponse();
-                return frame.GetError() == ErrType.None;
+                return frame.GetError() == ErrType.EC_NoError;
             }
             //超时
             response = frame.GetResponse();
