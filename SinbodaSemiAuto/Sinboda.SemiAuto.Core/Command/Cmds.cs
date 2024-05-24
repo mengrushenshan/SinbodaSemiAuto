@@ -146,6 +146,37 @@ namespace sin_mole_flu_analyzer.Models.Command
             IResponse res = new Response(req);
             return ExeAsyncInternal(req, res);
         }
+    }  
+    
+    /// <summary>
+    /// 查询电机状态
+    /// </summary>
+    public class CmdGetMotorStatus : CmdBase
+    {
+        /// <summary>
+        /// 0-1: 电机编号
+        /// </summary>
+        public int Id { get; set; }
+
+        public override bool Execute()
+        {
+            IRequest req = new ReqGetMotorStatus()
+            {
+                Id = Id,
+            };
+            IResponse res = new ResMotorStatus(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqGetMotorStatus()
+            {
+                Id = Id,
+            };
+            IResponse res = new ResMotorStatus(req);
+            return ExeAsyncInternal(req, res);
+        }
     }
 
     /// <summary>
