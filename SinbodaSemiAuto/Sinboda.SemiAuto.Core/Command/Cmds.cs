@@ -6,6 +6,7 @@ using Sinboda.SemiAuto.Core.Models;
 using System;
 using System.Threading;
 using ximc;
+using Newtonsoft.Json;
 
 namespace sin_mole_flu_analyzer.Models.Command
 {
@@ -133,7 +134,7 @@ namespace sin_mole_flu_analyzer.Models.Command
             {
                 ReturnHome = ReturnHome,
             };
-            IResponse res = new Response(req);
+            IResponse res = new ResPlatformReset(req);
             return ExeInternal(req, res);
         }
 
@@ -143,11 +144,73 @@ namespace sin_mole_flu_analyzer.Models.Command
             {
                 ReturnHome = ReturnHome,
             };
-            IResponse res = new Response(req);
+            IResponse res = new ResPlatformReset(req);
             return ExeAsyncInternal(req, res);
         }
-    }  
-    
+    }
+
+    /// <summary>
+    /// 平台移动指令
+    /// </summary>
+    public class CmdPlatformMove : CmdBase
+    {
+        /// <summary>
+        /// x坐标
+        /// </summary>
+        public int X { get; set; }
+
+        /// <summary>
+        /// y坐标
+        /// </summary>
+        public int Y { get; set; }
+
+        public override bool Execute()
+        {
+            IRequest req = new ReqMovePos()
+            {
+                X = X,
+                Y = Y,
+            };
+            IResponse res = new ResPlatformReset(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqMovePos()
+            {
+                X = X,
+                Y = Y,
+            };
+            IResponse res = new ResPlatformReset(req);
+            return ExeAsyncInternal(req, res);
+        }
+    }
+
+    /// <summary>
+    /// 平台停止指令
+    /// </summary>
+    public class CmdPlatformStop : CmdBase
+    {
+        public override bool Execute()
+        {
+            IRequest req = new ReqStopMove()
+            {
+            };
+            IResponse res = new ResPlatformReset(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqStopMove()
+            {
+            };
+            IResponse res = new ResPlatformReset(req);
+            return ExeAsyncInternal(req, res);
+        }
+    }
+
     /// <summary>
     /// 查询电机状态
     /// </summary>
@@ -175,6 +238,31 @@ namespace sin_mole_flu_analyzer.Models.Command
                 Id = Id,
             };
             IResponse res = new ResMotorStatus(req);
+            return ExeAsyncInternal(req, res);
+        }
+    } 
+    
+    /// <summary>
+    /// 查询仓门状态
+    /// </summary>
+    public class CmdGetDoorStatus : CmdBase
+    {
+
+        public override bool Execute()
+        {
+            IRequest req = new ReqGetDoorStatus()
+            {
+            };
+            IResponse res = new ResDoorStatus(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqGetDoorStatus()
+            {
+            };
+            IResponse res = new ResDoorStatus(req);
             return ExeAsyncInternal(req, res);
         }
     }
