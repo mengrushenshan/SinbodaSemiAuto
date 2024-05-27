@@ -67,10 +67,21 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Assistance\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\Assistance\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\Assistance\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assistance\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -81,6 +92,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CellBusiness.cs" />
     <Compile Include="ItemBusiness.cs" />
     <Compile Include="MotorBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,6 +105,10 @@
     <ProjectReference Include="..\Sinboda.Framework.Core\Sinboda.Framework.Core.csproj">
       <Project>{50E1C93D-C3F9-45BA-953D-1CD3999481A4}</Project>
       <Name>Sinboda.Framework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sinboda.SemiAuto.Core\Sinboda.SemiAuto.Core.csproj">
+      <Project>{FB80F0D5-02FE-4A86-8FAA-072E1ED1B373}</Project>
+      <Name>Sinboda.SemiAuto.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sinboda.SemiAuto.Model\Sinboda.SemiAuto.Model.csproj">
       <Project>{ef61fe73-1897-4103-97f6-e01df667b31d}</Project>

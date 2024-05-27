@@ -88,6 +88,7 @@
       <HintPath>..\Assistance\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -100,16 +101,19 @@
     <Compile Include="DatabaseModel\Enum\EnumType.cs" />
     <Compile Include="DatabaseModel\Enum\EnumTypeResource.cs" />
     <Compile Include="DatabaseModel\RegexLC\RegexLCClass.cs" />
+    <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_CellMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_ItemsMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_MotorMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_PatientMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_SampleMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_Test_ResultMap.cs" />
+    <Compile Include="DatabaseModel\SemiAuto\Sin_Cell.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Item.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Motor.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Patient.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Sample.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Test_Result.cs" />
+    <Compile Include="DataOperation\SemiAuto\Sin_Cell_DataOperation.cs" />
     <Compile Include="DataOperation\SemiAuto\Sin_Item_DataOperation.cs" />
     <Compile Include="DataOperation\SemiAuto\Sin_Motor_DataOperation.cs" />
     <Compile Include="DataOperation\SemiAuto\Sin_Patient_DataOperation.cs" />

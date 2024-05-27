@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Config>
   <MotorArmsData>
-    <XimcArm CtrlName="Left_Z" Description="左_上下移动"  />
+    <XimcArm CtrlName="Left_Z" Description="左_上下移动" Originption="0"  />
   </MotorArmsData>
   <ExposureTime>30</ExposureTime>
   <FrameNum>1</FrameNum>

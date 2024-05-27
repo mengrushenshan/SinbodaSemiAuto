@@ -735,7 +735,8 @@ namespace sin_mole_flu_analyzer.Models.Command
             {
                 Id = Id
             };
-            IResponse res = new Response(req);
+
+            IResponse res = new ResMove(req);
             return ExeInternal(req, res);
         }
 
@@ -843,7 +844,7 @@ namespace sin_mole_flu_analyzer.Models.Command
                 Id = Id,
                 ReturnHome = ReturnHome
             };
-            IResponse res = new Response(req);
+            IResponse res = new ResMove(req);
             return ExeInternal(req, res);
         }
 
@@ -854,7 +855,7 @@ namespace sin_mole_flu_analyzer.Models.Command
                 Id = Id,
                 ReturnHome = ReturnHome
             };
-            IResponse res = new Response(req);
+            IResponse res = new ResMove(req);
             return ExeAsyncInternal(req, res);
         }
     }
