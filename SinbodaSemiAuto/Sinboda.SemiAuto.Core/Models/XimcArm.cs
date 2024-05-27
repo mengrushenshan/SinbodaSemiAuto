@@ -36,6 +36,13 @@ namespace Sinboda.SemiAuto.Core.Models
         public string Description { get; set; }
 
         /// <summary>
+        /// 描述信息
+        /// </summary>
+        [XmlAttribute("Originption")]
+        public int Originption { get; set; }
+
+
+        /// <summary>
         /// 机械臂id
         /// </summary>
         [XmlIgnore]

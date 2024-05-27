@@ -632,6 +632,7 @@ namespace Sinboda.SemiAuto.Model
                     Dir = Direction.Forward,
                     UseFastSpeed = Rate.fast,
                     Steps = 1000,
+                    OriginPoint = 0,
                     TargetPos = 0
                 }) ;
 
@@ -642,6 +643,7 @@ namespace Sinboda.SemiAuto.Model
                     Dir = Direction.Forward,
                     UseFastSpeed = Rate.fast,
                     Steps = 1000,
+                    OriginPoint = 0,
                     TargetPos = 0
                 });
 
