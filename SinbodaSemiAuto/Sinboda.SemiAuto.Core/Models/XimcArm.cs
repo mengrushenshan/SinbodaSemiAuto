@@ -61,12 +61,6 @@ namespace Sinboda.SemiAuto.Core.Models
         public uint Accel { get; set; }
 
         /// <summary>
-        /// 加速度 steps/s^2
-        /// </summary>
-        [XmlIgnore]
-        public int Postion { get; set; }
-
-        /// <summary>
         /// 减速度 steps/s^2
         /// </summary>
         [XmlIgnore]

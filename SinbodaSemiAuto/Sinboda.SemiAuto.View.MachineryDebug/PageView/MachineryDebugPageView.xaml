@@ -133,12 +133,14 @@
                                 <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=电机速度}" />
                                 <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=加速度}" />
                                 <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=位置}" />
+                                <TextBlock Grid.Column="12" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=步数}" />
                                 <!--<TextBlock Grid.Column="12" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=原点状态}" />-->
 
 
                                 <sin:SinTextBox Grid.Column="2" Grid.Row="0" Text="{Binding ZaxisMotor.Speed, UpdateSourceTrigger=PropertyChanged}" />
                                 <sin:SinTextBox Grid.Column="6" Grid.Row="0" Text="{Binding ZaxisMotor.Accel, UpdateSourceTrigger=PropertyChanged}" />
-                                <sin:SinTextBox Grid.Column="10" Grid.Row="0" Text="{Binding ZaxisMotor.Postion, UpdateSourceTrigger=PropertyChanged}"/>
+                                <sin:SinTextBox Grid.Column="10" Grid.Row="0" Text="{Binding PosZaxis, UpdateSourceTrigger=PropertyChanged}"/>
+                                <sin:SinTextBox Grid.Column="14" Grid.Row="0" Text="{Binding StepZaxis, UpdateSourceTrigger=PropertyChanged}" />
                                 <!--#endregion-->
                             </sin:SinGrid>
                            
@@ -173,11 +175,12 @@
                                 <sin:SinButton Grid.Column="2" Grid.Row="0" Command="{Binding XimcFastMoveCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=快速移动}" />
                                 <sin:SinButton Grid.Column="4" Grid.Row="0" Command="{Binding XimcRightAlwaysCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=一直右移}" />
                                 <sin:SinButton Grid.Column="6" Grid.Row="0" Command="{Binding XimcLeftAlwaysCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=一直左移}" />
-                                <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding XimcWorkResetCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=工作原点复位}" />
-                                <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding XimcResetCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=机械原点复位}" />
-                                <sin:SinButton Grid.Column="12" Grid.Row="0" Command="{Binding XimcStopCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=停止}" />
-                                <sin:SinButton Grid.Column="14" Grid.Row="0" Command="{Binding XimcSetOriginCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=定位原点}" />
-                                <sin:SinButton Grid.Column="0" Grid.Row="2" Command="{Binding XimcSaveCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=保存}" />
+                                <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding XimcMoveRelativeCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=相对移动}" />
+                                <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding XimcWorkResetCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=工作原点复位}" />
+                                <sin:SinButton Grid.Column="12" Grid.Row="0" Command="{Binding XimcResetCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=机械原点复位}" />
+                                <sin:SinButton Grid.Column="14" Grid.Row="0" Command="{Binding XimcStopCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=停止}" />
+                                <sin:SinButton Grid.Column="0" Grid.Row="2" Command="{Binding XimcSetOriginCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=定位原点}" />
+                                <sin:SinButton Grid.Column="2" Grid.Row="2" Command="{Binding XimcSaveCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=保存}" />
                                 <!--#endregion-->
                             </sin:SinGrid>
                         </sin:SinGrid>
