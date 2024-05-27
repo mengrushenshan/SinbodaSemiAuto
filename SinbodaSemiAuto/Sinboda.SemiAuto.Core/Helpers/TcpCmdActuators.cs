@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace Sinboda.SemiAuto.Core.Helpers
@@ -313,6 +314,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
             lock (_lockObj)
             {
                 //发送
+                LogHelper.logCommunication.Info($"Send Frame :[{frame.GetInData()}]");
                 bool res = commDriver.Write(frame.Packing());
                 if (res)
                 {
@@ -342,6 +344,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 //数据为空 返回空帧
                 if (strDataFrame.IsNullOrWhiteSpace())
                     return null;
+                LogHelper.logCommunication.Info($"Receive Frame :[{strDataFrame}]");
 
                 //使用基类去解析
                 IDataFrame dataFrame = new DataFrame()
