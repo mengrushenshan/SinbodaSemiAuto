@@ -922,12 +922,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         /// <summary>
-        /// 机械复位指令
+        /// 工作原点复位指令
         /// </summary>
         /// <param name="obj"></param>
         private void XimcWorkHome(XimcArm obj)
         {
-            CmdZResetLogical cmdZReset = new CmdZResetLogical() { arm = obj };
+            CmdZResetLogical cmdZReset = new CmdZResetLogical() { arm = obj, pos = obj.Originption };
 
             if (!cmdZReset.Execute())
             {

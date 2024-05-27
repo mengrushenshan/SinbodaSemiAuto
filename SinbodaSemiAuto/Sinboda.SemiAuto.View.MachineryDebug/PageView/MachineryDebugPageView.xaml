@@ -133,7 +133,7 @@
                                 <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=电机速度}" />
                                 <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=加速度}" />
                                 <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=位置}" />
-                                <TextBlock Grid.Column="12" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=原点状态}" />
+                                <!--<TextBlock Grid.Column="12" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=原点状态}" />-->
 
 
                                 <sin:SinTextBox Grid.Column="2" Grid.Row="0" Text="{Binding ZaxisMotor.Speed, UpdateSourceTrigger=PropertyChanged}" />
@@ -245,7 +245,7 @@
                                                   SelectedValue="{Binding MotorList[0].Dir}" VerticalContentAlignment="Center" SelectedValuePath="Value" DisplayMemberPath="DisplayValue"/>
                                 <sin:SinTextBox Grid.Column="10" Grid.Row="0" Text="{Binding MotorList[0].Steps, UpdateSourceTrigger=PropertyChanged}" />
                                 <sin:SinTextBox Grid.Column="14" Grid.Row="0" Text="{Binding PosXaxis, UpdateSourceTrigger=PropertyChanged}"/>
-                                <sin:SinTextBox Grid.Column="18" Grid.Row="0" Text="{Binding OriginYaxis, UpdateSourceTrigger=PropertyChanged}"/>
+                                <sin:SinTextBox Grid.Column="18" Grid.Row="0" Text="{Binding OriginXaxis, UpdateSourceTrigger=PropertyChanged}"/>
                                 <!--#endregion-->
                             </sin:SinGrid>
 
