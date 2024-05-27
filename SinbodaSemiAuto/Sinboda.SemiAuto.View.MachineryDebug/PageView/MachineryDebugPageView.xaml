@@ -57,16 +57,28 @@
                             </Grid.ColumnDefinitions>
                             <Button Grid.Column="0" Grid.Row="0" Command="{Binding PlatformResetCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台机械原点复位}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             <Button Grid.Column="1" Grid.Row="0" Command="{Binding PlatformResetLogicalCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台工作原点复位}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Button Grid.Column="2" Grid.Row="0" Command="{Binding SetCellCommand}" CommandParameter="1" Content="{MultiLang:StringResource 0, DefaultValue=设置点位1}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Button Grid.Column="3" Grid.Row="0" Command="{Binding SetCellCommand}" CommandParameter="2" Content="{MultiLang:StringResource 0, DefaultValue=设置点位2}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Button Grid.Column="4" Grid.Row="0" Command="{Binding SetCellCommand}" CommandParameter="3" Content="{MultiLang:StringResource 0, DefaultValue=设置点位3}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Button Grid.Column="5" Grid.Row="0" Command="{Binding CalCellCommand}" Content="{MultiLang:StringResource 0, DefaultValue=计算所有点}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <StackPanel Grid.Column="2" Grid.Row="0"  Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="X:" Margin="5,20,0,0"/>
+                                <sin:SinTextBox Width="150" Text="{Binding PosXaxis, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,0" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="3" Grid.Row="0"  Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="Y:" Margin="5,20,0,0"/>
+                                <sin:SinTextBox Width="150" Text="{Binding PosYaxis, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,0" />
+                            </StackPanel>
+                            
+                            <Button Grid.Column="4" Grid.Row="0" Command="{Binding PlatformMoveCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台移动}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="5" Grid.Row="0" Command="{Binding PlatformStopCommand}" Content="{MultiLang:StringResource 0, DefaultValue=平台停止}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            
                             <StackPanel Grid.Column="0" Grid.Row="1"  Orientation="Horizontal" HorizontalAlignment="Center">
                                 <sin:SinComboBox  Width="70" Margin="10,0,0,0" ItemsSource="{Binding RackSouce}" SelectedItem="{Binding RackDish}" />
                                 <TextBlock Text="-" Margin="5,20,0,0" />
                                 <sin:SinComboBox  Width="70" Margin="10,0,0,0" ItemsSource="{Binding PosSouce}" SelectedItem="{Binding Position}" />
                             </StackPanel>
                             <Button Grid.Column="1" Grid.Row="1" Command="{Binding MoveCellCommand}" Content="{MultiLang:StringResource 0, DefaultValue=移动}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="2" Grid.Row="1" Command="{Binding SetCellCommand}" CommandParameter="1" Content="{MultiLang:StringResource 0, DefaultValue=设置点位1}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="3" Grid.Row="1" Command="{Binding SetCellCommand}" CommandParameter="2" Content="{MultiLang:StringResource 0, DefaultValue=设置点位2}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="4" Grid.Row="1" Command="{Binding SetCellCommand}" CommandParameter="3" Content="{MultiLang:StringResource 0, DefaultValue=设置点位3}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Grid.Column="5" Grid.Row="1" Command="{Binding CalCellCommand}" Content="{MultiLang:StringResource 0, DefaultValue=计算所有点}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </sin:SinGrid>
                     </sin:SinGroupBox>
                     
