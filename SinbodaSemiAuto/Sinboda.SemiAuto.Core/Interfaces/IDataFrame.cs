@@ -34,6 +34,12 @@ namespace Sinboda.SemiAuto.Core.Interfaces
         string GetUPData(); 
         
         /// <summary>
+        /// 获取发送数据
+        /// </summary>
+        /// <returns></returns>
+        string GetInData(); 
+        
+        /// <summary>
         /// 获取发送时间
         /// </summary>
         /// <returns></returns>

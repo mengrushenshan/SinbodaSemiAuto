@@ -97,6 +97,11 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         {
             return Response;
         }
+
+        public string GetInData()
+        {
+           return InFrame;
+        }
     }
 
     public class DataFrame : DataFrameBase
