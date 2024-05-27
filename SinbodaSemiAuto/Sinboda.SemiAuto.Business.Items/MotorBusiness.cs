@@ -18,7 +18,7 @@ namespace Sinboda.SemiAuto.Business.Items
         /// <returns>电机列表</returns>
         public List<Sin_Motor> GetMotorList()
         {
-            List<Sin_Motor> motorList = Sin_Motor_DataOperation.Instance.Query(o => true);
+            List<Sin_Motor> motorList = Sin_Motor_DataOperation.Instance.Query(o => true).OrderBy(p => p.MotorId).ToList();
             if (motorList == null || motorList.Count == 0)
             {
                 return null;
