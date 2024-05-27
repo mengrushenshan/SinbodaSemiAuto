@@ -15,7 +15,7 @@ namespace Sinboda.SemiAuto.Core.Models
         /// <summary>
         /// ximc电机最大有效行程
         /// </summary>
-        public static int MaxXimcDistance = 20000;
+        public static int MaxXimcDistance = 30000;
 
         /// <summary>
         /// ximc电机最小有效行程

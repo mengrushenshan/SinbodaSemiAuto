@@ -519,7 +519,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 State = obj.State ? 1 : 0
             };
 
-            if (cmdFanEnable.Execute())
+            if (!cmdFanEnable.Execute())
             {
                 obj.State = !obj.State;
                 LogHelper.logSoftWare.Error("FanEnable failed");

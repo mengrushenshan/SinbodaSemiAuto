@@ -450,7 +450,7 @@ namespace sin_mole_flu_analyzer.Models.Command
                 return false;
 
             //指令执行错误或者 未等到结束
-            if (XimcHelper.Instance.Cmd_Move_Relative(arm, fast, pos))
+            if (!XimcHelper.Instance.Cmd_Move_Relative(arm, fast, pos))
                 return false;
             return WaitZStop(arm);
         }
