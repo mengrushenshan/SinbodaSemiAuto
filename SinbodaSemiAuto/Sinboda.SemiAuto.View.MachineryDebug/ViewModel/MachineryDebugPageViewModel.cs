@@ -806,7 +806,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj">电机</param>
         private void StopMotor(Sin_Motor obj)
         {
-            ResMotorStatus motorStatus = GetMotorStatus((int)MotorList[0].MotorId);
+            ResMotorStatus motorStatus = GetMotorStatus((int)obj.MotorId);
             CmdMoveStop cmdMoveStop = new CmdMoveStop() { Id = (int)obj.MotorId };
 
             if (motorStatus == null || motorStatus.Running == (int)Motion.stop)
@@ -878,12 +878,18 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         private void MoveCon(int id, int dir, int useFastSpeed)
         {
+            ResMotorStatus motorStatus = GetMotorStatus(id);
             CmdMoveCon cmdMoveCon = new CmdMoveCon()
             {
                 Id = id,
                 Dir = dir,
                 UseFastSpeed = useFastSpeed
             };
+
+            if (motorStatus == null || motorStatus.Running == (int)Motion.run)
+            {
+                return;
+            }
 
             if (!cmdMoveCon.Execute())
             {
@@ -1163,12 +1169,19 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="nStep"></param>
         private void MoveRelativePos(XimcArm obj, bool isFast, int nStep)
         {
+            status_t status_T = new status_t();
+            ximcController.Get_Status(ZaxisMotor.DeveiceId, out status_T);
             Cmd_Move_Relative cmd_Move_Relative = new Cmd_Move_Relative()
             {
                 arm = obj,
                 fast = isFast,
                 pos = nStep
             };
+
+            if (status_T.CurSpeed != 0)
+            {
+                return;
+            }
 
             if (cmd_Move_Relative.Execute())
             {
