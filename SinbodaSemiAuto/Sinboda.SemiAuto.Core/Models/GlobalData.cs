@@ -133,9 +133,8 @@ namespace Sinboda.SemiAuto.Core.Models
         //消息通知的令牌
         public const string TokenCamera = "Camera";
         public const string TokenAlarmData = "AlarmData";
-        //¼üÊóÊÂ¼þ
-        public const string WinMouseWheelEvent = "MouseWheelEvent";
-        public const string WinKeyBoardEvent = "KeyBoardEvent";
+
+
         public const string WinMouseDown = "MouseDown";
         public const string WinMouseMove = "MouseMove";
         public const string WinMouseUp = "MouseUp";
