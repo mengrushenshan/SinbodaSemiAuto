@@ -8,9 +8,6 @@
              xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
              xmlns:myStaticResource="clr-namespace:Sinboda.SemiAuto.Model.DatabaseModel.Resource;assembly=Sinboda.SemiAuto.Model"
              mc:Ignorable="d" 
-             MouseWheel="UserControl_MouseWheel"
-             KeyDown="UserControl_KeyDown"
-             KeyUp="UserControl_KeyUp"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -173,8 +170,8 @@
                                 <!--#region 第一个电机-->
                                 <sin:SinButton Grid.Column="0" Grid.Row="0" Command="{Binding XimcSlowMoveCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=慢速移动}" />
                                 <sin:SinButton Grid.Column="2" Grid.Row="0" Command="{Binding XimcFastMoveCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=快速移动}" />
-                                <sin:SinButton Grid.Column="4" Grid.Row="0" Command="{Binding XimcRightAlwaysCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=一直右移}" />
-                                <sin:SinButton Grid.Column="6" Grid.Row="0" Command="{Binding XimcLeftAlwaysCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=一直左移}" />
+                                <sin:SinButton Grid.Column="4" Grid.Row="0" Command="{Binding XimcRightAlwaysCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=一直向上}" />
+                                <sin:SinButton Grid.Column="6" Grid.Row="0" Command="{Binding XimcLeftAlwaysCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=一直向下}" />
                                 <sin:SinButton Grid.Column="8" Grid.Row="0" Command="{Binding XimcMoveRelativeCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=相对移动}" />
                                 <sin:SinButton Grid.Column="10" Grid.Row="0" Command="{Binding XimcWorkResetCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=工作原点复位}" />
                                 <sin:SinButton Grid.Column="12" Grid.Row="0" Command="{Binding XimcResetCommand}" CommandParameter="{Binding ZaxisMotor}" Content="{MultiLang:StringResource 0, DefaultValue=机械原点复位}" />
@@ -495,7 +492,7 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=蜂鸣器}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                            <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=激光器}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
                             </StackPanel>
                         </Grid>
@@ -524,7 +521,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!--#region 蜂鸣器-->
-                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=蜂鸣器}" />
+                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=激光器}" />
                         <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=频率}" />
                         <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=占空比}" />
 
@@ -547,7 +544,7 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=激光器}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                            <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=蜂鸣器}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
                             </StackPanel>
                         </Grid>
@@ -575,7 +572,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!--#region 激光器-->
-                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=激光器}" />
+                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=蜂鸣器}" />
                         <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=频率}" />
                         <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=占空比}" />
 
@@ -610,7 +607,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Image Grid.Row="0" Width="600" Height="600" Stretch="Fill" Source="{Binding CameraSouce}" />
+                <Image Grid.Row="0" Width="512" Height="512" Stretch="Fill" Source="{Binding CameraSouce}" />
                 
                 <sin:SinGrid Grid.Row="2">
                     <Grid.RowDefinitions>

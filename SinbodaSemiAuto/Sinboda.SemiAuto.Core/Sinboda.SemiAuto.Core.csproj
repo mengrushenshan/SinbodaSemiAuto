@@ -180,6 +180,7 @@
     <Compile Include="Models\FanData.cs" />
     <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\MotorData.cs" />
+    <Compile Include="Models\MouseKeyboardEvent.cs" />
     <Compile Include="Models\XimcArm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pvcam\PvcamController.cs" />

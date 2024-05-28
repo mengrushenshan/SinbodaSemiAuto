@@ -10,5 +10,9 @@ namespace Sinboda.SemiAuto.Core.Resources
     {
         //图像接收通知
         public static string TokenCamera = "Camera";
+
+        //鼠标键盘通知
+        public const string WinMouseWheelEvent = "MouseWheelEvent";
+        public const string WinKeyBoardEvent = "KeyBoardEvent";
     }
 }
