@@ -1356,9 +1356,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     if (msg.IsKeyDown)
                     {
                         if (MouseKeyBoardHelper.IsAltDown())
-                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Forward, (int)Rate.slow);
+                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Backward, (int)Rate.slow);
                         else
-                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Forward, (int)Rate.fast);
+                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Backward, (int)Rate.fast);
                     }
                     else
                     {
@@ -1372,9 +1372,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     if (msg.IsKeyDown)
                     {
                         if (MouseKeyBoardHelper.IsAltDown())
-                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Backward, (int)Rate.slow);
+                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Forward, (int)Rate.slow);
                         else
-                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Backward, (int)Rate.fast);
+                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Forward, (int)Rate.fast);
                     }
                     else
                     {
