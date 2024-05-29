@@ -368,11 +368,11 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     [EnumAnnotate("方向", 0)]
     public enum Direction
     {
-        [EnumAnnotate("正向", 0)]
-        Forward = 1,
-
         [EnumAnnotate("反向", 0)]
-        Backward
+        Backward,
+
+        [EnumAnnotate("正向", 0)]
+        Forward
     }
 
     /// <summary>
@@ -386,6 +386,19 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
 
         [EnumAnnotate("快速", 0)]
         fast
+    }
+
+    /// <summary>
+    /// 速率
+    /// </summary>
+    [EnumAnnotate("移动", 0)]
+    public enum Motion
+    {
+        [EnumAnnotate("停止", 0)]
+        stop,
+
+        [EnumAnnotate("运动", 0)]
+        run
     }
     #endregion
 
