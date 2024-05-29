@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace sin_mole_flu_analyzer.Models
+namespace Sinboda.SemiAuto.Core.Models
 {
     public class MouseEvent
     {
         /// <summary>
         /// 是否鼠标按下
         /// </summary>
-        public bool IsMouseDown {  get; set; }
+        public bool IsMouseDown { get; set; }
 
         /// <summary>
         /// 鼠标位置
@@ -23,19 +23,19 @@ namespace sin_mole_flu_analyzer.Models
         /// <summary>
         /// 控件宽度
         /// </summary>
-        public double ElementWidth {  get; set; }   
-        
+        public double ElementWidth { get; set; }
+
         /// <summary>
         /// 控件高度
         /// </summary>
-        public double ElementHeight {  get; set; }
+        public double ElementHeight { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="down"></param>
         /// <param name="p"></param>
-        public MouseEvent(bool down,Point p,double width, double height) 
+        public MouseEvent(bool down, Point p, double width, double height)
         {
             IsMouseDown = down;
             PointNow = p;
@@ -66,8 +66,8 @@ namespace sin_mole_flu_analyzer.Models
             IsKeyDown = down;
             KeyCode = p;
         }
-    }  
-    
+    }
+
     public class MouseWheelEvent
     {
         /// <summary>

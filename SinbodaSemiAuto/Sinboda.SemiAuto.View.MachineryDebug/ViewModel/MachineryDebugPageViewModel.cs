@@ -25,6 +25,8 @@ using Sinboda.SemiAuto.Business.Items;
 using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
 using sin_mole_flu_analyzer.Models.Command;
 using Sinboda.SemiAuto.Core.Models.Common;
+using System.Threading;
+using System.Windows.Documents;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -33,6 +35,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         private XimcHelper ximcController;
         private bool isOpenCamera = false;
         private bool isCameraInitEnable() => !PVCamHelper.Instance.GetInitFlag();
+
+        /// <summary>
+        /// 线程锁
+        /// </summary>
+        private readonly static object objLock = new object();
+
         #region 数据
 
         /// <summary>
@@ -529,6 +537,28 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             ChangeFanButtonText(obj);
         }
 
+        /// <summary>
+        /// 风扇开关文言调整
+        /// </summary>
+        private void ChangeFanButtonText(FanData obj)
+        {
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                string tempFanText = obj.State ? SystemResources.Instance.GetLanguage(0, "关闭风扇") : SystemResources.Instance.GetLanguage(0, "打开风扇");
+                switch (obj.Id)
+                {
+                    case 0:
+                        Fan1ButtonText = tempFanText;
+                        break;
+                    case 1:
+                        Fan2ButtonText = tempFanText;
+                        break;
+                    case 2:
+                        Fan3ButtonText = tempFanText;
+                        break;
+                }
+            });
+        }
         #endregion
 
         #region 平台
@@ -551,6 +581,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             PlatformResetMotor(1);
         }
 
+        /// <summary>
+        /// 平台复位
+        /// </summary>
+        /// <param name="isReturnHome"></param>
         private void PlatformResetMotor(int isReturnHome)
         {
             CmdPlatformReset cmdPlatformReset = new CmdPlatformReset()
@@ -615,6 +649,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
         }
 
+        /// <summary>
+        /// 设置点位
+        /// </summary>
+        /// <param name="strIndex"></param>
         private void SetCell(string strIndex)
         {
             int index = 0;
@@ -646,6 +684,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
         }
 
+        /// <summary>
+        /// 计算点位
+        /// </summary>
         private void CalCell()
         {
             if (!CellBusiness.Instance.SetCellDic())
@@ -658,6 +699,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
         }
 
+        /// <summary>
+        /// 移动到指定点位
+        /// </summary>
         private void MoveCell()
         {
             string strPos = RackDish + "-" + Position;
@@ -697,6 +741,15 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             XimcMoveFast(ZaxisMotor);
         }
 
+        /// <summary>
+        /// 电机全部停止
+        /// </summary>
+        private void StopAllMotor()
+        {
+            StopMotor(MotorList[0]);
+            StopMotor(MotorList[1]);
+            XimcStop(ZaxisMotor);
+        }
         #endregion
 
         #region 电机
@@ -753,7 +806,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj">电机</param>
         private void StopMotor(Sin_Motor obj)
         {
+            ResMotorStatus motorStatus = GetMotorStatus((int)obj.MotorId);
             CmdMoveStop cmdMoveStop = new CmdMoveStop() { Id = (int)obj.MotorId };
+
+            if (motorStatus == null || motorStatus.Running == (int)Motion.stop)
+            {
+                return;
+            }
 
             if (!cmdMoveStop.Execute())
             {
@@ -814,12 +873,23 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj">电机</param>
         private void AlawysMove(Sin_Motor obj)
         {
-            CmdMoveCon cmdMoveCon = new CmdMoveCon() 
-            { 
-                Id = (int)obj.MotorId,
-                Dir = (int)obj.Dir,
-                UseFastSpeed = (int)obj.UseFastSpeed
+            MoveCon((int)obj.MotorId, (int)obj.Dir, (int)obj.UseFastSpeed);
+        }
+
+        private void MoveCon(int id, int dir, int useFastSpeed)
+        {
+            ResMotorStatus motorStatus = GetMotorStatus(id);
+            CmdMoveCon cmdMoveCon = new CmdMoveCon()
+            {
+                Id = id,
+                Dir = dir,
+                UseFastSpeed = useFastSpeed
             };
+
+            if (motorStatus == null || motorStatus.Running == (int)Motion.run)
+            {
+                return;
+            }
 
             if (!cmdMoveCon.Execute())
             {
@@ -827,7 +897,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机持续移动失败"));
             }
         }
-
         /// <summary>
         /// 电机相对移动
         /// </summary>
@@ -905,6 +974,32 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     break;
             }
         }
+
+        /// <summary>
+        /// 获取电机状态
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+        private ResMotorStatus GetMotorStatus(int motorId)
+        {
+            CmdGetMotorStatus cmdGetMotorStatus = new CmdGetMotorStatus() { Id = motorId };
+
+            if (cmdGetMotorStatus.Execute())
+            {
+                ResMotorStatus resMotorStatus = cmdGetMotorStatus.GetResponse() as ResMotorStatus;
+
+                if (resMotorStatus != null)
+                {
+                    return resMotorStatus;
+                }
+            }
+            else
+            {
+                LogHelper.logSoftWare.Error("GetMotorStatus failed");
+                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机状态获取失败"));
+            }
+            return null;
+        }
         #endregion
 
         #region ximc
@@ -973,7 +1068,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         /// <summary>
-        /// 移动指令
+        /// 慢速移动指令
         /// </summary>
         /// <param name="obj"></param>
         private void XimcMoveSlow(XimcArm obj)
@@ -996,7 +1091,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         /// <summary>
-        /// 移动指令
+        /// 快速移动指令
         /// </summary>
         /// <param name="obj"></param>
         private void XimcMoveFast(XimcArm obj)
@@ -1025,6 +1120,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <exception cref="NotImplementedException"></exception>
         private void XimcStop(XimcArm obj)
         {
+            status_t status_T = new status_t();
+
+            ximcController.Get_Status(ZaxisMotor.DeveiceId, out status_T);
+            if (status_T.CurSpeed == 0)
+            {
+                return;
+            }
 
             ximcController.Cmd_SlowStop(obj.DeveiceId);
 
@@ -1050,14 +1152,36 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             ximcController.Cmd_Right(obj.DeveiceId);
         }
 
+        /// <summary>
+        /// 相对移动指令
+        /// </summary>
+        /// <param name="obj"></param>
         private void XimcMoveRelative(XimcArm obj)
         {
+            MoveRelativePos(obj, true, StepZaxis);
+        }
+
+        /// <summary>
+        /// 相对移动
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="isFast"></param>
+        /// <param name="nStep"></param>
+        private void MoveRelativePos(XimcArm obj, bool isFast, int nStep)
+        {
+            status_t status_T = new status_t();
+            ximcController.Get_Status(ZaxisMotor.DeveiceId, out status_T);
             Cmd_Move_Relative cmd_Move_Relative = new Cmd_Move_Relative()
             {
                 arm = obj,
-                fast = true,
-                pos = StepZaxis
+                fast = isFast,
+                pos = nStep
             };
+
+            if (status_T.CurSpeed != 0)
+            {
+                return;
+            }
 
             if (cmd_Move_Relative.Execute())
             {
@@ -1070,6 +1194,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
         }
 
+        /// <summary>
+        /// 获取电机位置
+        /// </summary>
+        /// <param name="deveiceId"></param>
+        /// <returns></returns>
         private bool SetXimcStatus(int deveiceId)
         {
             bool result = false;
@@ -1095,7 +1224,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             if (isOpenCamera)
             {
-                PVCamHelper.Instance.Dispose();
+                PVCamHelper.Instance.Pause();
                 isOpenCamera = false;
                 ChangeButtonText();
             }
@@ -1131,31 +1260,138 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         #endregion
 
-        #region 风扇
+        #region 外设输入
 
         /// <summary>
-        /// 风扇开关文言调整
+        /// 滚轮事件
         /// </summary>
-        private void ChangeFanButtonText(FanData obj)
+        /// <param name="recipient"></param>
+        /// <param name="message"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void TMainWinMouseWheelEvent(MouseWheelEvent message)
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            //加锁
+            Monitor.Enter(objLock);
+            try
             {
-                string tempFanText = obj.State ? SystemResources.Instance.GetLanguage(0, "关闭风扇") : SystemResources.Instance.GetLanguage(0, "打开风扇");
-                switch (obj.Id) 
+                //控制左侧 上下机械臂
+                if (MouseKeyBoardHelper.IsCtrlDown())
                 {
-                    case 0:
-                        Fan1ButtonText = tempFanText;
-                        break;
-                    case 1:
-                        Fan2ButtonText = tempFanText;
-                        break;
-                    case 2:
-                        Fan3ButtonText = tempFanText;
-                        break;
+                    if (MouseKeyBoardHelper.IsAltDown())
+                    {
+                        MoveRelativePos(ZaxisMotor, false, message.Delta);
+                        LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
+                    }
+                    else
+                    {
+                        MoveRelativePos(ZaxisMotor, true, message.Delta);
+                        LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
+                    }
                 }
-            });
+            }
+            catch (Exception ex)
+            {
+                LogHelper.logSoftWare.Error($"TMainWinMouseWheelEvent error:{ex.Message}");
+            }
+            finally
+            {
+                Monitor.Exit(objLock);
+            }
         }
 
+        /// <summary>
+        /// 键盘事件
+        /// </summary>
+        /// <param name="recipient"></param>
+        /// <param name="msg"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void MWinKeyEvent(KeyBoardEvent msg)
+        {
+            //加锁
+            Monitor.Enter(objLock);
+            try
+            {
+                //ctrl键 抬起 停止所有电机
+                if (!MouseKeyBoardHelper.IsCtrlDown())
+                {
+                    StopAllMotor();
+                    return;
+                }
+                //左键
+                if (msg.KeyCode == System.Windows.Input.Key.Left)
+                {
+                    //按下
+                    if (msg.IsKeyDown)
+                    {
+                        if (MouseKeyBoardHelper.IsAltDown())
+                            MoveCon((int)MotorList[0].MotorId, (int)Direction.Forward, (int)Rate.slow);
+                        else
+                            MoveCon((int)MotorList[0].MotorId, (int)Direction.Forward, (int)Rate.fast);
+                    }
+                    else
+                    {
+                        StopMotor(MotorList[0]); 
+                    }
+                }
+                //右键
+                else if (msg.KeyCode == System.Windows.Input.Key.Right)
+                {
+                    //按下
+                    if (msg.IsKeyDown)
+                    {
+                        if (MouseKeyBoardHelper.IsAltDown())
+                            MoveCon((int)MotorList[0].MotorId, (int)Direction.Backward, (int)Rate.slow);
+                        else
+                            MoveCon((int)MotorList[0].MotorId, (int)Direction.Backward, (int)Rate.fast);
+                    }
+                    else
+                    {
+                        StopMotor(MotorList[0]);
+                    }
+                }
+                //上键
+                else if (msg.KeyCode == System.Windows.Input.Key.Up)
+                {
+                    //按下
+                    if (msg.IsKeyDown)
+                    {
+                        if (MouseKeyBoardHelper.IsAltDown())
+                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Backward, (int)Rate.slow);
+                        else
+                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Backward, (int)Rate.fast);
+                    }
+                    else
+                    {
+                        StopMotor(MotorList[1]);
+                    }
+                }
+                //下键
+                else if (msg.KeyCode == System.Windows.Input.Key.Down)
+                {
+                    //按下
+                    if (msg.IsKeyDown)
+                    {
+                        if (MouseKeyBoardHelper.IsAltDown())
+                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Forward, (int)Rate.slow);
+                        else
+                            MoveCon((int)MotorList[1].MotorId, (int)Direction.Forward, (int)Rate.fast);
+                    }
+                    else
+                    {
+                        StopMotor(MotorList[1]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.logSoftWare.Error($"MWinMouseDown error:{ex.Message}");
+            }
+            finally
+            {
+                //释放
+                Monitor.Exit(objLock);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -1166,6 +1402,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             // 注册刷新消息
             Messenger.Default.Register<object>(this, MessageToken.TokenCamera, ImageRefersh);
+            Messenger.Default.Register<MouseWheelEvent>(this, MessageToken.WinMouseWheelEvent, TMainWinMouseWheelEvent);
+            Messenger.Default.Register<KeyBoardEvent>(this, MessageToken.WinKeyBoardEvent, MWinKeyEvent);
         }
 
         public void ImageRefersh(object bitmap)
@@ -1195,6 +1433,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
             // 离开页面时删除刷新消息
             Messenger.Default.Unregister<object>(this, MessageToken.TokenCamera, ImageRefersh);
+            Messenger.Default.Unregister<MouseWheelEvent>(this, MessageToken.WinMouseWheelEvent, TMainWinMouseWheelEvent);
+            Messenger.Default.Unregister<KeyBoardEvent>(this, MessageToken.WinKeyBoardEvent, MWinKeyEvent);
             return base.NavigatedFrom(source, mode, navigationState);
         }
     }

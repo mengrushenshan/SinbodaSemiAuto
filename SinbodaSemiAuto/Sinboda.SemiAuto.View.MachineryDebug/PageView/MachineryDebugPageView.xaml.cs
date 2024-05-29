@@ -1,6 +1,9 @@
 ﻿
+using GalaSoft.MvvmLight.Messaging;
 using Sinboda.Framework.Common.Log;
 using Sinboda.SemiAuto.Core.Helpers;
+using Sinboda.SemiAuto.Core.Models;
+using Sinboda.SemiAuto.Core.Resources;
 using Sinboda.SemiAuto.View.MachineryDebug.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -28,37 +31,78 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         public MachineryDebugPageView()
         {
             InitializeComponent();
+            this.PreviewMouseWheel += img_PreviewMouseWheel;
+            this.PreviewKeyDown += Grid_PreviewKeyDown;
+            this.PreviewKeyUp += Grid_PreviewKeyUp;
             DataContext = vm = new MachineryDebugPageViewModel();
         }
 
-        private void UserControl_MouseWheel(object sender, MouseWheelEventArgs e)
+        /// <summary>
+        /// 鼠标滚轮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void img_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (e.Delta > 0)
+            // 获取滚动方向
+            if (e.Delta > 0) // 向上滚动
             {
-                LogHelper.logSoftWare.Info(e);
+                MouseWheelEvent mouseWheel = new MouseWheelEvent(false, e.Delta);
+                //滚轮事件通知
+                Messenger.Default.Send<MouseWheelEvent>(mouseWheel, MessageToken.WinMouseWheelEvent);
             }
-            else
+            else if (e.Delta < 0) // 向下滚动
             {
-                LogHelper.logSoftWare.Info(e);
+                MouseWheelEvent mouseWheel = new MouseWheelEvent(true, e.Delta);
+                //滚轮事件通知
+                Messenger.Default.Send<MouseWheelEvent>(mouseWheel, MessageToken.WinMouseWheelEvent);
             }
         }
 
-        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        /// <summary>
+        /// 鼠标按下事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Grid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (MouseKeyBoardHelper.Is_VK_LEFT_Down())
+            if (e.Key == Key.LeftCtrl ||
+                e.Key == Key.RightCtrl ||
+                e.Key == Key.LeftShift ||
+                e.Key == Key.RightShift ||
+                e.Key == Key.Left ||
+                e.Key == Key.Up ||
+                e.Key == Key.Right ||
+                e.Key == Key.Down
+                )
             {
-                LogHelper.logSoftWare.Info(e);
+                KeyBoardEvent keyEvent = new KeyBoardEvent(true, e.Key);
+                //键盘事件通知
+                Messenger.Default.Send<KeyBoardEvent>(keyEvent, MessageToken.WinKeyBoardEvent);
             }
-            else
-            {
-                LogHelper.logSoftWare.Info(e);
-            }
-
         }
 
-        private void UserControl_KeyUp(object sender, KeyEventArgs e)
+        /// <summary>
+        /// 鼠标抬起事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Grid_PreviewKeyUp(object sender, KeyEventArgs e)
         {
-
+            if (e.Key == Key.LeftCtrl ||
+               e.Key == Key.RightCtrl ||
+               e.Key == Key.LeftShift ||
+               e.Key == Key.RightShift ||
+               e.Key == Key.Left ||
+               e.Key == Key.Up ||
+               e.Key == Key.Right ||
+               e.Key == Key.Down
+               )
+            {
+                KeyBoardEvent keyEvent = new KeyBoardEvent(false, e.Key);
+                //键盘事件通知
+                Messenger.Default.Send<KeyBoardEvent>(keyEvent, MessageToken.WinKeyBoardEvent);
+            }
         }
     }
 }
