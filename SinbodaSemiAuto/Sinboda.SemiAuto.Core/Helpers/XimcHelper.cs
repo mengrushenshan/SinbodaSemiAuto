@@ -409,6 +409,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
         public Result Dispose()
         {
             Result res = Result.no_device;
+            if(XimcArms.IsNull())
+                return res;
             foreach (var item in XimcArms)
             {
                 int devId = item.DeveiceId;

@@ -1401,17 +1401,17 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         protected override void OnParameterChanged(object parameter)
         {
             // 注册刷新消息
-            Messenger.Default.Register<object>(this, MessageToken.TokenCamera, ImageRefersh);
+            Messenger.Default.Register<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
             Messenger.Default.Register<MouseWheelEvent>(this, MessageToken.WinMouseWheelEvent, TMainWinMouseWheelEvent);
             Messenger.Default.Register<KeyBoardEvent>(this, MessageToken.WinKeyBoardEvent, MWinKeyEvent);
         }
 
-        public void ImageRefersh(object bitmap)
+        public void ImageRefersh(Mat bitmap)
         {
-            var bmp = bitmap as Bitmap;
+            //var bmp = bitmap as Bitmap;
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
-                CameraSouce = bmp.ToBitmapSource();
+                CameraSouce = bitmap.ToBitmapSource();
             });
         }
 
@@ -1432,7 +1432,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
 
             // 离开页面时删除刷新消息
-            Messenger.Default.Unregister<object>(this, MessageToken.TokenCamera, ImageRefersh);
+            Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
             Messenger.Default.Unregister<MouseWheelEvent>(this, MessageToken.WinMouseWheelEvent, TMainWinMouseWheelEvent);
             Messenger.Default.Unregister<KeyBoardEvent>(this, MessageToken.WinKeyBoardEvent, MWinKeyEvent);
             return base.NavigatedFrom(source, mode, navigationState);

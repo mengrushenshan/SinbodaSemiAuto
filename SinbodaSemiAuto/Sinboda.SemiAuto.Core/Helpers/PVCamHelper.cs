@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -103,13 +104,13 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     m_guiUpdateTimer.Elapsed += GuiUpdateTick;
                     IsInitSuccess = true;
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     LogHelper.logSoftWare.Error(ex.Message);
                     NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "相机初始化失败"));
                     IsInitSuccess = false;
                 }
-                
+
             }
         }
 
@@ -347,6 +348,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
             //bmp24.Save();
         }
 
+        private DirectBitmap m_displayableBitmap = null;
+
         /// <summary>
         /// 数据转图像
         /// </summary>
@@ -357,30 +360,27 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <param name="srcMax"></param>
         /// <param name="useParallelProcessing"></param>
         /// <returns></returns>
-        public Bitmap FrameToBMP(byte[] srcData, Size imageSize, PVCAM.PL_IMAGE_FORMATS srcFmt, double srcMin, double srcMax, bool useParallelProcessing)
+        public void FrameToBMP(byte[] srcData, Size imageSize, PVCAM.PL_IMAGE_FORMATS srcFmt, double srcMin, double srcMax, bool useParallelProcessing)
         {
-            DirectBitmap m_displayableBitmap = new DirectBitmap(imageSize);
+            m_displayableBitmap = new DirectBitmap(imageSize);
             m_displayableBitmap.FrameToBMP(srcData, imageSize, srcFmt, srcMin, srcMax, useParallelProcessing);
+            Mat mat = m_displayableBitmap.Bitmap.ToMat();
             if (StatusRecordOn && !videoWriter.IsNull())
             {
                 //TODO:因为32位图像无法保存 所以暂时转换为24位
-                Mat mat = Bit32To24(m_displayableBitmap.Bitmap).ToMat();
+                Mat mat2 = Bit32To24(m_displayableBitmap.Bitmap).ToMat();
                 //保存视频帧
-                videoWriter.Write(InputArray.Create(mat));
+                videoWriter.Write(InputArray.Create(mat2));
             }
-            //Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
-            //{
-                Messenger.Default.Send<object>(m_displayableBitmap.Bitmap, MessageToken.TokenCamera);
-            //}
-            //));
-            bmpLast = m_displayableBitmap.Bitmap;
-            return bmpLast;
+            Mat matROI = ROI(mat, 512, 2048, 512, 2048);
+            Messenger.Default.Send<Mat>(matROI, MessageToken.TokenCamera);
+            m_displayableBitmap.Dispose();
         }
 
         /// <summary>
-        /// 录取视频
+        /// 拍摄照片
         /// </summary>
-        public void TakePicture(string fileName = null)
+        public void TakePicture(Mat bitmap, string fileName = null)
         {
             lock (_lockObj)
             {
@@ -394,9 +394,9 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 {
                     pathPic = $"{GlobalData.DirectoryPic}\\{fileName}_{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.png";
                 }
-                if (!bmpLast.IsNull())
+                if (!bitmap.IsNull())
                 {
-                    Cv2.ImWrite(pathPic, bmpLast.ToMat());
+                    Cv2.ImWrite(pathPic, bitmap);
                     LogHelper.logSoftWare.Info($"拍摄照片:[{pathPic}]");
                 }
                 else
@@ -405,11 +405,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 }
             }
         }
-
-        /// <summary>
-        /// 最后一帧图像
-        /// </summary>
-        Bitmap bmpLast;
 
         /// <summary>
         /// 录取视频
@@ -587,6 +582,19 @@ namespace Sinboda.SemiAuto.Core.Helpers
             SetStatusStripMessage($"Analysis proc.: {camCtrl.FrameRate}");
 
         }
+
+        /// <summary>
+        /// ROI算法
+        /// </summary>
+        public Mat ROI(Mat bitmap, int rowStart, int rowEnd, int colStart, int colEnd)
+        {
+            lock (_lockObj)
+            {
+                return bitmap.SubMat(rowStart, rowEnd, colStart, colEnd);
+            }
+
+        }
+
         /// <summary>
         /// 处理数据帧
         /// </summary>
