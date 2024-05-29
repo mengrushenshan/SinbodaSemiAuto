@@ -87,7 +87,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         {
             lock (_lockObj)
             {
-                commDriver.Dispose();
+                commDriver?.Dispose();
             }
         }
 
