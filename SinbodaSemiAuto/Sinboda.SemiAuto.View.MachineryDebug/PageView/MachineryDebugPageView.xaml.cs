@@ -44,19 +44,20 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         /// <param name="e"></param>
         private void img_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            MouseWheelEvent mouseWheel = null;
             // 获取滚动方向
             if (e.Delta > 0) // 向上滚动
             {
-                MouseWheelEvent mouseWheel = new MouseWheelEvent(false, e.Delta);
+                mouseWheel = new MouseWheelEvent(false, e.Delta);
                 //滚轮事件通知
-                Messenger.Default.Send<MouseWheelEvent>(mouseWheel, MessageToken.WinMouseWheelEvent);
+                
             }
             else if (e.Delta < 0) // 向下滚动
             {
-                MouseWheelEvent mouseWheel = new MouseWheelEvent(true, e.Delta);
+                mouseWheel = new MouseWheelEvent(true, e.Delta);
                 //滚轮事件通知
-                Messenger.Default.Send<MouseWheelEvent>(mouseWheel, MessageToken.WinMouseWheelEvent);
             }
+            vm.TMainWinMouseWheelEvent(mouseWheel);
         }
 
         /// <summary>
@@ -78,7 +79,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
             {
                 KeyBoardEvent keyEvent = new KeyBoardEvent(true, e.Key);
                 //键盘事件通知
-                Messenger.Default.Send<KeyBoardEvent>(keyEvent, MessageToken.WinKeyBoardEvent);
+                vm.MWinKeyEvent(keyEvent);
             }
         }
 
@@ -101,7 +102,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
             {
                 KeyBoardEvent keyEvent = new KeyBoardEvent(false, e.Key);
                 //键盘事件通知
-                Messenger.Default.Send<KeyBoardEvent>(keyEvent, MessageToken.WinKeyBoardEvent);
+                vm.MWinKeyEvent(keyEvent);
             }
         }
     }
