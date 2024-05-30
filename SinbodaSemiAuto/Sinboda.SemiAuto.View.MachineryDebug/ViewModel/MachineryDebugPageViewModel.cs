@@ -36,7 +36,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
     {
         private XimcHelper ximcController;
         private bool isOpenCamera = false;
-        private bool isCameraInitEnable() => !PVCamHelper.Instance.GetInitFlag();
 
         /// <summary>
         /// 线程锁
@@ -176,8 +175,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         #endregion
 
-        #endregion
-
         /// <summary>
         /// X轴位置
         /// </summary>
@@ -237,6 +234,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             get { return originYaxis; }
             set { Set(ref originYaxis, value); }
         }
+
+        public bool IsCameraInitEnable { get; set; }
+
+        public bool IsCameraOpenEnable { get; set; }
+        #endregion
+
+
 
         #region 命令
 
@@ -407,7 +411,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             InitMotorCommon();
             InitPlatformCommon();
             OpenAndCloseCommand = new RelayCommand(CameraOpenAndClose);
-            CameraInitCommand = new RelayCommand(InitCamera, isCameraInitEnable);
+            CameraInitCommand = new RelayCommand(InitCamera);
             BigImageCommand = new RelayCommand(BigImageShow);
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
 
@@ -1222,6 +1226,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         private void InitCamera()
         {
             PVCamHelper.Instance.Init();
+            IsCameraInitEnable = !PVCamHelper.Instance.GetInitFlag();
+            IsCameraOpenEnable = PVCamHelper.Instance.GetInitFlag();
         }
 
         /// <summary>
@@ -1416,6 +1422,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="parameter"></param>
         protected override void OnParameterChanged(object parameter)
         {
+            IsCameraInitEnable = !PVCamHelper.Instance.GetInitFlag();
+            IsCameraOpenEnable = PVCamHelper.Instance.GetInitFlag();
             // 注册刷新消息
             Messenger.Default.Register<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
         }

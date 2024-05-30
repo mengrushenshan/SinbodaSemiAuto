@@ -13,6 +13,7 @@
         <Image Width="1024" Height="1024" Source="{Binding CameraSouce}" />
     </Grid>
     <sin:SinWindow.BottomPanel>
+        <Button x:Name="btnOpenAndClose" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
         <Button x:Name="btnCancel" Content="{MultiLang:StringResource 144,DefaultValue=关闭}" Click="btnClose_Click"/>
     </sin:SinWindow.BottomPanel>
 </sin:SinWindow>

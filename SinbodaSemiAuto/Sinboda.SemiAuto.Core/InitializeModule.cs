@@ -34,9 +34,9 @@ namespace Sinboda.SemiAuto.Core
             PVCamHelper.Instance.Init();
 
             //tcp指令通讯器初始化 并连接
-            //TcpCmdActuators.Instance.Init();
-            //TcpCmdActuators.Instance.Connect();
-            //TcpCmdActuators.Instance.StartSequence();
+            TcpCmdActuators.Instance.Init();
+            TcpCmdActuators.Instance.Connect();
+            TcpCmdActuators.Instance.StartSequence();
 
             return new InitTaskResult();
         }
