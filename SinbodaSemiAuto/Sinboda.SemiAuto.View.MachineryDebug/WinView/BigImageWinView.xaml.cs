@@ -1,9 +1,5 @@
-﻿
-using GalaSoft.MvvmLight.Messaging;
-using Sinboda.Framework.Common.Log;
-using Sinboda.SemiAuto.Core.Helpers;
+﻿using Sinboda.Framework.Control.Controls;
 using Sinboda.SemiAuto.Core.Models;
-using Sinboda.SemiAuto.Core.Resources;
 using Sinboda.SemiAuto.View.MachineryDebug.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -20,21 +16,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
+namespace Sinboda.SemiAuto.View.MachineryDebug.WinView
 {
     /// <summary>
-    /// MachineryDebugPageView.xaml 的交互逻辑
+    /// BigImageWinView.xaml 的交互逻辑
     /// </summary>
-    public partial class MachineryDebugPageView : UserControl
+    public partial class BigImageWinView : SinWindow
     {
         MachineryDebugPageViewModel vm;
-        public MachineryDebugPageView()
+        public BigImageWinView(MachineryDebugPageViewModel viewModel)
         {
-            InitializeComponent();
             this.PreviewMouseWheel += img_PreviewMouseWheel;
             this.PreviewKeyDown += Grid_PreviewKeyDown;
             this.PreviewKeyUp += Grid_PreviewKeyUp;
-            DataContext = vm = new MachineryDebugPageViewModel();
+            DataContext = vm = viewModel;
+            InitializeComponent();
+            
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         /// <summary>
@@ -50,7 +52,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
             {
                 mouseWheel = new MouseWheelEvent(false, e.Delta);
                 //滚轮事件通知
-                
+
             }
             else if (e.Delta < 0) // 向下滚动
             {

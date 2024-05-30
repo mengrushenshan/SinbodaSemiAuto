@@ -45,5 +45,10 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         /// </summary>
         public int TargetPos { get; set; }
 
+        /// <summary>
+        /// 电机是否运行
+        /// </summary>
+        [NotMapped]
+        public bool IsRunning { get; set; } = false;
     }
 }
