@@ -1,5 +1,6 @@
 ﻿using Sinboda.Framework.Control.Controls;
 using Sinboda.SemiAuto.Core.Models;
+using Sinboda.SemiAuto.View.MachineryDebug.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,15 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.WinView
     /// </summary>
     public partial class BigImageWinView : SinWindow
     {
-        public BigImageWinView()
+        MachineryDebugPageViewModel vm;
+        public BigImageWinView(MachineryDebugPageViewModel viewModel)
         {
             this.PreviewMouseWheel += img_PreviewMouseWheel;
             this.PreviewKeyDown += Grid_PreviewKeyDown;
             this.PreviewKeyUp += Grid_PreviewKeyUp;
+            DataContext = vm = viewModel;
             InitializeComponent();
+            
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -55,7 +59,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.WinView
                 mouseWheel = new MouseWheelEvent(true, e.Delta);
                 //滚轮事件通知
             }
-            //vm.TMainWinMouseWheelEvent(mouseWheel);
+            vm.TMainWinMouseWheelEvent(mouseWheel);
         }
 
         /// <summary>
@@ -77,7 +81,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.WinView
             {
                 KeyBoardEvent keyEvent = new KeyBoardEvent(true, e.Key);
                 //键盘事件通知
-                //vm.MWinKeyEvent(keyEvent);
+                vm.MWinKeyEvent(keyEvent);
             }
         }
 
@@ -100,7 +104,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.WinView
             {
                 KeyBoardEvent keyEvent = new KeyBoardEvent(false, e.Key);
                 //键盘事件通知
-                //vm.MWinKeyEvent(keyEvent);
+                vm.MWinKeyEvent(keyEvent);
             }
         }
     }
