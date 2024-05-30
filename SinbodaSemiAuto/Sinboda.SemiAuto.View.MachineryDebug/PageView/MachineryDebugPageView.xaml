@@ -627,9 +627,9 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Row="0" Grid.Column="0" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Row="0" Grid.Column="0" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <Button Grid.Row="0" Grid.Column="2" Command="{Binding BigImageCommand}" Content="{MultiLang:StringResource 0, DefaultValue=大图展示}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Button Grid.Row="0" Grid.Column="4" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Row="0" Grid.Column="4" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </sin:SinGrid>
             </sin:SinGrid>
         </sin:SinGroupBox>
