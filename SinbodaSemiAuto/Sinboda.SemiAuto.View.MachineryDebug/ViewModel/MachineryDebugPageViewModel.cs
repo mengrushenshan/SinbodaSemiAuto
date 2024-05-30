@@ -1416,12 +1416,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         protected override void OnParameterChanged(object parameter)
         {
             // 注册刷新消息
-            Messenger.Default.Register<object>(this, MessageToken.TokenCamera, ImageRefersh);
+            Messenger.Default.Register<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
         }
 
+        public void ImageRefersh(Mat bitmap)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
+                CameraSouce = bitmap.ToBitmapSource();
             });
         }
 
@@ -1442,7 +1444,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
 
             // 离开页面时删除刷新消息
-            Messenger.Default.Unregister<object>(this, MessageToken.TokenCamera, ImageRefersh);
+            Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
             return base.NavigatedFrom(source, mode, navigationState);
         }
     }

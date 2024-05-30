@@ -133,7 +133,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     }
                     Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
                     {
-                        Messenger.Default.Send<object>(Camera, MessageToken.TokenCamera);
+                        Messenger.Default.Send<Mat>(Camera, MessageToken.TokenCamera);
                     }
                     ));
 
