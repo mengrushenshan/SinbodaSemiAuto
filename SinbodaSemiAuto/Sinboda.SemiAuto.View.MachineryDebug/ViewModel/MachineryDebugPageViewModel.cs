@@ -1247,7 +1247,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void BigImageShow()
         {
-            BigImageWinView bigImageWinView = new BigImageWinView();
+            BigImageWinView bigImageWinView = new BigImageWinView(this);
             bigImageWinView.Show();
         }
 
