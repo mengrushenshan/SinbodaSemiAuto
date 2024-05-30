@@ -1419,12 +1419,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             Messenger.Default.Register<object>(this, MessageToken.TokenCamera, ImageRefersh);
         }
 
-        public void ImageRefersh(object bitmap)
         {
-            var bmp = bitmap as Bitmap;
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
-                CameraSouce = bmp.ToBitmapSource();
             });
         }
 
