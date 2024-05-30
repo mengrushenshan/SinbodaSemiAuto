@@ -141,6 +141,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\MachineryDebugPageViewModel.cs" />
+    <Compile Include="WinView\BigImageWinView.xaml.cs">
+      <DependentUpon>BigImageWinView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sinboda.Framework.Common\Sinboda.Framework.Common.csproj">
@@ -174,6 +177,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="PageView\MachineryDebugPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinView\BigImageWinView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
