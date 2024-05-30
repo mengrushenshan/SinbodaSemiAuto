@@ -363,19 +363,33 @@ namespace Sinboda.SemiAuto.Core.Helpers
         {
             m_displayableBitmap = new DirectBitmap(imageSize);
             m_displayableBitmap.FrameToBMP(srcData, imageSize, srcFmt, srcMin, srcMax, useParallelProcessing);
-            Mat mat = new Mat();
-            //旋转90度
-            Cv2.Rotate(m_displayableBitmap.Bitmap.ToMat(), mat, RotateFlags.Rotate90Counterclockwise);
+            //缩放 并且旋转图像
+            Mat matTemp = Rehandle(m_displayableBitmap.Bitmap.ToMat(), new OpenCvSharp.Size(1024, 1024));
+
+            //保存视频帧
             if (StatusRecordOn && !videoWriter.IsNull())
             {
-                //TODO:因为32位图像无法保存 所以暂时转换为24位
-                Mat mat2 = Bit32To24(m_displayableBitmap.Bitmap).ToMat();
-                //保存视频帧
-                videoWriter.Write(InputArray.Create(mat2));
+                videoWriter.Write(InputArray.Create(matTemp));
             }
-            Mat matROI = ROI(mat, 512, 2048, 512, 2048);
+            Mat matROI = ROI(matTemp, 0, 1024, 0, 1024);
             Messenger.Default.Send<Mat>(matROI, MessageToken.TokenCamera);
             m_displayableBitmap.Dispose();
+        }
+
+        /// <summary>
+        /// 图像重新处理
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="size"></param>
+        /// <param name="rotateFlags"></param>
+        /// <returns></returns>
+        private Mat Rehandle(Mat source, OpenCvSharp.Size size, RotateFlags rotateFlags = RotateFlags.Rotate90Counterclockwise)
+        {
+            Mat mat = new Mat();
+            Mat dst = new Mat();
+            Cv2.Resize(source, mat, size);
+            Cv2.Rotate(mat, dst, RotateFlags.Rotate90Counterclockwise);
+            return dst;
         }
 
         /// <summary>
