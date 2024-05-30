@@ -15,6 +15,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Size = System.Drawing.Size;
@@ -47,7 +48,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// </summary>
         PVCAM.PL_IMAGE_FORMATS m_imageFormat = PVCAM.PL_IMAGE_FORMATS.PL_IMAGE_FORMAT_MONO16;
 
-
         /// <summary>
         /// 相机控制器
         /// </summary>
@@ -56,8 +56,9 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <summary>
         /// 定时器
         /// </summary>
-        System.Timers.Timer m_tempTimer = new System.Timers.Timer();
-        private System.Timers.Timer m_guiUpdateTimer = new System.Timers.Timer();
+        bool IsEnabled = false;
+        Task m_tempTimer;
+        Task m_guiUpdateTimer;
 
         /// <summary>
         /// 初始化
@@ -96,12 +97,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     //设置相机参数
                     camCtrl.ExposureTime = GlobalData.ExposureTime;
                     camCtrl.AllowParallelProcessing = m_allowParallelProcessing;
-
-                    m_tempTimer.Interval = 1000;
-                    m_tempTimer.Elapsed += tempTimer_Tick;
-
-                    m_guiUpdateTimer.Interval = 1000 / GlobalData.ExposureTime;
-                    m_guiUpdateTimer.Elapsed += GuiUpdateTick;
                     IsInitSuccess = true;
                 }
                 catch (Exception ex)
@@ -122,6 +117,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         {
             return IsInitSuccess;
         }
+
         /// <summary>
         /// 释放资源
         /// </summary>
@@ -134,8 +130,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     if ((!videoWriter.IsNull()) && videoWriter.IsOpened())
                         videoWriter.Release();
                     //停止定时器
-                    m_guiUpdateTimer.Stop();
-                    m_tempTimer.Stop();
+                    IsEnabled = false;
 
                     //释放相机资源
                     if (camCtrl.IsNull())
@@ -172,8 +167,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 lock (_lockObj)
                 {
                     //停止定时器
-                    m_guiUpdateTimer.Stop();
-                    m_tempTimer.Stop();
+                    IsEnabled = false;
 
                     //释放相机资源
                     if (camCtrl.IsNull())
@@ -197,9 +191,13 @@ namespace Sinboda.SemiAuto.Core.Helpers
         {
             lock (_lockObj)
             {
+                IsEnabled = true;
                 //设置连续模式 ，获取帧直到结束
                 camCtrl.SetupAcquisition(PvcamController.AcquisitionType.Continuous, PvcamController.RUN_UNTIL_STOPPED);
                 camCtrl.StartAcquisition();
+
+                m_tempTimer = new Task(tempTimer_Tick);
+                m_guiUpdateTimer = new Task(GuiUpdateTick);
                 m_guiUpdateTimer.Start();
             }
         }
@@ -211,9 +209,13 @@ namespace Sinboda.SemiAuto.Core.Helpers
         {
             lock (_lockObj)
             {
+                IsEnabled = true;
                 //序列模式 获取一帧
                 camCtrl.SetupAcquisition(PvcamController.AcquisitionType.Sequence, GlobalData.FrameNum);
                 camCtrl.StartAcquisition();
+
+                m_tempTimer = new Task(tempTimer_Tick);
+                m_guiUpdateTimer = new Task(GuiUpdateTick);
                 m_guiUpdateTimer.Start();
             }
         }
@@ -295,10 +297,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                             // next run, it will fetch the latest frame, stop itself and enable controls.
                             lock (m_guiUpdateTimer)
                             {
-                                if (m_guiUpdateTimer.Enabled)
-                                {
-                                    m_guiUpdateTimer.Stop();
-                                }
+                                IsEnabled = false;
                             }
                             break;
                         }
@@ -364,7 +363,9 @@ namespace Sinboda.SemiAuto.Core.Helpers
         {
             m_displayableBitmap = new DirectBitmap(imageSize);
             m_displayableBitmap.FrameToBMP(srcData, imageSize, srcFmt, srcMin, srcMax, useParallelProcessing);
-            Mat mat = m_displayableBitmap.Bitmap.ToMat();
+            Mat mat = new Mat();
+            //旋转90度
+            Cv2.Rotate(m_displayableBitmap.Bitmap.ToMat(), mat, RotateFlags.Rotate90Counterclockwise);
             if (StatusRecordOn && !videoWriter.IsNull())
             {
                 //TODO:因为32位图像无法保存 所以暂时转换为24位
@@ -460,19 +461,23 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GuiUpdateTick(object sender, EventArgs e)
+        private void GuiUpdateTick()
         {
-            lock (_lockObj)
+            while (IsEnabled)
             {
-                if (camCtrl.IsNull() || camCtrl.LatestFrameData.IsNull())
+                lock (_lockObj)
                 {
-                    return;
+                    if (camCtrl.IsNull() || camCtrl.LatestFrameData.IsNull())
+                    {
+                        return;
+                    }
+                    if (m_guiUpdateLastFrameId != camCtrl.FrameSequenceNumber)
+                    {
+                        m_guiUpdateLastFrameId = camCtrl.FrameSequenceNumber;
+                        ProcessLatestFrame();
+                    }
                 }
-                if (m_guiUpdateLastFrameId != camCtrl.FrameSequenceNumber)
-                {
-                    m_guiUpdateLastFrameId = camCtrl.FrameSequenceNumber;
-                    ProcessLatestFrame();
-                }
+                Thread.Sleep(100);
             }
         }
 
@@ -699,22 +704,25 @@ namespace Sinboda.SemiAuto.Core.Helpers
             LogHelper.logSoftWare.Info(message);
         }
 
-
-        private void tempTimer_Tick(object sender, EventArgs e)
+        private void tempTimer_Tick()
         {
             try
             {
-                lock (_lockObj)
+                while (IsEnabled)
                 {
-                    short temp = camCtrl.Temperature;
-                    TemperatureUpdate(temp / 100.0);
+                    lock (_lockObj)
+                    {
+                        short temp = camCtrl.Temperature;
+                        TemperatureUpdate(temp / 100.0);
+                    }
+                    Thread.Sleep(100);
                 }
             }
             catch (Exception exc)
             {
                 LogHelper.logSoftWare.Error("Failed to update temperature: " + exc.Message);
                 // Stop the timer so we don't keep polling
-                m_tempTimer.Enabled = false;
+                IsEnabled = false;
             }
         }
 
