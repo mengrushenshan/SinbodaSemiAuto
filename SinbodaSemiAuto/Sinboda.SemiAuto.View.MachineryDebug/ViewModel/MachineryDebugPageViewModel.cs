@@ -28,6 +28,7 @@ using Sinboda.SemiAuto.Core.Models.Common;
 using System.Threading;
 using System.Windows.Documents;
 using Sinboda.SemiAuto.View.MachineryDebug.WinView;
+using System.Windows.Threading;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -1436,15 +1437,20 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <returns></returns>
         protected override bool NavigatedFrom(object source, NavigationMode mode, object navigationState)
         {
-            if (isOpenCamera)
-            {
-                PVCamHelper.Instance.Dispose();
-                isOpenCamera = false;
-                ChangeButtonText();
-            }
-
             // 离开页面时删除刷新消息
             Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
+
+            if (isOpenCamera)
+            {
+                Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+                {
+                    PVCamHelper.Instance.Pause();
+                }));
+                isOpenCamera = false;
+                ChangeButtonText();
+
+            }
+
             return base.NavigatedFrom(source, mode, navigationState);
         }
     }
