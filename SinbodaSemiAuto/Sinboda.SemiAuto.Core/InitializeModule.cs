@@ -28,7 +28,7 @@ namespace Sinboda.SemiAuto.Core
             GlobalData.Init();
 
             //电机初始化
-            //XimcHelper.Instance.Init();
+            XimcHelper.Instance.Init();
 
             //相机初始化
             PVCamHelper.Instance.Init();
