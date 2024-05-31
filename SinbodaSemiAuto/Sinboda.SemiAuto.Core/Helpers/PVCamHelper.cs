@@ -22,6 +22,12 @@ using Size = System.Drawing.Size;
 
 namespace Sinboda.SemiAuto.Core.Helpers
 {
+    /// <summary>
+    /// 图像事件
+    /// </summary>
+    /// <param name="customer"></param>
+    public delegate void OrderEventHandler(Mat customer);
+
     public class PVCamHelper : TBaseSingleton<PVCamHelper>
     {
         /// <summary>
@@ -319,9 +325,11 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <returns></returns>
         public Bitmap Bit32To24(Bitmap bmp32)
         {
-            BitmapData data32 = bmp32.LockBits(new Rectangle(0, 0, bmp32.Width, bmp32.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            BitmapData data32 = bmp32.LockBits(new Rectangle(0, 0, bmp32.Width, bmp32.Height),
+                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Bitmap bmp24 = new Bitmap(bmp32.Width, bmp32.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            BitmapData data24 = bmp24.LockBits(new Rectangle(0, 0, bmp24.Width, bmp24.Height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            BitmapData data24 = bmp24.LockBits(new Rectangle(0, 0, bmp24.Width, bmp24.Height),
+                ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             unsafe
             {
@@ -347,6 +355,9 @@ namespace Sinboda.SemiAuto.Core.Helpers
             //bmp24.Save();
         }
 
+        /// <summary>
+        /// 图像处理
+        /// </summary>
         private DirectBitmap m_displayableBitmap = null;
 
         /// <summary>
@@ -361,18 +372,28 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <returns></returns>
         public void FrameToBMP(byte[] srcData, Size imageSize, PVCAM.PL_IMAGE_FORMATS srcFmt, double srcMin, double srcMax, bool useParallelProcessing)
         {
+            //生成数据
             m_displayableBitmap = new DirectBitmap(imageSize);
             m_displayableBitmap.FrameToBMP(srcData, imageSize, srcFmt, srcMin, srcMax, useParallelProcessing);
+
             //缩放 并且旋转图像
             Mat matTemp = Rehandle(m_displayableBitmap.Bitmap.ToMat(), new OpenCvSharp.Size(1024, 1024));
+
+            //ROI处理
+            Mat matROI = ROI(matTemp, 0, 1024, 0, 1024);
+
+            //通知界面
+            Messenger.Default.Send<Mat>(matROI, MessageToken.TokenCamera);
 
             //保存视频帧
             if (StatusRecordOn && !videoWriter.IsNull())
             {
-                videoWriter.Write(InputArray.Create(matTemp));
+                var bmp = matROI.ToBitmap();
+                matROI = Bit32To24(bmp).ToMat();
+                videoWriter.Write(matROI);
             }
-            Mat matROI = ROI(matTemp, 0, 1024, 0, 1024);
-            Messenger.Default.Send<Mat>(matROI, MessageToken.TokenCamera);
+
+            //释放
             m_displayableBitmap.Dispose();
         }
 
@@ -403,11 +424,11 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 GlobalData.DirectoryPic.CheckAndCreateDirectory();
                 if (fileName.IsNullOrWhiteSpace())
                 {
-                    pathPic = $"{GlobalData.DirectoryPic}\\{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.png";
+                    pathPic = $"{GlobalData.DirectoryPic}\\{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.tiff";
                 }
                 else
                 {
-                    pathPic = $"{GlobalData.DirectoryPic}\\{fileName}_{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.png";
+                    pathPic = $"{GlobalData.DirectoryPic}\\{fileName}_{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.tiff";
                 }
                 if (!bitmap.IsNull())
                 {
@@ -440,7 +461,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 }
 
                 //保存视频
-                videoWriter = new VideoWriter(pathVideo, VideoWriter.FourCC(@"XVID"), GlobalData.VideoFPS, new OpenCvSharp.Size(GlobalData.VideoWidth, GlobalData.VideoHeight));
+                videoWriter = new VideoWriter(pathVideo, VideoWriter.FourCC(@"XVID"),
+                    GlobalData.VideoFPS, new OpenCvSharp.Size(GlobalData.VideoWidth, GlobalData.VideoHeight));
                 StatusRecordOn = true;
                 LogHelper.logSoftWare.Info($"开始录取视频:[{pathVideo}]");
             }
@@ -491,7 +513,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                         ProcessLatestFrame();
                     }
                 }
-                Thread.Sleep(100);
+                //Thread.Sleep(100);
             }
         }
 

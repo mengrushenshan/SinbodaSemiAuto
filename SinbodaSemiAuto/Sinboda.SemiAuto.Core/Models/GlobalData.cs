@@ -108,8 +108,8 @@ namespace Sinboda.SemiAuto.Core.Models
         public static int Port { get; set; } = 2023;
 
         //视频宽，高 帧数
-        public const int VideoWidth = 2048;
-        public const int VideoHeight = 2048;
+        public const int VideoWidth = 1024;
+        public const int VideoHeight = 1024;
         public const int VideoFPS = 20;
 
         //载玻片可视距离 微米
