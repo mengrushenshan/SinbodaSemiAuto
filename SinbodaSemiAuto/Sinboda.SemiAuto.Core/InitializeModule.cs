@@ -28,15 +28,15 @@ namespace Sinboda.SemiAuto.Core
             GlobalData.Init();
 
             //电机初始化
-            //XimcHelper.Instance.Init();
+            XimcHelper.Instance.Init();
 
             //相机初始化
             PVCamHelper.Instance.Init();
 
             //tcp指令通讯器初始化 并连接
-            //TcpCmdActuators.Instance.Init();
-            //TcpCmdActuators.Instance.Connect();
-            //TcpCmdActuators.Instance.StartSequence();
+            TcpCmdActuators.Instance.Init();
+            TcpCmdActuators.Instance.Connect();
+            TcpCmdActuators.Instance.StartSequence();
 
             return new InitTaskResult();
         }
