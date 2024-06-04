@@ -1,10 +1,13 @@
-﻿using Sinboda.Framework.Core.AbstractClass;
+﻿using GalaSoft.MvvmLight.Messaging;
+using OpenCvSharp;
+using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.Framework.Core.Services;
 using Sinboda.Framework.Core.StaticResource;
 using Sinboda.SemiAuto.Business.Items;
 using Sinboda.SemiAuto.Business.Samples;
 using Sinboda.SemiAuto.Core.Models;
 using Sinboda.SemiAuto.Core.Models.Common;
+using Sinboda.SemiAuto.Core.Resources;
 using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
 using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
 using System;
@@ -126,6 +129,8 @@ namespace Sinboda.SemiAuto.TestFlow
                 return false;
             }
 
+            Messenger.Default.Register<object>(this, MessageToken.AcquiringImageComplete, ReceiveImageComplete);
+
             return isInitComplete = true;
         }
 
@@ -141,11 +146,12 @@ namespace Sinboda.SemiAuto.TestFlow
 
             foreach (var sampleItem in SampleList)
             {
+                string fileName = sampleItem.SampleCode + "_" + sampleItem.RackDish + "_" + sampleItem.Position;
                 TestItem testItem = new TestItem();
                 testItem.Testid = ++testId;
                 testItem.State = TestState.Untested;
                 testItem.SetTestItemPos(X, Y, Z, sampleItem.RackDish ?? 1, sampleItem.Position ?? 1);
-                testItem.CreatePoint();
+                testItem.CreatePoint(fileName);
 
                 Items.Add(testItem);
             }
@@ -222,7 +228,6 @@ namespace Sinboda.SemiAuto.TestFlow
                 //100张图曝光30us，增加1秒超时时间
                 if (AcquiringImageFinish.WaitOne(4000))
                 {
-                    CurTestItem.CurTestPoint.StopAcquiringImage();
                     AcquiringImageFinish.Reset();
                     //等待记录100张图像
                     CurTestItem.CurTestPoint.Status = TestState.Complete;
@@ -245,13 +250,14 @@ namespace Sinboda.SemiAuto.TestFlow
 
         public void CannelTest()
         {
+            Messenger.Default.Unregister<object>(this, MessageToken.AcquiringImageComplete, ReceiveImageComplete);
             CurTestItem.ChannelPoint();
             CurTestItem = null;
             isInitComplete = false;
             SampleList.Clear();
         }
 
-        public void ReceiveImageComplete()
+        public void ReceiveImageComplete(object obj)
         {
             AcquiringImageFinish.Set();
         }

@@ -83,7 +83,7 @@ namespace Sinboda.SemiAuto.TestFlow
         public void MoveTestItemXPos(int motorId)
         {
             MotorBusiness.Instance.MoveAbsolute(motorId, X);
-            
+
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// 创建测试点
         /// </summary>
-        public void CreatePoint()
+        public void CreatePoint(string fileName)
         { 
             for (int i = 1; i <= PointCount; i++) 
             {
@@ -124,7 +124,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 testPoint.TestNo = i;
                 testPoint.Status = TestState.Untested;
                 testPoint.SetTestPointPos(X, Y, Z);
-
+                testPoint.FileName = $"{fileName}_{i}_{DateTime.Now}.tif";
                 points.Add(testPoint);
             }
 

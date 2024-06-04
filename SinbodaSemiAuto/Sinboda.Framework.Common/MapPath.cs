@@ -120,5 +120,15 @@ namespace Sinboda.Framework.Common
             get { return xmlPath; }
             set { xmlPath = value; }
         }
+
+        private static string tifPath = appDir + "Tagged\\";
+        /// <summary>
+        /// 配置文件夹目录
+        /// </summary>
+        public static string TifPath
+        {
+            get { return tifPath; }
+            set { tifPath = value; }
+        }
     }
 }
