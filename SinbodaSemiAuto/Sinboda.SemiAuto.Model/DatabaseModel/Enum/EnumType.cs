@@ -356,7 +356,7 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     /// <summary>
     /// 电机id
     /// </summary>
-    public enum MotorId
+    public enum MotorId : int
     {
         Xaxis,
         Yaxis
@@ -366,7 +366,7 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     /// 方向
     /// </summary>
     [EnumAnnotate("方向", 0)]
-    public enum Direction
+    public enum Direction : int
     {
         [EnumAnnotate("反向", 0)]
         Backward,
@@ -379,7 +379,7 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     /// 速率
     /// </summary>
     [EnumAnnotate("速率", 0)]
-    public enum Rate
+    public enum Rate : int
     {
         [EnumAnnotate("慢速", 0)]
         slow,
@@ -392,7 +392,7 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     /// 速率
     /// </summary>
     [EnumAnnotate("移动", 0)]
-    public enum Motion
+    public enum Motion : int
     {
         [EnumAnnotate("停止", 0)]
         stop,

@@ -41,7 +41,6 @@ namespace Sinboda.SemiAuto.Core.Models
         [XmlAttribute("Originption")]
         public int Originption { get; set; }
 
-
         /// <summary>
         /// 机械臂id
         /// </summary>
@@ -65,6 +64,12 @@ namespace Sinboda.SemiAuto.Core.Models
         /// </summary>
         [XmlIgnore]
         public uint Decel { get; set; }
+
+        /// <summary>
+        /// 位置
+        /// </summary>
+        [XmlIgnore]
+        public int TargetPos { get; set; }
 
         /// <summary>
         /// 设置数据 最高速度4000step 
