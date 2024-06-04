@@ -15,13 +15,14 @@ namespace Sinboda.SemiAuto.Core.Helpers
             PythonEngine.Initialize();
         }
 
-        public static List<int> Autofocus()
+        public static List<int> Autofocus(string tifPath)
         {
             List<int> list = new List<int>();
             using (Py.GIL())
             {
                 dynamic py = Py.Import("auto_focus");
-                PyList res = PyList.AsList(py.find_focused_img("png_folder", "E:/scripts/png_folder"));
+                PyList res = PyList.AsList(py.find_focused_img_tif(tifPath));
+                //PyList res = PyList.AsList(py.find_focused_img_pngs("E:/scripts/png_folder"));
                 list.Add((int)(dynamic)res[0]);
                 list.Add((int)(dynamic)res[1]);
             }
