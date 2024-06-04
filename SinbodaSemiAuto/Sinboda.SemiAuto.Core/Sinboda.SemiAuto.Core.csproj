@@ -115,6 +115,9 @@
       <HintPath>..\packages\OpenCvSharp4.Extensions.4.9.0.20240103\lib\net48\OpenCvSharp.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
+    <Reference Include="Python.Runtime, Version=3.0.3.0, Culture=neutral, PublicKeyToken=5000fea6cba702dd, processorArchitecture=MSIL">
+      <HintPath>..\packages\pythonnet.3.0.3\lib\netstandard2.0\Python.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Sinboda.SemiAuto.Pvcm, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assistance\Sinboda.SemiAuto.Pvcm.dll</HintPath>
@@ -160,6 +163,7 @@
     <Compile Include="Command\Cmds.cs" />
     <Compile Include="Command\ICmd.cs" />
     <Compile Include="Converts\NullNumericConverter.cs" />
+    <Compile Include="Helpers\PyHelper.cs" />
     <Compile Include="Helpers\BitHelper.cs" />
     <Compile Include="Helpers\CommonHelper.cs" />
     <Compile Include="Helpers\Extensions.cs" />
