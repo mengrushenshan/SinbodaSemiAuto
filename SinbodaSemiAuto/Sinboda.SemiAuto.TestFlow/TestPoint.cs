@@ -1,8 +1,15 @@
-﻿using Sinboda.SemiAuto.Business.Items;
+﻿using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
+using OpenCvSharp;
+using Sinboda.Framework.Common;
+using Sinboda.SemiAuto.Business.Items;
+using Sinboda.SemiAuto.Core.Helpers;
 using Sinboda.SemiAuto.Core.Models;
+using Sinboda.SemiAuto.Core.Resources;
 using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +18,11 @@ namespace Sinboda.SemiAuto.TestFlow
 {
     public class TestPoint
     {
+        /// <summary>
+        /// 点位对应图像
+        /// </summary>
+        private List<Mat> tifList = new List<Mat>();
+
         /// <summary>
         /// X轴每个点的便宜量
         /// </summary>
@@ -47,20 +59,49 @@ namespace Sinboda.SemiAuto.TestFlow
         public int Z { get; set; }
 
         /// <summary>
+        /// 文件名
+        /// </summary>
+        public string FileName {  get; set; }
+
+        /// <summary>
         /// 开始采集图像
         /// </summary>
         public void StartAcquiringImage()
         {
-
+            Messenger.Default.Register<Mat>(this, MessageToken.TokenCamera, AcquiringImage);
         }
 
         /// <summary>
-        /// 停止采集图像
+        /// 采集图像
         /// </summary>
-        public void StopAcquiringImage()
+        /// <param name="bitmap"></param>
+        public void AcquiringImage(Mat bitmap)
         {
-
+            if (tifList.Count < 100)
+            {
+                tifList.Add(bitmap);
+            }
+            else
+            {
+                Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, AcquiringImage);
+                SaveMatList();
+            }
         }
+
+        public void SaveMatList()
+        {
+            if (!Directory.Exists(MapPath.TifPath))
+            {
+                Directory.CreateDirectory(MapPath.TifPath);
+            }
+
+            string filePath = $@"{MapPath.TifPath}\{FileName}";
+            PVCamHelper.Instance.WriteTiff(tifList.ToArray(), filePath, 100);
+            tifList.Clear();
+
+            Messenger.Default.Send<object>(null, MessageToken.AcquiringImageComplete);
+        }
+
 
         /// <summary>
         /// 设置测试点坐标

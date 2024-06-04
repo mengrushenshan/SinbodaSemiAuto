@@ -403,7 +403,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <param name="tiffSavePath">后缀 .tif</param>
         /// <param name="quality">图片质量%，1-100</param>
         /// <returns></returns>
-        private bool WriteTiff(Mat[] bmps, string tiffSavePath, int quality = 100)
+        public bool WriteTiff(Mat[] bmps, string tiffSavePath, int quality = 100)
         {
             try
             {

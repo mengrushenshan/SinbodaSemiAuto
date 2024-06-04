@@ -214,7 +214,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// <summary>
         /// 开始采集
         /// </summary>
-        public RelayCommand TestStartCommand { get; set; }
+        public RelayCommand TestPointStartCommand { get; set; }
 
         #region 相机
 
@@ -237,6 +237,11 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// 相机聚焦
         /// </summary>
         public RelayCommand CameraFocusCommand { get; set; }
+
+        /// <summary>
+        /// 相机聚焦
+        /// </summary>
+        public RelayCommand TestStartCommand { get; set; }
         #endregion
 
         #endregion
@@ -259,8 +264,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             CameraInitCommand = new RelayCommand(InitCamera);
             BigImageCommand = new RelayCommand(BigImageShow);
             CameraFocusCommand = new RelayCommand(CameraFocus);
+            TestPointStartCommand = new RelayCommand(TestPointStart);
             TestStartCommand = new RelayCommand(TestStart);
-
             InitSamplesRegisterPage();
             InitMachinerySource();
         }
@@ -600,9 +605,17 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// <summary>
         /// 开始测试
         /// </summary>
+        private void TestPointStart()
+        {
+            TestFlow.TestFlow.Instance.StartItemTest();
+        }
+
+        /// <summary>
+        /// 开始测试
+        /// </summary>
         private void TestStart()
         {
-            
+            TestFlow.TestFlow.Instance.CreateTest();
         }
 
         /// <summary>

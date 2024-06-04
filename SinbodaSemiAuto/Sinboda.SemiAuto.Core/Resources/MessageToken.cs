@@ -11,5 +11,8 @@ namespace Sinboda.SemiAuto.Core.Resources
         //图像接收通知
         public static string TokenCamera = "Camera";
 
+        //图像采集完成通知
+        public static string AcquiringImageComplete = "AcquiringImage";
+
     }
 }
