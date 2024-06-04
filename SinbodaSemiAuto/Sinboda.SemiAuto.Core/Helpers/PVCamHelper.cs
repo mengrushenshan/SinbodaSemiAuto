@@ -1,4 +1,6 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using BitMiracle.LibTiff.Classic;
+using DirectShowLib;
+using GalaSoft.MvvmLight.Messaging;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using Sinboda.Framework.Common.Log;
@@ -10,8 +12,10 @@ using Sinboda.SemiAuto.Core.Pvcam;
 using Sinboda.SemiAuto.Core.Resources;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -22,11 +26,6 @@ using Size = System.Drawing.Size;
 
 namespace Sinboda.SemiAuto.Core.Helpers
 {
-    /// <summary>
-    /// 图像事件
-    /// </summary>
-    /// <param name="customer"></param>
-    public delegate void OrderEventHandler(Mat customer);
 
     public class PVCamHelper : TBaseSingleton<PVCamHelper>
     {
@@ -377,11 +376,11 @@ namespace Sinboda.SemiAuto.Core.Helpers
             m_displayableBitmap.FrameToBMP(srcData, imageSize, srcFmt, srcMin, srcMax, useParallelProcessing);
 
             //缩放 并且旋转图像
-            Mat matTemp = Rehandle(m_displayableBitmap.Bitmap.ToMat(), new OpenCvSharp.Size(1024, 1024));
+            Mat matTemp = Rehandle(m_displayableBitmap.Bitmap.ToMat(), new OpenCvSharp.Size(GlobalData.VideoWidth, GlobalData.VideoHeight));
 
-            //ROI处理
+            //ROI处理 TODO:需要根据用户设置 输入ROI范围
             Mat matROI = ROI(matTemp, 0, 1024, 0, 1024);
-
+           
             //通知界面
             Messenger.Default.Send<Mat>(matROI, MessageToken.TokenCamera);
 
@@ -395,6 +394,121 @@ namespace Sinboda.SemiAuto.Core.Helpers
 
             //释放
             m_displayableBitmap.Dispose();
+        }
+
+        /// <summary>
+        /// 保存tiff图像数据
+        /// </summary>
+        /// <param name="bmps"></param>
+        /// <param name="tiffSavePath">后缀 .tif</param>
+        /// <param name="quality">图片质量%，1-100</param>
+        /// <returns></returns>
+        private bool WriteTiff(Mat[] bmps, string tiffSavePath, int quality = 100)
+        {
+            try
+            {
+                MemoryStream ms = new MemoryStream();
+                using (Tiff tif = Tiff.ClientOpen(@"in-memory", "w", ms, new TiffStream()))
+                {
+                    foreach (var bmp in bmps)//
+                    {
+                        byte[] raster = GetImageRasterBytes(bmp.ToBitmap(), PixelFormat.Format24bppRgb);
+                        tif.SetField(TiffTag.IMAGEWIDTH, bmp.Width);
+                        tif.SetField(TiffTag.IMAGELENGTH, bmp.Height);
+                        tif.SetField(TiffTag.COMPRESSION, Compression.JPEG);
+                        tif.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
+                        tif.SetField(TiffTag.JPEGQUALITY, quality);
+                        tif.SetField(TiffTag.ROWSPERSTRIP, bmp.Height);
+
+
+                        tif.SetField(TiffTag.XRESOLUTION, 90);
+                        tif.SetField(TiffTag.YRESOLUTION, 90);
+
+
+                        tif.SetField(TiffTag.BITSPERSAMPLE, 8);
+                        tif.SetField(TiffTag.SAMPLESPERPIXEL, 3);
+
+
+                        tif.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
+
+
+                        int stride = raster.Length / bmp.Height;
+                        ConvertSamples(raster, bmp.Width, bmp.Height);
+
+
+                        for (int i = 0, offset = 0; i < bmp.Height; i++)
+                        {
+                            tif.WriteScanline(raster, offset, i, 0);
+                            offset += stride;
+                        }
+
+
+                        tif.WriteDirectory();
+                    }
+                    System.IO.FileStream fs = new FileStream(tiffSavePath, FileMode.Create);
+
+                    ms.Seek(0, SeekOrigin.Begin);
+                    fs.Write(ms.ToArray(), 0, (int)ms.Length);
+                    fs.Close();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
+        /// <summary>
+        /// bmp数据化
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
+        private static byte[] GetImageRasterBytes(Bitmap bmp, PixelFormat format)
+        {
+            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
+            byte[] bits = null;
+            try
+            {
+                BitmapData bmpdata = bmp.LockBits(rect, ImageLockMode.ReadWrite, format);
+                bits = new byte[bmpdata.Stride * bmpdata.Height];
+                System.Runtime.InteropServices.Marshal.Copy(bmpdata.Scan0, bits, 0, bits.Length);
+                bmp.UnlockBits(bmpdata);
+            }
+            catch
+            {
+                return null;
+            }
+            return bits;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        private static void ConvertSamples(byte[] data, int width, int height)
+        {
+            int stride = data.Length / height;
+            const int samplesPerPixel = 3;
+
+
+            for (int y = 0; y < height; y++)
+            {
+                int offset = stride * y;
+                int strideEnd = offset + width * samplesPerPixel;
+
+
+                for (int i = offset; i < strideEnd; i += samplesPerPixel)
+                {
+                    byte temp = data[i + 2];
+                    data[i + 2] = data[i];
+                    data[i] = temp;
+                }
+            }
         }
 
         /// <summary>
@@ -414,38 +528,9 @@ namespace Sinboda.SemiAuto.Core.Helpers
         }
 
         /// <summary>
-        /// 拍摄照片
-        /// </summary>
-        public void TakePicture(Mat bitmap, string fileName = null)
-        {
-            lock (_lockObj)
-            {
-                string pathPic;
-                GlobalData.DirectoryPic.CheckAndCreateDirectory();
-                if (fileName.IsNullOrWhiteSpace())
-                {
-                    pathPic = $"{GlobalData.DirectoryPic}\\{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.tiff";
-                }
-                else
-                {
-                    pathPic = $"{GlobalData.DirectoryPic}\\{fileName}_{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.tiff";
-                }
-                if (!bitmap.IsNull())
-                {
-                    Cv2.ImWrite(pathPic, bitmap);
-                    LogHelper.logSoftWare.Info($"拍摄照片:[{pathPic}]");
-                }
-                else
-                {
-                    LogHelper.logSoftWare.Error($"拍摄照片失败！");
-                }
-            }
-        }
-
-        /// <summary>
         /// 录取视频
         /// </summary>
-        public void RecordVideoOn(string fileName = null)
+        public void RecordVideoOn(int Width, int Height, string fileName = null)
         {
             lock (_lockObj)
             {
@@ -462,7 +547,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
 
                 //保存视频
                 videoWriter = new VideoWriter(pathVideo, VideoWriter.FourCC(@"XVID"),
-                    GlobalData.VideoFPS, new OpenCvSharp.Size(GlobalData.VideoWidth, GlobalData.VideoHeight));
+                    GlobalData.VideoFPS, new OpenCvSharp.Size(Width, Height));
                 StatusRecordOn = true;
                 LogHelper.logSoftWare.Info($"开始录取视频:[{pathVideo}]");
             }
