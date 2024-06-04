@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Threading;
 using OpenCvSharp;
 using Sinboda.Framework.Common;
+using Sinboda.Framework.Common.Log;
 using Sinboda.SemiAuto.Business.Items;
 using Sinboda.SemiAuto.Core.Helpers;
 using Sinboda.SemiAuto.Core.Models;
@@ -84,7 +85,9 @@ namespace Sinboda.SemiAuto.TestFlow
             else
             {
                 Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, AcquiringImage);
+                Messenger.Default.Send<object>(null, MessageToken.AcquiringImageComplete);
                 SaveMatList();
+                
             }
         }
 
@@ -95,11 +98,9 @@ namespace Sinboda.SemiAuto.TestFlow
                 Directory.CreateDirectory(MapPath.TifPath);
             }
 
-            string filePath = $@"{MapPath.TifPath}\{FileName}";
+            string filePath = MapPath.TifPath + FileName;
             PVCamHelper.Instance.WriteTiff(tifList.ToArray(), filePath, 100);
             tifList.Clear();
-
-            Messenger.Default.Send<object>(null, MessageToken.AcquiringImageComplete);
         }
 
 
