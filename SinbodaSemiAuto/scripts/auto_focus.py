@@ -30,6 +30,12 @@ def compute_binary_mean(img):
 
 	return binary_mean
 
+def find_focused_img_tif(tif_path):
+        return find_focused_img(input_type='tif', path=tif_path)
+
+def find_focused_img_pngs(png_dir):
+        return find_focused_img(input_type='png_folder', path=png_dir)
+
 
 def find_focused_img(input_type, path, plot=False):
 	"""
@@ -64,7 +70,7 @@ def find_focused_img(input_type, path, plot=False):
 			img_inf['binary_mean'].append(binary_mean)
 			img_inf['clarity'].append(clarity)
 			img_inf['file_name'].append(f'img_{i}')
-			print(f'Clarity of img_{i} is: {clarity}. Binary_mean:{binary_mean}')
+			#print(f'Clarity of img_{i} is: {clarity}. Binary_mean:{binary_mean}')
 
 	elif input_type == 'png_folder':
 		# 读取文件夹中所有png类型的图片名称
@@ -133,9 +139,9 @@ def find_focused_img(input_type, path, plot=False):
 if __name__ == '__main__':
 	# 使用示例：
 	example_png_folder = r'./png_folder'  # png文件夹路径
-	example_tif = r'./tif/1.tif'  # tif文件路径
+	example_tif = r'E:/1/1.tif'  # tif文件路径
 
-	max_clarity_index, min_binary_mean_index = find_focused_img(input_type='tif', path=example_tif, plot=True)
+	max_clarity_index, min_binary_mean_index = find_focused_img(input_type='tif', path=example_tif, plot=False)
 	# max_clarity_index, min_binary_mean_index = find_focused_img(input_type='png_folder', path=example_png_folder, plot=True)
 
 	print(f'The img_index with MAX clarity: {max_clarity_index}')
