@@ -809,10 +809,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             else
             {
                 ResMove resMove =  cmdMotorReset.GetResponse() as ResMove;
-
-                ChangeTextBoxText(obj.MotorId, resMove);
-
                 obj.TargetPos = resMove.CurPos;
+                ChangeTextBoxText(obj);
+
                 MotorBusiness.Instance.SaveMotorItem(obj);
             }
         }
@@ -822,25 +821,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj">电机</param>
         private void StopMotor(Sin_Motor obj)
         {
-            CmdMoveStop cmdMoveStop = new CmdMoveStop() { Id = (int)obj.MotorId };
-
-            if (!obj.IsRunning)
+            if (MotorBusiness.Instance.StopMotor(obj))
             {
-                return;
+                ChangeTextBoxText(obj);
             }
-
-            if (!cmdMoveStop.Execute())
-            {
-                LogHelper.logSoftWare.Error("StopMotor failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机停止失败"));
-            }
-            else
-            {
-                ResMove resMove = cmdMoveStop.GetResponse() as ResMove;
-                ChangeTextBoxText(obj.MotorId, resMove);
-                obj.IsRunning = false;
-            }
-
         }
 
         /// <summary>
@@ -936,9 +920,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             else
             {
                 ResMove resMove = cmdMoveRelate.GetResponse() as ResMove;
-                ChangeTextBoxText(obj.MotorId, resMove);
-
                 obj.TargetPos = resMove.CurPos;
+                ChangeTextBoxText(obj);
+
+                
                 MotorBusiness.Instance.SaveMotorItem(obj);
             }
         }
@@ -965,9 +950,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             else
             {
                 ResMove resMove = cmdMoveAbsolute.GetResponse() as ResMove;
-                ChangeTextBoxText(obj.MotorId, resMove);
-
                 obj.TargetPos = resMove.CurPos;
+                ChangeTextBoxText(obj);
+
                 MotorBusiness.Instance.SaveMotorItem(obj);
             }
         }
@@ -977,18 +962,18 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         /// <param name="motorId"></param>
         /// <param name="resMove"></param>
-        private void ChangeTextBoxText(MotorId motorId, ResMove resMove)
+        private void ChangeTextBoxText(Sin_Motor motorObj)
         {
-            switch (motorId)
+            switch (motorObj.MotorId)
             {
                 case MotorId.Xaxis:
                     {
-                        PosXaxis = resMove.CurPos;
+                        PosXaxis = motorObj.TargetPos;
                     }
                     break;
                 case MotorId.Yaxis:
                     {
-                        PosYaxis = resMove.CurPos;
+                        PosYaxis = motorObj.TargetPos;
                     }
                     break;
             }
@@ -1139,9 +1124,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <exception cref="NotImplementedException"></exception>
         private void XimcStop(XimcArm obj)
         {
-            ximcController.Cmd_SlowStop(obj.DeveiceId);
-
-            SetXimcStatus(obj.DeveiceId);
+            if (MotorBusiness.Instance.XimcStop(obj))
+            {
+                SetXimcStatus(obj.DeveiceId);
+            }
         }
 
         /// <summary>
