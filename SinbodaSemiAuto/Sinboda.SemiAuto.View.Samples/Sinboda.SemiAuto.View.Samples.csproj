@@ -208,7 +208,7 @@
       <Name>Sinboda.SemiAuto.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sinboda.SemiAuto.TestFlow\Sinboda.SemiAuto.TestFlow.csproj">
-      <Project>{C6B503EE-2993-4409-BD86-9E1D2F7975E2}</Project>
+      <Project>{c6b503ee-2993-4409-bd86-9e1d2f7975e2}</Project>
       <Name>Sinboda.SemiAuto.TestFlow</Name>
     </ProjectReference>
   </ItemGroup>

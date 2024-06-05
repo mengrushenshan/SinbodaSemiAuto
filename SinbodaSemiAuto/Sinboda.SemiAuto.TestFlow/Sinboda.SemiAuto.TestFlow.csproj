@@ -109,11 +109,5 @@
       <Name>Sinboda.SemiAuto.Model</Name>
     </ProjectReference>
   </ItemGroup>
-<<<<<<< .merge_file_RHEOYI
-=======
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
->>>>>>> .merge_file_ofXMNb
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
