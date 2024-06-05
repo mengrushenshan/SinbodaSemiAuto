@@ -97,7 +97,7 @@ namespace Sinboda.SemiAuto.TestFlow
             var sampleList = SampleBusiness.Instance.GetSampleListByPredicate(o => o.RackDish != null && o.Position != null 
                 && o.Sample_date >= today && o.Sample_date < tomorrow && o.Test_state != TestState.Complete);
 
-            if (sampleList == null && sampleList.Count == 0) 
+            if (sampleList == null || sampleList.Count == 0) 
             {
                 return false;
             }
@@ -134,6 +134,12 @@ namespace Sinboda.SemiAuto.TestFlow
             return isInitComplete = true;
         }
 
+        public void SetMotorObj(Sin_Motor xAxis, Sin_Motor yAxis, XimcArm zAxis)
+        {
+            XAxisMotor = xAxis;
+            YAxisMotor = yAxis;
+            ZAxisMotor = zAxis;
+        }
         /// <summary>
         /// 根据1位置创建测试缓存
         /// </summary>
@@ -226,7 +232,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 //开始拍照
                 CurTestItem.CurTestPoint.StartAcquiringImage();
                 //100张图曝光30us，增加1秒超时时间
-                if (AcquiringImageFinish.WaitOne(4000))
+                if (AcquiringImageFinish.WaitOne(35000))
                 {
                     AcquiringImageFinish.Reset();
                     //等待记录100张图像
@@ -243,6 +249,7 @@ namespace Sinboda.SemiAuto.TestFlow
             //点位测试完成后，移动到下一个点
             if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
             {
+                CurTestItem.State = TestState.Complete;
                 ChangeNextItem();
             }
 
@@ -255,6 +262,9 @@ namespace Sinboda.SemiAuto.TestFlow
             CurTestItem = null;
             isInitComplete = false;
             SampleList.Clear();
+            XAxisMotor = null;
+            YAxisMotor = null;
+            ZAxisMotor = null;
         }
 
         public void ReceiveImageComplete(object obj)

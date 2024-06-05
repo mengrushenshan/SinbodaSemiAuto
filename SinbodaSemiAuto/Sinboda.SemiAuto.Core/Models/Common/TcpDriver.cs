@@ -51,7 +51,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
                 //没有字节可读
                 if (tcpClient.Available <= 0)
                 {
-                    LogHelper.logSoftWare.Info($"tcpClient Available is null !");
+                    //LogHelper.logSoftWare.Info($"tcpClient Available is null !");
                     return null;
                 }
 
