@@ -140,6 +140,7 @@ namespace Sinboda.SemiAuto.TestFlow
             YAxisMotor = yAxis;
             ZAxisMotor = zAxis;
         }
+
         /// <summary>
         /// 根据1位置创建测试缓存
         /// </summary>
