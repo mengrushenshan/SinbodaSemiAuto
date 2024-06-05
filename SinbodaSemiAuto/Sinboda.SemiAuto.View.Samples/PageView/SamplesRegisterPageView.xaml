@@ -364,7 +364,7 @@
                         <Button Grid.Row="0" Grid.Column="4" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                         <Button Grid.Row="2" Grid.Column="0" Command="{Binding CameraFocusCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机聚焦}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        <Button Grid.Row="2" Grid.Column="2" Command="{Binding TestStartCommand}" Content="{MultiLang:StringResource 0, DefaultValue=启动测试}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <!--<Button Grid.Row="2" Grid.Column="2" Command="{Binding TestStartCommand}" Content="{MultiLang:StringResource 0, DefaultValue=启动测试}" HorizontalAlignment="Center" VerticalAlignment="Center" />-->
                         <Button Grid.Row="2" Grid.Column="4" Command="{Binding TestPointStartCommand}" Content="{MultiLang:StringResource 0, DefaultValue=开始采集}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </sin:SinGrid>
                 </sin:SinGrid>
