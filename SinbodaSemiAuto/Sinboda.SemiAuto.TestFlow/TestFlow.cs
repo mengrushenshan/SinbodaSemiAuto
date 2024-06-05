@@ -221,11 +221,39 @@ namespace Sinboda.SemiAuto.TestFlow
         }
 
         /// <summary>
-        /// 测试9点
+        /// 测试流程
         /// </summary>
         public void StartItemTest()
         {
-            foreach (var point in CurTestItem.points) 
+            foreach (var item in Items)
+            {
+                if (item.State == TestState.Complete)
+                {
+                    continue;
+                }
+
+                PointAcquiringImage();
+
+                //点位测试完成后，移动到下一个点
+                if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
+                {
+                    CurTestItem.State = TestState.Complete;
+                    ChangeNextItem();
+                }
+            }
+            
+
+        }
+
+        /// <summary>
+        /// 9点数据采集
+        /// </summary>
+        private void PointAcquiringImage()
+        {
+            //同一孔位9点测试
+            List<TestPoint> points = CurTestItem.points.Where(o => o.Status == TestState.Untested).ToList();
+
+            foreach (var point in points)
             {
                 CurTestItem.CurTestPoint = point;
                 CurTestItem.CurTestPoint.Status = TestState.Testing;
@@ -244,16 +272,8 @@ namespace Sinboda.SemiAuto.TestFlow
                     NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "图像采集失败"));
                     break;
                 }
-                
-            }
 
-            //点位测试完成后，移动到下一个点
-            if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
-            {
-                CurTestItem.State = TestState.Complete;
-                ChangeNextItem();
             }
-
         }
 
         public void CannelTest()
