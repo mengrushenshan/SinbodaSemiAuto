@@ -536,6 +536,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         private void FanEnable(FanData obj)
         {
+            PyHelper.Init();
+            List<int> frameIds = PyHelper.Autofocus("E:/1/1.tif");
+            PyHelper.Shutdown();
+            Console.WriteLine("best frameid: " + frameIds[0] + " secondary frameid: " + frameIds[1]);
+  
+
             obj.State = !obj.State;
             CmdFanEnable cmdFanEnable = new CmdFanEnable()
             {

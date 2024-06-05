@@ -257,6 +257,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
         public SamplesRegisterPageViewModel()
         {
+            DispatcherHelper.Initialize();
             SampleRigesterCmd = new RelayCommand(SampleRigester);
             SampleDeleteCommand = new RelayCommand(SampleDelete);
             ResetCommand = new RelayCommand(Reset);
@@ -266,6 +267,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             CameraFocusCommand = new RelayCommand(CameraFocus);
             TestPointStartCommand = new RelayCommand(TestPointStart);
             TestStartCommand = new RelayCommand(TestStart);
+            ChangeButtonText();
             InitSamplesRegisterPage();
             InitMachinerySource();
         }
@@ -615,6 +617,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private void TestStart()
         {
+            TestFlow.TestFlow.Instance.SetMotorObj(XAxisMotor, YAxisMotor, ZaxisMotor);
             TestFlow.TestFlow.Instance.CreateTest();
         }
 
