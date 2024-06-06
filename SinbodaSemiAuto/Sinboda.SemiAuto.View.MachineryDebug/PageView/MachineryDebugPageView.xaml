@@ -528,7 +528,7 @@
                         <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=频率}" />
                         <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=占空比}" />
 
-                        <sin:SinTextBox Grid.Column="2" Grid.Row="0" />
+                        <sin:SinTextBox Grid.Column="2" Grid.Row="0" Text="{Binding Voltage}" />
                         <sin:SinTextBox Grid.Column="6" Grid.Row="0" />
                         <sin:SinTextBox Grid.Column="10" Grid.Row="0" />
 

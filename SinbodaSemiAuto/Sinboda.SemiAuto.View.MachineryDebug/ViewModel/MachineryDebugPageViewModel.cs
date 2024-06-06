@@ -147,6 +147,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             set { Set(ref cameraButtonText, value); }
         }
 
+        private double voltage = 0.25;
+        public double Voltage 
+        {
+            get { return voltage; }
+            set { Set(ref voltage, value); } 
+        }
         #region 风扇按钮文言
 
         private string fan1ButtonText;
@@ -1293,12 +1299,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         private void OpenLight()
         {
-            ControlBusiness.Instance.LightEnableCtrl(1, 1);
+            ControlBusiness.Instance.LightEnableCtrl(1, Voltage, 1);
         }
 
         private void CloseLight()
         {
-            ControlBusiness.Instance.LightEnableCtrl(0, 1);
+            ControlBusiness.Instance.LightEnableCtrl(0, Voltage, 1);
         }
         #endregion
 
