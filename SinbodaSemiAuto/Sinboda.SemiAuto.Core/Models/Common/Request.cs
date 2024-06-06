@@ -143,8 +143,8 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// <summary>
         /// 查询门状态
         /// </summary>
-        GetDoorStatus = 802, 
-        
+        GetDoorStatus = 802,
+
         /// <summary>
         /// 下位机版本
         /// </summary>
@@ -256,7 +256,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         [JsonProperty("Y")]
         public int Y { get; set; }
     }
-    
+
     /// <summary>
     /// 平台停止请求
     /// </summary>
@@ -266,8 +266,8 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         {
             Act = ActionType.PlatformStop;
         }
-    }  
-    
+    }
+
     /// <summary>
     /// 查询仓门状态
     /// </summary>
@@ -277,8 +277,8 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         {
             Act = ActionType.GetDoorStatus;
         }
-    } 
-    
+    }
+
     /// <summary>
     /// 查询下位机版本状态
     /// </summary>
@@ -430,8 +430,8 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// <summary>
         /// 0=关 1=开
         /// </summary>
-        [JsonProperty("State")]
-        public int State { get; set; }
+        [JsonProperty("Enable")]
+        public int Enable { get; set; }
     }
 
     /// <summary>
@@ -453,8 +453,8 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// <summary>
         /// 0:失能；1:使能
         /// </summary>
-        [JsonProperty("State")]
-        public int State { get; set; }
+        [JsonProperty("Enable")]
+        public int Enable { get; set; }
     }
 
     /// <summary>
@@ -495,6 +495,35 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// </summary>
         [JsonProperty("ID")]
         public int Id { get; set; }
+    }
+
+    /// <summary>
+    /// 激光控制请求
+    /// </summary>
+    public class ReqLightEnable : Request
+    {
+        public ReqLightEnable() : base()
+        {
+            Act = ActionType.LightEnable;
+        }
+
+        /// <summary>
+        /// 0=关 1=开
+        /// </summary>
+        [JsonProperty("Enable")]
+        public int Enable { get; set; }
+
+        /// <summary>
+        /// 输出电压 0 - 2.5(精确到0.001)
+        /// </summary>
+        [JsonProperty("Voltage")]
+        public int Voltage { get; set; }
+
+        /// <summary>
+        /// 是否输出 (0:不输出(等待相机爆光信号) 1:输出)
+        /// </summary>
+        [JsonProperty("Output")]
+        public int Output { get; set; }
     }
 
 

@@ -546,7 +546,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             CmdFanEnable cmdFanEnable = new CmdFanEnable()
             {
                 Id = obj.Id,
-                State = obj.State ? 1 : 0
+                Enable = obj.State ? 1 : 0
             };
 
             if (!cmdFanEnable.Execute())
