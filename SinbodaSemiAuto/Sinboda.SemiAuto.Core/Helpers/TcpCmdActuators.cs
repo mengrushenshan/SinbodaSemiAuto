@@ -314,8 +314,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
             lock (_lockObj)
             {
                 //发送
-                LogHelper.logCommunication.Info($"Send Frame :[{frame.GetInData()}]");
                 bool res = commDriver.Write(frame.Packing());
+                LogHelper.logCommunication.Info($"Send Frame :[{frame.GetInData()}]");
                 if (res)
                 {
                     frame.SetSendTime(DateTime.Now);
