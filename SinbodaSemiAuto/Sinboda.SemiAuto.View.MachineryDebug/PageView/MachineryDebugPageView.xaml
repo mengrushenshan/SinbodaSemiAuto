@@ -500,6 +500,7 @@
 
                     <sin:SinGrid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="10"/>
                         </Grid.RowDefinitions>
@@ -517,10 +518,12 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="10"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--#region 蜂鸣器-->
+                        <!--#region 激光器-->
                         <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=激光器}" />
                         <TextBlock Grid.Column="4" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=频率}" />
                         <TextBlock Grid.Column="8" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{MultiLang:StringResource 0, DefaultValue=占空比}" />
@@ -528,6 +531,9 @@
                         <sin:SinTextBox Grid.Column="2" Grid.Row="0" />
                         <sin:SinTextBox Grid.Column="6" Grid.Row="0" />
                         <sin:SinTextBox Grid.Column="10" Grid.Row="0" />
+
+                        <Button Grid.Column="12" Grid.Row="0" Content="{MultiLang:StringResource 0, DefaultValue=打开}" Command="{Binding OpenLightCommand}" />
+                        <Button Grid.Column="14" Grid.Row="0" Content="{MultiLang:StringResource 0, DefaultValue=关闭}" Command="{Binding CloseLightCommand}" />
                         <!--#endregion-->
 
                     </sin:SinGrid>

@@ -240,8 +240,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         public bool IsCameraOpenEnable { get; set; }
         #endregion
 
-
-
         #region 命令
 
         #region 平台
@@ -398,6 +396,21 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 大图展示
         /// </summary>
         public RelayCommand BigImageCommand { get; set; }
+
+        #endregion
+
+        #region 激光器
+
+        /// <summary>
+        /// 相机开关命令
+        /// </summary>
+        public RelayCommand OpenLightCommand { get; set; }
+
+        /// <summary>
+        /// 相机初始化命令
+        /// </summary>
+        public RelayCommand CloseLightCommand { get; set; }
+
         #endregion
 
         #endregion
@@ -414,6 +427,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             CameraInitCommand = new RelayCommand(InitCamera);
             BigImageCommand = new RelayCommand(BigImageShow);
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
+            OpenLightCommand = new RelayCommand(OpenLight);
+            CloseLightCommand = new RelayCommand(CloseLight);
 
             ChangeButtonText();
             
@@ -1272,6 +1287,19 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             });
         }
 
+        #endregion
+
+        #region 激光器
+
+        private void OpenLight()
+        {
+            ControlBusiness.Instance.LightEnableCtrl(1, 1);
+        }
+
+        private void CloseLight()
+        {
+            ControlBusiness.Instance.LightEnableCtrl(0, 1);
+        }
         #endregion
 
         #region 外设输入
