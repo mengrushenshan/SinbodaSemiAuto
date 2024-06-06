@@ -72,6 +72,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\Assistance\log4net.dll</HintPath>
@@ -207,4 +210,17 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if exist $(TargetDir)Python310 rd /s /q  $(TargetDir)Python310
+md $(TargetDir)Python310
+xcopy $(SolutionDir)Python310 $(TargetDir)Python310  /e /y /h /q /r
+
+if exist $(TargetDir)scripts rd /s /q $(TargetDir)scripts
+md $(TargetDir)scripts  
+xcopy $(SolutionDir)scripts $(TargetDir)scripts  /e /y /h /q /r</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>
