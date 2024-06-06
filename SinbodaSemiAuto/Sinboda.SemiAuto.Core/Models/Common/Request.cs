@@ -517,7 +517,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// 输出电压 0 - 2.5(精确到0.001)
         /// </summary>
         [JsonProperty("Voltage")]
-        public int Voltage { get; set; }
+        public double Voltage { get; set; }
 
         /// <summary>
         /// 是否输出 (0:不输出(等待相机爆光信号) 1:输出)

@@ -610,17 +610,21 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 isOpenCamera = true;
                 ChangeButtonText();
             }
+            Task.Run(() =>
+            {
+                //开启激光
+                ControlBusiness.Instance.LightEnableCtrl(1, 1);
+                //获取Z轴位置
+                MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
+                //计算聚焦位置
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 4, 100);
+                //移动到最佳聚焦位置
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
 
-            //开启激光
-
-            //获取Z轴位置
-            MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
-            //计算聚焦位置
-            int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 50, 100, "");
-            //移动到最佳聚焦位置
-            MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
-
-            //关闭激光
+                //关闭激光
+                ControlBusiness.Instance.LightEnableCtrl(0, 1);
+            });
+            
         }
 
         /// <summary>
@@ -648,10 +652,10 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 }
             });
 
-            Dispatcher.CurrentDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Background, (Action)(() =>
+            Task.Run(() =>
             {
                 TestFlow.TestFlow.Instance.StartItemTest();
-            }));
+            });
         }
 
         /// <summary>
