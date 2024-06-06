@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CellBusiness.cs" />
+    <Compile Include="ControlBusiness.cs" />
     <Compile Include="ItemBusiness.cs" />
     <Compile Include="MotorBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
