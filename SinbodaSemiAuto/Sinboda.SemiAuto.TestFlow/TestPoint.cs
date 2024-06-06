@@ -27,12 +27,12 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// X轴每个点的便宜量
         /// </summary>
-        private const int XaxisOffset = 3600;
+        private const int XaxisOffset = 3200;
 
         /// <summary>
         /// Y轴每个点的便宜量
         /// </summary>
-        private const int YaxisOffset = 3600;
+        private const int YaxisOffset = 3200;
 
         /// <summary>
         /// 测试编号
