@@ -240,8 +240,8 @@ namespace sin_mole_flu_analyzer.Models.Command
             IResponse res = new ResMotorStatus(req);
             return ExeAsyncInternal(req, res);
         }
-    } 
-    
+    }
+
     /// <summary>
     /// 查询仓门状态
     /// </summary>
@@ -266,7 +266,7 @@ namespace sin_mole_flu_analyzer.Models.Command
             return ExeAsyncInternal(req, res);
         }
     }
-    
+
     /// <summary>
     /// 查询下位机版本
     /// </summary>
@@ -759,14 +759,14 @@ namespace sin_mole_flu_analyzer.Models.Command
         /// <summary>
         /// 0=关 1=开
         /// </summary>
-        public int State { get; set; }
+        public int Enable { get; set; }
 
         public override bool Execute()
         {
             IRequest req = new ReqFanEnable()
             {
                 Id = Id,
-                State = State
+                Enable = Enable
             };
             IResponse res = new Response(req);
             return ExeInternal(req, res);
@@ -777,7 +777,52 @@ namespace sin_mole_flu_analyzer.Models.Command
             IRequest req = new ReqFanEnable()
             {
                 Id = Id,
-                State = State
+                Enable = Enable
+            };
+            IResponse res = new Response(req);
+            return ExeAsyncInternal(req, res);
+        }
+    }
+
+    /// <summary>
+    /// 激光控制指令
+    /// </summary>
+    public class CmdLightEnable : CmdBase
+    {
+        /// <summary>
+        /// 0=关 1=开
+        /// </summary>
+        public int Enable { get; set; }
+
+        /// <summary>
+        /// 输出电压 0 - 2.5(精确到0.001)
+        /// </summary>
+        public int Voltage { get; set; }
+
+        /// <summary>
+        /// 输出电压 0 - 2.5(精确到0.001)
+        /// </summary>
+        public int Output { get; set; }
+
+        public override bool Execute()
+        {
+            IRequest req = new ReqLightEnable()
+            {
+                Voltage = Voltage,
+                Enable = Enable,
+                Output = Output
+            };
+            IResponse res = new Response(req);
+            return ExeInternal(req, res);
+        }
+
+        public override bool ExecuteAsync()
+        {
+            IRequest req = new ReqLightEnable()
+            {
+                Voltage = Voltage,
+                Enable = Enable,
+                Output = Output
             };
             IResponse res = new Response(req);
             return ExeAsyncInternal(req, res);
@@ -797,14 +842,14 @@ namespace sin_mole_flu_analyzer.Models.Command
         /// <summary>
         /// 0=关 1=开
         /// </summary>
-        public int State { get; set; }
+        public int Enable { get; set; }
 
         public override bool Execute()
         {
             IRequest req = new ReqMotorEnable()
             {
                 Id = Id,
-                State = State
+                Enable = Enable
             };
             IResponse res = new Response(req);
             return ExeInternal(req, res);
@@ -815,7 +860,7 @@ namespace sin_mole_flu_analyzer.Models.Command
             IRequest req = new ReqMotorEnable()
             {
                 Id = Id,
-                State = State
+                Enable = Enable
             };
             IResponse res = new Response(req);
             return ExeAsyncInternal(req, res);
