@@ -30,6 +30,7 @@ using Sinboda.Framework.Control.Controls.Navigation;
 using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Xml.Linq;
+using static Sinboda.Framework.Control.DateTimePickers.TMinSexView;
 
 namespace Sinboda.SemiAuto.View.Samples.ViewModel
 {
@@ -603,7 +604,23 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private void CameraFocus()
         {
-            
+            if (!isOpenCamera)
+            {
+                PVCamHelper.Instance.StartCont();
+                isOpenCamera = true;
+                ChangeButtonText();
+            }
+
+            //开启激光
+
+            //获取Z轴位置
+            MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
+            //计算聚焦位置
+            int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 50, 100, "");
+            //移动到最佳聚焦位置
+            MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
+
+            //关闭激光
         }
 
         /// <summary>
@@ -611,13 +628,30 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private void TestPointStart()
         {
-            Dispatcher.CurrentDispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, (Action)(() => 
+            LoadingHelper.Instance.ShowLoadingWindow(ancBegin =>
             {
+                // 1.初始化
+                ancBegin.Title = SystemResources.Instance.GetLanguage(12396, "正在准备测试数据，请等待...");
+
                 TestFlow.TestFlow.Instance.SetMotorObj(XAxisMotor, YAxisMotor, ZaxisMotor);
                 TestFlow.TestFlow.Instance.CreateTest();
+
+                LogHelper.logSoftWare.Debug($"prepare test complete ..... ");
+
+            }, 0, ancBegin =>
+            {
+                if (!isOpenCamera)
+                {
+                    PVCamHelper.Instance.StartCont();
+                    isOpenCamera = true;
+                    ChangeButtonText();
+                }
+            });
+
+            Dispatcher.CurrentDispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Background, (Action)(() =>
+            {
                 TestFlow.TestFlow.Instance.StartItemTest();
             }));
-            
         }
 
         /// <summary>

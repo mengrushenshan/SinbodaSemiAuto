@@ -185,13 +185,8 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public void MoveTestItemPos()
         {
-            //轻微下降z轴
-            CurTestItem.MoveTestItemZPosByOffset(ZAxisMotor, -3000);
-            //移动到xy位置
             CurTestItem.MoveTestItemXPos((int)XAxisMotor.MotorId);
             CurTestItem.MoveTestItemYPos((int)YAxisMotor.MotorId);
-            //回归z轴
-            CurTestItem.MoveTestItemZPos(ZAxisMotor);
         }
 
         /// <summary>
@@ -211,7 +206,8 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             if (CurTestItem.State == TestState.Complete)
             {
-                CurTestItem = Items.Where(o => o.State == TestState.Untested).FirstOrDefault();
+                Items.Remove(CurTestItem);
+                CurTestItem = Items[0];
             }
 
             if (CurTestItem.X != X && CurTestItem.Y != Y)
@@ -241,8 +237,6 @@ namespace Sinboda.SemiAuto.TestFlow
                     ChangeNextItem();
                 }
             }
-            
-
         }
 
         /// <summary>
