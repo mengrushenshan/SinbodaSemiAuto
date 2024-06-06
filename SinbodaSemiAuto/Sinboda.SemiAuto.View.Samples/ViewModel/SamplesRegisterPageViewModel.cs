@@ -28,6 +28,8 @@ using GalaSoft.MvvmLight.Threading;
 using OpenCvSharp.WpfExtensions;
 using Sinboda.Framework.Control.Controls.Navigation;
 using System.Windows.Media.Imaging;
+using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace Sinboda.SemiAuto.View.Samples.ViewModel
 {
@@ -609,7 +611,13 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private void TestPointStart()
         {
-            TestFlow.TestFlow.Instance.StartItemTest();
+            Dispatcher.CurrentDispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, (Action)(() => 
+            {
+                TestFlow.TestFlow.Instance.SetMotorObj(XAxisMotor, YAxisMotor, ZaxisMotor);
+                TestFlow.TestFlow.Instance.CreateTest();
+                TestFlow.TestFlow.Instance.StartItemTest();
+            }));
+            
         }
 
         /// <summary>
@@ -617,8 +625,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private void TestStart()
         {
-            TestFlow.TestFlow.Instance.SetMotorObj(XAxisMotor, YAxisMotor, ZaxisMotor);
-            TestFlow.TestFlow.Instance.CreateTest();
+            
         }
 
         /// <summary>
