@@ -99,7 +99,7 @@ namespace Sinboda.SemiAuto.TestFlow
             }
 
             string filePath = MapPath.TifPath + FileName;
-            PVCamHelper.Instance.WriteTiff(tifList.ToArray(), filePath, 100);
+            //PVCamHelper.Instance.WriteTiff(tifList.ToArray(), filePath, 100);
             tifList.Clear();
         }
 

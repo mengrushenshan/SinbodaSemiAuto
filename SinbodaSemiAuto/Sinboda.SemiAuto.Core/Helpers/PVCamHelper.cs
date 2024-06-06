@@ -18,9 +18,11 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Size = System.Drawing.Size;
 
@@ -383,6 +385,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
            
             //通知界面
             Messenger.Default.Send<Mat>(matROI, MessageToken.TokenCamera);
+            Messenger.Default.Send<byte[]>(srcData, MessageToken.TokenCameraBuffer);
 
             //保存视频帧
             if (StatusRecordOn && !videoWriter.IsNull())
@@ -394,121 +397,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
 
             //释放
             m_displayableBitmap.Dispose();
-        }
-
-        /// <summary>
-        /// 保存tiff图像数据
-        /// </summary>
-        /// <param name="bmps"></param>
-        /// <param name="tiffSavePath">后缀 .tif</param>
-        /// <param name="quality">图片质量%，1-100</param>
-        /// <returns></returns>
-        public bool WriteTiff(Mat[] bmps, string tiffSavePath, int quality = 100)
-        {
-            try
-            {
-                MemoryStream ms = new MemoryStream();
-                using (Tiff tif = Tiff.ClientOpen(@"in-memory", "w", ms, new TiffStream()))
-                {
-                    foreach (var bmp in bmps)//
-                    {
-                        byte[] raster = GetImageRasterBytes(bmp.ToBitmap(), PixelFormat.Format24bppRgb);
-                        tif.SetField(TiffTag.IMAGEWIDTH, bmp.Width);
-                        tif.SetField(TiffTag.IMAGELENGTH, bmp.Height);
-                        tif.SetField(TiffTag.COMPRESSION, Compression.JPEG);
-                        tif.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
-                        tif.SetField(TiffTag.JPEGQUALITY, quality);
-                        tif.SetField(TiffTag.ROWSPERSTRIP, bmp.Height);
-
-
-                        tif.SetField(TiffTag.XRESOLUTION, 90);
-                        tif.SetField(TiffTag.YRESOLUTION, 90);
-
-
-                        tif.SetField(TiffTag.BITSPERSAMPLE, 8);
-                        tif.SetField(TiffTag.SAMPLESPERPIXEL, 3);
-
-
-                        tif.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
-
-
-                        int stride = raster.Length / bmp.Height;
-                        ConvertSamples(raster, bmp.Width, bmp.Height);
-
-
-                        for (int i = 0, offset = 0; i < bmp.Height; i++)
-                        {
-                            tif.WriteScanline(raster, offset, i, 0);
-                            offset += stride;
-                        }
-
-
-                        tif.WriteDirectory();
-                    }
-                    System.IO.FileStream fs = new FileStream(tiffSavePath, FileMode.Create);
-
-                    ms.Seek(0, SeekOrigin.Begin);
-                    fs.Write(ms.ToArray(), 0, (int)ms.Length);
-                    fs.Close();
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-
-        }
-
-        /// <summary>
-        /// bmp数据化
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <param name="format"></param>
-        /// <returns></returns>
-        private static byte[] GetImageRasterBytes(Bitmap bmp, PixelFormat format)
-        {
-            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-            byte[] bits = null;
-            try
-            {
-                BitmapData bmpdata = bmp.LockBits(rect, ImageLockMode.ReadWrite, format);
-                bits = new byte[bmpdata.Stride * bmpdata.Height];
-                System.Runtime.InteropServices.Marshal.Copy(bmpdata.Scan0, bits, 0, bits.Length);
-                bmp.UnlockBits(bmpdata);
-            }
-            catch
-            {
-                return null;
-            }
-            return bits;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        private static void ConvertSamples(byte[] data, int width, int height)
-        {
-            int stride = data.Length / height;
-            const int samplesPerPixel = 3;
-
-
-            for (int y = 0; y < height; y++)
-            {
-                int offset = stride * y;
-                int strideEnd = offset + width * samplesPerPixel;
-
-
-                for (int i = offset; i < strideEnd; i += samplesPerPixel)
-                {
-                    byte temp = data[i + 2];
-                    data[i + 2] = data[i];
-                    data[i] = temp;
-                }
-            }
         }
 
         /// <summary>
