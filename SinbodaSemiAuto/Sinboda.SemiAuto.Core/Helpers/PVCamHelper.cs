@@ -105,6 +105,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     camCtrl.ExposureTime = GlobalData.ExposureTime;
                     camCtrl.AllowParallelProcessing = m_allowParallelProcessing;
                     IsInitSuccess = true;
+                    SetROI(0, 0, 1024, 1024);
+                    Binning(true);
                 }
                 catch (Exception ex)
                 {
@@ -188,6 +190,32 @@ namespace Sinboda.SemiAuto.Core.Helpers
             catch (Exception ex)
             {
                 LogHelper.logSoftWare.Error(ex.Message);
+            }
+        }
+
+        public void SetROI(UInt16 x, UInt16 y, UInt16 width, UInt16 height)
+        {
+            if (camCtrl != null && GetInitFlag())
+            {
+                PVCAM.rgn_type region = camCtrl.Region;
+                region.s1 = x;
+                region.s2 = (ushort)(width - 1);
+                region.p1 = y;
+                region.p2 = (ushort)(height - 1);
+                camCtrl.Region = region;
+            }
+        }
+
+        public void Binning(bool enable)
+        {
+            if (camCtrl != null && GetInitFlag())
+            {
+                ushort binValue = 1;
+
+                if (enable)
+                    binValue = 2;
+
+                camCtrl.RegionBinningFactor = new Tuple<ushort, ushort>(binValue, binValue);
             }
         }
 
