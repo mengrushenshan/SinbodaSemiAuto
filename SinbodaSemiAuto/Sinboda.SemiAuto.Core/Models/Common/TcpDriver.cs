@@ -4,8 +4,10 @@ using Sinboda.SemiAuto.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sinboda.SemiAuto.Core.Models.Common
@@ -14,7 +16,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
     {
 
         // 创建 TcpClient 实例
-        private TcpClient tcpClient;
+        private TcpClient tcpClient = new TcpClient();
         private string address;
         private int tcpPort;
 
@@ -42,7 +44,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
             try
             {
                 //连接器断联
-                if (!tcpClient.Connected)
+                if (tcpClient.Client.IsNull() || !tcpClient.Connected)
                 {
                     LogHelper.logSoftWare.Info($"TcpDriver is not connected!");
                     return null;
@@ -72,12 +74,15 @@ namespace Sinboda.SemiAuto.Core.Models.Common
             }
         }
 
+        private static bool IsConnectionSuccessful = false;
+        private static Exception socketexception;
+        private static readonly ManualResetEvent TimeoutObject = new ManualResetEvent(false);
+
         public bool Connect()
         {
             try
             {
-                tcpClient = new TcpClient();
-                tcpClient.Connect(address, tcpPort);
+                TryConnect(address, tcpPort, 500);
             }
             catch (Exception ex)
             {
@@ -88,12 +93,62 @@ namespace Sinboda.SemiAuto.Core.Models.Common
             return tcpClient.Connected;
         }
 
+        private bool TryConnect(string address, int tcpPort, int timeoutMSec)
+        {
+            TimeoutObject.Reset();
+            socketexception = null;
+
+            tcpClient.BeginConnect(address, tcpPort,
+                new AsyncCallback(CallBackMethod), tcpClient);
+
+            if (TimeoutObject.WaitOne(timeoutMSec, false))
+            {
+                if (IsConnectionSuccessful)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw socketexception;
+                }
+            }
+            else
+            {
+                tcpClient.Close();
+                throw new TimeoutException("TimeOut Exception");
+            }
+        }
+
+        private static void CallBackMethod(IAsyncResult asyncresult)
+        {
+            try
+            {
+                IsConnectionSuccessful = false;
+                TcpClient tcpclient = asyncresult.AsyncState as TcpClient;
+
+                if (tcpclient.Client != null)
+                {
+                    tcpclient.EndConnect(asyncresult);
+                    IsConnectionSuccessful = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                IsConnectionSuccessful = false;
+                socketexception = ex;
+            }
+            finally
+            {
+                TimeoutObject.Set();
+            }
+        }
+
         public bool Write(byte[] bytes)
         {
             try
             {
                 //连接器断联
-                if (!tcpClient.Connected)
+                if (tcpClient.Client.IsNull() || !tcpClient.Connected)
                 {
                     LogHelper.logSoftWare.Info($"TcpDriver is not connected!");
                     return false;

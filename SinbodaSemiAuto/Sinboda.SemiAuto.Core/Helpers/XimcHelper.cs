@@ -273,8 +273,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
 
                 // 句柄
                 IntPtr device_enumeration;
-                const int probe_flags = (int)(Flags.ENUMERATE_PROBE | Flags.ENUMERATE_NETWORK);
-                String enumerate_hints = "addr=192.168.1.1,172.16.2.3";
+                const int probe_flags = (int)(Flags.ENUMERATE_PROBE);// | Flags.ENUMERATE_NETWORK);
+                String enumerate_hints = "";// "addr=192.168.1.1,172.16.2.3";
                 API.set_bindy_key("keyfile.sqlite");
 
                 // 查看设备
