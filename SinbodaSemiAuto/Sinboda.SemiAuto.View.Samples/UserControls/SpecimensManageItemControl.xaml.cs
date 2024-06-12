@@ -122,16 +122,28 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
         {
             SpecimensManageItemControl item = (SpecimensManageItemControl)d;
 
-            if (e.Property.Name == "IsSample")
+            if (e.Property.Name == "IsSample" && item.IsSample)
+            {
                 item.IsSample = true;
-            else if (e.Property.Name == "IsCalibration")
+                item.IsCalibration = false;
+            }
+            else if (e.Property.Name == "IsCalibration" && item.IsCalibration)
+            {
+                item.IsSample = false;
                 item.IsCalibration = true;
-            else if (e.Property.Name == "IsEnable")
+            }
+            else if (e.Property.Name == "IsEnable" && item.IsEnable)
                 item.IsEnable = true;
-            else if (e.Property.Name == "IsItemAD")
+            else if (e.Property.Name == "IsItemAD" && item.IsItemAD)
+            {
                 item.IsItemAD = true;
-            else if (e.Property.Name == "IsItemPD")
+                item.IsItemPD = false;
+            }
+            else if (e.Property.Name == "IsItemPD" && item.IsItemPD)
+            {
+                item.IsItemAD = false;
                 item.IsItemPD = true;
+            }
         }
     }
 }

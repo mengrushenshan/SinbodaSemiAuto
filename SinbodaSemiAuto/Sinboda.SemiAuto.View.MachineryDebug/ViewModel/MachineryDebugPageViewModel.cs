@@ -241,9 +241,19 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             set { Set(ref originYaxis, value); }
         }
 
-        public bool IsCameraInitEnable { get; set; }
+        private bool isCameraInitEnable;
+        public bool IsCameraInitEnable 
+        {
+            get { return isCameraInitEnable; }
+            set { Set(ref isCameraInitEnable, value); } 
+        }
 
-        public bool IsCameraOpenEnable { get; set; }
+        private bool isCameraOpenEnable;
+        public bool IsCameraOpenEnable 
+        {
+            get { return isCameraOpenEnable; } 
+            set { Set(ref isCameraOpenEnable, value); }
+        }
         #endregion
 
         #region 命令

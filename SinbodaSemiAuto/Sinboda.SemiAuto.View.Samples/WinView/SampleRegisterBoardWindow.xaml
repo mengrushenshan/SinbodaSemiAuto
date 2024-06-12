@@ -9,7 +9,7 @@
              xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
              mc:Ignorable="d" 
              Title="{MultiLang:StringResource 0, DefaultValue=测试模板}"
-             Height="900" Width="1500">
+             Height="550" Width="1700">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
