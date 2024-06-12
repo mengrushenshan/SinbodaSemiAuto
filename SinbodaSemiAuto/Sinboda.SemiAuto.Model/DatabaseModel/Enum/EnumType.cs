@@ -402,6 +402,17 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     }
     #endregion
 
+    #region 测试类型
+    [EnumAnnotate("测试类型", 0)]
+    public enum TestType
+    {
+        [EnumAnnotate("样本", 0)]
+        Sample,
+        [EnumAnnotate("校准", 0)]
+        Calibration
+    }
+    #endregion
+
     [AttributeUsage(AttributeTargets.All)]
     public sealed class EnumAnnotate : Attribute
     {

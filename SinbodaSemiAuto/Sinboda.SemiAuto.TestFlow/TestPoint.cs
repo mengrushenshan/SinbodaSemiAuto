@@ -78,16 +78,24 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <param name="bitmap"></param>
         public void AcquiringImage(Mat bitmap)
         {
+            //收到5张黑图后通知激光由相机采图后开启
+            if (tifList.Count == 5)
+            {
+                ControlBusiness.Instance.LightEnableCtrl(1, 0);
+            }
+
+
             if (tifList.Count < 100)
             {
                 tifList.Add(bitmap);
             }
             else
             {
+                //图像采集完成时关闭激光
+                ControlBusiness.Instance.LightEnableCtrl(0, 0);
                 Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, AcquiringImage);
                 Messenger.Default.Send<object>(null, MessageToken.AcquiringImageComplete);
                 SaveMatList();
-                
             }
         }
 

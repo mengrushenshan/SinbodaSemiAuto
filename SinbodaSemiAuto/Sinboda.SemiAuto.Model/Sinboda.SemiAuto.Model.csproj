@@ -101,12 +101,14 @@
     <Compile Include="DatabaseModel\Enum\EnumType.cs" />
     <Compile Include="DatabaseModel\Enum\EnumTypeResource.cs" />
     <Compile Include="DatabaseModel\RegexLC\RegexLCClass.cs" />
+    <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_BoardTemplateMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_CellMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_ItemsMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_MotorMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_PatientMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_SampleMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_Test_ResultMap.cs" />
+    <Compile Include="DatabaseModel\SemiAuto\Sin_BoardTemplate.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Cell.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Item.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Motor.cs" />
