@@ -34,5 +34,29 @@ namespace Sinboda.SemiAuto.Business.Items
 
             return result;
         }
+
+        public bool LightEnableCtrl(int enable, double voltage, int output)
+        {
+            bool result = false;
+            CmdLightEnable cmdLightEnable = new CmdLightEnable()
+            {
+                Enable = enable,
+                Voltage = voltage,
+                Output = output
+            };
+
+            if (cmdLightEnable.Execute())
+            {
+                result = true;
+            }
+            else
+            {
+                Response response = cmdLightEnable.GetResponse() as Response;
+                LogHelper.logSoftWare.Error("LightEnableCtrl Run Error ErrorCode:" + response.ErrorCode);
+                result = false;
+            }
+
+            return result;
+        }
     }
 }

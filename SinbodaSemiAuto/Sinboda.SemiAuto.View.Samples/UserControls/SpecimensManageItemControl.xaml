@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="Sinboda.SemiAuto.View.Samples.UserControls.SpecimensManageItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.SemiAuto.View.Samples.UserControls"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="400">
+    <Grid>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Name="tb_ItemName" VerticalAlignment="Center" Height="Auto" Width="40"
+                            Margin="0,0,10,0"
+                            Text="{Binding Path=ItemName, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" TextAlignment="Right" />
+            <CheckBox IsChecked="{Binding Path=IsEnable, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="{MultiLang:StringResource 0, DefaultValue=启用}" Margin="0,0,10,0"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=样本类型}" Margin="0,0,10,0"/>
+                <RadioButton IsChecked="{Binding Path=IsCalibration, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="{MultiLang:StringResource 0, DefaultValue=校准}" Margin="0,0,10,0"/>
+                <RadioButton IsChecked="{Binding Path=IsSample, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="{MultiLang:StringResource 0, DefaultValue=样本}" Margin="0,0,10,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=项目}" Margin="0,0,10,0"/>
+                <RadioButton IsChecked="{Binding Path=IsItemAD, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="AD" Margin="0,0,10,0"/>
+                <RadioButton IsChecked="{Binding Path=IsItemPD, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="PD" Margin="0,0,10,0"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

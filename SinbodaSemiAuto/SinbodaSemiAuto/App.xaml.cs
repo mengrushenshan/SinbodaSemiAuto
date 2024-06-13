@@ -63,6 +63,7 @@ namespace SinbodaSemiAuto
                     bootStrapper.ModuleManager.ModuleInitDic.Add("Sinboda.SemiAuto.View.Samples.dll#Sinboda.SemiAuto.View.Samples.InitializeModule", new Sinboda.SemiAuto.View.Samples.InitializeModule());
                     bootStrapper.ModuleManager.ModuleInitDic.Add("Sinboda.SemiAuto.View.Results.dll#Sinboda.SemiAuto.View.Results.InitializeModule", new Sinboda.SemiAuto.View.Results.InitializeModule());
                     bootStrapper.ModuleManager.ModuleInitDic.Add("Sinboda.SemiAuto.View.MachineryDebug.dll#Sinboda.SemiAuto.View.MachineryDebug.InitializeModule", new Sinboda.SemiAuto.View.MachineryDebug.InitializeModule());
+                    bootStrapper.SetDefaultView("SamplesRegisterPageView");
                 });
                 return new InitTaskResult();
             }), 3);

@@ -147,6 +147,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             set { Set(ref cameraButtonText, value); }
         }
 
+        private double voltage = 0.25;
+        public double Voltage 
+        {
+            get { return voltage; }
+            set { Set(ref voltage, value); } 
+        }
         #region 风扇按钮文言
 
         private string fan1ButtonText;
@@ -235,12 +241,20 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             set { Set(ref originYaxis, value); }
         }
 
-        public bool IsCameraInitEnable { get; set; }
+        private bool isCameraInitEnable;
+        public bool IsCameraInitEnable 
+        {
+            get { return isCameraInitEnable; }
+            set { Set(ref isCameraInitEnable, value); } 
+        }
 
-        public bool IsCameraOpenEnable { get; set; }
+        private bool isCameraOpenEnable;
+        public bool IsCameraOpenEnable 
+        {
+            get { return isCameraOpenEnable; } 
+            set { Set(ref isCameraOpenEnable, value); }
+        }
         #endregion
-
-
 
         #region 命令
 
@@ -398,6 +412,21 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 大图展示
         /// </summary>
         public RelayCommand BigImageCommand { get; set; }
+
+        #endregion
+
+        #region 激光器
+
+        /// <summary>
+        /// 相机开关命令
+        /// </summary>
+        public RelayCommand OpenLightCommand { get; set; }
+
+        /// <summary>
+        /// 相机初始化命令
+        /// </summary>
+        public RelayCommand CloseLightCommand { get; set; }
+
         #endregion
 
         #endregion
@@ -414,6 +443,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             CameraInitCommand = new RelayCommand(InitCamera);
             BigImageCommand = new RelayCommand(BigImageShow);
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
+            OpenLightCommand = new RelayCommand(OpenLight);
+            CloseLightCommand = new RelayCommand(CloseLight);
 
             ChangeButtonText();
             
@@ -1272,6 +1303,19 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             });
         }
 
+        #endregion
+
+        #region 激光器
+
+        private void OpenLight()
+        {
+            ControlBusiness.Instance.LightEnableCtrl(1, Voltage, 1);
+        }
+
+        private void CloseLight()
+        {
+            ControlBusiness.Instance.LightEnableCtrl(0, Voltage, 1);
+        }
         #endregion
 
         #region 外设输入

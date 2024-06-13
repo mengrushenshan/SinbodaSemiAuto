@@ -31,6 +31,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Xml.Linq;
 using static Sinboda.Framework.Control.DateTimePickers.TMinSexView;
+using Sinboda.Framework.Common;
+using System.IO;
+using DevExpress.CodeParser;
 
 namespace Sinboda.SemiAuto.View.Samples.ViewModel
 {
@@ -132,7 +135,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         public string SelectItem
         {
             get { return selectItem; }
-            set { Set(ref selectItem, value);}
+            set { Set(ref selectItem, value); }
         }
 
         /// <summary>
@@ -142,7 +145,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         public Sin_Motor XAxisMotor
         {
             get { return xAxisMotor; }
-            set { Set(ref xAxisMotor, value);}
+            set { Set(ref xAxisMotor, value); }
         }
 
         /// <summary>
@@ -178,12 +181,22 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// <summary>
         /// 初始化按钮使能
         /// </summary>
-        public bool IsCameraInitEnable { get; set; }
+        private bool isCameraInitEnable;
+        public bool IsCameraInitEnable 
+        { 
+            get { return isCameraInitEnable; } 
+            set { Set(ref isCameraInitEnable, value); }
+        }
 
         /// <summary>
         /// 相机开关使能
         /// </summary>
-        public bool IsCameraOpenEnable { get; set; }
+        private bool isCameraOpenEnable;
+        public bool IsCameraOpenEnable 
+        { 
+            get { return isCameraOpenEnable; }
+            set { Set (ref isCameraOpenEnable, value); }
+        }
 
         /// <summary>
         /// 相机按钮文言
@@ -194,6 +207,13 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             get { return cameraButtonText; }
             set { Set(ref cameraButtonText, value); }
+        }
+
+        private int focusImageCount = 100;
+        public int FocusImageCount
+        {
+            get { return focusImageCount; }
+            set { Set(ref focusImageCount, value); }
         }
         #endregion
 
@@ -342,6 +362,11 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
         private void SampleRigester()
         {
+            SampleRegisterBoardWindow sampleRegisterBoardWindow = new SampleRegisterBoardWindow();
+            sampleRegisterBoardWindow.ShowDialog();
+
+            return;
+
             if (SampleCode == null || SampleCode < 1 || SampleCode > 99999999)
             {
                 NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(2689, "样本号为空，请重新输入"), MessageBoxButton.OK, SinMessageBoxImage.Information);
@@ -362,7 +387,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 {
 
                     a.Title = SystemResources.Instance.GetLanguage(12495, "正在登记样本，请等待...");
-                    or = SampleBusiness.Instance.CreateSample(SampleCode ?? 0, RackDish, Position, Barcode, Count ?? 0, SelectItem);
+                    or = SampleBusiness.Instance.CreateSample(SampleCode ?? 0, RackDish, Position, Barcode, Count ?? 0, SelectItem, 0);
 
                 }, 0, a =>
                 {
@@ -604,12 +629,22 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private void CameraFocus()
         {
+            string dateText = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
+            string fileName = $"{dateText}.tif";
+
             if (!isOpenCamera)
             {
                 PVCamHelper.Instance.StartCont();
                 isOpenCamera = true;
                 ChangeButtonText();
             }
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
             Task.Run(() =>
             {
                 //开启激光
@@ -617,12 +652,13 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 //获取Z轴位置
                 MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 4, 100);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 4, FocusImageCount, filePath + fileName);
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
-
                 //关闭激光
                 ControlBusiness.Instance.LightEnableCtrl(0, 1);
+
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "聚焦完成"), MessageBoxButton.OK, SinMessageBoxImage.Information);
             });
             
         }

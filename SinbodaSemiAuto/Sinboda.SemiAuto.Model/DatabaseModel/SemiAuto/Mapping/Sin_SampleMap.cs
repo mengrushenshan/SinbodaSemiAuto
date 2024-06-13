@@ -30,6 +30,7 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto.Mapping
             Property(o => o.Test_doctor).HasColumnName("TEST_DOCTOR").HasColumnType("VARCHAR").HasMaxLength(200);
             Property(o => o.Test_time).HasColumnName("TEST_TIME");
             Property(o => o.Remark).HasColumnName("REMARK").HasColumnType("VARCHAR").HasMaxLength(500);
+            Property(o => o.BoardId).HasColumnName("BOARD_ID");
             Property(o => o.Create_user).HasColumnName("CREATE_USER").HasColumnType("VARCHAR").HasMaxLength(50);
             Property(o => o.Create_time).HasColumnName("CREATE_TIME");
         }

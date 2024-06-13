@@ -65,6 +65,7 @@ namespace Sinboda.SemiAuto.Model
             modelBuilder.Configurations.Add(new Sin_Test_ResultMap());
             modelBuilder.Configurations.Add(new Sin_MotorMap());
             modelBuilder.Configurations.Add(new Sin_CellMap());
+            modelBuilder.Configurations.Add(new Sin_BoardTemplateMap());
         }
     }
 }
