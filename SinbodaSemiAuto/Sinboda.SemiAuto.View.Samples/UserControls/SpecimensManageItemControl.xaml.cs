@@ -48,6 +48,16 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
         }
 
         /// <summary>
+        /// 架号
+        /// </summary>
+        public int Rack { get; set; }
+
+        /// <summary>
+        /// 位置
+        /// </summary>
+        public int Pos { get; set; }
+
+        /// <summary>
         /// 样本孔位
         /// </summary>
         public bool IsSample
@@ -112,9 +122,16 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
             InitializeComponent();
         }
 
-        public SpecimensManageItemControl(string itemName)
+        public SpecimensManageItemControl(string itemName, int rack, int pos, bool isEnable, bool isSample, bool isCalibration, bool isItemAD, bool isItemPD)
         {
             ItemName = itemName;
+            Rack = rack;
+            Pos = pos;
+            IsEnable = isEnable;
+            IsSample = isSample;
+            IsCalibration = isCalibration;
+            IsItemAD = isItemAD;
+            IsItemPD = isItemPD;
             InitializeComponent();
         }
 

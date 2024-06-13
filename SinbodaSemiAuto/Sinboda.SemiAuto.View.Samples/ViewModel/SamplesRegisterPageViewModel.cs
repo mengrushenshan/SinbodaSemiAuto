@@ -387,7 +387,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 {
 
                     a.Title = SystemResources.Instance.GetLanguage(12495, "正在登记样本，请等待...");
-                    or = SampleBusiness.Instance.CreateSample(SampleCode ?? 0, RackDish, Position, Barcode, Count ?? 0, SelectItem);
+                    or = SampleBusiness.Instance.CreateSample(SampleCode ?? 0, RackDish, Position, Barcode, Count ?? 0, SelectItem, 0);
 
                 }, 0, a =>
                 {

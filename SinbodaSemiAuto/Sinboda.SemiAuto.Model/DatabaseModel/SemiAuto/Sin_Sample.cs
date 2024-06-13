@@ -136,6 +136,11 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         /// </summary>
         public string Remark { get; set; }
 
+        /// <summary>
+        /// 实验板号
+        /// </summary>
+        public int BoardId { get; set; }
+
         public override string ToString()
         {
             return $"样本编号 {SampleCode} 条码 {Barcode} 位置{Position} 架号{RackDish} 样本状态 {Test_state} 检查完成时间 {Test_time}";

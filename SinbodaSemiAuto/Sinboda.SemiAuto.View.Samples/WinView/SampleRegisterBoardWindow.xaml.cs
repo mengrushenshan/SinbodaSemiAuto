@@ -27,5 +27,10 @@ namespace Sinboda.SemiAuto.View.Samples.WinView
             InitializeComponent();
             DataContext = new SampleRegisterBoardViewModel(flow.Children, flow2.Children, flow3.Children);
         }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

@@ -15,8 +15,8 @@
             <CheckBox IsChecked="{Binding Path=IsEnable, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="{MultiLang:StringResource 0, DefaultValue=启用}" Margin="0,0,10,0"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
                 <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=样本类型}" Margin="0,0,10,0"/>
-                <RadioButton IsChecked="{Binding Path=IsSample, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="{MultiLang:StringResource 0, DefaultValue=校准}" Margin="0,0,10,0"/>
-                <RadioButton IsChecked="{Binding Path=IsCalibration, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="{MultiLang:StringResource 0, DefaultValue=样本}" Margin="0,0,10,0"/>
+                <RadioButton IsChecked="{Binding Path=IsCalibration, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="{MultiLang:StringResource 0, DefaultValue=校准}" Margin="0,0,10,0"/>
+                <RadioButton IsChecked="{Binding Path=IsSample, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="{MultiLang:StringResource 0, DefaultValue=样本}" Margin="0,0,10,0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
                 <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=项目}" Margin="0,0,10,0"/>

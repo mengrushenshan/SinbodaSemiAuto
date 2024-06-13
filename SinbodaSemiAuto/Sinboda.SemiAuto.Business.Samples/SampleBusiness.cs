@@ -42,6 +42,26 @@ namespace Sinboda.SemiAuto.Business.Samples
         }
 
         /// <summary>
+        /// 取出当天登记的最大板号
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxBoardId()
+        {
+            List<Sin_Sample> sampleList = Sin_Sample_DataOperation.Instance.QueryTodaySampleList();
+            if (sampleList != null)
+            {
+                int maxCode = sampleList.Max(o => o.BoardId);
+                if (maxCode < MIN_SAMPLECODE || maxCode > MAX_SAMPLECODE)
+                {
+                    return MIN_SAMPLECODE;
+                }
+                return maxCode + 1;
+            }
+
+            return MIN_SAMPLECODE;
+        }
+
+        /// <summary>
         /// 架号位置是否有样本
         /// </summary>
         /// <param name="rack"></param>
@@ -172,7 +192,7 @@ namespace Sinboda.SemiAuto.Business.Samples
         /// <param name="count"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public OperationResult CreateSample(int sampleCode, int rack, int pos, string barcode, int count, string itemName)
+        public OperationResult CreateSample(int sampleCode, int rack, int pos, string barcode, int count, string itemName, int boardId)
         {
             
             OperationResult or = null;
@@ -191,7 +211,7 @@ namespace Sinboda.SemiAuto.Business.Samples
                     {
                         Id = Guid.NewGuid(),
                         Patient_id = patientId,
-                        SampleCode = sampleCode,
+                        SampleCode = sampleCode + i,
                         RackDish = rack,
                         Position = pos,
                         Barcode = barcode,
@@ -199,7 +219,8 @@ namespace Sinboda.SemiAuto.Business.Samples
                         Test_state = TestState.Untested,
                         Delete_flag = false,
                         Send_time = DateTime.Now,
-                        Sampling_time = DateTime.Now
+                        Sampling_time = DateTime.Now,
+                        BoardId = boardId
                     };
 
                     if (!TestResultBusiness.Instance.CreateTestResult(sample.Id, itemName))
