@@ -98,6 +98,11 @@ namespace Sinboda.SemiAuto.Core.Models
         public const uint XimcFastAccel = 1000;
 
         /// <summary>
+        /// z轴慢速移动时的固定步长
+        /// </summary>
+        public const int XimcFocusSlowStep = 4;
+
+        /// <summary>
         /// ip地址
         /// </summary>
         public static string IpAddress { get; set; } = "192.168.1.30";

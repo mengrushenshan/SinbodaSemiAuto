@@ -1293,7 +1293,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 {
                     if (MouseKeyBoardHelper.IsAltDown())
                     {
-                        MoveRelativePos(ZaxisMotor, false, message.Delta);
+                        //移动固定步长
+                        MoveRelativePos(ZaxisMotor, false,GlobalData.XimcFocusSlowStep);
+                        //MoveRelativePos(ZaxisMotor, false, message.Delta);
                         LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
                     }
                     else
