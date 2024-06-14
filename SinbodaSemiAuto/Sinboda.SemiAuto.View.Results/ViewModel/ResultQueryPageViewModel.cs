@@ -1,7 +1,10 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
+using Sinboda.Framework.Control.Controls.Navigation;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.SemiAuto.Business.Samples;
+using Sinboda.SemiAuto.Core.Helpers;
+using Sinboda.SemiAuto.Core.Resources;
 using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
 using Sinboda.SemiAuto.View.Results.WinView;
 using System;
@@ -10,6 +13,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Sinboda.SemiAuto.View.Results.ViewModel
 {
@@ -84,7 +88,6 @@ namespace Sinboda.SemiAuto.View.Results.ViewModel
 
             PatientInfoCommand = new RelayCommand(PatientInfo);
             SampleDeleteCommand = new RelayCommand(SampleDelete);
-            InitResultQueryPage();
         }
 
         private void InitResultQueryPage()
@@ -133,6 +136,27 @@ namespace Sinboda.SemiAuto.View.Results.ViewModel
         private void PatientInfo()
         {
 
+        }
+
+        /// <summary>
+        /// 进入页面时触发
+        /// </summary>
+        /// <param name="parameter"></param>
+        protected override void OnParameterChanged(object parameter)
+        {
+            InitResultQueryPage();
+        }
+
+        /// <summary>
+        /// 离开页面时触发
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="mode"></param>
+        /// <param name="navigationState"></param>
+        /// <returns></returns>
+        protected override bool NavigatedFrom(object source, NavigationMode mode, object navigationState)
+        {
+            return base.NavigatedFrom(source, mode, navigationState);
         }
     }
 }

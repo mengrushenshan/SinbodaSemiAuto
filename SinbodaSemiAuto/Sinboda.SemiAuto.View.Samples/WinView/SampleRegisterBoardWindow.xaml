@@ -79,7 +79,7 @@
     
     <sin:SinWindow.BottomPanel>
         <Button Content="{MultiLang:StringResource 0, DefaultValue=创建新模板}" Command="{Binding CreateTemplateCmd}" Margin="10,0,0,0"/>
-        <Button Content="{MultiLang:StringResource 0, DefaultValue=保存模板}" Command="{Binding SampleRigesterCmd}" Margin="10,0,0,0"/>
+        <Button Content="{MultiLang:StringResource 0, DefaultValue=保存模板}" Command="{Binding SaveTemplateCmd}" Margin="10,0,0,0"/>
         <Button Content="{MultiLang:StringResource 116, DefaultValue=登记}" Command="{Binding SampleRigesterCmd}" Margin="10,0,0,0"/>
         <Button x:Name="btnClose" Click="btnClose_Click" Content="{MultiLang:StringResource 144, DefaultValue=关闭}" Margin="10,0,0,0" />
     </sin:SinWindow.BottomPanel>

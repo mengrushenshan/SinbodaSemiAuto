@@ -46,5 +46,19 @@ namespace Sinboda.SemiAuto.Business.Samples
 
             return result = true;
         }
+
+        public bool CreateTemplateList(List<Sin_BoardTemplate> boardTemplateList)
+        {
+            bool result = false;
+
+            if (boardTemplateList == null)
+            {
+                return result;
+            }
+
+            Sin_BoardTemplateOperation.Instance.Insert(boardTemplateList);
+
+            return result = true;
+        }
     }
 }

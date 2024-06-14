@@ -1,4 +1,6 @@
 ﻿using Sinboda.Framework.Control.Controls;
+using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
+using Sinboda.SemiAuto.View.Samples.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +23,9 @@ namespace Sinboda.SemiAuto.View.Samples.WinView
     /// </summary>
     public partial class CreateBoardTemplateWindow : SinWindow
     {
-        public CreateBoardTemplateWindow()
+        public CreateBoardTemplateWindow(List<Sin_BoardTemplate> boardTemplateList)
         {
+            DataContext = new CreateBoardTemplateViewModel(boardTemplateList);
             InitializeComponent();
         }
 

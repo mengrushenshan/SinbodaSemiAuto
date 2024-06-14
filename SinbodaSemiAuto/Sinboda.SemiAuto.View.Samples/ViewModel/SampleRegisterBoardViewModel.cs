@@ -70,6 +70,11 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// 创建模板
         /// </summary>
         public RelayCommand CreateTemplateCmd { get; set; }
+
+        /// <summary>
+        /// 保存模板
+        /// </summary>
+        public RelayCommand SaveTemplateCmd { get; set; }
         #endregion
 
         public SampleRegisterBoardViewModel(UIElementCollection children1, UIElementCollection children2, UIElementCollection children3) 
@@ -81,6 +86,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             BoardId = SampleBusiness.Instance.GetMaxBoardId();
             SampleRigesterCmd = new RelayCommand(SaveBoardSample);
             CreateTemplateCmd = new RelayCommand(CreateTempLate);
+            SaveTemplateCmd = new RelayCommand(SaveTemplateList);
             SetTemplateNameAndList();
             ShowTextTpye();
         }
@@ -196,13 +202,13 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             foreach (var item in children)
             {
                 SpecimensManageItemControl tempItem = item as SpecimensManageItemControl;
-                Sin_BoardTemplate boardTemp = boardTemplateList.Where(o => o.Rack == tempItem.Rack && o.Position == tempItem.Pos).FirstOrDefault();
 
                 if (tempItem == null)
                 {
                     continue;
                 }
 
+                Sin_BoardTemplate boardTemp = boardTemplateList.Where(o => o.Rack == tempItem.Rack && o.Position == tempItem.Pos).FirstOrDefault();
                 boardTemp.TestType = tempItem.IsSample ? TestType.Sample : TestType.Calibration;
                 boardTemp.ItemName = tempItem.IsItemAD ? "AD" : "PD";
                 boardTemp.IsEnable = tempItem.IsEnable;
@@ -262,10 +268,18 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
         private void CreateTempLate()
         {
-            CreateBoardTemplateWindow createBoardTemplateWindow = new CreateBoardTemplateWindow();
+            string tempName = string.IsNullOrEmpty(TemplateName) ? "Default" : TemplateName;
+            var TemplateList = BoardTemplateBusiness.Instance.GetBoardList(tempName);
+
+            GetTemplateNameList(children1, TemplateList);
+            GetTemplateNameList(children2, TemplateList);
+            GetTemplateNameList(children3, TemplateList);
+
+            CreateBoardTemplateWindow createBoardTemplateWindow = new CreateBoardTemplateWindow(TemplateList);
             if (createBoardTemplateWindow.ShowDialog() == true)
             {
-                
+                SetTemplateNameAndList();
+                ShowTextTpye();
             }
         }
     }
