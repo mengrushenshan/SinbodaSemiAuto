@@ -101,7 +101,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     int tiemSpan = 10 * 1000 / time;
                     for (int j = 0; j < tiemSpan; j++)
                     {
-                        Thread.Sleep(time * (j > 0 ? 1 : 40));
+                        Thread.Sleep(time);
                         lock (_lockObj)
                         {
                             if (!isSaveEnable)
