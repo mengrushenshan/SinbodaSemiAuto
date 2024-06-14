@@ -72,10 +72,10 @@ namespace sin_mole_flu_analyzer.Models.Command
                 num = tiemOut * 1000 / tSleep;
             for (int i = 0; i < num; i++)
             {
-                status_t status_T = new status_t();
-                if (XimcHelper.Instance.Get_Status(arm.DeveiceId, out status_T) == Result.ok)
+                Status_Ximc status = XimcHelper.Instance.Get_Status(arm.DeveiceId);
+                if (!status.IsNull())
                 {
-                    if (status_T.CurSpeed == 0)
+                    if (status.CurSpeed == 0)
                         return true;
                     Thread.Sleep(tSleep);
                     continue;

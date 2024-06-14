@@ -117,6 +117,9 @@ namespace Sinboda.SemiAuto.Core.Models
         public const int VideoHeight = 1024;
         public const int VideoFPS = 20;
 
+        //ximc细分
+        public const int stepMode_Ximc = 256;
+
         //载玻片可视距离 微米
         public const int SlidesWidth = 25 * 1000;
         public const int SlidesHeight = 25 * 1000;

@@ -158,6 +158,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     camCtrl.OnSpeedListChanged -= ActiveCamera_OnSpeedListChanged;
                     camCtrl.OnGainListChanged -= ActiveCamera_OnGainListChanged;
                     camCtrl = null;
+                    PvcamLibrary.Uninitialize();
                 }
             }
             catch (Exception ex)
@@ -436,10 +437,11 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <returns></returns>
         private Mat Rehandle(Mat source, OpenCvSharp.Size size, RotateFlags rotateFlags = RotateFlags.Rotate90Counterclockwise)
         {
-            Mat mat = new Mat();
+            //Mat mat = new Mat();
             Mat dst = new Mat();
-            Cv2.Resize(source, mat, size);
-            Cv2.Rotate(mat, dst, RotateFlags.Rotate90Counterclockwise);
+            //Cv2.Resize(source, mat, size);
+            //旋转
+            Cv2.Rotate(source, dst, RotateFlags.Rotate90Counterclockwise);
             return dst;
         }
 

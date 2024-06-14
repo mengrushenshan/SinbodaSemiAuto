@@ -11,6 +11,13 @@ using ximc;
 
 namespace Sinboda.SemiAuto.Core.Helpers
 {
+    public class Status_Ximc
+    {
+        public int CurPosition;
+
+        public int CurSpeed;
+    }
+
     public class XimcHelper : TBaseSingleton<XimcHelper>
     {
         private API.LoggingCallback callback;
@@ -219,7 +226,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <param name="devId"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        public Result Get_Status(int devId, out status_t status)
+        private Result Get_Status(int devId, out status_t status)
         {
             //获取设备状态
             Result res = API.get_status(devId, out status);
@@ -230,6 +237,26 @@ namespace Sinboda.SemiAuto.Core.Helpers
             //记录电机状态
             print_status(status);
             return res;
+        }
+
+        /// <summary>
+        /// 查询当前电机状态
+        /// </summary>
+        /// <param name="devId"></param>
+        /// <returns></returns>
+        public Status_Ximc Get_Status(int devId)
+        {
+            status_t status_T;
+            Status_Ximc status_Ximc = null;
+            if (Get_Status(devId, out status_T) == Result.ok)
+            {
+                status_Ximc = new Status_Ximc()
+                {
+                    CurPosition = GlobalData.stepMode_Ximc * status_T.CurPosition + status_T.uCurPosition,
+                    CurSpeed = GlobalData.stepMode_Ximc * status_T.CurSpeed + status_T.uCurSpeed,
+                };
+            }
+            return status_Ximc;
         }
 
         /// <summary>
@@ -352,6 +379,32 @@ namespace Sinboda.SemiAuto.Core.Helpers
                                     LogHelper.logSoftWare.Error($"Get_Move_Settings error!");
                                     continue;
                                 }
+
+                                //绑定速度信息
+                                engine_settings_t engine_Settings_T;
+                                if (Get_Engine_Settings(deviceID, out engine_Settings_T) == Result.ok)
+                                {
+                                    engine_Settings_T.MicrostepMode = 9;
+                                    engine_Settings_T.StepsPerRev = 200;
+                                    Set_Engine_Settings(deviceID, ref engine_Settings_T);
+                                }
+                                else
+                                {
+                                    LogHelper.logSoftWare.Error($"Get_Engine_Settings error!");
+                                    continue;
+                                }
+
+                                //绑定速度信息
+                                control_settings_t control_Settings_T;
+                                if (Get_Control_Settings(deviceID, out control_Settings_T) == Result.ok)
+                                {
+
+                                }
+                                else
+                                {
+                                    LogHelper.logSoftWare.Error($"Get_Control_Settings error!");
+                                    continue;
+                                }
                             }
                         }
                         else
@@ -409,7 +462,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         public Result Dispose()
         {
             Result res = Result.no_device;
-            if(XimcArms.IsNull())
+            if (XimcArms.IsNull())
                 return res;
             foreach (var item in XimcArms)
             {
@@ -450,6 +503,40 @@ namespace Sinboda.SemiAuto.Core.Helpers
             if (res != Result.ok)
             {
                 LogHelper.logSoftWare.Error("get_engine_settings Error " + res.ToString());
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// 获取仪器设置信息
+        /// </summary>
+        /// <param name="devId"></param>
+        /// <param name="_settings"></param>
+        /// <returns></returns>
+        public Result Get_Control_Settings(int devId, out control_settings_t _settings)
+        {
+            //
+            Result res = API.get_control_settings(devId, out _settings);
+            if (res != Result.ok)
+            {
+                LogHelper.logSoftWare.Error("get_control_settings Error " + res.ToString());
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// 写入仪器设置信息
+        /// </summary>
+        /// <param name="devId"></param>
+        /// <param name="engine_settings"></param>
+        /// <returns></returns>
+        public Result Set_Engine_Settings(int devId, ref engine_settings_t engine_settings)
+        {
+            //
+            Result res = API.set_engine_settings(devId, ref engine_settings);
+            if (res != Result.ok)
+            {
+                LogHelper.logSoftWare.Error("set_engine_settings Error " + res.ToString());
             }
             return res;
         }
@@ -760,35 +847,13 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 LogHelper.logSoftWare.Error($"No device for SerId:{ctrlName}");
                 return Result.no_device;
             }
-            //移动到指定位置 直流电机uPosition忽略
-            Result res = API.command_move(arm.DeveiceId, pos, 0);
+            //移动到指定位置
+            int step = pos / GlobalData.stepMode_Ximc;
+            int step2 = pos % GlobalData.stepMode_Ximc;
+            Result res = API.command_move(arm.DeveiceId, step, step2);
             if (res != Result.ok)
             {
                 LogHelper.logSoftWare.Error("command_move Error " + res.ToString());
-            }
-            return res;
-        }
-
-        /// <summary>
-        /// 电机移动 相对移动
-        /// </summary>
-        /// <param name="SerId"></param>
-        /// <param name="pos"></param>
-        /// <returns></returns>
-        public Result Cmd_Move_Relative(SerType ctrlName, int pos)
-        {
-            XimcArm arm = XimcArms?.FirstOrDefault(x => x.CtrlName == ctrlName);
-            //未找到电机
-            if (arm.IsNull())
-            {
-                LogHelper.logSoftWare.Error($"No device for ctrlName:{ctrlName}");
-                return Result.no_device;
-            }
-            //相对移动一段距离 直流电机uPosition忽略
-            Result res = API.command_movr(arm.DeveiceId, pos, 0);
-            if (res != Result.ok)
-            {
-                LogHelper.logSoftWare.Error("command_movr Error " + res.ToString());
             }
             return res;
         }
@@ -826,8 +891,10 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     return false;
             }
 
-            //相对移动一段距离 直流电机uPosition忽略
-            Result res = API.command_movr(arm.DeveiceId, pos, 0);
+            //相对移动一段距离
+            int step = pos / GlobalData.stepMode_Ximc;
+            int step2 = pos % GlobalData.stepMode_Ximc;
+            Result res = API.command_movr(arm.DeveiceId, step, step2);
             if (res != Result.ok)
             {
                 LogHelper.logSoftWare.Error("command_movr Error " + res.ToString());
