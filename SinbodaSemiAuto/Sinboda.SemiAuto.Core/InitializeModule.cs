@@ -30,13 +30,13 @@ namespace Sinboda.SemiAuto.Core
             //电机初始化
             XimcHelper.Instance.Init();
 
-            //相机初始化
-            PVCamHelper.Instance.Init();
+            ////相机初始化
+            //PVCamHelper.Instance.Init();
 
-            //tcp指令通讯器初始化 并连接
-            TcpCmdActuators.Instance.Init();
-            TcpCmdActuators.Instance.Connect();
-            TcpCmdActuators.Instance.StartSequence();
+            ////tcp指令通讯器初始化 并连接
+            //TcpCmdActuators.Instance.Init();
+            //TcpCmdActuators.Instance.Connect();
+            //TcpCmdActuators.Instance.StartSequence();
 
             return new InitTaskResult();
         }

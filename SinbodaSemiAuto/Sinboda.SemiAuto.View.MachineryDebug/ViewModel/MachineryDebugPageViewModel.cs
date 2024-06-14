@@ -29,6 +29,7 @@ using System.Threading;
 using System.Windows.Documents;
 using Sinboda.SemiAuto.View.MachineryDebug.WinView;
 using System.Windows.Threading;
+using static OpenCvSharp.Stitcher;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -1203,8 +1204,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="nStep"></param>
         private void MoveRelativePos(XimcArm obj, bool isFast, int nStep)
         {
-            status_t status_T = new status_t();
-            ximcController.Get_Status(ZaxisMotor.DeveiceId, out status_T);
+            Status_Ximc status = ximcController.Get_Status(ZaxisMotor.DeveiceId);
             Cmd_Move_Relative cmd_Move_Relative = new Cmd_Move_Relative()
             {
                 arm = obj,
@@ -1212,7 +1212,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 pos = nStep
             };
 
-            if (status_T.CurSpeed != 0)
+            if (status.CurSpeed != 0)
             {
                 return;
             }
@@ -1236,10 +1236,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         private bool SetXimcStatus(int deveiceId)
         {
             bool result = false;
-            status_t status_T = new status_t();
 
-            ximcController.Get_Status(deveiceId, out status_T);
-            PosZaxis = status_T.CurPosition;
+            Status_Ximc status = ximcController.Get_Status(deveiceId);
+            PosZaxis = status.CurPosition;
 
             return result = true;
         }

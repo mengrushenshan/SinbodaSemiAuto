@@ -64,7 +64,7 @@ namespace Sinboda.SemiAuto.Business.Items
 
                 return result;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 LogHelper.logSoftWare.Error($"SaveMotorItem error: {ex.Message}");
                 return result;
@@ -210,8 +210,7 @@ namespace Sinboda.SemiAuto.Business.Items
         /// <param name="nStep"></param>
         public bool MoveRelativePos(XimcArm obj, bool isFast, int nStep)
         {
-            status_t status_T = new status_t();
-            XimcHelper.Instance.Get_Status(obj.DeveiceId, out status_T);
+            Status_Ximc status_Ximc = XimcHelper.Instance.Get_Status(obj.DeveiceId);
             Cmd_Move_Relative cmd_Move_Relative = new Cmd_Move_Relative()
             {
                 arm = obj,
@@ -219,7 +218,7 @@ namespace Sinboda.SemiAuto.Business.Items
                 pos = nStep
             };
 
-            if (status_T.CurSpeed != 0)
+            if (status_Ximc.CurSpeed != 0)
             {
                 return false;
             }
@@ -245,10 +244,9 @@ namespace Sinboda.SemiAuto.Business.Items
         public bool SetXimcStatus(XimcArm obj)
         {
             bool result = false;
-            status_t status_T = new status_t();
 
-            XimcHelper.Instance.Get_Status(obj.DeveiceId, out status_T);
-            obj.TargetPos = status_T.CurPosition;
+            Status_Ximc status_Ximc = XimcHelper.Instance.Get_Status(obj.DeveiceId);
+            obj.TargetPos = status_Ximc.CurPosition;
 
             return result = true;
         }
