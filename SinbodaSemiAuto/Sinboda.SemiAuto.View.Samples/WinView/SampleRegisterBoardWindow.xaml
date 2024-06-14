@@ -13,7 +13,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="10" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         
@@ -24,14 +26,26 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
-                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=板号}" Margin="0,0,10,0"/>
+            
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=板号}" Margin="0,10,10,0"/>
                 <sin:SinNumricTextBox MinValue="1" MaxValue="99999999" Text="{Binding BoardId}" Width="100"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=模板名称}" Margin="0,10,10,0"/>
+                <sin:SinComboBox ItemsSource="{Binding TemplateNameList}" SelectedValue="{Binding TemplateName}" Width="100"/>
             </StackPanel>
         </Grid>
         
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="10" />
@@ -64,6 +78,8 @@
     </Grid>
     
     <sin:SinWindow.BottomPanel>
+        <Button Content="{MultiLang:StringResource 0, DefaultValue=创建新模板}" Command="{Binding CreateTemplateCmd}" Margin="10,0,0,0"/>
+        <Button Content="{MultiLang:StringResource 0, DefaultValue=保存模板}" Command="{Binding SampleRigesterCmd}" Margin="10,0,0,0"/>
         <Button Content="{MultiLang:StringResource 116, DefaultValue=登记}" Command="{Binding SampleRigesterCmd}" Margin="10,0,0,0"/>
         <Button x:Name="btnClose" Click="btnClose_Click" Content="{MultiLang:StringResource 144, DefaultValue=关闭}" Margin="10,0,0,0" />
     </sin:SinWindow.BottomPanel>

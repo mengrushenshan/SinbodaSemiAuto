@@ -1,0 +1,38 @@
+﻿<sin:SinWindow x:Class="Sinboda.SemiAuto.View.Samples.WinView.CreateBoardTemplateWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.SemiAuto.View.Samples.WinView"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             Height="300" Width="500"
+             Title="{MultiLang:StringResource 0, DefaultValue=创建模板}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="{MultiLang:StringResource 0, DefaultValue=模板名称}" VerticalAlignment="Center" HorizontalAlignment="Right" />
+            <sin:SinTextBox Grid.Column="2" Text="" Width="200" Height="40" HorizontalAlignment="Left" />
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <sin:SinButton Grid.Column="0" Width="100" Height="40" Content="{MultiLang:StringResource 0, DefaultValue=创建}" />
+            <sin:SinButton x:Name="btnClose" Grid.Column="1" Width="100" Height="40" Click="btnClose_Click" Content="{MultiLang:StringResource 0, DefaultValue=取消}" />
+        </Grid>
+    </Grid>
+</sin:SinWindow>

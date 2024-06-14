@@ -9,7 +9,9 @@ using Sinboda.SemiAuto.Business.Samples;
 using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
 using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
 using Sinboda.SemiAuto.View.Samples.UserControls;
+using Sinboda.SemiAuto.View.Samples.WinView;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace Sinboda.SemiAuto.View.Samples.ViewModel
@@ -21,12 +23,41 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         private UIElementCollection children3;
 
         #region 数据
+
+        /// <summary>
+        /// 板号
+        /// </summary>
         private int boardId = 1;
         public int BoardId
         {
             get { return boardId; }
             set { Set(ref boardId, value); }
         }
+
+        /// <summary>
+        /// 模板名称
+        /// </summary>
+        private string templateName;
+        public string TemplateName
+        {
+            get { return templateName; }
+            set 
+            { 
+                Set(ref templateName, value);
+                ShowTextTpye();
+            }
+        }
+
+        /// <summary>
+        /// 模板名称列表
+        /// </summary>
+        private List<string> templateNameList;
+        public List<string> TemplateNameList
+        {
+            get { return templateNameList; }
+            set { Set(ref templateNameList, value); }
+        }
+
         #endregion
 
         #region 命令
@@ -34,6 +65,11 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// 登记
         /// </summary>
         public RelayCommand SampleRigesterCmd { get; set; }
+
+        /// <summary>
+        /// 创建模板
+        /// </summary>
+        public RelayCommand CreateTemplateCmd { get; set; }
         #endregion
 
         public SampleRegisterBoardViewModel(UIElementCollection children1, UIElementCollection children2, UIElementCollection children3) 
@@ -44,8 +80,25 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
             BoardId = SampleBusiness.Instance.GetMaxBoardId();
             SampleRigesterCmd = new RelayCommand(SaveBoardSample);
-
+            CreateTemplateCmd = new RelayCommand(CreateTempLate);
+            SetTemplateNameAndList();
             ShowTextTpye();
+        }
+
+        private void SetTemplateNameAndList()
+        {
+            TemplateNameList = BoardTemplateBusiness.Instance.GetTemplateNameList();
+            if (TemplateNameList != null)
+            {
+                TemplateNameList.Add(string.Empty);
+                TemplateName = string.Empty;
+            }
+            else
+            {
+                TemplateNameList = new List<string>();
+                TemplateNameList.Add(string.Empty);
+                TemplateName = string.Empty;
+            }
         }
 
         private void ShowTextTpye()
@@ -54,22 +107,50 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             children1.Clear();
             children2.Clear();
             children3.Clear();
-            
-            for (int i = 1; i <= 3; i++)
+
+            string tempName = string.IsNullOrEmpty(TemplateName) ? "Default" : TemplateName;
+            var TemplateList = BoardTemplateBusiness.Instance.GetBoardList(tempName);
+
+            if (TemplateList != null)
             {
-                for (int j = 1; j <= 10; j++)
+                foreach(var tempItem in TemplateList.OrderBy(o => o.Rack).ThenBy(p => p.Position)) 
                 {
-                    if (i == 1)
+                    bool isSample = tempItem.TestType == TestType.Sample;
+                    switch (tempItem.Rack) 
                     {
-                        children1.Add(new SpecimensManageItemControl($"{i}-{j}", i, j, true, true, false, true, false));
+                        case 1:
+                            children1.Add(new SpecimensManageItemControl($"{tempItem.Rack}-{tempItem.Position}", tempItem.Rack, tempItem.Position, 
+                                tempItem.IsEnable, tempItem.TestType == TestType.Sample, tempItem.TestType == TestType.Calibration, tempItem.ItemName.Equals("AD"), tempItem.ItemName.Equals("PD")));
+                            break;
+                        case 2:
+                            children2.Add(new SpecimensManageItemControl($"{tempItem.Rack}-{tempItem.Position}", tempItem.Rack, tempItem.Position,
+                                tempItem.IsEnable, tempItem.TestType == TestType.Sample, tempItem.TestType == TestType.Calibration, tempItem.ItemName.Equals("AD"), tempItem.ItemName.Equals("PD")));
+                            break;
+                        case 3:
+                            children3.Add(new SpecimensManageItemControl($"{tempItem.Rack}-{tempItem.Position}", tempItem.Rack, tempItem.Position,
+                                tempItem.IsEnable, tempItem.TestType == TestType.Sample, tempItem.TestType == TestType.Calibration, tempItem.ItemName.Equals("AD"), tempItem.ItemName.Equals("PD")));
+                            break;
                     }
-                    else if (i == 2)
+                }
+            }
+            else
+            {
+                for (int i = 1; i <= 3; i++)
+                {
+                    for (int j = 1; j <= 10; j++)
                     {
-                        children2.Add(new SpecimensManageItemControl($"{i}-{j}", i, j, true, true, false, true, false));
-                    }
-                    else if (i == 3)
-                    {
-                        children3.Add(new SpecimensManageItemControl($"{i}-{j}", i, j, true, true, false, true, false));
+                        if (i == 1)
+                        {
+                            children1.Add(new SpecimensManageItemControl($"{i}-{j}", i, j, true, true, false, true, false));
+                        }
+                        else if (i == 2)
+                        {
+                            children2.Add(new SpecimensManageItemControl($"{i}-{j}", i, j, true, true, false, true, false));
+                        }
+                        else if (i == 3)
+                        {
+                            children3.Add(new SpecimensManageItemControl($"{i}-{j}", i, j, true, true, false, true, false));
+                        }
                     }
                 }
             }
@@ -89,7 +170,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 SpecimensManageItemControl tempItem = item as SpecimensManageItemControl;
                 Sin_BoardTemplate boardTemp = new Sin_BoardTemplate();
 
-                if (tempItem == null || !tempItem.IsEnable)
+                if (tempItem == null || !tempItem.IsEnable || tempItem.IsCalibration)
                 {
                     continue;
                 }
@@ -103,6 +184,29 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             }
 
             return itemList;
+        }
+
+        /// <summary>
+        /// 获取列表内容
+        /// </summary>
+        /// <param name="children"></param>
+        /// <returns></returns>
+        private void GetTemplateNameList(UIElementCollection children, List<Sin_BoardTemplate> boardTemplateList)
+        {
+            foreach (var item in children)
+            {
+                SpecimensManageItemControl tempItem = item as SpecimensManageItemControl;
+                Sin_BoardTemplate boardTemp = boardTemplateList.Where(o => o.Rack == tempItem.Rack && o.Position == tempItem.Pos).FirstOrDefault();
+
+                if (tempItem == null)
+                {
+                    continue;
+                }
+
+                boardTemp.TestType = tempItem.IsSample ? TestType.Sample : TestType.Calibration;
+                boardTemp.ItemName = tempItem.IsItemAD ? "AD" : "PD";
+                boardTemp.IsEnable = tempItem.IsEnable;
+            }
         }
 
         /// <summary>
@@ -138,6 +242,31 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                     BoardId = SampleBusiness.Instance.GetMaxBoardId();
                 }
             });
+        }
+
+        private void SaveTemplateList()
+        {
+            if (string.IsNullOrEmpty(TemplateName))
+            {
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "不能保存默认方案"));
+                return;
+            }
+            var TemplateList = BoardTemplateBusiness.Instance.GetBoardList(TemplateName);
+           
+            GetTemplateNameList(children1, TemplateList);
+            GetTemplateNameList(children2, TemplateList);
+            GetTemplateNameList(children3, TemplateList);
+
+            BoardTemplateBusiness.Instance.SaveTemplateNameList(TemplateList);
+        }
+
+        private void CreateTempLate()
+        {
+            CreateBoardTemplateWindow createBoardTemplateWindow = new CreateBoardTemplateWindow();
+            if (createBoardTemplateWindow.ShowDialog() == true)
+            {
+                
+            }
         }
     }
 }
