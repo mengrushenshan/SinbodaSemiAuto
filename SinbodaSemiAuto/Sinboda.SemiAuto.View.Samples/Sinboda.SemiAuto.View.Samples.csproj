@@ -171,9 +171,13 @@
       <DependentUpon>SpecimensManageItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\Utils.cs" />
+    <Compile Include="ViewModel\CreateBoardTemplateViewModel.cs" />
     <Compile Include="ViewModel\SampleDeleteViewModel.cs" />
     <Compile Include="ViewModel\SampleRegisterBoardViewModel.cs" />
     <Compile Include="ViewModel\SamplesRegisterPageViewModel.cs" />
+    <Compile Include="WinView\CreateBoardTemplateWindow.xaml.cs">
+      <DependentUpon>CreateBoardTemplateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WinView\SampleDeleteWindow.xaml.cs">
       <DependentUpon>SampleDeleteWindow.xaml</DependentUpon>
     </Compile>
@@ -233,6 +237,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SpecimensManageItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinView\CreateBoardTemplateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

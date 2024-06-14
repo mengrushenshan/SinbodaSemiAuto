@@ -38,5 +38,10 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         /// 测试项目
         /// </summary>
         public string ItemName { get; set; }
+
+        /// <summary>
+        /// 位置是否启用
+        /// </summary>
+        public bool IsEnable { get; set; }
     }
 }

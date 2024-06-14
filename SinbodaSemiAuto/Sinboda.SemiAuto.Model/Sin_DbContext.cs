@@ -43,6 +43,11 @@ namespace Sinboda.SemiAuto.Model
         /// </summary>
         public DbSet<Sin_Motor> Sin_Motors { get; set; }
 
+        /// <summary>
+        /// 模板表
+        /// </summary>
+        public DbSet<Sin_BoardTemplate> Sin_BoardTemplates { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // 平台使用
