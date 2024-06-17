@@ -105,7 +105,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     camCtrl.ExposureTime = GlobalData.ExposureTime;
                     camCtrl.AllowParallelProcessing = m_allowParallelProcessing;
                     IsInitSuccess = true;
-                    SetROI(0, 0, 1024, 1024);
+                    SetROI(0, 0, 2048, 2048);
                     Binning(true);
                 }
                 catch (Exception ex)
