@@ -125,7 +125,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                         byte[] bufBytes = new byte[lenth * 2];
 
                         IntPtr intptr = Marshal.UnsafeAddrOfPinnedArrayElement(item, 0);
-                        Marshal.Copy(intptr, bufBytes, 0, lenth * 2);
+                        Marshal.Copy(intptr, bufBytes, 0, item.Length);
 
                         BitmapPalette myPalette = BitmapPalettes.Gray16;
                         int rawStride = (imageSize.Width * 16 + 7) / 8;
