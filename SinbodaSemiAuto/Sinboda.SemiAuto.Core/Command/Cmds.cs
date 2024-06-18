@@ -1048,9 +1048,9 @@ namespace sin_mole_flu_analyzer.Models.Command
             //获取版本ok 即为更新完成
             cmdGetVersion = new CmdGetVersion();
             bool result = cmdGetVersion.Execute();
-            if(result)
-            LogHelper.logSoftWare.Info($"更新后软件版本 Core:[{(cmdGetVersion.GetResponse() as ResGetVersion).Core}] " +
-               $"RTOS:[{(cmdGetVersion.GetResponse() as ResGetVersion).RTOS}] ");
+            if (result)
+                LogHelper.logSoftWare.Info($"更新后软件版本 Core:[{(cmdGetVersion.GetResponse() as ResGetVersion).Core}] " +
+                   $"RTOS:[{(cmdGetVersion.GetResponse() as ResGetVersion).RTOS}] ");
             return result;
         }
 

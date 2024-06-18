@@ -1,11 +1,9 @@
-﻿using sin_mole_flu_analyzer.Models.Command;
-using Sinboda.Framework.Infrastructure;
+﻿using Sinboda.Framework.Infrastructure;
 using Sinboda.Framework.Infrastructure.Model;
 using Sinboda.SemiAuto.Core.Helpers;
 using Sinboda.SemiAuto.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,11 +27,11 @@ namespace Sinboda.SemiAuto.Core
             //加载参数
             GlobalData.Init();
 
-            ////电机初始化
-            //XimcHelper.Instance.Init();
+            //电机初始化
+            XimcHelper.Instance.Init();
 
-            ////相机初始化
-            //PVCamHelper.Instance.Init();
+            //相机初始化
+            PVCamHelper.Instance.Init();
 
             //tcp指令通讯器初始化 并连接
             TcpCmdActuators.Instance.Init();
