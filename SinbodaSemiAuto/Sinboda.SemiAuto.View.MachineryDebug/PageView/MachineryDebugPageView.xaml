@@ -590,6 +590,37 @@
                     </sin:SinGrid>
                 </sin:SinGroupBox>
             </sin:SinTabItem>
+            
+            <sin:SinTabItem Header="{MultiLang:StringResource 0, DefaultValue=升级}">
+                <sin:SinGroupBox Grid.Row="2">
+                    <sin:SinGroupBox.Header>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=主控板}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                            </StackPanel>
+                        </Grid>
+                    </sin:SinGroupBox.Header>
+                    <sin:SinGrid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0" Text="{Binding UpgradeFile}" Height="40" Width="600" />
+                        <sin:SinButton Grid.Column="2" Command="{Binding BrowseCommand}" Content="{MultiLang:StringResource 0, DefaultValue=浏览}" />
+                        <sin:SinButton Grid.Column="4" Command="{Binding UpgradeCommand}" Content="{MultiLang:StringResource 0, DefaultValue=升级}" />
+                    </sin:SinGrid>
+                </sin:SinGroupBox>
+            </sin:SinTabItem>
         </sin:SinTabControl>
 
         <sin:SinGroupBox Grid.Column="1">

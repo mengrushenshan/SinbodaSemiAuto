@@ -30,6 +30,7 @@ using System.Windows.Documents;
 using Sinboda.SemiAuto.View.MachineryDebug.WinView;
 using System.Windows.Threading;
 using static OpenCvSharp.Stitcher;
+using System.Windows.Forms;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -255,6 +256,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             get { return isCameraOpenEnable; } 
             set { Set(ref isCameraOpenEnable, value); }
         }
+
+        private string upgradeFile;
+
+        public string UpgradeFile
+        {
+            get { return upgradeFile; }
+            set { Set(ref upgradeFile, value);}
+        }
         #endregion
 
         #region 命令
@@ -430,6 +439,16 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         #endregion
 
+        /// <summary>
+        /// 浏览命令
+        /// </summary>
+        public RelayCommand BrowseCommand { get; set; }
+
+        /// <summary>
+        /// 升级命令
+        /// </summary>
+        public RelayCommand UpgradeCommand { get; set; }
+
         #endregion
 
         public MachineryDebugPageViewModel() 
@@ -446,7 +465,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
             OpenLightCommand = new RelayCommand(OpenLight);
             CloseLightCommand = new RelayCommand(CloseLight);
-
+            BrowseCommand = new RelayCommand(BrowseFile);
+            UpgradeCommand = new RelayCommand(UpgradeBoard);
             ChangeButtonText();
             
             Devices = GlobalData.XimcArmsData.XimcArms;
@@ -1238,6 +1258,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             bool result = false;
 
             Status_Ximc status = ximcController.Get_Status(deveiceId);
+
+            if (status == null)
+            {
+                return result;
+            }
+
             PosZaxis = status.CurPosition;
 
             return result = true;
@@ -1389,7 +1415,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     }
                     else
                     {
-                        StopMotor(MotorList[0]); 
+                        StopMotor(MotorList[0]);
                     }
                 }
                 //右键
@@ -1440,6 +1466,30 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                         StopMotor(MotorList[1]);
                     }
                 }
+                else if (msg.KeyCode == System.Windows.Input.Key.W)
+                {
+                    //按下
+                    if (msg.IsKeyDown)
+                    {
+                        XimcMoveRightAlways(ZaxisMotor);
+                    }
+                    else
+                    {
+                        XimcStop(ZaxisMotor);
+                    }
+                }
+                else if (msg.KeyCode == System.Windows.Input.Key.S)
+                {
+                    //按下
+                    if (msg.IsKeyDown)
+                    {
+                        XimcMoveLeftAlways(ZaxisMotor);
+                    }
+                    else
+                    {
+                        XimcStop(ZaxisMotor);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -1452,6 +1502,79 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
         }
         #endregion
+
+        private void UpgradeBoard()
+        {
+            List<byte> bytes = new List<byte>();
+
+            if (string.IsNullOrEmpty(UpgradeFile))
+            {
+                ShowMessageError(SystemResources.Instance.GetLanguage(0, "选择文件不存在"));
+                return;
+            }
+
+            using (FileStream fs = new FileStream(UpgradeFile, FileMode.Open, FileAccess.Read))
+            {//在using中创建FileStream对象fs，然后执行大括号内的代码段，
+             //执行完后，释放被using的对象fs（后台自动调用了Dispose）
+                byte[] vs = new byte[1024];//数组大小根据自己喜欢设定，太高占内存，太低读取慢。
+                while (true) //因为文件可能很大，而我们每次只读取一部分，因此需要读很多次
+                {
+                    int r = fs.Read(vs, 0, vs.Length);
+                    bytes.AddRange(vs);
+                    if (r == 0) //当读取不到，跳出循环
+                    {
+                        break;
+                    }
+                }
+            }
+            CmdIAP cmdIAP = new CmdIAP()
+            {
+                Data = bytes.ToArray(),
+            };
+            cmdIAP.Execute();
+        }
+
+        private void BrowseFile()
+        {
+            UpgradeFile = GetUpgradeFileMethod();
+
+            if (string.IsNullOrEmpty(UpgradeFile))
+            {
+                return;
+            }
+
+            if (!File.Exists(UpgradeFile))
+            {
+                ShowMessageError(SystemResources.Instance.GetLanguage(0, "选择文件不存在"));
+                return;
+            }
+        }
+
+        /// <summary>
+        /// 获取备份路径方法
+        /// </summary>
+        private string GetUpgradeFileMethod()
+        {
+            OpenFileDialog FBD = new OpenFileDialog();
+            FBD.Title = SystemResources.Instance.LanguageArray[6442];//"请选择路径";
+            FBD.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            FBD.Multiselect = false;
+            FBD.Filter = "(*.bin)|*.bin";
+            if (FBD.ShowDialog() == DialogResult.OK)
+            {
+
+                if (!string.IsNullOrEmpty(FBD.FileName))
+                {
+                    return FBD.FileName;
+                }
+                else
+                {
+                    //  ShowMessageError(SystemResources.Instance.LanguageArray[3543]);
+                }
+
+            }
+            return string.Empty;
+        }
 
         /// <summary>
         /// 进入页面时触发
