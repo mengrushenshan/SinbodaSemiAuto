@@ -1014,7 +1014,7 @@ namespace sin_mole_flu_analyzer.Models.Command
 
             //最后一帧
             bytes = new byte[lastFrameLen];
-            Data.CopyTo(bytes, frameNum * frameLen);
+            Array.Copy(Data, frameNum * frameLen, bytes, 0, lastFrameLen);
             req = new IAPIn()
             {
                 Data = Convert.ToBase64String(bytes),

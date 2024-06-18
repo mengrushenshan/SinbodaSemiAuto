@@ -365,6 +365,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 this.PauseSequence();
                 this.Dispose();
                 this.Init();
+                this.Connect();
                 this.StartSequence();
             }
         }
