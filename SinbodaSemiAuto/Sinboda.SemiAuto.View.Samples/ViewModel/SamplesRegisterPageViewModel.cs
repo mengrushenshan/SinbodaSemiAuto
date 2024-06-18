@@ -647,14 +647,33 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
             Task.Run(() =>
             {
+                int[] posArray = new int[3];
+                int autoFocusPos = 0;
                 //开启激光
                 ControlBusiness.Instance.LightEnableCtrl(1, 1);
                 //移动到暂定起始位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, 5023139);
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, 5023000);
                 //获取Z轴位置
                 MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
-                //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 4, FocusImageCount, filePath + fileName);
+                for (int i = 0; i < posArray.Length; i++)
+                {
+                    //计算聚焦位置
+                    autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 128, FocusImageCount, filePath + fileName);
+                    if (i > 0 && posArray.Contains(autoFocusPos))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        posArray[i] = autoFocusPos;
+
+                        if (i == posArray.Length - 1)
+                        {
+                            autoFocusPos = posArray.OrderBy(x => x).ToArray()[1];
+                        }
+                    }
+                }
+
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
                 //关闭激光
