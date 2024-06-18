@@ -42,7 +42,8 @@ namespace Sinboda.SemiAuto.Core.Interfaces
         /// <summary>
         /// 重启
         /// </summary>
-        void ReStart();
+        /// <param name="time">等待时间</param>
+        void ReStart(int time);
 
         /// <summary>
         /// 发送数据（异步

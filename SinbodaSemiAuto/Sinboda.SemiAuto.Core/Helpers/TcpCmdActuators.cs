@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Controls;
@@ -91,7 +92,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
             }
         }
 
-        public abstract void ReStart();
+        public abstract void ReStart(int time);
 
         public bool SendAsync(IDataFrame frame)
         {
@@ -358,12 +359,14 @@ namespace Sinboda.SemiAuto.Core.Helpers
             }
         }
 
-        public override void ReStart()
+        public override void ReStart(int time)
         {
             lock (_lockObj)
             {
                 this.PauseSequence();
                 this.Dispose();
+                //一秒后再重连
+                Thread.Sleep(time);
                 this.Init();
                 this.Connect();
                 this.StartSequence();

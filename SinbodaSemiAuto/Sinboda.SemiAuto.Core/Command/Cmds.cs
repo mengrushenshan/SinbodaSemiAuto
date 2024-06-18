@@ -7,6 +7,8 @@ using System;
 using System.Threading;
 using ximc;
 using Newtonsoft.Json;
+using log4net.Repository.Hierarchy;
+using Sinboda.Framework.Common.Log;
 
 namespace sin_mole_flu_analyzer.Models.Command
 {
@@ -972,6 +974,13 @@ namespace sin_mole_flu_analyzer.Models.Command
 
         public override bool Execute()
         {
+            //获取版本
+            CmdGetVersion cmdGetVersion = new CmdGetVersion();
+            if (!cmdGetVersion.Execute())
+                return false;
+            LogHelper.logSoftWare.Info($"更新前软件版本 Core:[{(cmdGetVersion.GetResponse() as ResGetVersion).Core}] " +
+                $"RTOS:[{(cmdGetVersion.GetResponse() as ResGetVersion).RTOS}] ");
+
             //进入IAP模式
             IRequest req = new IAPOn()
             {
@@ -980,11 +989,8 @@ namespace sin_mole_flu_analyzer.Models.Command
             if (!ExeInternal(req, res))
                 return false;
 
-            //等待
-            Thread.Sleep(IAPWait);
-
             //重启tcp连接
-            TcpCmdActuators.Instance.ReStart();
+            TcpCmdActuators.Instance.ReStart(IAPWait);
 
             //IAP开始
             req = new IAPStart()
@@ -1036,15 +1042,16 @@ namespace sin_mole_flu_analyzer.Models.Command
             if (!ExeInternal(req, res))
                 return false;
 
-            //等待
-            Thread.Sleep(IAPWait);
-
             //重启tcp连接
-            TcpCmdActuators.Instance.ReStart();
+            TcpCmdActuators.Instance.ReStart(IAPWait);
 
             //获取版本ok 即为更新完成
-            CmdGetVersion cmdGetVersion = new CmdGetVersion();
-            return cmdGetVersion.Execute();
+            cmdGetVersion = new CmdGetVersion();
+            bool result = cmdGetVersion.Execute();
+            if(result)
+            LogHelper.logSoftWare.Info($"更新后软件版本 Core:[{(cmdGetVersion.GetResponse() as ResGetVersion).Core}] " +
+               $"RTOS:[{(cmdGetVersion.GetResponse() as ResGetVersion).RTOS}] ");
+            return result;
         }
 
         public override bool ExecuteAsync()

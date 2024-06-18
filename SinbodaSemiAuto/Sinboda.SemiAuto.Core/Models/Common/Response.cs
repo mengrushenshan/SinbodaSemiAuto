@@ -232,13 +232,13 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// 下位机核心版本号
         /// </summary>
         [JsonProperty("Core")]
-        public int Core { get; set; }
+        public string Core { get; set; }
 
         /// <summary>
         /// 下位机RTOS版本号
         /// </summary>
         [JsonProperty("RTOS")]
-        public int RTOS { get; set; }
+        public string RTOS { get; set; }
 
         /// <summary>
         /// 
