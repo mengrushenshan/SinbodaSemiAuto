@@ -144,12 +144,10 @@ namespace Sinboda.SemiAuto.Core.Helpers
                             if (frameRcv.GetError() != ErrType.EC_NoError)
                             {
                                 kpFrame.Value.UnPacking(frameRcv.GetUPData());
-                                LogHelper.logCommunication.Error($"Confirm frame error, FrameID:[{frameRcv.FrameID()}] cmd:[{frameRcv.GetCmd()}] error:[{frameRcv.GetError()}]");
                                 FramesConfirmd.Remove(frameRcv.FrameID());
                             }
                             else
                             {
-                                LogHelper.logCommunication.Info($"Confirm frame , FrameID:[{frameRcv.FrameID()}] cmd:[{frameRcv.GetCmd()}] ");
                             }
                         }
                         //结果帧
@@ -161,11 +159,9 @@ namespace Sinboda.SemiAuto.Core.Helpers
                             //TODO:结果帧返回错误  具体处理暂缺
                             if (frameRcv.GetError() != ErrType.EC_NoError)
                             {
-                                LogHelper.logCommunication.Error($"Result frame error , FrameID:[{frameRcv.FrameID()}] cmd:[{frameRcv.GetCmd()}] error:[{frameRcv.GetError()}]");
                             }
                             else
                             {
-                                LogHelper.logCommunication.Info($"Result frame , FrameID:[{frameRcv.FrameID()}] cmd:[{frameRcv.GetCmd()}]");
                             }
                         }
                     }
@@ -192,7 +188,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     {
                         item.Value.SetError(ErrType.TimeOut);
                         FramesConfirmd.Remove(item.Key);
-                        LogHelper.logCommunication.Error($"Frame tiemout,FrameID:[{item.Value.FrameID()}] cmd:[{item.Value.GetCmd()}] error:[{item.Value.GetError()}]");
+                        LogHelper.logCommunication.Error($"Frame Tiemout,FrameID:[{item.Value.FrameID()}] cmd:[{item.Value.GetCmd()}] error:[{item.Value.GetError()}]");
                     }
                 }
 
@@ -217,12 +213,10 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     {
                         if (!Send(dataFrame))
                         {
-                            LogHelper.logCommunication.Error($"Send frame error:{dataFrame.FrameID()}!");
                             PauseSequence();
                         }
                         else
                         {
-                            LogHelper.logCommunication.Info($"send frame, FrameID:[{dataFrame.FrameID()}] cmd:[{dataFrame.GetCmd()}] error:[{dataFrame.GetError()}]");
                         }
                     }
                 }
