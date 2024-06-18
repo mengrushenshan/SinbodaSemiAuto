@@ -40,6 +40,11 @@ namespace Sinboda.SemiAuto.Core.Interfaces
         bool IsConnected();
 
         /// <summary>
+        /// 重启
+        /// </summary>
+        void ReStart();
+
+        /// <summary>
         /// 发送数据（异步
         /// </summary>
         /// <param name="frame"></param>

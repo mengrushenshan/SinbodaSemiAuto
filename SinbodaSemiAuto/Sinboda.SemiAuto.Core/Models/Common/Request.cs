@@ -136,6 +136,31 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         BuzzerEnable = 502,
 
         /// <summary>
+        /// 进入IAP模式
+        /// </summary>
+        IAPOn = 601,
+
+        /// <summary>
+        /// IAP开始
+        /// </summary>
+        IAPStart = 602,
+
+        /// <summary>
+        /// IAP写入
+        /// </summary>
+        IAPIn = 603,
+
+        /// <summary>
+        /// IAP结束
+        /// </summary>
+        IAPFinish = 604,
+
+        /// <summary>
+        /// 退出IAP模式
+        /// </summary>
+        IAPOff = 605,
+
+        /// <summary>
         /// 查询电机状态
         /// </summary>
         GetMotorStatus = 801,
@@ -524,6 +549,73 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// </summary>
         [JsonProperty("Output")]
         public int Output { get; set; }
+    }
+
+    /// <summary>
+    /// 进入IAP模式
+    /// </summary>
+    public class IAPOn : Request
+    {
+        public IAPOn() : base()
+        {
+            Act = ActionType.IAPOn;
+        }
+    }
+
+    /// <summary>
+    /// IAP开始
+    /// </summary>
+    public class IAPStart : Request
+    {
+        public IAPStart() : base()
+        {
+            Act = ActionType.IAPStart;
+        }
+
+        /// <summary>
+        /// 数据长度
+        /// </summary>
+        [JsonProperty("FileSize")]
+        public int FileSize { get; set; }
+    }
+
+    /// <summary>
+    /// IAP写入
+    /// </summary>
+    public class IAPIn : Request
+    {
+        public IAPIn() : base()
+        {
+            Act = ActionType.IAPIn;
+        }
+
+        /// <summary>
+        /// 数据 <=256
+        /// </summary>
+        [JsonProperty("Data")]
+        public string Data { get; set; }
+    }
+
+    /// <summary>
+    /// IAP结束
+    /// </summary>
+    public class IAPFinish : Request
+    {
+        public IAPFinish() : base()
+        {
+            Act = ActionType.IAPFinish;
+        }
+    }
+
+    /// <summary>
+    /// 退出IAP模式
+    /// </summary>
+    public class IAPOff : Request
+    {
+        public IAPOff() : base()
+        {
+            Act = ActionType.IAPOff;
+        }
     }
 
 

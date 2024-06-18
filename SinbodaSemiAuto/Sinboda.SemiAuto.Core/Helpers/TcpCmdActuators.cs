@@ -91,6 +91,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
             }
         }
 
+        public abstract void ReStart();
+
         public bool SendAsync(IDataFrame frame)
         {
             lock (_lockObj)
@@ -132,7 +134,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 if (!frameRcv.IsNull())
                 {
                     var kpFrame = FramesConfirmd.FirstOrDefault(x => x.Value.FrameID() == frameRcv.FrameID());
-                    if ((!kpFrame.IsNull())&& !kpFrame.Value.IsNull())
+                    if ((!kpFrame.IsNull()) && !kpFrame.Value.IsNull())
                     {
                         //确认帧
                         if (frameRcv.GetCmd() == CmdType.Confirm)
@@ -353,6 +355,17 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 };
                 dataFrame.UnPacking(strDataFrame);
                 return dataFrame;
+            }
+        }
+
+        public override void ReStart()
+        {
+            lock (_lockObj)
+            {
+                this.PauseSequence();
+                this.Dispose();
+                this.Init();
+                this.StartSequence();
             }
         }
 

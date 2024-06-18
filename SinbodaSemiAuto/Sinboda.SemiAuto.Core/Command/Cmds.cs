@@ -950,6 +950,109 @@ namespace sin_mole_flu_analyzer.Models.Command
         }
     }
 
+    /// <summary>
+    /// IAP指令
+    /// </summary>
+    public class CmdIAP : CmdBase
+    {
+        /// <summary>
+        /// IAP数据
+        /// </summary>
+        public byte[] Data { get; set; }
+
+        /// <summary>
+        /// 等待iap响应
+        /// </summary>
+        private int IAPWait = 10 * 1000;
+
+        /// <summary>
+        /// 帧长度
+        /// </summary>
+        private int frameLen = 256;
+
+        public override bool Execute()
+        {
+            //进入IAP模式
+            IRequest req = new IAPOn()
+            {
+            };
+            IResponse res = new Response(req);
+            if (!ExeInternal(req, res))
+                return false;
+
+            //等待
+            Thread.Sleep(IAPWait);
+
+            //重启tcp连接
+            TcpCmdActuators.Instance.ReStart();
+
+            //IAP开始
+            req = new IAPStart()
+            {
+                FileSize = Data.Length,
+            };
+            if (!ExeInternal(req, res))
+                return false;
+
+            //计算需要发送多少帧
+            int frameNum = Data.Length / frameLen;
+            int lastFrameLen = Data.Length % frameLen;
+            byte[] bytes;
+
+            //循环发送帧
+            for (int i = 0; i < frameNum; i++)
+            {
+                bytes = new byte[frameLen];
+                Array.Copy(Data, i * frameLen, bytes, 0, frameLen);
+                req = new IAPIn()
+                {
+                    Data = Convert.ToBase64String(bytes),
+                };
+                if (!ExeInternal(req, res))
+                    return false;
+            }
+
+            //最后一帧
+            bytes = new byte[lastFrameLen];
+            Data.CopyTo(bytes, frameNum * frameLen);
+            req = new IAPIn()
+            {
+                Data = Convert.ToBase64String(bytes),
+            };
+            if (!ExeInternal(req, res))
+                return false;
+
+            //IAP结束
+            req = new IAPFinish()
+            {
+            };
+            if (!ExeInternal(req, res))
+                return false;
+
+            //退出IAP模式
+            req = new IAPOff()
+            {
+            };
+            if (!ExeInternal(req, res))
+                return false;
+
+            //等待
+            Thread.Sleep(IAPWait);
+
+            //重启tcp连接
+            TcpCmdActuators.Instance.ReStart();
+
+            //获取版本ok 即为更新完成
+            CmdGetVersion cmdGetVersion = new CmdGetVersion();
+            return cmdGetVersion.Execute();
+        }
+
+        public override bool ExecuteAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 
 }
 
