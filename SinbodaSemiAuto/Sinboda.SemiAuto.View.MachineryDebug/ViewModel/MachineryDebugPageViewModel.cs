@@ -31,6 +31,9 @@ using Sinboda.SemiAuto.View.MachineryDebug.WinView;
 using System.Windows.Threading;
 using static OpenCvSharp.Stitcher;
 using System.Windows.Forms;
+using Sinboda.Framework.Common;
+using System.Threading.Tasks;
+using Sinboda.Framework.Control.Controls;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -264,6 +267,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             get { return upgradeFile; }
             set { Set(ref upgradeFile, value);}
         }
+
+        private int focusImageCount;
+        public int FocusImageCount
+        {
+            get { return focusImageCount; }
+            set { Set(ref focusImageCount, value); }
+        }
         #endregion
 
         #region 命令
@@ -422,6 +432,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 大图展示
         /// </summary>
         public RelayCommand BigImageCommand { get; set; }
+       
+        /// <summary>
+        /// 大图展示
+        /// </summary>
+        public RelayCommand FocusCommand { get; set; }
 
         #endregion
 
@@ -462,9 +477,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             OpenAndCloseCommand = new RelayCommand(CameraOpenAndClose);
             CameraInitCommand = new RelayCommand(InitCamera);
             BigImageCommand = new RelayCommand(BigImageShow);
+            FocusCommand = new RelayCommand(CameraFocus);
+
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
             OpenLightCommand = new RelayCommand(OpenLight);
             CloseLightCommand = new RelayCommand(CloseLight);
+            
             BrowseCommand = new RelayCommand(BrowseFile);
             UpgradeCommand = new RelayCommand(UpgradeBoard);
             ChangeButtonText();
@@ -1328,6 +1346,48 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             });
         }
 
+        /// <summary>
+        /// 调用自动聚焦
+        /// </summary>
+        private void CameraFocus()
+        {
+            string dateText = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
+            string fileName = $"{dateText}.tif";
+
+            if (!isOpenCamera)
+            {
+                PVCamHelper.Instance.StartCont();
+                isOpenCamera = true;
+                ChangeButtonText();
+            }
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            Task.Run(() =>
+            {
+                //开启激光
+                ControlBusiness.Instance.LightEnableCtrl(1, 1);
+                //移动到暂定起始位置
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, 5033000);
+                //获取Z轴位置
+                MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
+
+                //计算聚焦位置
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, FocusImageCount, filePath + fileName);
+
+                //移动到最佳聚焦位置
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
+                //关闭激光
+                ControlBusiness.Instance.LightEnableCtrl(0, 1);
+
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "聚焦完成"), MessageBoxButton.OK, SinMessageBoxImage.Information);
+            });
+
+        }
         #endregion
 
         #region 激光器
@@ -1503,6 +1563,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
         #endregion
 
+        #region 升级使用
         private void UpgradeBoard()
         {
             List<byte> bytes = new List<byte>();
@@ -1575,7 +1636,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
             return string.Empty;
         }
+        #endregion
 
+        
         /// <summary>
         /// 进入页面时触发
         /// </summary>

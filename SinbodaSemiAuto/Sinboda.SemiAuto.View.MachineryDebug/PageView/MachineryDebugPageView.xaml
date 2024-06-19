@@ -653,6 +653,8 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="10" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -664,9 +666,13 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Row="0" Grid.Column="0" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Button Grid.Row="0" Grid.Column="2" Command="{Binding BigImageCommand}" Content="{MultiLang:StringResource 0, DefaultValue=大图展示}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Button Grid.Row="0" Grid.Column="4" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{MultiLang:StringResource 0, DefaultValue=聚焦图像张数}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <sin:SinTextBox Grid.Row="0" Grid.Column="2" Text="{Binding FocusImageCount, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+                    <Button Grid.Row="0" Grid.Column="4" Command="{Binding FocusCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机聚焦}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <Button Grid.Row="2" Grid.Column="0" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Row="2" Grid.Column="2" Command="{Binding BigImageCommand}" Content="{MultiLang:StringResource 0, DefaultValue=大图展示}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Row="2" Grid.Column="4" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </sin:SinGrid>
             </sin:SinGrid>
         </sin:SinGroupBox>
