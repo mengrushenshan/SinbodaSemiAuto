@@ -30,6 +30,11 @@ using System.Windows.Documents;
 using Sinboda.SemiAuto.View.MachineryDebug.WinView;
 using System.Windows.Threading;
 using static OpenCvSharp.Stitcher;
+using System.Windows.Forms;
+using Sinboda.Framework.Common;
+using System.Threading.Tasks;
+using Sinboda.Framework.Control.Controls;
+using Sinboda.Framework.Control.Loading;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -255,6 +260,21 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             get { return isCameraOpenEnable; } 
             set { Set(ref isCameraOpenEnable, value); }
         }
+
+        private string upgradeFile;
+
+        public string UpgradeFile
+        {
+            get { return upgradeFile; }
+            set { Set(ref upgradeFile, value);}
+        }
+
+        private int focusImageCount;
+        public int FocusImageCount
+        {
+            get { return focusImageCount; }
+            set { Set(ref focusImageCount, value); }
+        }
         #endregion
 
         #region 命令
@@ -413,6 +433,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 大图展示
         /// </summary>
         public RelayCommand BigImageCommand { get; set; }
+       
+        /// <summary>
+        /// 大图展示
+        /// </summary>
+        public RelayCommand FocusCommand { get; set; }
 
         #endregion
 
@@ -430,6 +455,16 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         #endregion
 
+        /// <summary>
+        /// 浏览命令
+        /// </summary>
+        public RelayCommand BrowseCommand { get; set; }
+
+        /// <summary>
+        /// 升级命令
+        /// </summary>
+        public RelayCommand UpgradeCommand { get; set; }
+
         #endregion
 
         public MachineryDebugPageViewModel() 
@@ -443,10 +478,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             OpenAndCloseCommand = new RelayCommand(CameraOpenAndClose);
             CameraInitCommand = new RelayCommand(InitCamera);
             BigImageCommand = new RelayCommand(BigImageShow);
+            FocusCommand = new RelayCommand(CameraFocus);
+
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
             OpenLightCommand = new RelayCommand(OpenLight);
             CloseLightCommand = new RelayCommand(CloseLight);
-
+            
+            BrowseCommand = new RelayCommand(BrowseFile);
+            UpgradeCommand = new RelayCommand(UpgradeBoard);
             ChangeButtonText();
             
             Devices = GlobalData.XimcArmsData.XimcArms;
@@ -1238,6 +1277,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             bool result = false;
 
             Status_Ximc status = ximcController.Get_Status(deveiceId);
+
+            if (status == null)
+            {
+                return result;
+            }
+
             PosZaxis = status.CurPosition;
 
             return result = true;
@@ -1302,6 +1347,48 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             });
         }
 
+        /// <summary>
+        /// 调用自动聚焦
+        /// </summary>
+        private void CameraFocus()
+        {
+            string dateText = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
+            string fileName = $"{dateText}.tif";
+
+            if (!isOpenCamera)
+            {
+                PVCamHelper.Instance.StartCont();
+                isOpenCamera = true;
+                ChangeButtonText();
+            }
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            Task.Run(() =>
+            {
+                //开启激光
+                ControlBusiness.Instance.LightEnableCtrl(1, 1);
+                //移动到暂定起始位置
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, 5033000);
+                //获取Z轴位置
+                MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
+
+                //计算聚焦位置
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, FocusImageCount, filePath + fileName);
+
+                //移动到最佳聚焦位置
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
+                //关闭激光
+                ControlBusiness.Instance.LightEnableCtrl(0, 1);
+
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "聚焦完成"), MessageBoxButton.OK, SinMessageBoxImage.Information);
+            });
+
+        }
         #endregion
 
         #region 激光器
@@ -1389,7 +1476,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     }
                     else
                     {
-                        StopMotor(MotorList[0]); 
+                        StopMotor(MotorList[0]);
                     }
                 }
                 //右键
@@ -1440,6 +1527,30 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                         StopMotor(MotorList[1]);
                     }
                 }
+                else if (msg.KeyCode == System.Windows.Input.Key.W)
+                {
+                    //按下
+                    if (msg.IsKeyDown)
+                    {
+                        XimcMoveRightAlways(ZaxisMotor);
+                    }
+                    else
+                    {
+                        XimcStop(ZaxisMotor);
+                    }
+                }
+                else if (msg.KeyCode == System.Windows.Input.Key.S)
+                {
+                    //按下
+                    if (msg.IsKeyDown)
+                    {
+                        XimcMoveLeftAlways(ZaxisMotor);
+                    }
+                    else
+                    {
+                        XimcStop(ZaxisMotor);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -1453,6 +1564,102 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
         #endregion
 
+        #region 升级使用
+        private void UpgradeBoard()
+        {
+            List<byte> bytes = new List<byte>();
+            bool result = false;
+
+            if (string.IsNullOrEmpty(UpgradeFile))
+            {
+                ShowMessageError(SystemResources.Instance.GetLanguage(0, "选择文件不存在"));
+                return;
+            }
+           
+            LoadingHelper.Instance.ShowLoadingWindow(a =>
+            {
+
+                a.Title = SystemResources.Instance.GetLanguage(0, "正在升级，请等待...");
+                using (FileStream fs = new FileStream(UpgradeFile, FileMode.Open, FileAccess.Read))
+                {//在using中创建FileStream对象fs，然后执行大括号内的代码段，
+                 //执行完后，释放被using的对象fs（后台自动调用了Dispose）
+                    byte[] vs = new byte[1024];//数组大小根据自己喜欢设定，太高占内存，太低读取慢。
+                    while (true) //因为文件可能很大，而我们每次只读取一部分，因此需要读很多次
+                    {
+                        int r = fs.Read(vs, 0, vs.Length);
+                        bytes.AddRange(vs);
+                        if (r == 0) //当读取不到，跳出循环
+                        {
+                            break;
+                        }
+                    }
+                }
+                CmdIAP cmdIAP = new CmdIAP()
+                {
+                    Data = bytes.ToArray(),
+                };
+                result = cmdIAP.Execute();
+
+            }, 0, a =>
+            {
+                if (result)
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "升级成功"));
+                    return;
+                }
+                else
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "升级失败"));
+                }
+
+            });
+            
+        }
+
+        private void BrowseFile()
+        {
+            UpgradeFile = GetUpgradeFileMethod();
+
+            if (string.IsNullOrEmpty(UpgradeFile))
+            {
+                return;
+            }
+
+            if (!File.Exists(UpgradeFile))
+            {
+                ShowMessageError(SystemResources.Instance.GetLanguage(0, "选择文件不存在"));
+                return;
+            }
+        }
+
+        /// <summary>
+        /// 获取备份路径方法
+        /// </summary>
+        private string GetUpgradeFileMethod()
+        {
+            OpenFileDialog FBD = new OpenFileDialog();
+            FBD.Title = SystemResources.Instance.LanguageArray[6442];//"请选择路径";
+            FBD.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            FBD.Multiselect = false;
+            FBD.Filter = "(*.bin)|*.bin";
+            if (FBD.ShowDialog() == DialogResult.OK)
+            {
+
+                if (!string.IsNullOrEmpty(FBD.FileName))
+                {
+                    return FBD.FileName;
+                }
+                else
+                {
+                    //  ShowMessageError(SystemResources.Instance.LanguageArray[3543]);
+                }
+
+            }
+            return string.Empty;
+        }
+        #endregion
+
+        
         /// <summary>
         /// 进入页面时触发
         /// </summary>

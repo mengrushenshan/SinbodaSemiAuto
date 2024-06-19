@@ -590,6 +590,37 @@
                     </sin:SinGrid>
                 </sin:SinGroupBox>
             </sin:SinTabItem>
+            
+            <sin:SinTabItem Header="{MultiLang:StringResource 0, DefaultValue=升级}">
+                <sin:SinGroupBox Grid.Row="2">
+                    <sin:SinGroupBox.Header>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=主控板}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#414187"/>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"  Grid.Column="2"  VerticalAlignment="Center" Height="30">
+                            </StackPanel>
+                        </Grid>
+                    </sin:SinGroupBox.Header>
+                    <sin:SinGrid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0" Text="{Binding UpgradeFile}" Height="40" Width="600" />
+                        <sin:SinButton Grid.Column="2" Command="{Binding BrowseCommand}" Content="{MultiLang:StringResource 0, DefaultValue=浏览}" />
+                        <sin:SinButton Grid.Column="4" Command="{Binding UpgradeCommand}" Content="{MultiLang:StringResource 0, DefaultValue=升级}" />
+                    </sin:SinGrid>
+                </sin:SinGroupBox>
+            </sin:SinTabItem>
         </sin:SinTabControl>
 
         <sin:SinGroupBox Grid.Column="1">
@@ -622,6 +653,8 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="10" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -633,9 +666,13 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Row="0" Grid.Column="0" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Button Grid.Row="0" Grid.Column="2" Command="{Binding BigImageCommand}" Content="{MultiLang:StringResource 0, DefaultValue=大图展示}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Button Grid.Row="0" Grid.Column="4" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{MultiLang:StringResource 0, DefaultValue=聚焦图像张数}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <sin:SinTextBox Grid.Row="0" Grid.Column="2" Text="{Binding FocusImageCount, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+                    <Button Grid.Row="0" Grid.Column="4" Command="{Binding FocusCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机聚焦}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <Button Grid.Row="2" Grid.Column="0" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Row="2" Grid.Column="2" Command="{Binding BigImageCommand}" Content="{MultiLang:StringResource 0, DefaultValue=大图展示}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Row="2" Grid.Column="4" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </sin:SinGrid>
             </sin:SinGrid>
         </sin:SinGroupBox>

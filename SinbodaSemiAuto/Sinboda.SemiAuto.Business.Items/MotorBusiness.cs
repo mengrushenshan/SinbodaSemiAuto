@@ -246,6 +246,11 @@ namespace Sinboda.SemiAuto.Business.Items
             bool result = false;
 
             Status_Ximc status_Ximc = XimcHelper.Instance.Get_Status(obj.DeveiceId);
+            if (status_Ximc == null)
+            {
+                return result;
+            }
+
             obj.TargetPos = status_Ximc.CurPosition;
 
             return result = true;
