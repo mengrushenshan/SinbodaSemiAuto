@@ -34,6 +34,7 @@ using System.Windows.Forms;
 using Sinboda.Framework.Common;
 using System.Threading.Tasks;
 using Sinboda.Framework.Control.Controls;
+using Sinboda.Framework.Control.Loading;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -1567,32 +1568,52 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         private void UpgradeBoard()
         {
             List<byte> bytes = new List<byte>();
+            bool result = false;
 
             if (string.IsNullOrEmpty(UpgradeFile))
             {
                 ShowMessageError(SystemResources.Instance.GetLanguage(0, "选择文件不存在"));
                 return;
             }
+           
+            LoadingHelper.Instance.ShowLoadingWindow(a =>
+            {
 
-            using (FileStream fs = new FileStream(UpgradeFile, FileMode.Open, FileAccess.Read))
-            {//在using中创建FileStream对象fs，然后执行大括号内的代码段，
-             //执行完后，释放被using的对象fs（后台自动调用了Dispose）
-                byte[] vs = new byte[1024];//数组大小根据自己喜欢设定，太高占内存，太低读取慢。
-                while (true) //因为文件可能很大，而我们每次只读取一部分，因此需要读很多次
-                {
-                    int r = fs.Read(vs, 0, vs.Length);
-                    bytes.AddRange(vs);
-                    if (r == 0) //当读取不到，跳出循环
+                a.Title = SystemResources.Instance.GetLanguage(0, "正在升级，请等待...");
+                using (FileStream fs = new FileStream(UpgradeFile, FileMode.Open, FileAccess.Read))
+                {//在using中创建FileStream对象fs，然后执行大括号内的代码段，
+                 //执行完后，释放被using的对象fs（后台自动调用了Dispose）
+                    byte[] vs = new byte[1024];//数组大小根据自己喜欢设定，太高占内存，太低读取慢。
+                    while (true) //因为文件可能很大，而我们每次只读取一部分，因此需要读很多次
                     {
-                        break;
+                        int r = fs.Read(vs, 0, vs.Length);
+                        bytes.AddRange(vs);
+                        if (r == 0) //当读取不到，跳出循环
+                        {
+                            break;
+                        }
                     }
                 }
-            }
-            CmdIAP cmdIAP = new CmdIAP()
+                CmdIAP cmdIAP = new CmdIAP()
+                {
+                    Data = bytes.ToArray(),
+                };
+                result = cmdIAP.Execute();
+
+            }, 0, a =>
             {
-                Data = bytes.ToArray(),
-            };
-            cmdIAP.Execute();
+                if (result)
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "升级成功"));
+                    return;
+                }
+                else
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "升级失败"));
+                }
+
+            });
+            
         }
 
         private void BrowseFile()
