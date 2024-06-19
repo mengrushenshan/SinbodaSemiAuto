@@ -970,16 +970,21 @@ namespace sin_mole_flu_analyzer.Models.Command
         /// <summary>
         /// 帧长度
         /// </summary>
-        private int frameLen = 256;
+        private int frameLen = 512;
 
         public override bool Execute()
         {
             //获取版本
             CmdGetVersion cmdGetVersion = new CmdGetVersion();
             if (!cmdGetVersion.Execute())
-                return false;
-            LogHelper.logSoftWare.Info($"更新前软件版本 Core:[{(cmdGetVersion.GetResponse() as ResGetVersion).Core}] " +
-                $"RTOS:[{(cmdGetVersion.GetResponse() as ResGetVersion).RTOS}] ");
+            {
+                LogHelper.logSoftWare.Info($"已进入boot模式 无法获取升级前版本！");
+            }
+            else
+            {
+                LogHelper.logSoftWare.Info($"更新前软件版本 Core:[{(cmdGetVersion.GetResponse() as ResGetVersion).Core}] " +
+                    $"RTOS:[{(cmdGetVersion.GetResponse() as ResGetVersion).RTOS}] ");
+            }
 
             //进入IAP模式
             IRequest req = new IAPOn()
@@ -987,10 +992,14 @@ namespace sin_mole_flu_analyzer.Models.Command
             };
             IResponse res = new Response(req);
             if (!ExeInternal(req, res))
-                return false;
-
-            //重启tcp连接
-            TcpCmdActuators.Instance.ReStart(IAPWait);
+            {
+                LogHelper.logSoftWare.Info($"已进入boot模式 进入IAP失败,可正常开始升级！");
+            }
+            else
+            {
+                //重启tcp连接
+                TcpCmdActuators.Instance.ReStart(IAPWait);
+            }
 
             //IAP开始
             req = new IAPStart()
