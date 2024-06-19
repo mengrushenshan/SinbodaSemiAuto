@@ -120,7 +120,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 {
                     foreach (var item in mats)
                     {
-                        System.Drawing.Size imageSize = new System.Drawing.Size() { Width = 2048, Height = 2048 };
+                        System.Drawing.Size imageSize = new System.Drawing.Size() { Width = PVCamHelper.Instance.GetWidth(), Height = PVCamHelper.Instance.GetHeight() };
                         int lenth = imageSize.Width * imageSize.Height;
                         byte[] bufBytes = new byte[lenth * 2];
 

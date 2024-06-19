@@ -645,7 +645,7 @@
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" BorderBrush="#3f3f96" BorderThickness="1">
-                    <Image x:Name="image" Width="512" Height="512" Stretch="Fill" Source="{Binding CameraSouce}" />
+                    <Image x:Name="image" Width="512" Height="512" Stretch="Fill" Source="{Binding CameraSouce}" MouseDown="image_MouseDown"/>
                 </Border>
 
                 <sin:SinGrid Grid.Row="2">
@@ -673,6 +673,9 @@
                     <Button Grid.Row="2" Grid.Column="0" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <Button Grid.Row="2" Grid.Column="2" Command="{Binding BigImageCommand}" Content="{MultiLang:StringResource 0, DefaultValue=大图展示}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <Button Grid.Row="2" Grid.Column="4" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                    <Button Grid.Row="4" Grid.Column="0" Command="{Binding SetRoiCommand}" Content="{MultiLang:StringResource 0, DefaultValue=设置ROI}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Grid.Row="4" Grid.Column="2" Command="{Binding ReSetRoiCommand}" Content="{MultiLang:StringResource 0, DefaultValue=重置ROI}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </sin:SinGrid>
             </sin:SinGrid>
         </sin:SinGroupBox>

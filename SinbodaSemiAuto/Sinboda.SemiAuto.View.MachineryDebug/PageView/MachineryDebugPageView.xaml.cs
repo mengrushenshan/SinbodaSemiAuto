@@ -107,5 +107,22 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
                 vm.MWinKeyEvent(keyEvent);
             }
         }
+
+        private void image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Image im = sender as Image;
+            Point point = e.GetPosition(im);
+            if (point == null) return;
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                vm.SetRoiRange(point, true);
+            }
+            else if (e.RightButton == MouseButtonState.Pressed)
+            {
+                vm.SetRoiRange(point, false);
+            }
+            
+        }
     }
 }
