@@ -74,7 +74,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
                 e.Key == Key.Left ||
                 e.Key == Key.Up ||
                 e.Key == Key.Right ||
-                e.Key == Key.Down
+                e.Key == Key.Down ||
+               e.Key == Key.W ||
+               e.Key == Key.S
                 )
             {
                 KeyBoardEvent keyEvent = new KeyBoardEvent(true, e.Key);
