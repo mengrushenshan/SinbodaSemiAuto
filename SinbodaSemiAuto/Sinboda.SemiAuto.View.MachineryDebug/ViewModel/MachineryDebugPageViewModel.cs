@@ -43,6 +43,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
     {
         private XimcHelper ximcController;
         private bool isOpenCamera = false;
+        private const int originalSize = 2048;
+        private const int originalBinnerSize = 1024;
+        private const int showSize = 512;
 
         /// <summary>
         /// 线程锁
@@ -1405,7 +1408,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             });
 
         }
-
+        /// <summary>
+        /// 设置ROI范围
+        /// </summary>
         private void SetCameraRoi()
         {
             int x = 0;
@@ -1417,26 +1422,30 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 return;
             }
 
-            SetPoint(PointBegin, 1024, 2048, out x, out y);
+            SetPoint(PointBegin, originalBinnerSize, originalSize, out x, out y);
+            GetPoint(ref x, ref y);
 
-            //因为显示图像为翻转图像
-            {
-                int temp = x;
-                x = (2048 - y) - 1024; //2048 - y 算出翻转前点位对应实际x位置，-1024为算出第一个点位置
-                y = temp;
-            }
-            
-
+            NeedRoi = false;
             PVCamHelper.Instance.SetIsInitRoi(false);
-            PVCamHelper.Instance.SetROI((ushort)(x), (ushort)(y), 1024, 1024);
+            PVCamHelper.Instance.SetROI((ushort)(x), (ushort)(y), originalBinnerSize, originalBinnerSize);
+            Task.Run(() =>
+            {
+                PVCamHelper.Instance.Pause();
+                Thread.Sleep(1000);
+                PVCamHelper.Instance.StartCont();
+            });
         }
 
+        /// <summary>
+        /// 重置ROI范围
+        /// </summary>
         private void SetInitRoi()
         {
             PointBegin.X = -1;
             PointBegin.Y = -1;
+            NeedRoi = false;
             PVCamHelper.Instance.SetIsInitRoi(true);
-            PVCamHelper.Instance.SetROI(0, 0, 2048, 2048);
+            PVCamHelper.Instance.SetROI(0, 0, originalSize, originalSize);
         }
         #endregion
 
@@ -1724,10 +1733,34 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
         #endregion
 
+        private void GetPoint(ref int x, ref int y)
+        {
+            //因为显示图像为翻转图像
+            switch (PVCamHelper.Instance.GetRotateFlags())
+            {
+                case RotateFlags.Rotate90Clockwise:
+                    {
+
+                    }
+                    break;
+                case RotateFlags.Rotate180:
+                    {
+
+                    }
+                    break;
+                case RotateFlags.Rotate90Counterclockwise:
+                    {
+                        int temp = x;
+                        x = (originalSize - y) - originalBinnerSize; //2048 - y 算出翻转前点位对应实际x位置，-1024为算出第一个点位置
+                        y = temp;
+                    }
+                    break;
+            }
+        }
         private void SetPoint(System.Windows.Point point, int step, int maxRange, out int x, out int y)
         {
-            x = (int)point.X * maxRange / 512;
-            y = (int)point.Y * maxRange / 512;
+            x = (int)point.X * maxRange / showSize;
+            y = (int)point.Y * maxRange / showSize;
 
             //超过图像范围按照终点重新计算
             if (x + step > maxRange)
@@ -1757,14 +1790,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             {
                 if (NeedRoi)
                 {
-                    int step = 512;
+                    int step = showSize;
                     int x = 0;
                     int y = 0;
 
-                    SetPoint(PointBegin, step, 1024, out x, out y);
+                    SetPoint(PointBegin, step, originalBinnerSize, out x, out y);
 
                     OpenCvSharp.Point beginPos = new OpenCvSharp.Point() { X = x, Y = y };
-                    OpenCvSharp.Point endPos = new OpenCvSharp.Point() { X = x + 512, Y = y + 512 };
+                    OpenCvSharp.Point endPos = new OpenCvSharp.Point() { X = x + showSize, Y = y + showSize };
                     Cv2.Rectangle(bitmap, beginPos, endPos, new Scalar(0, 0, 255), 2, LineTypes.AntiAlias, 0);
                 }
 

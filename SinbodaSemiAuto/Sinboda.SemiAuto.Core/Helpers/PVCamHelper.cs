@@ -73,7 +73,15 @@ namespace Sinboda.SemiAuto.Core.Helpers
         private int Width;
         private int Height;
 
+        /// <summary>
+        /// ROI区域是否为初始区域
+        /// </summary>
         private bool isInitRoi = true;
+
+        /// <summary>
+        /// 图像翻转角度
+        /// </summary>
+        private RotateFlags rotateFlag = RotateFlags.Rotate90Counterclockwise;
 
         /// <summary>
         /// 初始化
@@ -135,6 +143,10 @@ namespace Sinboda.SemiAuto.Core.Helpers
             return IsInitSuccess;
         }
 
+        public RotateFlags GetRotateFlags()
+        {
+            return rotateFlag;
+        }
         /// <summary>
         /// 释放资源
         /// </summary>
@@ -459,7 +471,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
             Mat dst = new Mat();
             //Cv2.Resize(source, mat, size);
             //旋转
-            Cv2.Rotate(source, dst, RotateFlags.Rotate90Counterclockwise);
+            Cv2.Rotate(source, dst, GetRotateFlags());
             return dst;
         }
 
