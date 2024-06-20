@@ -1428,7 +1428,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             
 
             PVCamHelper.Instance.SetIsInitRoi(false);
-            PVCamHelper.Instance.SetROI((ushort)x, (ushort)y, 2048, 2048);
+            PVCamHelper.Instance.SetROI((ushort)(x), (ushort)(y), 1024, 1024);
         }
 
         private void SetInitRoi()
@@ -1726,8 +1726,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         private void SetPoint(System.Windows.Point point, int step, int maxRange, out int x, out int y)
         {
-            x = (int)point.X * 2;
-            y = (int)point.Y * 2;
+            x = (int)point.X * maxRange / 512;
+            y = (int)point.Y * maxRange / 512;
 
             //超过图像范围按照终点重新计算
             if (x + step > maxRange)

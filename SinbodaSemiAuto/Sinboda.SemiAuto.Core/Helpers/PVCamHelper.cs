@@ -216,9 +216,9 @@ namespace Sinboda.SemiAuto.Core.Helpers
             {
                 PVCAM.rgn_type region = camCtrl.Region;
                 region.s1 = x;
-                region.s2 = (ushort)(width - 1);
+                region.s2 = (ushort)(width + x - 1);
                 region.p1 = y;
-                region.p2 = (ushort)(height - 1);
+                region.p2 = (ushort)(height + y - 1);
                 camCtrl.Region = region;
             }
             Width = width / 2; 
