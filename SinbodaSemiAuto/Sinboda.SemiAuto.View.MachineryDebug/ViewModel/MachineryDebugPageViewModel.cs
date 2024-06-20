@@ -1418,6 +1418,15 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
 
             SetPoint(PointBegin, 1024, 2048, out x, out y);
+
+            //因为显示图像为翻转图像
+            {
+                int temp = x;
+                x = (2048 - y) - 1024; //2048 - y 算出翻转前点位对应实际x位置，-1024为算出第一个点位置
+                y = temp;
+            }
+            
+
             PVCamHelper.Instance.SetIsInitRoi(false);
             PVCamHelper.Instance.SetROI((ushort)x, (ushort)y, 1024, 1024);
         }
