@@ -1428,7 +1428,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             
 
             PVCamHelper.Instance.SetIsInitRoi(false);
-            PVCamHelper.Instance.SetROI((ushort)x, (ushort)y, 1024, 1024);
+            PVCamHelper.Instance.SetROI((ushort)x, (ushort)y, 2048, 2048);
         }
 
         private void SetInitRoi()
