@@ -98,6 +98,12 @@ namespace Sinboda.SemiAuto.View.Results.ViewModel
             {
                 SelectSample = SampleSource[0];
             }
+            else
+            {
+                SelectSample = null;
+                TestResultSource = null;
+                selectTestResult = null;
+            }
         }
 
         private void SetTestResultList()
@@ -126,7 +132,7 @@ namespace Sinboda.SemiAuto.View.Results.ViewModel
             SampleDeleteWindow win = new SampleDeleteWindow();
             if (win.ShowDialog() == true)
             {
-
+                InitResultQueryPage();
             }
         }
 

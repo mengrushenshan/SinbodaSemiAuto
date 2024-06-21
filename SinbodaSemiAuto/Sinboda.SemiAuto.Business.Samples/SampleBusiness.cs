@@ -114,7 +114,7 @@ namespace Sinboda.SemiAuto.Business.Samples
         {
 
             var msgs = new List<string>();
-            var sampleList = Sin_Sample_DataOperation.Instance.Query(e => e.Sample_date == beginTime && e.SampleCode >= beginCode && e.SampleCode <= endCode);
+            var sampleList = Sin_Sample_DataOperation.Instance.Query(e => e.Sample_date >= beginTime && e.Sample_date <= endTime && e.SampleCode >= beginCode && e.SampleCode <= endCode);
             if (sampleList.Count <= 0)
             {
                 //return Result(false, SystemResources.Instance.GetLanguage(7799, "没有可删除的样本"));
@@ -160,7 +160,7 @@ namespace Sinboda.SemiAuto.Business.Samples
                     //cs.Context.Database.ExecuteSqlCommand(TransactionalBehavior.EnsureTransaction,
                     //    "DELETE FROM BCA_SAMPLE WHERE AUDIT_FLAG!=1 AND TEST_STATE!=2 AND SAMPLE_DATE = @p0 AND SAMPLE_CODE >= @p1 AND SAMPLE_CODE <= @p2",
                     //    beginTime, beginCode, endCode);
-                    Sin_Sample_DataOperation.Instance.Delete(e => e.Sample_date == beginTime && deleteSampleCode.Contains(e.SampleCode));
+                    Sin_Sample_DataOperation.Instance.Delete(e => e.Sample_date >= beginTime && e.Sample_date <= endTime && deleteSampleCode.Contains(e.SampleCode));
                     sin.Complete();
                 }
             }

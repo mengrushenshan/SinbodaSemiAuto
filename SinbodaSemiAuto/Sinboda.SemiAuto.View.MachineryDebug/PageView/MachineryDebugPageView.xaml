@@ -19,7 +19,7 @@
 
         <sin:SinTabControl Grid.Column="0" SelectedIndex="0">
             <sin:SinTabItem Header="{MultiLang:StringResource 0, DefaultValue=电机}">
-                <sin:SinGrid Grid.Row="0">
+                <sin:SinGrid  Grid.Row="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
                         <RowDefinition Height="3*" />
@@ -1332,7 +1332,7 @@
                 </Grid.RowDefinitions>
 
                 <Border
-                    Grid.Row="0"
+                    <Image x:Name="image" Width="512" Height="512" Stretch="Fill" Source="{Binding CameraSouce}" />
                     BorderBrush="#3f3f96"
                     BorderThickness="1">
                     <Image
@@ -1361,7 +1361,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{MultiLang:StringResource 0, DefaultValue=聚焦图像张数}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         Grid.Row="0"
                         Grid.Column="0"
                         HorizontalAlignment="Center"
@@ -1372,8 +1372,8 @@
                         Grid.Row="0"
                         Grid.Column="2"
                         VerticalAlignment="Center"
-                        Text="{Binding FocusImageCount, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
+                    <sin:SinTextBox Grid.Row="0" Grid.Column="2" Text="{Binding FocusImageCount, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+                    <Button Grid.Row="0" Grid.Column="4" Command="{Binding FocusCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机聚焦}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         Grid.Row="0"
                         Grid.Column="4"
                         HorizontalAlignment="Center"
@@ -1381,19 +1381,17 @@
                         Command="{Binding FocusCommand}"
                         Content="{MultiLang:StringResource 0,
                                                            DefaultValue=相机聚焦}"
-                        IsEnabled="{Binding IsCameraFocusEnable, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <Button
-                        Grid.Row="2"
-                        Grid.Column="0"
+                    <Button Grid.Row="2" Grid.Column="0" Command="{Binding FocusCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机聚焦}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Grid.Row="2" Grid.Column="0" Command="{Binding OpenAndCloseCommand}" Content="{Binding CameraButtonText}" IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Row="2" Grid.Column="2" Command="{Binding BigImageCommand}" Content="{MultiLang:StringResource 0, DefaultValue=大图展示}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Grid.Row="2" Grid.Column="4" Command="{Binding CameraInitCommand}" Content="{MultiLang:StringResource 0, DefaultValue=相机初始化}" IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{Binding OpenAndCloseCommand}"
                         Content="{Binding CameraButtonText}"
                         IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
-                        Grid.Row="2"
-                        Grid.Column="2"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{Binding BigImageCommand}"

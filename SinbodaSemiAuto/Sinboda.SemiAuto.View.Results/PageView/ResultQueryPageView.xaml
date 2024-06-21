@@ -149,7 +149,7 @@
         <StackPanel  Grid.Row="2" Grid.Column="1" Orientation="Horizontal"  HorizontalAlignment="Right">
             <Button x:Name="btnQueryMore" Content="{MultiLang:StringResource 5394, DefaultValue=高级查询}"  Margin="10,0,0,0" />
             <Button x:Name="btnSamplePatientInfo" Content="{MultiLang:StringResource 1241, DefaultValue=患者信息}" Margin="10,0,0,0"/>
-            <Button x:Name="btnEditItem" Content="{MultiLang:StringResource 1306, DefaultValue=样本删除}" Margin="10,0,0,0"/>            
+            <Button x:Name="btnEditItem" Content="{MultiLang:StringResource 1306, DefaultValue=样本删除}" Command="{Binding SampleDeleteCommand}" Margin="10,0,0,0"/>            
             <Button x:Name="btnLIS" Content="{MultiLang:StringResource 1877, DefaultValue=LIS传输}"  Margin="10,0,0,0"/>
             <Button x:Name="btnPrint" Content="{MultiLang:StringResource 1106, DefaultValue=打印}" Margin="10,0,0,0"/>
         </StackPanel>

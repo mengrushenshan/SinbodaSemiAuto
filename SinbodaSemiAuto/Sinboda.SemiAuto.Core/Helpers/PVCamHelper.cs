@@ -68,6 +68,22 @@ namespace Sinboda.SemiAuto.Core.Helpers
         Task m_guiUpdateTimer;
 
         /// <summary>
+        /// 图像宽和高
+        /// </summary>
+        private int Width;
+        private int Height;
+
+        /// <summary>
+        /// ROI区域是否为初始区域
+        /// </summary>
+        private bool isInitRoi = true;
+
+        /// <summary>
+        /// 图像翻转角度
+        /// </summary>
+        private RotateFlags rotateFlag = RotateFlags.Rotate90Counterclockwise;
+
+        /// <summary>
         /// 初始化
         /// </summary>
         public void Init()
@@ -127,6 +143,10 @@ namespace Sinboda.SemiAuto.Core.Helpers
             return IsInitSuccess;
         }
 
+        public RotateFlags GetRotateFlags()
+        {
+            return rotateFlag;
+        }
         /// <summary>
         /// 释放资源
         /// </summary>
@@ -194,17 +214,27 @@ namespace Sinboda.SemiAuto.Core.Helpers
             }
         }
 
+        public void SetIsInitRoi(bool isSetRoi) { isInitRoi = isSetRoi; }
+
+        public bool GetIsInitRoi() { return isInitRoi; }
+
+        public int GetWidth() { return Width; }
+
+        public int GetHeight() { return Height; }
+
         public void SetROI(UInt16 x, UInt16 y, UInt16 width, UInt16 height)
         {
             if (camCtrl != null && GetInitFlag())
             {
                 PVCAM.rgn_type region = camCtrl.Region;
                 region.s1 = x;
-                region.s2 = (ushort)(width - 1);
+                region.s2 = (ushort)(width + x - 1);
                 region.p1 = y;
-                region.p2 = (ushort)(height - 1);
+                region.p2 = (ushort)(height + y - 1);
                 camCtrl.Region = region;
             }
+            Width = width / 2; 
+            Height = height / 2;
         }
 
         public void Binning(bool enable)
@@ -407,21 +437,21 @@ namespace Sinboda.SemiAuto.Core.Helpers
             m_displayableBitmap.FrameToBMP(srcData, imageSize, srcFmt, srcMin, srcMax, useParallelProcessing);
 
             //缩放 并且旋转图像
-            Mat matTemp = Rehandle(m_displayableBitmap.Bitmap.ToMat(), new OpenCvSharp.Size(GlobalData.VideoWidth, GlobalData.VideoHeight));
+            Mat matTemp = Rehandle(m_displayableBitmap.Bitmap.ToMat(), new OpenCvSharp.Size(imageSize.Width, imageSize.Height));
 
-            //ROI处理 TODO:需要根据用户设置 输入ROI范围
-            Mat matROI = ROI(matTemp, 0, 1024, 0, 1024);
+            //ROI处理 TODO:需要根据用户设置 输入ROI范围 
+            //Mat matROI = ROI(matTemp, 0, Width, 0, Height); 相机已经设置ROI，图像不在处理ROI
            
             //通知界面
-            Messenger.Default.Send<Mat>(matROI, MessageToken.TokenCamera);
+            Messenger.Default.Send<Mat>(matTemp, MessageToken.TokenCamera);
             Messenger.Default.Send<byte[]>(srcData, MessageToken.TokenCameraBuffer);
 
             //保存视频帧
             if (StatusRecordOn && !videoWriter.IsNull())
             {
-                var bmp = matROI.ToBitmap();
-                matROI = Bit32To24(bmp).ToMat();
-                videoWriter.Write(matROI);
+                var bmp = matTemp.ToBitmap();
+                matTemp = Bit32To24(bmp).ToMat();
+                videoWriter.Write(matTemp);
             }
 
             //释放
@@ -441,7 +471,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
             Mat dst = new Mat();
             //Cv2.Resize(source, mat, size);
             //旋转
-            Cv2.Rotate(source, dst, RotateFlags.Rotate90Counterclockwise);
+            Cv2.Rotate(source, dst, GetRotateFlags());
             return dst;
         }
 

@@ -74,7 +74,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
                 e.Key == Key.Left ||
                 e.Key == Key.Up ||
                 e.Key == Key.Right ||
-                e.Key == Key.Down
+                e.Key == Key.Down ||
+               e.Key == Key.W ||
+               e.Key == Key.S
                 )
             {
                 KeyBoardEvent keyEvent = new KeyBoardEvent(true, e.Key);
@@ -106,6 +108,23 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
                 //键盘事件通知
                 vm.MWinKeyEvent(keyEvent);
             }
+        }
+
+        private void image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Image im = sender as Image;
+            Point point = e.GetPosition(im);
+            if (point == null) return;
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                vm.SetRoiRange(point, true);
+            }
+            else if (e.RightButton == MouseButtonState.Pressed)
+            {
+                vm.SetRoiRange(point, false);
+            }
+            
         }
     }
 }
