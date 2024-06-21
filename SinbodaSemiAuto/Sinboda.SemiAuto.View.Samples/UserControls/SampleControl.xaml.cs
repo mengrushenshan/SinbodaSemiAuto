@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
+using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,9 +24,49 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
     {
         Dictionary<string, ReagentMonitorColor> colorDic = new Dictionary<string, ReagentMonitorColor>();
 
+        Sin_Sample sinSample = new Sin_Sample();
         public SampleControl()
         {
             InitializeComponent();
+            InitColor();
+        }
+
+        /// <summary>
+        /// 初始化数据
+        /// </summary>
+        /// <param name="reagent"></param>
+        public void InitData(Sin_Sample sample)
+        {
+            sinSample = sample;
+            this.DataContext = sinSample;
+
+            SetSampleColor();
+        }
+
+        public void SetSampleColor()
+        {
+            if (sinSample == null)
+            {
+                return;
+            }
+
+            switch (sinSample.Test_state)
+            {
+                case TestState.Untested:
+                    SetColor("1", false);
+                    break;
+                case TestState.Testing:
+                    SetColor("2", false);
+                    break;
+                case TestState.Complete:
+                    SetColor("3", false);
+                    break;
+                case TestState.Failed:
+                    SetColor("4", false);
+                    break;
+               
+
+            }
         }
 
         /// <summary>
