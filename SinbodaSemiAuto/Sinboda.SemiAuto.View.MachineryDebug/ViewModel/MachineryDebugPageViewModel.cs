@@ -46,7 +46,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         private const int originalSize = 2048;
         private const int originalBinnerSize = 1024;
         private const int showSize = 512;
-
+        private const int focusMoveStep = 64;
         /// <summary>
         /// 线程锁
         /// </summary>
@@ -265,6 +265,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             set { Set(ref isCameraOpenEnable, value); }
         }
 
+        /// <summary>
+        /// 升级文件
+        /// </summary>
         private string upgradeFile;
 
         public string UpgradeFile
@@ -273,11 +276,24 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             set { Set(ref upgradeFile, value);}
         }
 
-        private int focusImageCount;
-        public int FocusImageCount
+        /// <summary>
+        /// 聚焦起始位置
+        /// </summary>
+        private int focusBeginPos;
+        public int FocusBeginPos
         {
-            get { return focusImageCount; }
-            set { Set(ref focusImageCount, value); }
+            get { return focusBeginPos; }
+            set { Set(ref focusBeginPos, value); }
+        }
+
+        /// <summary>
+        /// 聚焦起始位置
+        /// </summary>
+        private int focusEndPos;
+        public int FocusEndPos
+        {
+            get { return focusEndPos; }
+            set { Set(ref focusEndPos, value); }
         }
 
         private System.Windows.Point PointBegin = new System.Windows.Point { X = -1, Y = -1 };
@@ -1375,6 +1391,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
             string fileName = $"{dateText}.tif";
 
+            if (FocusBeginPos > FocusEndPos)
+            {
+                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "聚焦起始位置大于结束位置"));
+                return;
+            }
+
+            int focusImageCount = (FocusEndPos - FocusBeginPos) / focusMoveStep;
+
             if (!isOpenCamera)
             {
                 PVCamHelper.Instance.StartCont();
@@ -1392,12 +1416,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 //开启激光
                 ControlBusiness.Instance.LightEnableCtrl(1, 1);
                 //移动到暂定起始位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, 5033000);
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, FocusBeginPos);
                 //获取Z轴位置
                 MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
 
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, FocusImageCount, filePath + fileName);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, focusMoveStep, focusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);

@@ -706,9 +706,9 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             
         }
 
-        public void GetSinSample(string tag)
+        public Sin_Sample GetSinSample(string tag)
         {
-            
+            return new Sin_Sample();
         }
         /// <summary>
         /// 进入页面时触发
