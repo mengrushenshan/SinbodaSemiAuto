@@ -35,6 +35,7 @@ using Sinboda.Framework.Common;
 using System.Threading.Tasks;
 using Sinboda.Framework.Control.Controls;
 using Sinboda.Framework.Control.Loading;
+using System.Windows.Media.Media3D;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -42,7 +43,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
     {
         private XimcHelper ximcController;
         private bool isOpenCamera = false;
-
+        private const int originalSize = 2048;
+        private const int originalBinnerSize = 1024;
+        private const int showSize = 512;
+        private const int focusMoveStep = 64;
         /// <summary>
         /// 线程锁
         /// </summary>
@@ -129,7 +133,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         public List<FanData> FanList
         {
             get { return fanList; }
-            set { Set(ref fanList, value); }
+            set { Set(ref fanList, value);}
         }
 
         /// <summary>
@@ -149,15 +153,15 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         public string CameraButtonText
         {
-            get { return cameraButtonText; }
+            get { return cameraButtonText;  }
             set { Set(ref cameraButtonText, value); }
         }
 
         private double voltage = 0.25;
-        public double Voltage
+        public double Voltage 
         {
             get { return voltage; }
-            set { Set(ref voltage, value); }
+            set { Set(ref voltage, value); } 
         }
         #region 风扇按钮文言
 
@@ -248,38 +252,52 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         private bool isCameraInitEnable;
-        public bool IsCameraInitEnable
+        public bool IsCameraInitEnable 
         {
             get { return isCameraInitEnable; }
-            set { Set(ref isCameraInitEnable, value); }
+            set { Set(ref isCameraInitEnable, value); } 
         }
 
         private bool isCameraOpenEnable;
-        public bool IsCameraOpenEnable
+        public bool IsCameraOpenEnable 
         {
-            get { return isCameraOpenEnable; }
+            get { return isCameraOpenEnable; } 
             set { Set(ref isCameraOpenEnable, value); }
         }
 
-        public bool IsCameraFocusEnable
-        {
-            get { return isCameraOpenEnable && IsIdle; }
-        }
-
+        /// <summary>
+        /// 升级文件
+        /// </summary>
         private string upgradeFile;
 
         public string UpgradeFile
         {
             get { return upgradeFile; }
-            set { Set(ref upgradeFile, value); }
+            set { Set(ref upgradeFile, value);}
         }
 
-        private int focusImageCount;
-        public int FocusImageCount
+        /// <summary>
+        /// 聚焦起始位置
+        /// </summary>
+        private int focusBeginPos;
+        public int FocusBeginPos
         {
-            get { return focusImageCount; }
-            set { Set(ref focusImageCount, value); }
+            get { return focusBeginPos; }
+            set { Set(ref focusBeginPos, value); }
         }
+
+        /// <summary>
+        /// 聚焦起始位置
+        /// </summary>
+        private int focusEndPos;
+        public int FocusEndPos
+        {
+            get { return focusEndPos; }
+            set { Set(ref focusEndPos, value); }
+        }
+
+        private System.Windows.Point PointBegin = new System.Windows.Point { X = -1, Y = -1 };
+        private bool NeedRoi = false;
         #endregion
 
         #region 命令
@@ -438,12 +456,21 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 大图展示
         /// </summary>
         public RelayCommand BigImageCommand { get; set; }
-
+       
         /// <summary>
         /// 大图展示
         /// </summary>
         public RelayCommand FocusCommand { get; set; }
 
+        /// <summary>
+        /// 设置ROI区域
+        /// </summary>
+        public RelayCommand SetRoiCommand { get; set; }
+
+        /// <summary>
+        /// 重置ROI区域
+        /// </summary>
+        public RelayCommand ReSetRoiCommand { get; set; }
         #endregion
 
         #region 激光器
@@ -472,7 +499,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         #endregion
 
-        public MachineryDebugPageViewModel()
+        public MachineryDebugPageViewModel() 
         {
             //界面线程初始化
             DispatcherHelper.Initialize();
@@ -484,11 +511,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             CameraInitCommand = new RelayCommand(InitCamera);
             BigImageCommand = new RelayCommand(BigImageShow);
             FocusCommand = new RelayCommand(CameraFocus);
+            SetRoiCommand = new RelayCommand(SetCameraRoi);
+            ReSetRoiCommand = new RelayCommand(SetInitRoi);
 
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
             OpenLightCommand = new RelayCommand(OpenLight);
             CloseLightCommand = new RelayCommand(CloseLight);
-
+            
             BrowseCommand = new RelayCommand(BrowseFile);
             UpgradeCommand = new RelayCommand(UpgradeBoard);
             ChangeButtonText();
@@ -1431,8 +1460,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void BigImageShow()
         {
-            BigImageWinView bigImageWinView = new BigImageWinView(this);
-            bigImageWinView.Show();
+            InvokeAsync(() =>
+            {
+                BigImageWinView bigImageWinView = new BigImageWinView(this);
+                bigImageWinView.Show();
+            });
         }
 
         /// <summary>
@@ -1440,10 +1472,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void CameraPause()
         {
-            if (isOpenCamera)
+            InvokeAsync(() =>
             {
-                PVCamHelper.Instance.Pause();
-            }
+                if (isOpenCamera)
+                {
+                    PVCamHelper.Instance.Pause();
+                }
+            });
         }
 
         /// <summary>
@@ -1468,6 +1503,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
                 string fileName = $"{dateText}.tif";
 
+                if (FocusBeginPos > FocusEndPos)
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "聚焦起始位置大于结束位置"));
+                    return;
+                }
+
+                int focusImageCount = (FocusEndPos - FocusBeginPos) / focusMoveStep;
+
                 if (!isOpenCamera)
                 {
                     PVCamHelper.Instance.StartCont();
@@ -1488,7 +1531,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
 
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, FocusImageCount, filePath + fileName);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, focusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
@@ -1496,9 +1539,52 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 ControlBusiness.Instance.LightEnableCtrl(0, 1);
 
                 NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "聚焦完成"), MessageBoxButton.OK, SinMessageBoxImage.Information);
-
             });
+        }
+        /// <summary>
+        /// 设置ROI范围
+        /// </summary>
+        private void SetCameraRoi()
+        {
+            InvokeAsync(() =>
+            {
+                int x = 0;
+                int y = 0;
 
+                if (PointBegin.X == -1 && PointBegin.Y == -1
+                    || !PVCamHelper.Instance.GetIsInitRoi())
+                {
+                    return;
+                }
+
+                SetPoint(PointBegin, originalBinnerSize, originalSize, out x, out y);
+                GetPoint(ref x, ref y);
+
+                NeedRoi = false;
+                PVCamHelper.Instance.SetIsInitRoi(false);
+                PVCamHelper.Instance.SetROI((ushort)(x), (ushort)(y), originalBinnerSize, originalBinnerSize);
+                Task.Run(() =>
+                {
+                    PVCamHelper.Instance.Pause();
+                    Thread.Sleep(1000);
+                    PVCamHelper.Instance.StartCont();
+                });
+            });
+        }
+
+        /// <summary>
+        /// 重置ROI范围
+        /// </summary>
+        private void SetInitRoi()
+        {
+            InvokeAsync(() =>
+            {
+                PointBegin.X = -1;
+                PointBegin.Y = -1;
+                NeedRoi = false;
+                PVCamHelper.Instance.SetIsInitRoi(true);
+                PVCamHelper.Instance.SetROI(0, 0, originalSize, originalSize);
+            });
         }
         #endregion
 
@@ -1535,7 +1621,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     if (MouseKeyBoardHelper.IsAltDown())
                     {
                         //移动固定步长
-                        MoveRelativePos(ZaxisMotor, false, GlobalData.XimcFocusSlowStep);
+                        MoveRelativePos(ZaxisMotor, false,GlobalData.XimcFocusSlowStep);
                         //MoveRelativePos(ZaxisMotor, false, message.Delta);
                         LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
                     }
@@ -1673,6 +1759,22 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 Monitor.Exit(objLock);
             }
         }
+
+        //鼠标输入Roi起始点
+        public void SetRoiRange(System.Windows.Point pointBegin, bool needRoi)
+        {
+            if (needRoi)
+            {
+                PointBegin = pointBegin;
+            }
+            else
+            {
+                PointBegin.X = -1;
+                PointBegin.Y = -1;
+            }
+
+            NeedRoi = needRoi;
+        }
         #endregion
 
         #region 升级使用
@@ -1686,7 +1788,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 ShowMessageError(SystemResources.Instance.GetLanguage(0, "选择文件不存在"));
                 return;
             }
-
+           
             LoadingHelper.Instance.ShowLoadingWindow(a =>
             {
 
@@ -1724,7 +1826,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 }
 
             });
-
+            
         }
 
         private void BrowseFile()
@@ -1770,7 +1872,45 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
         #endregion
 
+        private void GetPoint(ref int x, ref int y)
+        {
+            //因为显示图像为翻转图像
+            switch (PVCamHelper.Instance.GetRotateFlags())
+            {
+                case RotateFlags.Rotate90Clockwise:
+                    {
 
+                    }
+                    break;
+                case RotateFlags.Rotate180:
+                    {
+
+                    }
+                    break;
+                case RotateFlags.Rotate90Counterclockwise:
+                    {
+                        int temp = x;
+                        x = (originalSize - y) - originalBinnerSize; //2048 - y 算出翻转前点位对应实际x位置，-1024为算出第一个点位置
+                        y = temp;
+                    }
+                    break;
+            }
+        }
+        private void SetPoint(System.Windows.Point point, int step, int maxRange, out int x, out int y)
+        {
+            x = (int)point.X * maxRange / showSize;
+            y = (int)point.Y * maxRange / showSize;
+
+            //超过图像范围按照终点重新计算
+            if (x + step > maxRange)
+            {
+                x -= x + step - maxRange;
+            }
+            if (y + step > maxRange)
+            {
+                y -= y + step - maxRange;
+            }
+        }
         /// <summary>
         /// 进入页面时触发
         /// </summary>
@@ -1787,6 +1927,19 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
+                if (NeedRoi)
+                {
+                    int step = showSize;
+                    int x = 0;
+                    int y = 0;
+
+                    SetPoint(PointBegin, step, originalBinnerSize, out x, out y);
+
+                    OpenCvSharp.Point beginPos = new OpenCvSharp.Point() { X = x, Y = y };
+                    OpenCvSharp.Point endPos = new OpenCvSharp.Point() { X = x + showSize, Y = y + showSize };
+                    Cv2.Rectangle(bitmap, beginPos, endPos, new Scalar(0, 0, 255), 2, LineTypes.AntiAlias, 0);
+                }
+
                 CameraSouce = bitmap.ToBitmapSource();
             });
         }

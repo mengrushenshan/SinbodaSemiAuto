@@ -24,6 +24,8 @@ namespace Sinboda.SemiAuto.Core
 
         public InitTaskResult InitializeResource()
         {
+            PrintHelper.Instance.Print();
+
             //加载参数
             GlobalData.Init();
 
