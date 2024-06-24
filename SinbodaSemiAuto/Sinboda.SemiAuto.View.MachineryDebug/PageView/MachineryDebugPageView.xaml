@@ -1331,11 +1331,15 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Border BorderBrush="#3f3f96" BorderThickness="1">
+                <Border
+                    Grid.Row="0"
+                    BorderBrush="#3f3f96"
+                    BorderThickness="1">
                     <Image
                         x:Name="image"
                         Width="512"
                         Height="512"
+                        MouseDown="image_MouseDown"
                         Source="{Binding CameraSouce}"
                         Stretch="Fill" />
                 </Border>
@@ -1364,23 +1368,24 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Text="{MultiLang:StringResource 0,
-                                                        DefaultValue=聚焦图像张数}" />
-
+                                                        DefaultValue=聚焦起始位置}" />
                     <sin:SinTextBox
                         Grid.Row="0"
                         Grid.Column="2"
                         VerticalAlignment="Center"
-                        Text="{Binding FocusImageCount, UpdateSourceTrigger=PropertyChanged}" />
-                    <Button
+                        Text="{Binding FocusBeginPos, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock
                         Grid.Row="0"
                         Grid.Column="4"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Command="{Binding FocusCommand}"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=相机聚焦}"
-                        IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
-
+                        Text="{MultiLang:StringResource 0,
+                                                        DefaultValue=聚焦结束位置}" />
+                    <sin:SinTextBox
+                        Grid.Row="0"
+                        Grid.Column="6"
+                        VerticalAlignment="Center"
+                        Text="{Binding FocusEndPos, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Button
                         Grid.Row="2"
@@ -1393,7 +1398,7 @@
                         IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
                         Grid.Row="2"
-                        Grid.Column="0"
+                        Grid.Column="2"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{Binding OpenAndCloseCommand}"
@@ -1401,7 +1406,7 @@
                         IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
                         Grid.Row="2"
-                        Grid.Column="2"
+                        Grid.Column="4"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{Binding BigImageCommand}"
@@ -1409,7 +1414,7 @@
                                                            DefaultValue=大图展示}" />
                     <Button
                         Grid.Row="2"
-                        Grid.Column="4"
+                        Grid.Column="6"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Command="{Binding CameraInitCommand}"
@@ -1418,21 +1423,23 @@
                         IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Button
+                        Grid.Row="4"
+                        Grid.Column="0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Command="{Binding BigImageCommand}"
+                        Command="{Binding SetRoiCommand}"
                         Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=大图展示}"
-                        IsEnabled="{Binding IsIdle}" />
+                                                           DefaultValue=设置ROI}"
+                        IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
-                        Grid.Row="2"
-                        Grid.Column="4"
+                        Grid.Row="4"
+                        Grid.Column="2"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Command="{Binding CameraInitCommand}"
+                        Command="{Binding ReSetRoiCommand}"
                         Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=相机初始化}"
-                        IsEnabled="{Binding IsCameraInitEnable, UpdateSourceTrigger=PropertyChanged}" />
+                                                           DefaultValue=重置ROI}"
+                        IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
                 </sin:SinGrid>
             </sin:SinGrid>
         </sin:SinGroupBox>
