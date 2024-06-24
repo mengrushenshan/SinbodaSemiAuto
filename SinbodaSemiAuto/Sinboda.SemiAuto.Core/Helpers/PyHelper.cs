@@ -29,6 +29,18 @@ namespace Sinboda.SemiAuto.Core.Helpers
             return list;
         }
 
+        public static int DataAnalyze(string tifPath, int row, int col)
+        {
+            int cellNum = -1;
+            using (Py.GIL())
+            {
+                dynamic py = Py.Import("data_analyzer");
+                PyList res = PyList.AsList(py.analyze_single(tifPath, row, col));
+                cellNum = (int)(dynamic)res[1];
+            }
+            return cellNum;
+        }
+
         public static void Shutdown()
         { 
             PythonEngine.Shutdown();

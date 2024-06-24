@@ -672,11 +672,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         private void FanEnable(FanData obj)
         {
+            //加载py运动环境
             PyHelper.Init();
-            List<int> frameIds = PyHelper.Autofocus("E:/1/1.tif");
-            PyHelper.Shutdown();
-            Console.WriteLine("best frameid: " + frameIds[0] + " secondary frameid: " + frameIds[1]);
-
+            int cellNum = PyHelper.DataAnalyze("D:\\Sinboda\\simoa\\python\\py\\ProjectData\\AD_20240620_0001", 'A', 1);
+            Console.WriteLine("cell number is: " + cellNum);
 
             obj.State = !obj.State;
             CmdFanEnable cmdFanEnable = new CmdFanEnable()
