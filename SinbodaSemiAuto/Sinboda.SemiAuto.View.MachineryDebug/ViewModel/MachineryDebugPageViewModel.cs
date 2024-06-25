@@ -1523,9 +1523,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 }
 
                 //开启激光
-                ControlBusiness.Instance.LightEnableCtrl(1, 1);
+                ControlBusiness.Instance.LightEnableCtrl(1, 0.5, 1);
                 //移动到暂定起始位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, 5033000);
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, FocusEndPos);
                 //获取Z轴位置
                 MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
 
@@ -1535,7 +1535,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
                 //关闭激光
-                ControlBusiness.Instance.LightEnableCtrl(0, 1);
+                ControlBusiness.Instance.LightEnableCtrl(0, 0.5, 1);
 
                 NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "聚焦完成"), MessageBoxButton.OK, SinMessageBoxImage.Information);
             });
