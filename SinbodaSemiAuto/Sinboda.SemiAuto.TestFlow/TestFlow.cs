@@ -89,6 +89,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         private bool Init()
         {
+            AnalysisHelper.Instance.Init();
             AcquiringImageFinish.Reset();
             DateTime today = DateTime.Now.Date;
             DateTime tomorrow = DateTime.Now.AddDays(1).Date;
@@ -162,7 +163,7 @@ namespace Sinboda.SemiAuto.TestFlow
 
             foreach (var sampleItem in SampleList)
             {
-                string fileName = sampleItem.SampleCode + "_" + sampleItem.RackDish + "_" + sampleItem.Position;
+                string fileName = "A" + "_" + sampleItem.Position;
                 TestItem testItem = new TestItem();
                 testItem.ItemSample = sampleItem;
                 testItem.Testid = ++testId;

@@ -50,7 +50,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
             for (int i = 0; i < picNum; i++)
             {
                 //文件存在 添加在目录中
-                string file = $"{sin_Test_Result.Test_file_name}\\{(char)row}_{col}_{i+1}.jpg";
+                string file = $"{samplePath}\\{(char)row}_{col}_{i+1}.jpg";
                 if(file.CheckPath())
                     sin_Test_Result.Result_file_name.Add(file);
             }

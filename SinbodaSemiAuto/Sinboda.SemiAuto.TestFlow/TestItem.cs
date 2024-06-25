@@ -130,7 +130,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 testPoint.TestNo = i;
                 testPoint.Status = TestState.Untested;
                 testPoint.SetTestPointPos(X, Y, Z);
-                testPoint.FileName = $"{fileName}_{i}_{DateTime.Now.ToString("yyyyMMddHHmmss")}.tif";
+                testPoint.FileName = $"{fileName}_{i}.tif";
                 testPoint.FilePath = filePath ;
                 points.Add(testPoint);
             }
