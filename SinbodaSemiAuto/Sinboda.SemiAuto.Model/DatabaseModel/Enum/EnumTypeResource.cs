@@ -45,6 +45,17 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Resource
         /// 校准方法
         /// </summary>
         public static List<SystemTypeValue<Rate>> RateSource { get; } = SystemResources.Instance.GetSystemTypeValueEnum<Rate>(nameof(Rate));
+
+        /// <summary>
+        /// 测试项目
+        /// </summary>
+        public static List<SystemTypeValue<TestItem>> TestItemSource { get; } = SystemResources.Instance.GetSystemTypeValueEnum<TestItem>(nameof(TestItem));
+
+        /// <summary>
+        /// 测试类型
+        /// </summary>
+        public static List<SystemTypeValue<TestType>> TestTypeSource { get; } = SystemResources.Instance.GetSystemTypeValueEnum<TestType>(nameof(TestType));
+
         /// <summary>
         /// 质控/校准状态
         /// </summary>

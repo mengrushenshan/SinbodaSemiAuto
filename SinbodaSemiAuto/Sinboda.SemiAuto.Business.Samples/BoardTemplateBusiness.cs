@@ -60,5 +60,19 @@ namespace Sinboda.SemiAuto.Business.Samples
 
             return result = true;
         }
+
+        public bool DeleteTemplateNameList(List<Sin_BoardTemplate> boardTemplateList)
+        {
+            bool result = false;
+
+            if (boardTemplateList == null)
+            {
+                return result;
+            }
+
+            boardTemplateList.ForEach(o => Sin_BoardTemplateOperation.Instance.Delete(o.Id));
+
+            return result = true;
+        }
     }
 }

@@ -22,9 +22,11 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
     /// </summary>
     public partial class SampleControl : UserControl
     {
+        public Action<Sin_BoardTemplate> GetBoardTemplate;
         Dictionary<string, ReagentMonitorColor> colorDic = new Dictionary<string, ReagentMonitorColor>();
 
         Sin_Sample sinSample = new Sin_Sample();
+        Sin_BoardTemplate sinTemplate = new Sin_BoardTemplate();
         public SampleControl()
         {
             InitializeComponent();
@@ -35,15 +37,27 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
         /// 初始化数据
         /// </summary>
         /// <param name="reagent"></param>
-        public void InitData(Sin_Sample sample)
+        public void InitBoardData(Sin_Sample sample)
         {
             sinSample = sample;
             this.DataContext = sinSample;
 
-            SetSampleColor();
+            SetBoardColor();
         }
 
-        public void SetSampleColor()
+        /// <summary>
+        /// 初始化数据
+        /// </summary>
+        /// <param name="reagent"></param>
+        public void InitTemplateData(Sin_BoardTemplate boardTemplate)
+        {
+            sinTemplate = boardTemplate;
+            this.DataContext = sinTemplate;
+
+            SetTemplateColor();
+        }
+
+        public void SetBoardColor()
         {
             if (sinSample == null)
             {
@@ -53,78 +67,102 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
             switch (sinSample.Test_state)
             {
                 case TestState.Untested:
-                    SetColor("1", false);
+                    SetColor("1", true);
                     break;
                 case TestState.Testing:
-                    SetColor("2", false);
+                    SetColor("2", true);
                     break;
                 case TestState.Complete:
-                    SetColor("3", false);
+                    SetColor("3", true);
                     break;
                 case TestState.Failed:
-                    SetColor("4", false);
+                    SetColor("4", true);
                     break;
                
 
             }
         }
 
+        public void SetTemplateColor()
+        {
+            if (sinTemplate == null)
+            {
+                return;
+            }
+
+            switch (sinTemplate.TestType)
+            {
+                case TestType.Sample:
+                    SetColor("1", true);
+                    break;
+                case TestType.Focus:
+                    SetColor("2", true);
+                    break;
+                case TestType.QualityControl:
+                    SetColor("3", true);
+                    break;
+                case TestType.Calibration:
+                    SetColor("4", true);
+                    break;
+            }
+        }
         /// <summary>
         /// 初始化颜色
         /// </summary>
         private void InitColor()
         {
             ReagentMonitorColor color = new ReagentMonitorColor();
-            //未使用
+            //样本
             color = new ReagentMonitorColor
             {
-                RoundColor = Color.FromRgb(185, 185, 185),
-                TopRangeColor = Color.FromRgb(255, 255, 255),
-                MiddleRangeColor = Color.FromRgb(230, 230, 230),
-                BottomRangeColor = Color.FromRgb(132, 132, 132)
+                RoundColor = Color.FromRgb(137, 200, 123),
+                MiddleRangeColor = Color.FromRgb(127, 191, 113)
             };
             colorDic.Add("1", color);
-            //试剂正常
+            //聚焦
             color = new ReagentMonitorColor
             {
-                RoundColor = Color.FromRgb(47, 132, 208),
-                TopRangeColor = Color.FromRgb(246, 251, 255),
-                MiddleRangeColor = Color.FromRgb(207, 229, 249),
-                BottomRangeColor = Color.FromRgb(65, 151, 231)
+                RoundColor = Color.FromRgb(59, 208, 196),
+                MiddleRangeColor = Color.FromRgb(59, 208, 196)
             };
             colorDic.Add("2", color);
-            //试剂过期
+            //质控
             color = new ReagentMonitorColor
             {
                 RoundColor = Color.FromRgb(218, 60, 183),
-                TopRangeColor = Color.FromRgb(255, 245, 253),
-                MiddleRangeColor = Color.FromRgb(247, 176, 232),
-                BottomRangeColor = Color.FromRgb(218, 62, 184)
+                MiddleRangeColor = Color.FromRgb(247, 176, 232)
             };
             colorDic.Add("3", color);
-            //试剂不足
+            //校准
             color = new ReagentMonitorColor
             {
                 RoundColor = Color.FromRgb(192, 157, 0),
-                TopRangeColor = Color.FromRgb(255, 252, 238),
-                MiddleRangeColor = Color.FromRgb(255, 234, 138),
-                BottomRangeColor = Color.FromRgb(229, 188, 8)
+                MiddleRangeColor = Color.FromRgb(255, 234, 138)
             };
             colorDic.Add("4", color);
+            //选中
+            color = new ReagentMonitorColor
+            {
+                RoundColor = Color.FromRgb(84, 84, 155),
+            };
+            colorDic.Add("5", color);
         }
 
         public void SetColor(string index, bool isCover)
         {
             if (isCover)
             {
-                cover_Border.BorderBrush = new SolidColorBrush(Color.FromRgb(0, 216, 235));
+                middle_border.Background = new SolidColorBrush(colorDic[index].MiddleRangeColor);
+                
             }
-            else
-            {
-                cover_Border.BorderBrush = new SolidColorBrush(colorDic[index].RoundColor);
-            }
-            
-            middle_border.Background = new SolidColorBrush(colorDic[index].MiddleRangeColor);
+
+            cover_Border.BorderBrush = new SolidColorBrush(colorDic[index].RoundColor);
+        }
+
+        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            GetBoardTemplate(sinTemplate);
+            SetColor("5", false);
         }
     }
 

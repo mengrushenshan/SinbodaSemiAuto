@@ -1,4 +1,5 @@
 ﻿using Sinboda.Framework.Control.Controls;
+using Sinboda.SemiAuto.View.Samples.UserControls;
 using Sinboda.SemiAuto.View.Samples.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,21 @@ namespace Sinboda.SemiAuto.View.Samples.WinView
     /// </summary>
     public partial class SampleRegisterBoardWindow : SinWindow
     {
+        SampleRegisterBoardViewModel viewModel;
+        SampleRoundMonitorControl sampleRoundMonitorControl;
         public SampleRegisterBoardWindow()
         {
             InitializeComponent();
-            DataContext = new SampleRegisterBoardViewModel(flow.Children, flow2.Children, flow3.Children);
+            DataContext = viewModel = new SampleRegisterBoardViewModel();
+            sampleRoundMonitorControl = new SampleRoundMonitorControl();
+            sampleRoundMonitorControl.DataContext = viewModel;
+            sampleRoundMonitorControl.orderEventHandler += viewModel.HoleIndexChange;
+            sampleRoundMonitorControl.GetBoardTemplate = viewModel.ShowTemplateInfo;
+            sampleRoundMonitorControl.InitTemplateData();
+            TempLateList.Children.Add(sampleRoundMonitorControl);
+            viewModel.RefTemplateBoard = sampleRoundMonitorControl.SetTemplateData;
+
+
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

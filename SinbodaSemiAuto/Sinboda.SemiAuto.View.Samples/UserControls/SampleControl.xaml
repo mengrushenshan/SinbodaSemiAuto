@@ -8,6 +8,7 @@
     d:DesignHeight="88"
     d:DesignWidth="88"
     Cursor="Hand"
+    MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
     mc:Ignorable="d">
 
     <Border
@@ -35,7 +36,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Text="{Binding Name}" />
+                    Text="{Binding SampleCode}" />
             </Border>
 
         </Grid>

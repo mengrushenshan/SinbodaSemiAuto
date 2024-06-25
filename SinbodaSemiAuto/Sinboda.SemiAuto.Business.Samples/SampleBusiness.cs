@@ -62,6 +62,27 @@ namespace Sinboda.SemiAuto.Business.Samples
         }
 
         /// <summary>
+        /// 架号位置获取样本
+        /// </summary>
+        /// <param name="rack"></param>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public Sin_Sample GetSampleByRackPos(int rack, int pos)
+        {
+            List<Sin_Sample> sampleList = Sin_Sample_DataOperation.Instance.QueryTodaySampleList();
+
+            if (sampleList != null)
+            {
+                var sampleTemp = sampleList.Where(o => o.RackDish == rack && o.Position == pos).ToList();
+                if (sampleTemp.Count > 0)
+                {
+                    return sampleTemp.FirstOrDefault();
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// 架号位置是否有样本
         /// </summary>
         /// <param name="rack"></param>
