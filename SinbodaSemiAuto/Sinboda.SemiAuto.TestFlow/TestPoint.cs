@@ -98,9 +98,9 @@ namespace Sinboda.SemiAuto.TestFlow
             {
                 //图像采集完成时关闭激光
                 ControlBusiness.Instance.LightEnableCtrl(0, 0);
-                Messenger.Default.Unregister<byte[]>(this, MessageToken.TokenCamera, AcquiringImage);
-                Messenger.Default.Send<object>(null, MessageToken.AcquiringImageComplete);
+                Messenger.Default.Unregister<byte[]>(this, MessageToken.TokenCameraBuffer, AcquiringImage);
                 SaveMatList();
+                Messenger.Default.Send<object>(null, MessageToken.AcquiringImageComplete);
             }
         }
 

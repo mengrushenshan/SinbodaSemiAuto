@@ -690,12 +690,13 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                     isOpenCamera = true;
                     ChangeButtonText();
                 }
+                Task.Run(() =>
+                {
+                    TestFlow.TestFlow.Instance.StartItemTest();
+                });
             });
 
-            Task.Run(() =>
-            {
-                TestFlow.TestFlow.Instance.StartItemTest();
-            });
+            
         }
 
         /// <summary>

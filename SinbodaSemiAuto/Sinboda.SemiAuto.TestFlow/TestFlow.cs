@@ -214,16 +214,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public void ChangeNextItem()
         {
-            if (CurTestItem.State == TestState.Complete)
-            {
-                Items.Remove(CurTestItem);
-                CurTestItem = Items[0];
-            }
-
-            if (CurTestItem.X != X && CurTestItem.Y != Y)
-            {
-                MoveTestItemPos();
-            }
+            
         }
 
         /// <summary>
@@ -238,6 +229,16 @@ namespace Sinboda.SemiAuto.TestFlow
                     continue;
                 }
 
+                if (CurTestItem.State == TestState.Complete)
+                {
+                    CurTestItem = item;
+                }
+
+                if (CurTestItem.X != X && CurTestItem.Y != Y)
+                {
+                    MoveTestItemPos();
+                }
+
                 PointAcquiringImage();
 
                 //点位测试完成后，移动到下一个点
@@ -246,7 +247,7 @@ namespace Sinboda.SemiAuto.TestFlow
                     CurTestItem.State = TestState.Complete;
                     Task.Run(() =>
                     {
-                        AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, CurTestItem.ItemSample.RackDish ?? 0, CurTestItem.ItemSample.Position ?? 0);
+                        AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, 'A', 1);
                     });
                     ChangeNextItem();
                 }
