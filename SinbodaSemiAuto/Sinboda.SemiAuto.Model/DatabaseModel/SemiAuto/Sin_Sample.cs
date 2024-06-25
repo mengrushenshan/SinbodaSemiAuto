@@ -3,6 +3,7 @@ using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
 using Sinboda.SemiAuto.Model.DatabaseModel.RegexLC;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Text;
@@ -140,6 +141,9 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         /// 实验板号
         /// </summary>
         public int BoardId { get; set; }
+
+        [NotMapped]
+        public List<Sin_Test_Result> TestResults { get; set; }
 
         public override string ToString()
         {
