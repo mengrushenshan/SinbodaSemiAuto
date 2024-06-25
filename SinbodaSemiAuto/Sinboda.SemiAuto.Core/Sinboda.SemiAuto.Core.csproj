@@ -160,6 +160,7 @@
     <Compile Include="Command\Cmds.cs" />
     <Compile Include="Command\ICmd.cs" />
     <Compile Include="Converts\NullNumericConverter.cs" />
+    <Compile Include="Helpers\AnalysisHelper.cs" />
     <Compile Include="Helpers\AutofocusHelper.cs" />
     <Compile Include="Helpers\PrintHelper.cs" />
     <Compile Include="Helpers\PyHelper.cs" />

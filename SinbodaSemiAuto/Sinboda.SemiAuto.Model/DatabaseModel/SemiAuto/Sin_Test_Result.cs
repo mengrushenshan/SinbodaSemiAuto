@@ -126,9 +126,14 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         public string Recheck_reason { get; set; }
 
         /// <summary>
-        /// 测试元数据文件名
+        /// 测试元数据文件夹名
         /// </summary>
         public string Test_file_name { get; set; }
+
+        /// <summary>
+        /// 测试结果数据文件名
+        /// </summary>
+        public List<string> Result_file_name { get; set; } = new List<string>();
 
         /// <summary>
         /// 小数位数
