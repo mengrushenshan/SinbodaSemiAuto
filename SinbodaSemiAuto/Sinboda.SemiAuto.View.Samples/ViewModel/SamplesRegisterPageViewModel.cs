@@ -708,7 +708,17 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
         public Sin_Sample GetSinSample(string tag)
         {
-            return new Sin_Sample();
+            if (!tag.Contains("-"))
+            {
+                return null;
+            }
+
+            string[] strRackAndPos = tag.Split('-');
+            int rack = int.Parse(strRackAndPos[0]);
+            int pos = int.Parse(strRackAndPos[1]);
+
+            Sin_Sample sample = SampleBusiness.Instance.GetSampleByRackPos(rack, pos);
+            return sample;
         }
         /// <summary>
         /// 进入页面时触发

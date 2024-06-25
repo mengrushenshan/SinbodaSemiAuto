@@ -47,19 +47,21 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "方案名已经存在"));
                 return;
             }
+            Task.Run(() => {
+                foreach (var boardTemplate in BoardTemplateList)
+                {
+                    boardTemplate.Id = Guid.NewGuid();
+                    boardTemplate.TemplateName = TemplateName;
+                    boardTemplate.Create_user = "Sinboda";
+                    boardTemplate.Create_time = DateTime.Now;
+                }
 
-            foreach (var boardTemplate in BoardTemplateList)
-            {
-                boardTemplate.Id = Guid.NewGuid();
-                boardTemplate.TemplateName = TemplateName;
-                boardTemplate.Create_user = "Sinboda";
-                boardTemplate.Create_time = DateTime.Now;
-            }
-
-            if (BoardTemplateBusiness.Instance.CreateTemplateList(BoardTemplateList))
-            {
-                win.DialogResult = true;
-            }
+                if (BoardTemplateBusiness.Instance.CreateTemplateList(BoardTemplateList))
+                {
+                    win.DialogResult = true;
+                }
+            });
+            
             
         }
     }

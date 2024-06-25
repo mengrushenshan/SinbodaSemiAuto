@@ -250,7 +250,7 @@
                                     HorizontalAlignment="Center"
                                     Fill="#F3BC13"
                                     Stroke="#F3BC13" />
-                                <TextBlock VerticalAlignment="Center" Text="{MultiLang:StringResource 292, DefaultValue=未完成}" />
+                                <TextBlock VerticalAlignment="Center" Text="{MultiLang:StringResource 0, DefaultValue=校准}" />
                             </StackPanel>
                             <StackPanel
                                 Grid.Row="1"
@@ -267,7 +267,7 @@
                                     HorizontalAlignment="Center"
                                     Fill="#3BD0C4"
                                     Stroke="#3BD0C4" />
-                                <TextBlock VerticalAlignment="Center" Text="{MultiLang:StringResource 1237, DefaultValue=测试中}" />
+                                <TextBlock VerticalAlignment="Center" Text="{MultiLang:StringResource 0, DefaultValue=聚焦}" />
                             </StackPanel>
                             <StackPanel
                                 Grid.Row="1"
@@ -284,7 +284,7 @@
                                     HorizontalAlignment="Center"
                                     Fill="#7FBF71"
                                     Stroke="#7FBF71" />
-                                <TextBlock VerticalAlignment="Center" Text="{MultiLang:StringResource 283, DefaultValue=完成}" />
+                                <TextBlock VerticalAlignment="Center" Text="{MultiLang:StringResource 0, DefaultValue=样本}" />
                             </StackPanel>
                             <StackPanel
                                 Grid.Row="1"
@@ -299,9 +299,9 @@
                                     Height="20"
                                     Margin="0,0,10,0"
                                     HorizontalAlignment="Center"
-                                    Fill="#F55353"
-                                    Stroke="#F55353" />
-                                <TextBlock VerticalAlignment="Center" Text="{MultiLang:StringResource 1137, DefaultValue=失败}" />
+                                    Fill="#F7B0E8"
+                                    Stroke="#F7B0E8" />
+                                <TextBlock VerticalAlignment="Center" Text="{MultiLang:StringResource 0, DefaultValue=质控}" />
                             </StackPanel>
                         </StackPanel>
                     </Grid>

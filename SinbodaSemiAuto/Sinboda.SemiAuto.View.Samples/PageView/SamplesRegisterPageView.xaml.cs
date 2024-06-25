@@ -21,6 +21,7 @@ namespace Sinboda.SemiAuto.View.Samples.PageView
             sampleRoundMonitorControl = new SampleRoundMonitorControl();
             sampleRoundMonitorControl.DataContext = viewModel;
             sampleRoundMonitorControl.orderEventHandler += viewModel.HoleIndexChange;
+            sampleRoundMonitorControl.InitBoardData();
             SampleGrid.Children.Add(sampleRoundMonitorControl);
 
             this.PreviewMouseWheel += img_PreviewMouseWheel;

@@ -7,14 +7,17 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
              xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             xmlns:myStaticResource="clr-namespace:Sinboda.SemiAuto.Model.DatabaseModel.Resource;assembly=Sinboda.SemiAuto.Model"
              mc:Ignorable="d" 
              Title="{MultiLang:StringResource 0, DefaultValue=测试模板}"
-             Height="550" Width="1700">
+             Height="550" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="10" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="10" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
@@ -27,60 +30,59 @@
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            
-            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
-                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=板号}" Margin="0,10,10,0"/>
-                <sin:SinNumricTextBox MinValue="1" MaxValue="99999999" Text="{Binding BoardId}" Width="100"/>
-            </StackPanel>
 
-            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
                 <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=模板名称}" Margin="0,10,10,0"/>
                 <sin:SinComboBox ItemsSource="{Binding TemplateNameList}" SelectedValue="{Binding TemplateName}" Width="100"/>
             </StackPanel>
+            
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                <TextBlock Text="{MultiLang:StringResource 0, DefaultValue=测试项目}" Margin="0,10,10,0"/>
+                <sin:SinComboBox   ItemsSource="{x:Static myStaticResource:EnumTypeResource.TestItemSource}" Width="150"
+                  SelectedValue="{Binding TemplateItem}" VerticalContentAlignment="Center" SelectedValuePath="DisplayValue" DisplayMemberPath="DisplayValue"/>
+            </StackPanel>
+
         </Grid>
-        
-        <Grid Grid.Row="2">
+
+        <Grid Grid.Row="2" x:Name="TempLateList" />
+
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0" BorderBrush="#3f3f96" BorderThickness="1">
-                <dxlc:FlowLayoutControl Name="flow" Grid.Column="0" 
-                IsFlowBreak="False"  Background="Transparent"  ItemSpace="8" LayerSpace="0" 
-                ScrollViewer.CanContentScroll="True" StretchContent="True"
-                VerticalAlignment="Stretch"/>
-            </Border>
-
-            <Border Grid.Column="2" BorderBrush="#3f3f96" BorderThickness="1">
-                <dxlc:FlowLayoutControl Name="flow2" Grid.Column="1" 
-                IsFlowBreak="False"  ItemSpace="8" LayerSpace="0" Background="Transparent"  
-                ScrollViewer.CanContentScroll="True" StretchContent="True"
-                VerticalAlignment="Stretch" />
-            </Border>
-
-            <Border Grid.Column="4" BorderBrush="#3f3f96" BorderThickness="1">
-                <dxlc:FlowLayoutControl Name="flow3" Grid.Column="2" 
-                IsFlowBreak="False" ItemSpace="8" LayerSpace="0" Background="Transparent"  
-                ScrollViewer.CanContentScroll="True" StretchContent="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                VerticalAlignment="Stretch"/>
-            </Border>
+            <CheckBox Grid.Column="0" Content="{MultiLang:StringResource 0, DefaultValue=启用}" IsChecked="{Binding IsTemplateEnable,UpdateSourceTrigger=PropertyChanged}" Margin="0,8,0,0"/>
+            <TextBlock Grid.Column="2" Text="{MultiLang:StringResource 0, DefaultValue=测试类型}" Margin="0,10,0,0"/>
+            <sin:SinComboBox Grid.Column="4"  ItemsSource="{x:Static myStaticResource:EnumTypeResource.TestTypeSource}" Width="120"
+                SelectedValue="{Binding TemplateType}" VerticalContentAlignment="Center" SelectedValuePath="Value" DisplayMemberPath="DisplayValue"/>
+            <TextBlock Grid.Column="6" Text="{MultiLang:StringResource 0, DefaultValue=行}" Margin="0,10,0,0"/>
+            <sin:SinComboBox Grid.Column="8"  ItemsSource="{Binding RackSouce}" Width="120"
+                SelectedValue="{Binding Rack}" VerticalContentAlignment="Center"/>
+            <TextBlock Grid.Column="10" Text="{MultiLang:StringResource 0, DefaultValue=列}" Margin="0,10,0,0"/>
+            <sin:SinComboBox Grid.Column="12"  ItemsSource="{Binding PosSouce}" Width="120"
+                SelectedValue="{Binding Position}" VerticalContentAlignment="Center"/>
+            <Button Grid.Column="14" Content="{MultiLang:StringResource 0, DefaultValue=应用}" Command="{Binding CommitCmd}"/>
         </Grid>
     </Grid>
     
     <sin:SinWindow.BottomPanel>
         <Button Content="{MultiLang:StringResource 0, DefaultValue=创建新模板}" Command="{Binding CreateTemplateCmd}" Margin="10,0,0,0"/>
         <Button Content="{MultiLang:StringResource 0, DefaultValue=保存模板}" Command="{Binding SaveTemplateCmd}" Margin="10,0,0,0"/>
-        <Button Content="{MultiLang:StringResource 116, DefaultValue=登记}" Command="{Binding SampleRigesterCmd}" Margin="10,0,0,0"/>
+        <Button Content="{MultiLang:StringResource 0, DefaultValue=模板删除}" Command="{Binding DeleteTemplateCmd}" Margin="10,0,0,0"/>
         <Button x:Name="btnClose" Click="btnClose_Click" Content="{MultiLang:StringResource 144, DefaultValue=关闭}" Margin="10,0,0,0" />
     </sin:SinWindow.BottomPanel>
 </sin:SinWindow>

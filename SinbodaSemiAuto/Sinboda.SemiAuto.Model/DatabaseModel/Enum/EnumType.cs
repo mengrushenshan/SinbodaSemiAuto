@@ -408,8 +408,23 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     {
         [EnumAnnotate("样本", 0)]
         Sample,
+        [EnumAnnotate("聚焦", 0)]
+        Focus,
+        [EnumAnnotate("质控", 0)]
+        QualityControl,
         [EnumAnnotate("校准", 0)]
         Calibration
+    }
+    #endregion
+
+    #region 测试项目
+    [EnumAnnotate("测试项目", 0)]
+    public enum TestItem
+    {
+        [EnumAnnotate("AD", 0)]
+        AD,
+        [EnumAnnotate("PD", 0)]
+        PD
     }
     #endregion
 
