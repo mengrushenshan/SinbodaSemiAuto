@@ -6,6 +6,7 @@ using Sinboda.Framework.Core.Services;
 using Sinboda.Framework.Core.StaticResource;
 using Sinboda.SemiAuto.Business.Items;
 using Sinboda.SemiAuto.Business.Samples;
+using Sinboda.SemiAuto.Core.Helpers;
 using Sinboda.SemiAuto.Core.Models;
 using Sinboda.SemiAuto.Core.Models.Common;
 using Sinboda.SemiAuto.Core.Resources;
@@ -153,7 +154,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 return false;
             }
 
-            string samplePath = MapPath.TifPath + "Result\\" +$"{SampleList.First().TestResults.First().Item_test_name}_{DateTime.Now.ToString("yyyyMMdd")}_{SampleList.First().BoardId}\\";
+            string samplePath = MapPath.TifPath + "Result\\" + $"{SampleList.First().TestResult.Test_file_name}\\";
             if (!Directory.Exists(samplePath))
             {
                 Directory.CreateDirectory(samplePath);
@@ -163,6 +164,7 @@ namespace Sinboda.SemiAuto.TestFlow
             {
                 string fileName = sampleItem.SampleCode + "_" + sampleItem.RackDish + "_" + sampleItem.Position;
                 TestItem testItem = new TestItem();
+                testItem.ItemSample = sampleItem;
                 testItem.Testid = ++testId;
                 testItem.State = TestState.Untested;
                 testItem.SetTestItemPos(X, Y, Z, sampleItem.RackDish ?? 1, sampleItem.Position ?? 1);
@@ -242,6 +244,10 @@ namespace Sinboda.SemiAuto.TestFlow
                 if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
                 {
                     CurTestItem.State = TestState.Complete;
+                    Task.Run(() =>
+                    {
+                        AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, CurTestItem.ItemSample.RackDish ?? 0, CurTestItem.ItemSample.Position ?? 0);
+                    });
                     ChangeNextItem();
                 }
             }

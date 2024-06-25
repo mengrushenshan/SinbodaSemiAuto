@@ -143,7 +143,7 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         public int BoardId { get; set; }
 
         [NotMapped]
-        public List<Sin_Test_Result> TestResults { get; set; }
+        public Sin_Test_Result TestResult { get; set; }
 
         public override string ToString()
         {

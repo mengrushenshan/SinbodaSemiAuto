@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using Sinboda.Framework.Common;
+using Sinboda.Framework.Common.Log;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.SemiAuto.Core.Models;
 using Sinboda.SemiAuto.Core.Resources;
@@ -42,8 +44,9 @@ namespace Sinboda.SemiAuto.Core.Helpers
         public void Analysis(Sin_Test_Result sin_Test_Result, int row, int col)
         {
             //检查文件保存目录
-            sin_Test_Result.Test_file_name.CheckAndCreateDirectory();
-            int cellNum = PyHelper.DataAnalyze(sin_Test_Result.Test_file_name, row, col);
+            string samplePath = MapPath.TifPath + "Result\\" + $"{sin_Test_Result.Test_file_name}\\";
+            samplePath.CheckAndCreateDirectory();
+            int cellNum = PyHelper.DataAnalyze(samplePath, row, col);
             for (int i = 0; i < picNum; i++)
             {
                 //文件存在 添加在目录中
@@ -52,6 +55,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     sin_Test_Result.Result_file_name.Add(file);
             }
             sin_Test_Result.Result_original = cellNum;
+            LogHelper.logSoftWare.Info($"Analysis: 架号({row})位置（{col}）获得粒子数为：{cellNum}");
         }
 
         /// <summary>
@@ -59,12 +63,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// </summary>
         /// <param name="sin_Test_Result"></param>
         /// <param name="mats">图片数据</param>
-        public void SaveImage(Sin_Test_Result sin_Test_Result, List<byte[]> mats)
+        public void SaveImage(string filePath, List<byte[]> mats)
         {
-
-            //检查文件保存目录
-            sin_Test_Result.Test_file_name.CheckAndCreateDirectory();
-
             //存储图像数据
             TiffBitmapEncoder encoder = new TiffBitmapEncoder
             {
@@ -86,7 +86,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 BitmapSource image = BitmapSource.Create(imageSize.Width, imageSize.Height, 96, 96, System.Windows.Media.PixelFormats.Gray16, myPalette, bufBytes, rawStride);
                 encoder.Frames.Add(BitmapFrame.Create(image));
             }
-            FileStream f = new FileStream(sin_Test_Result.Test_file_name, FileMode.Create);
+            FileStream f = new FileStream(filePath, FileMode.Create);
             encoder.Save(f);
             //释放流
             f.Close();

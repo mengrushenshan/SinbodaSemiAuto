@@ -13,7 +13,7 @@ namespace Sinboda.SemiAuto.Business.Samples
 {
     public class TestResultBusiness : BusinessBase<TestResultBusiness>
     {
-        public bool CreateTestResult(Guid sampleId, string itemName)
+        public bool CreateTestResult(Guid sampleId, string itemName, int boardId)
         {
             try
             {
@@ -32,7 +32,8 @@ namespace Sinboda.SemiAuto.Business.Samples
                     Test_result_type = TestResultType.Normal,
                     Result_update_flag = false,
                     Digits = 2,
-                    NonEditable = false
+                    NonEditable = false,
+                    Test_file_name = $"{itemName}_{DateTime.Now.ToString("yyyyMMdd")}_{boardId}"
                 };
 
                 Sin_Test_Result_DataOperation.Instance.Insert(testResult);

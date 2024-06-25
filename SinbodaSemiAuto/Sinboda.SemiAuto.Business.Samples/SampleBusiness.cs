@@ -244,7 +244,7 @@ namespace Sinboda.SemiAuto.Business.Samples
                         BoardId = boardId
                     };
 
-                    if (!TestResultBusiness.Instance.CreateTestResult(sample.Id, itemName))
+                    if (!TestResultBusiness.Instance.CreateTestResult(sample.Id, itemName, boardId))
                     {
                         return or = new OperationResult() { ResultEnum = OperationResultEnum.FAILED, Message = SystemResources.Instance.GetLanguage(3034, "登记失败，请重新登记") };
                     }
@@ -268,6 +268,13 @@ namespace Sinboda.SemiAuto.Business.Samples
         public List<Sin_Sample> GetSampleListByPredicate(Expression<Func<Sin_Sample, bool>> predicate)
         {
             List<Sin_Sample> sampleList = Sin_Sample_DataOperation.Instance.Query(predicate);
+            if (sampleList != null)
+            {
+                foreach (var sample in sampleList)
+                {
+                    sample.TestResult = Sin_Test_Result_DataOperation.Instance.Query(o => o.Sample_id == sample.Id && o.Test_state != TestState.Complete).First();
+                }
+            }
             return sampleList;
         }
 

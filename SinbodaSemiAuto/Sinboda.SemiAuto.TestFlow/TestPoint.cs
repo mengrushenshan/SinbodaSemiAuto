@@ -22,7 +22,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// 点位对应图像
         /// </summary>
-        private List<Mat> tifList = new List<Mat>();
+        private List<byte[]> tifList = new List<byte[]>();
 
         /// <summary>
         /// X轴每个点的便宜量
@@ -74,14 +74,14 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public void StartAcquiringImage()
         {
-            Messenger.Default.Register<Mat>(this, MessageToken.TokenCamera, AcquiringImage);
+            Messenger.Default.Register<byte[]>(this, MessageToken.TokenCameraBuffer, AcquiringImage);
         }
 
         /// <summary>
         /// 采集图像
         /// </summary>
         /// <param name="bitmap"></param>
-        public void AcquiringImage(Mat bitmap)
+        public void AcquiringImage(byte[] bitmap)
         {
             //收到5张黑图后通知激光由相机采图后开启
             if (tifList.Count == 5)
@@ -98,7 +98,7 @@ namespace Sinboda.SemiAuto.TestFlow
             {
                 //图像采集完成时关闭激光
                 ControlBusiness.Instance.LightEnableCtrl(0, 0);
-                Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, AcquiringImage);
+                Messenger.Default.Unregister<byte[]>(this, MessageToken.TokenCamera, AcquiringImage);
                 Messenger.Default.Send<object>(null, MessageToken.AcquiringImageComplete);
                 SaveMatList();
             }
@@ -107,7 +107,7 @@ namespace Sinboda.SemiAuto.TestFlow
         public void SaveMatList()
         {
             string filePath = FilePath + FileName;
-            //PVCamHelper.Instance.WriteTiff(tifList.ToArray(), filePath, 100);
+            AnalysisHelper.Instance.SaveImage(filePath, tifList);
             tifList.Clear();
         }
 

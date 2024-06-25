@@ -1,6 +1,7 @@
 ﻿using Sinboda.SemiAuto.Business.Items;
 using Sinboda.SemiAuto.Core.Models;
 using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
+using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,11 @@ namespace Sinboda.SemiAuto.TestFlow
         /// 测试点位
         /// </summary>
         public List<TestPoint> points { get; set; } = new List<TestPoint>();
+
+        /// <summary>
+        /// 测试对应样本
+        /// </summary>
+        public Sin_Sample ItemSample { get; set; }
 
         /// <summary>
         /// 当前测试点
