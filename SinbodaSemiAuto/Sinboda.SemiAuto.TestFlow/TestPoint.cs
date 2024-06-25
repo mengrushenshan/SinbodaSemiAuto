@@ -60,6 +60,11 @@ namespace Sinboda.SemiAuto.TestFlow
         public int Z { get; set; }
 
         /// <summary>
+        /// 文件路径
+        /// </summary>
+        public string FilePath { get; set; }
+
+        /// <summary>
         /// 文件名
         /// </summary>
         public string FileName {  get; set; }
@@ -101,12 +106,7 @@ namespace Sinboda.SemiAuto.TestFlow
 
         public void SaveMatList()
         {
-            if (!Directory.Exists(MapPath.TifPath))
-            {
-                Directory.CreateDirectory(MapPath.TifPath);
-            }
-
-            string filePath = MapPath.TifPath + FileName;
+            string filePath = FilePath + FileName;
             //PVCamHelper.Instance.WriteTiff(tifList.ToArray(), filePath, 100);
             tifList.Clear();
         }

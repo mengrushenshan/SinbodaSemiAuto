@@ -116,7 +116,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// 创建测试点
         /// </summary>
-        public void CreatePoint(string fileName)
+        public void CreatePoint(string fileName, string filePath)
         { 
             for (int i = 1; i <= PointCount; i++) 
             {
@@ -125,6 +125,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 testPoint.Status = TestState.Untested;
                 testPoint.SetTestPointPos(X, Y, Z);
                 testPoint.FileName = $"{fileName}_{i}_{DateTime.Now.ToString("yyyyMMddHHmmss")}.tif";
+                testPoint.FilePath = filePath ;
                 points.Add(testPoint);
             }
 

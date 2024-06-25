@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using OpenCvSharp;
+using Sinboda.Framework.Common;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.Framework.Core.Services;
 using Sinboda.Framework.Core.StaticResource;
@@ -12,6 +13,7 @@ using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
 using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -151,6 +153,12 @@ namespace Sinboda.SemiAuto.TestFlow
                 return false;
             }
 
+            string samplePath = MapPath.TifPath + "Result\\" +$"{SampleList.First().TestResults.First().Item_test_name}_{DateTime.Now.ToString("yyyyMMdd")}_{SampleList.First().BoardId}\\";
+            if (!Directory.Exists(samplePath))
+            {
+                Directory.CreateDirectory(samplePath);
+            }
+
             foreach (var sampleItem in SampleList)
             {
                 string fileName = sampleItem.SampleCode + "_" + sampleItem.RackDish + "_" + sampleItem.Position;
@@ -158,7 +166,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 testItem.Testid = ++testId;
                 testItem.State = TestState.Untested;
                 testItem.SetTestItemPos(X, Y, Z, sampleItem.RackDish ?? 1, sampleItem.Position ?? 1);
-                testItem.CreatePoint(fileName);
+                testItem.CreatePoint(fileName, samplePath);
 
                 Items.Add(testItem);
             }

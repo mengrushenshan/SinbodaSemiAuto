@@ -18,6 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace Sinboda.SemiAuto.View.Samples.ViewModel
 {
@@ -147,7 +148,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
         #region 命令
         /// <summary>
-        /// 登记
+        /// 删除模板
         /// </summary>
         public RelayCommand DeleteTemplateCmd { get; set; }
 
@@ -165,6 +166,11 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// 应用
         /// </summary>
         public RelayCommand CommitCmd { get; set; }
+
+        /// <summary>
+        /// 登记
+        /// </summary>
+        public RelayCommand RegisterCmd { get; set; }
         #endregion
         public SampleRegisterBoardViewModel()
         {
@@ -173,6 +179,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             CreateTemplateCmd = new RelayCommand(CreateTempLate);
             SaveTemplateCmd = new RelayCommand(SaveTemplateList);
             CommitCmd = new RelayCommand(SetTempLateInfo);
+            RegisterCmd = new RelayCommand(RegisterBoard);
             SetTemplateNameAndList();
             InitTemplateList();
         }
@@ -356,5 +363,34 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             });
         }
 
+        private void RegisterBoard()
+        {
+            int sampleNo = SampleBusiness.Instance.GetMaxSampleCode();
+            List<Sin_BoardTemplate> itemList = new List<Sin_BoardTemplate>();
+
+            itemList = TemplateList.Where(o => o.TestType == TestType.Sample).OrderBy(p => p.Rack).ThenBy(q => q.Position).ToList();
+
+            OperationResult or = new OperationResult();
+            LoadingHelper.Instance.ShowLoadingWindow(a =>
+            {
+                a.Title = SystemResources.Instance.GetLanguage(12495, "正在登记样本，请等待...");
+                foreach (var item in itemList)
+                {
+                    or = SampleBusiness.Instance.CreateSample(sampleNo++, item.Rack, item.Position, "", 1, item.ItemName, BoardId);
+                }
+            }, 0, a =>
+            {
+                if (!or.ResultBool)
+                {
+                    NotificationService.Instance.ShowError(or.Message);
+                    return;
+                }
+                else
+                {
+                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(3086, "登记成功"));
+                    BoardId = SampleBusiness.Instance.GetMaxBoardId();
+                }
+            });
+        }
     }
 }
