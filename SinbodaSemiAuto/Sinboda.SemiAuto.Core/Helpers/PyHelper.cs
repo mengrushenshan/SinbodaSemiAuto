@@ -6,6 +6,9 @@ namespace Sinboda.SemiAuto.Core.Helpers
 {
     public static class PyHelper
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public static void Init()
         {
             string pathToVirtualEnv = ".\\Python310";
@@ -15,6 +18,11 @@ namespace Sinboda.SemiAuto.Core.Helpers
             PythonEngine.Initialize();
         }
 
+        /// <summary>
+        /// 自动计算焦点
+        /// </summary>
+        /// <param name="tifPath">图片地址</param>
+        /// <returns>两种计算方式的计算结果 图片游标</returns>
         public static List<int> Autofocus(string tifPath)
         {
             List<int> list = new List<int>();
@@ -29,6 +37,13 @@ namespace Sinboda.SemiAuto.Core.Helpers
             return list;
         }
 
+        /// <summary>
+        /// 分析荧光点数量
+        /// </summary>
+        /// <param name="tifPath">图片地址</param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
         public static int DataAnalyze(string tifPath, int row, int col)
         {
             int cellNum = -1;

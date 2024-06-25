@@ -30,7 +30,12 @@ namespace Sinboda.SemiAuto.Core.Models
         /// <summary>
         /// 图片保存路径
         /// </summary>
-        public readonly static string DirectoryPic = $"{System.IO.Directory.GetCurrentDirectory()}\\Pic";
+        public readonly static string DirectoryPic = $"{System.IO.Directory.GetCurrentDirectory()}\\Pic"; 
+        
+        /// <summary>
+        /// 图片保存路径
+        /// </summary>
+        public readonly static string DirectoryResult = $"{System.IO.Directory.GetCurrentDirectory()}\\Result";
 
         /// <summary>
         /// xml数据路径
