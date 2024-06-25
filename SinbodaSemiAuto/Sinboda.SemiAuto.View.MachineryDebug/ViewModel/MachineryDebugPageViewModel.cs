@@ -521,11 +521,42 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             BrowseCommand = new RelayCommand(BrowseFile);
             UpgradeCommand = new RelayCommand(UpgradeBoard);
             ChangeButtonText();
-            
+
             Devices = GlobalData.XimcArmsData.XimcArms;
             ximcController = XimcHelper.Instance;
 
             InitMachinerySource();
+        }
+
+        /// <summary>
+        /// 是否仪器空闲
+        /// </summary>
+        public bool IsIdle
+        {
+            get { return isIdle; }
+            set { Set(ref isIdle, value); }
+        }
+        private bool isIdle = true;
+
+        private void InvokeAsync(Action act)
+        {
+            try
+            {
+                IsIdle = false;
+                Task.Run(() =>
+                {
+                    act.Invoke();
+                    IsIdle = true;
+                });
+            }
+            catch (Exception ex)
+            {
+                IsIdle = true;
+            }
+            finally
+            {
+                //IsIdle = true;
+            }
         }
 
         /// <summary>
@@ -554,7 +585,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             MoveRelateCommand = new RelayCommand<Sin_Motor>(MoveRelate);
             MoveAbsoluteCommand = new RelayCommand<Sin_Motor>(MoveAbsolute);
             SetOriginCommand = new RelayCommand<Sin_Motor>(SetOrigin);
-            
+
         }
 
         /// <summary>
@@ -623,7 +654,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 if (zZone.Count() > 0)
                 {
                     ZaxisMotor = zZone.FirstOrDefault();
-                    SetXimcStatus(ZaxisMotor.DeveiceId); 
+                    SetXimcStatus(ZaxisMotor.DeveiceId);
                 }
             }
 
@@ -641,11 +672,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         private void FanEnable(FanData obj)
         {
+            //加载py运动环境
             PyHelper.Init();
-            List<int> frameIds = PyHelper.Autofocus("E:/1/1.tif");
-            PyHelper.Shutdown();
-            Console.WriteLine("best frameid: " + frameIds[0] + " secondary frameid: " + frameIds[1]);
-  
+            int cellNum = PyHelper.DataAnalyze("D:\\Sinboda\\simoa\\python\\py\\ProjectData\\AD_20240620_0001", 'A', 1);
+            Console.WriteLine("cell number is: " + cellNum);
 
             obj.State = !obj.State;
             CmdFanEnable cmdFanEnable = new CmdFanEnable()
@@ -714,22 +744,25 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="isReturnHome"></param>
         private void PlatformResetMotor(int isReturnHome)
         {
-            CmdPlatformReset cmdPlatformReset = new CmdPlatformReset()
+            InvokeAsync(() =>
             {
-                ReturnHome = isReturnHome
-            };
+                CmdPlatformReset cmdPlatformReset = new CmdPlatformReset()
+                {
+                    ReturnHome = isReturnHome
+                };
 
-            if (!cmdPlatformReset.Execute())
-            {
-                LogHelper.logSoftWare.Error("StopMotor failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台电机复位失败"));
-            }
-            else
-            {
-                ResPlatformReset resPlatformReset = cmdPlatformReset.GetResponse() as ResPlatformReset;
-                PosXaxis = resPlatformReset.CurrPosX;
-                PosYaxis = resPlatformReset.CurrPosY;
-            }
+                if (!cmdPlatformReset.Execute())
+                {
+                    LogHelper.logSoftWare.Error("StopMotor failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台电机复位失败"));
+                }
+                else
+                {
+                    ResPlatformReset resPlatformReset = cmdPlatformReset.GetResponse() as ResPlatformReset;
+                    PosXaxis = resPlatformReset.CurrPosX;
+                    PosYaxis = resPlatformReset.CurrPosY;
+                }
+            });
         }
 
         /// <summary>
@@ -737,23 +770,26 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void PlatformMove()
         {
-            CmdPlatformMove cmdPlatformMove = new CmdPlatformMove()
+            InvokeAsync(() =>
             {
-                X = PosXaxis,
-                Y = PosYaxis
-            };
+                CmdPlatformMove cmdPlatformMove = new CmdPlatformMove()
+                {
+                    X = PosXaxis,
+                    Y = PosYaxis
+                };
 
-            if (cmdPlatformMove.Execute())
-            {
-                ResPlatformReset resPlatformReset = cmdPlatformMove.GetResponse() as ResPlatformReset;
-                PosXaxis = resPlatformReset.CurrPosX;
-                PosYaxis = resPlatformReset.CurrPosY;
-            }
-            else
-            {
-                LogHelper.logSoftWare.Error("PlatformMove failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台移动失败"));
-            }
+                if (cmdPlatformMove.Execute())
+                {
+                    ResPlatformReset resPlatformReset = cmdPlatformMove.GetResponse() as ResPlatformReset;
+                    PosXaxis = resPlatformReset.CurrPosX;
+                    PosYaxis = resPlatformReset.CurrPosY;
+                }
+                else
+                {
+                    LogHelper.logSoftWare.Error("PlatformMove failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台移动失败"));
+                }
+            });
         }
 
         /// <summary>
@@ -761,19 +797,22 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void PlatformStop()
         {
-            CmdPlatformStop cmdPlatformStop = new CmdPlatformStop();
+            InvokeAsync(() =>
+            {
+                CmdPlatformStop cmdPlatformStop = new CmdPlatformStop();
 
-            if (cmdPlatformStop.Execute())
-            {
-                ResPlatformReset resPlatformReset = cmdPlatformStop.GetResponse() as ResPlatformReset;
-                PosXaxis = resPlatformReset.CurrPosX;
-                PosYaxis = resPlatformReset.CurrPosY;
-            }
-            else
-            {
-                LogHelper.logSoftWare.Error("PlatformsStop failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台停止失败"));
-            }
+                if (cmdPlatformStop.Execute())
+                {
+                    ResPlatformReset resPlatformReset = cmdPlatformStop.GetResponse() as ResPlatformReset;
+                    PosXaxis = resPlatformReset.CurrPosX;
+                    PosYaxis = resPlatformReset.CurrPosY;
+                }
+                else
+                {
+                    LogHelper.logSoftWare.Error("PlatformsStop failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台停止失败"));
+                }
+            });
         }
 
         /// <summary>
@@ -782,33 +821,36 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="strIndex"></param>
         private void SetCell(string strIndex)
         {
-            int index = 0;
-            if (!int.TryParse(strIndex, out index))
+            InvokeAsync(() =>
             {
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "参数设置错误"));
-            }
+                int index = 0;
+                if (!int.TryParse(strIndex, out index))
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "参数设置错误"));
+                }
 
-            Sin_Cell cellItem = CellBusiness.Instance.GetCellByIndex(index);
-            if (cellItem == null)
-            {
-                cellItem = new Sin_Cell();
-                cellItem.Id = Guid.NewGuid();
-                cellItem.Index = index;
-                cellItem.X = PosXaxis;
-                cellItem.Y = PosYaxis;
-                cellItem.Z = PosZaxis;
-            }
-            else
-            {
-                cellItem.X = PosXaxis;
-                cellItem.Y = PosYaxis;
-                cellItem.Z = PosZaxis;
-            }
+                Sin_Cell cellItem = CellBusiness.Instance.GetCellByIndex(index);
+                if (cellItem == null)
+                {
+                    cellItem = new Sin_Cell();
+                    cellItem.Id = Guid.NewGuid();
+                    cellItem.Index = index;
+                    cellItem.X = PosXaxis;
+                    cellItem.Y = PosYaxis;
+                    cellItem.Z = PosZaxis;
+                }
+                else
+                {
+                    cellItem.X = PosXaxis;
+                    cellItem.Y = PosYaxis;
+                    cellItem.Z = PosZaxis;
+                }
 
-            if (!CellBusiness.Instance.SaveCell(cellItem))
-            {
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "点位设置失败"));
-            }
+                if (!CellBusiness.Instance.SaveCell(cellItem))
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "点位设置失败"));
+                }
+            });
         }
 
         /// <summary>
@@ -816,14 +858,17 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void CalCell()
         {
-            if (!CellBusiness.Instance.SetCellDic())
+            InvokeAsync(() =>
             {
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "点位计算失败"));
-            }
-            else
-            {
-                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "点位计算完成"));
-            }
+                if (!CellBusiness.Instance.SetCellDic())
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "点位计算失败"));
+                }
+                else
+                {
+                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "点位计算完成"));
+                }
+            });
         }
 
         /// <summary>
@@ -831,41 +876,44 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void MoveCell()
         {
-            string strPos = RackDish + "-" + Position;
-            Sin_Cell cellItem = CellBusiness.Instance.GetCell(strPos);
-
-            if (cellItem == null)
+            InvokeAsync(() =>
             {
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "没有计算过点位"));
-                return;
-            }
+                string strPos = RackDish + "-" + Position;
+                Sin_Cell cellItem = CellBusiness.Instance.GetCell(strPos);
 
-            PosZaxis = 3000;
-            XimcMoveFast(ZaxisMotor);
-
-            CmdPlatformMove cmdPlatformMove = new CmdPlatformMove()
-            {
-                X = cellItem.X,
-                Y = cellItem.Y,
-            };
-
-            if (cmdPlatformMove.Execute())
-            {
-                ResPlatformReset res = cmdPlatformMove.GetResponse() as ResPlatformReset;
-                if (res != null) 
+                if (cellItem == null)
                 {
-                    PosXaxis = res.CurrPosX; 
-                    PosYaxis = res.CurrPosY;
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "没有计算过点位"));
+                    return;
                 }
-            }
-            else
-            {
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台移动失败"));
-                return;
-            }
 
-            PosZaxis = cellItem.Z;
-            XimcMoveFast(ZaxisMotor);
+                PosZaxis = 3000;
+                XimcMoveFast(ZaxisMotor);
+
+                CmdPlatformMove cmdPlatformMove = new CmdPlatformMove()
+                {
+                    X = cellItem.X,
+                    Y = cellItem.Y,
+                };
+
+                if (cmdPlatformMove.Execute())
+                {
+                    ResPlatformReset res = cmdPlatformMove.GetResponse() as ResPlatformReset;
+                    if (res != null)
+                    {
+                        PosXaxis = res.CurrPosX;
+                        PosYaxis = res.CurrPosY;
+                    }
+                }
+                else
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台移动失败"));
+                    return;
+                }
+
+                PosZaxis = cellItem.Z;
+                XimcMoveFast(ZaxisMotor);
+            });
         }
 
         /// <summary>
@@ -887,7 +935,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void ResetPhysicalMotor(Sin_Motor obj)
         {
-            ResetMotor(obj, 0);
+            InvokeAsync(() =>
+            {
+                ResetMotor(obj, 0);
+            });
         }
 
         /// <summary>
@@ -896,7 +947,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void ResetLogicalMotor(Sin_Motor obj)
         {
-            ResetMotor(obj, 1);
+            InvokeAsync(() =>
+            {
+                ResetMotor(obj, 1);
+            });
         }
 
         /// <summary>
@@ -904,7 +958,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         /// <param name="obj">电机对象</param>
         /// <param name="isReturnHome">是否为机械原点</param>
-        private void ResetMotor(Sin_Motor obj, int isReturnHome) 
+        private void ResetMotor(Sin_Motor obj, int isReturnHome)
         {
             CmdMotorReset cmdMotorReset = new CmdMotorReset()
             {
@@ -919,7 +973,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
             else
             {
-                ResMove resMove =  cmdMotorReset.GetResponse() as ResMove;
+                ResMove resMove = cmdMotorReset.GetResponse() as ResMove;
                 obj.TargetPos = resMove.CurPos;
                 ChangeTextBoxText(obj);
 
@@ -932,10 +986,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj">电机</param>
         private void StopMotor(Sin_Motor obj)
         {
-            if (MotorBusiness.Instance.StopMotor(obj))
+            InvokeAsync(() =>
             {
-                ChangeTextBoxText(obj);
-            }
+                if (MotorBusiness.Instance.StopMotor(obj))
+                {
+                    ChangeTextBoxText(obj);
+                }
+            });
         }
 
         /// <summary>
@@ -944,38 +1001,41 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void SetOrigin(Sin_Motor obj)
         {
-            CmdSetMotorParam cmdSetMotorParam = new CmdSetMotorParam()
+            InvokeAsync(() =>
             {
-                Id = (int)obj.MotorId,
-                ParamID = 2,
-                ParamValue = obj.TargetPos
-            };
-
-            if (!cmdSetMotorParam.Execute())
-            {
-                LogHelper.logSoftWare.Error("SetOrigin failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机定位原点失败"));
-            }
-            else
-            {
-                switch (obj.MotorId)
+                CmdSetMotorParam cmdSetMotorParam = new CmdSetMotorParam()
                 {
-                    case MotorId.Xaxis:
-                        {
-                            OriginXaxis = PosXaxis;
-                            obj.OriginPoint = PosXaxis;
-                        }
-                        break;
-                    case MotorId.Yaxis:
-                        {
-                            OriginYaxis = PosYaxis;
-                            obj.OriginPoint = PosYaxis;
-                        }
-                        break;
-                }
+                    Id = (int)obj.MotorId,
+                    ParamID = 2,
+                    ParamValue = obj.TargetPos
+                };
 
-                MotorBusiness.Instance.SaveMotorItem(obj);
-            }
+                if (!cmdSetMotorParam.Execute())
+                {
+                    LogHelper.logSoftWare.Error("SetOrigin failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机定位原点失败"));
+                }
+                else
+                {
+                    switch (obj.MotorId)
+                    {
+                        case MotorId.Xaxis:
+                            {
+                                OriginXaxis = PosXaxis;
+                                obj.OriginPoint = PosXaxis;
+                            }
+                            break;
+                        case MotorId.Yaxis:
+                            {
+                                OriginYaxis = PosYaxis;
+                                obj.OriginPoint = PosYaxis;
+                            }
+                            break;
+                    }
+
+                    MotorBusiness.Instance.SaveMotorItem(obj);
+                }
+            });
         }
 
         /// <summary>
@@ -984,7 +1044,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj">电机</param>
         private void AlawysMove(Sin_Motor obj)
         {
-            MoveCon(obj, (int)obj.Dir, (int)obj.UseFastSpeed);
+            InvokeAsync(() =>
+            {
+                MoveCon(obj, (int)obj.Dir, (int)obj.UseFastSpeed);
+            });
         }
 
         private void MoveCon(Sin_Motor obj, int dir, int useFastSpeed)
@@ -1017,26 +1080,29 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj">电机</param>
         private void MoveRelate(Sin_Motor obj)
         {
-            CmdMoveRelate cmdMoveRelate = new CmdMoveRelate()
+            InvokeAsync(() =>
             {
-                Id = (int)obj.MotorId,
-                Steps = obj.Steps
-            };
+                CmdMoveRelate cmdMoveRelate = new CmdMoveRelate()
+                {
+                    Id = (int)obj.MotorId,
+                    Steps = obj.Steps
+                };
 
-            if (!cmdMoveRelate.Execute())
-            {
-                LogHelper.logSoftWare.Error("MoveRelate failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机相对移动失败"));
-            }
-            else
-            {
-                ResMove resMove = cmdMoveRelate.GetResponse() as ResMove;
-                obj.TargetPos = resMove.CurPos;
-                ChangeTextBoxText(obj);
+                if (!cmdMoveRelate.Execute())
+                {
+                    LogHelper.logSoftWare.Error("MoveRelate failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机相对移动失败"));
+                }
+                else
+                {
+                    ResMove resMove = cmdMoveRelate.GetResponse() as ResMove;
+                    obj.TargetPos = resMove.CurPos;
+                    ChangeTextBoxText(obj);
 
-                
-                MotorBusiness.Instance.SaveMotorItem(obj);
-            }
+
+                    MotorBusiness.Instance.SaveMotorItem(obj);
+                }
+            });
         }
 
         /// <summary>
@@ -1045,27 +1111,30 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj">电机</param>
         private void MoveAbsolute(Sin_Motor obj)
         {
-            obj.TargetPos = obj.MotorId == MotorId.Xaxis ? PosXaxis : PosYaxis;
-
-            CmdMoveAbsolute cmdMoveAbsolute = new CmdMoveAbsolute()
+            InvokeAsync(() =>
             {
-                Id = (int)obj.MotorId,
-                TargetPos = obj.TargetPos
-            };
+                obj.TargetPos = obj.MotorId == MotorId.Xaxis ? PosXaxis : PosYaxis;
 
-            if (!cmdMoveAbsolute.Execute())
-            {
-                LogHelper.logSoftWare.Error("MoveAbsolute failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机绝对移动失败"));
-            }
-            else
-            {
-                ResMove resMove = cmdMoveAbsolute.GetResponse() as ResMove;
-                obj.TargetPos = resMove.CurPos;
-                ChangeTextBoxText(obj);
+                CmdMoveAbsolute cmdMoveAbsolute = new CmdMoveAbsolute()
+                {
+                    Id = (int)obj.MotorId,
+                    TargetPos = obj.TargetPos
+                };
 
-                MotorBusiness.Instance.SaveMotorItem(obj);
-            }
+                if (!cmdMoveAbsolute.Execute())
+                {
+                    LogHelper.logSoftWare.Error("MoveAbsolute failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机绝对移动失败"));
+                }
+                else
+                {
+                    ResMove resMove = cmdMoveAbsolute.GetResponse() as ResMove;
+                    obj.TargetPos = resMove.CurPos;
+                    ChangeTextBoxText(obj);
+
+                    MotorBusiness.Instance.SaveMotorItem(obj);
+                }
+            });
         }
 
         /// <summary>
@@ -1125,12 +1194,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <exception cref="NotImplementedException"></exception>
         private void XimcSaveMotroParam(XimcArm obj)
         {
-           
-            XimcHelper.Instance.Set_Move_Settings(obj);
-            XimcHelper.Instance.Set_Controller_Name(obj);
-            XimcHelper.Instance.Command_Save_Settings(obj);
+            InvokeAsync(() =>
+            {
+                XimcHelper.Instance.Set_Move_Settings(obj);
+                XimcHelper.Instance.Set_Controller_Name(obj);
+                XimcHelper.Instance.Command_Save_Settings(obj);
 
-            GlobalData.Save();
+                GlobalData.Save();
+            });
         }
 
 
@@ -1140,8 +1211,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void XimcLocation(XimcArm obj)
         {
-            obj.Originption = PosZaxis;
-            GlobalData.Save();
+            InvokeAsync(() =>
+            {
+                obj.Originption = PosZaxis;
+                GlobalData.Save();
+            });
         }
 
         /// <summary>
@@ -1150,17 +1224,20 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void XimcHome(XimcArm obj)
         {
-            CmdZResetPhysical cmdZReset = new CmdZResetPhysical() { arm = obj };
+            InvokeAsync(() =>
+            {
+                CmdZResetPhysical cmdZReset = new CmdZResetPhysical() { arm = obj };
 
-            if (!cmdZReset.Execute())
-            {
-                LogHelper.logSoftWare.Error("XimcHome failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机复位失败"));
-            }
-            else
-            {
-                SetXimcStatus(obj.DeveiceId);
-            }
+                if (!cmdZReset.Execute())
+                {
+                    LogHelper.logSoftWare.Error("XimcHome failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机复位失败"));
+                }
+                else
+                {
+                    SetXimcStatus(obj.DeveiceId);
+                }
+            });
         }
 
         /// <summary>
@@ -1169,17 +1246,20 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void XimcWorkHome(XimcArm obj)
         {
-            CmdZResetLogical cmdZReset = new CmdZResetLogical() { arm = obj, pos = obj.Originption };
+            InvokeAsync(() =>
+            {
+                CmdZResetLogical cmdZReset = new CmdZResetLogical() { arm = obj, pos = obj.Originption };
 
-            if (!cmdZReset.Execute())
-            {
-                LogHelper.logSoftWare.Error("XimcHome failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机复位失败"));
-            }
-            else
-            {
-                SetXimcStatus(obj.DeveiceId);
-            }
+                if (!cmdZReset.Execute())
+                {
+                    LogHelper.logSoftWare.Error("XimcHome failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机复位失败"));
+                }
+                else
+                {
+                    SetXimcStatus(obj.DeveiceId);
+                }
+            });
         }
 
         /// <summary>
@@ -1188,21 +1268,24 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void XimcMoveSlow(XimcArm obj)
         {
-            CmdZSlowMove cmdZSlowMove = new CmdZSlowMove() 
-            { 
-                arm = obj, 
-                pos = PosZaxis 
-            };
+            InvokeAsync(() =>
+            {
+                CmdZSlowMove cmdZSlowMove = new CmdZSlowMove()
+                {
+                    arm = obj,
+                    pos = PosZaxis
+                };
 
-            if (!cmdZSlowMove.Execute())
-            {
-                LogHelper.logSoftWare.Error("XimcMoveSlow failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机慢速移动失败"));
-            }
-            else
-            {
-                SetXimcStatus(obj.DeveiceId);
-            }
+                if (!cmdZSlowMove.Execute())
+                {
+                    LogHelper.logSoftWare.Error("XimcMoveSlow failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机慢速移动失败"));
+                }
+                else
+                {
+                    SetXimcStatus(obj.DeveiceId);
+                }
+            });
         }
 
         /// <summary>
@@ -1211,21 +1294,24 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void XimcMoveFast(XimcArm obj)
         {
-            CmdZFastMove cmdZFastMove = new CmdZFastMove()
+            InvokeAsync(() =>
             {
-                arm = obj,
-                pos = PosZaxis
-            };
+                CmdZFastMove cmdZFastMove = new CmdZFastMove()
+                {
+                    arm = obj,
+                    pos = PosZaxis
+                };
 
-            if (!cmdZFastMove.Execute())
-            {
-                LogHelper.logSoftWare.Error("XimcMoveFast failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机快速移动失败"));
-            }
-            else
-            {
-                SetXimcStatus(obj.DeveiceId);
-            }
+                if (!cmdZFastMove.Execute())
+                {
+                    LogHelper.logSoftWare.Error("XimcMoveFast failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机快速移动失败"));
+                }
+                else
+                {
+                    SetXimcStatus(obj.DeveiceId);
+                }
+            });
         }
 
         /// <summary>
@@ -1235,10 +1321,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <exception cref="NotImplementedException"></exception>
         private void XimcStop(XimcArm obj)
         {
-            if (MotorBusiness.Instance.XimcStop(obj))
+            InvokeAsync(() =>
             {
-                SetXimcStatus(obj.DeveiceId);
-            }
+                if (MotorBusiness.Instance.XimcStop(obj))
+                {
+                    SetXimcStatus(obj.DeveiceId);
+                }
+            });
         }
 
         /// <summary>
@@ -1247,7 +1336,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void XimcMoveLeftAlways(XimcArm obj)
         {
-            ximcController.Cmd_Left(obj.DeveiceId);
+            InvokeAsync(() =>
+            {
+                ximcController.Cmd_Left(obj.DeveiceId);
+            });
         }
 
         /// <summary>
@@ -1257,7 +1349,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <exception cref="NotImplementedException"></exception>
         private void XimcMoveRightAlways(XimcArm obj)
         {
-            ximcController.Cmd_Right(obj.DeveiceId);
+            InvokeAsync(() =>
+            {
+                ximcController.Cmd_Right(obj.DeveiceId);
+            });
         }
 
         /// <summary>
@@ -1266,7 +1361,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj"></param>
         private void XimcMoveRelative(XimcArm obj)
         {
-            MoveRelativePos(obj, true, StepZaxis);
+            InvokeAsync(() =>
+            {
+                MoveRelativePos(obj, true, StepZaxis);
+            });
         }
 
         /// <summary>
@@ -1326,9 +1424,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         #region 相机
         private void InitCamera()
         {
-            PVCamHelper.Instance.Init();
-            IsCameraInitEnable = !PVCamHelper.Instance.GetInitFlag();
-            IsCameraOpenEnable = PVCamHelper.Instance.GetInitFlag();
+            InvokeAsync(() =>
+            {
+                PVCamHelper.Instance.Init();
+                IsCameraInitEnable = !PVCamHelper.Instance.GetInitFlag();
+                IsCameraOpenEnable = PVCamHelper.Instance.GetInitFlag();
+            });
         }
 
         /// <summary>
@@ -1336,19 +1437,21 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void CameraOpenAndClose()
         {
-            
-            if (isOpenCamera)
+            InvokeAsync(() =>
             {
-                PVCamHelper.Instance.Pause();
-                isOpenCamera = false;
-                ChangeButtonText();
-            }
-            else
-            {
-                PVCamHelper.Instance.StartCont();
-                isOpenCamera = true;
-                ChangeButtonText();
-            }
+                if (isOpenCamera)
+                {
+                    PVCamHelper.Instance.Pause();
+                    isOpenCamera = false;
+                    ChangeButtonText();
+                }
+                else
+                {
+                    PVCamHelper.Instance.StartCont();
+                    isOpenCamera = true;
+                    ChangeButtonText();
+                }
+            });
         }
 
         /// <summary>
@@ -1356,8 +1459,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void BigImageShow()
         {
-            BigImageWinView bigImageWinView = new BigImageWinView(this);
-            bigImageWinView.Show();
+            InvokeAsync(() =>
+            {
+                BigImageWinView bigImageWinView = new BigImageWinView(this);
+                bigImageWinView.Show();
+            });
         }
 
         /// <summary>
@@ -1365,10 +1471,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void CameraPause()
         {
-            if (isOpenCamera)
+            InvokeAsync(() =>
             {
-                PVCamHelper.Instance.Pause();
-            }
+                if (isOpenCamera)
+                {
+                    PVCamHelper.Instance.Pause();
+                }
+            });
         }
 
         /// <summary>
@@ -1387,41 +1496,41 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void CameraFocus()
         {
-            string dateText = DateTime.Now.ToString("yyyyMMddHHmmss");
-            string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
-            string fileName = $"{dateText}.tif";
-
-            if (FocusBeginPos > FocusEndPos)
+            InvokeAsync(() =>
             {
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "聚焦起始位置大于结束位置"));
-                return;
-            }
+                string dateText = DateTime.Now.ToString("yyyyMMddHHmmss");
+                string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
+                string fileName = $"{dateText}.tif";
 
-            int focusImageCount = (FocusEndPos - FocusBeginPos) / focusMoveStep;
+                if (FocusBeginPos > FocusEndPos)
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "聚焦起始位置大于结束位置"));
+                    return;
+                }
 
-            if (!isOpenCamera)
-            {
-                PVCamHelper.Instance.StartCont();
-                isOpenCamera = true;
-                ChangeButtonText();
-            }
+                int focusImageCount = (FocusEndPos - FocusBeginPos) / focusMoveStep;
 
-            if (!Directory.Exists(filePath))
-            {
-                Directory.CreateDirectory(filePath);
-            }
+                if (!isOpenCamera)
+                {
+                    PVCamHelper.Instance.StartCont();
+                    isOpenCamera = true;
+                    ChangeButtonText();
+                }
 
-            Task.Run(() =>
-            {
+                if (!Directory.Exists(filePath))
+                {
+                    Directory.CreateDirectory(filePath);
+                }
+
                 //开启激光
                 ControlBusiness.Instance.LightEnableCtrl(1, 1);
                 //移动到暂定起始位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, FocusBeginPos);
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, 5033000);
                 //获取Z轴位置
                 MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
 
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, focusMoveStep, focusImageCount, filePath + fileName);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, focusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
@@ -1430,33 +1539,35 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
                 NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "聚焦完成"), MessageBoxButton.OK, SinMessageBoxImage.Information);
             });
-
         }
         /// <summary>
         /// 设置ROI范围
         /// </summary>
         private void SetCameraRoi()
         {
-            int x = 0;
-            int y = 0;
-
-            if (PointBegin.X == -1 && PointBegin.Y == -1 
-                || !PVCamHelper.Instance.GetIsInitRoi())
+            InvokeAsync(() =>
             {
-                return;
-            }
+                int x = 0;
+                int y = 0;
 
-            SetPoint(PointBegin, originalBinnerSize, originalSize, out x, out y);
-            GetPoint(ref x, ref y);
+                if (PointBegin.X == -1 && PointBegin.Y == -1
+                    || !PVCamHelper.Instance.GetIsInitRoi())
+                {
+                    return;
+                }
 
-            NeedRoi = false;
-            PVCamHelper.Instance.SetIsInitRoi(false);
-            PVCamHelper.Instance.SetROI((ushort)(x), (ushort)(y), originalBinnerSize, originalBinnerSize);
-            Task.Run(() =>
-            {
-                PVCamHelper.Instance.Pause();
-                Thread.Sleep(1000);
-                PVCamHelper.Instance.StartCont();
+                SetPoint(PointBegin, originalBinnerSize, originalSize, out x, out y);
+                GetPoint(ref x, ref y);
+
+                NeedRoi = false;
+                PVCamHelper.Instance.SetIsInitRoi(false);
+                PVCamHelper.Instance.SetROI((ushort)(x), (ushort)(y), originalBinnerSize, originalBinnerSize);
+                Task.Run(() =>
+                {
+                    PVCamHelper.Instance.Pause();
+                    Thread.Sleep(1000);
+                    PVCamHelper.Instance.StartCont();
+                });
             });
         }
 
@@ -1465,11 +1576,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void SetInitRoi()
         {
-            PointBegin.X = -1;
-            PointBegin.Y = -1;
-            NeedRoi = false;
-            PVCamHelper.Instance.SetIsInitRoi(true);
-            PVCamHelper.Instance.SetROI(0, 0, originalSize, originalSize);
+            InvokeAsync(() =>
+            {
+                PointBegin.X = -1;
+                PointBegin.Y = -1;
+                NeedRoi = false;
+                PVCamHelper.Instance.SetIsInitRoi(true);
+                PVCamHelper.Instance.SetROI(0, 0, originalSize, originalSize);
+            });
         }
         #endregion
 
@@ -1838,6 +1952,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <returns></returns>
         protected override bool NavigatedFrom(object source, NavigationMode mode, object navigationState)
         {
+            if (!IsIdle)
+            {
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "正在执行当前任务，无法进行页面跳转！"));
+                return false;
+            }
             // 离开页面时删除刷新消息
             Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
 

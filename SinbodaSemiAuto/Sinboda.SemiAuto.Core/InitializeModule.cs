@@ -1,4 +1,6 @@
-﻿using Sinboda.Framework.Infrastructure;
+﻿using OpenCvSharp;
+using OpenCvSharp.Extensions;
+using Sinboda.Framework.Infrastructure;
 using Sinboda.Framework.Infrastructure.Model;
 using Sinboda.SemiAuto.Core.Helpers;
 using Sinboda.SemiAuto.Core.Models;
@@ -24,6 +26,13 @@ namespace Sinboda.SemiAuto.Core
 
         public InitTaskResult InitializeResource()
         {
+            //PrintHelper.Instance.Init("FUJIFILM Apeos C2560");
+            //Mat img1 = Cv2.ImRead(@"C:\Users\Lenovo\Desktop\1.jpg", ImreadModes.AnyColor);
+            //PrintHelper.Instance.Print(img1.ToBitmap()); 
+            //PrintHelper.Instance.Print("测试","we are all down the god" +
+            //    "but .................." +
+            //    ".......");
+
             //加载参数
             GlobalData.Init();
 
