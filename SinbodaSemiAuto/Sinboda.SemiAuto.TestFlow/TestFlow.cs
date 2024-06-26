@@ -24,6 +24,7 @@ namespace Sinboda.SemiAuto.TestFlow
 {
     public class TestFlow : TBaseSingleton<TestFlow>
     {
+        private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
         /// <summary>
         /// 等待拍照结束通知
         /// </summary>
@@ -89,7 +90,6 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         private bool Init()
         {
-            AnalysisHelper.Instance.Init();
             AcquiringImageFinish.Reset();
             DateTime today = DateTime.Now.Date;
             DateTime tomorrow = DateTime.Now.AddDays(1).Date;
@@ -246,10 +246,15 @@ namespace Sinboda.SemiAuto.TestFlow
                 if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
                 {
                     CurTestItem.State = TestState.Complete;
-                    Task.Run(() =>
-                    {
-                        AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, 'A', 1);
+                    int pos = CurTestItem.ItemSample.Position ?? 0;
+                    Task.Run(async () => {
+                        await semaphoreSlim.WaitAsync();
+                        AnalysisHelper.Instance.Init();
+                        AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, 'A', pos);
+                        AnalysisHelper.Instance.Shutdown();
+                        semaphoreSlim.Release();
                     });
+                    
                     ChangeNextItem();
                 }
             }
