@@ -66,7 +66,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <param name="start">起始坐标</param>
         /// <param name="interval">间隔</param>
         /// <param name="num">照片数量</param>
-        public int ZPos(XimcArm arm, int start, int interval, int num, string file = "")
+        public int ZPos(XimcArm arm, int start, int interval, int num, string file = "", int holdTimeMS = 100)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                         pos = zStart + i * zInterval,
                     };
                     cmdZSlowMove.Execute();
-                    //Thread.Sleep(300);
+                    Thread.Sleep(holdTimeMS);
                     //记录图像
                     lock (_lockObj)
                     {
