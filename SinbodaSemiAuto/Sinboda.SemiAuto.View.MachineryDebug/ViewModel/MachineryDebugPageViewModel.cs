@@ -157,7 +157,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             set { Set(ref cameraButtonText, value); }
         }
 
-        private double voltage = 0.25;
+        private double voltage = 0.5;
         public double Voltage 
         {
             get { return voltage; }
@@ -1524,12 +1524,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 //开启激光
                 ControlBusiness.Instance.LightEnableCtrl(1, 0.5, 1);
                 //移动到暂定起始位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, FocusEndPos);
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, FocusBeginPos);
                 //获取Z轴位置
                 MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
 
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, focusImageCount, filePath + fileName);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, FocusBeginPos, 64, focusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
@@ -1561,12 +1561,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 NeedRoi = false;
                 PVCamHelper.Instance.SetIsInitRoi(false);
                 PVCamHelper.Instance.SetROI((ushort)(x), (ushort)(y), originalBinnerSize, originalBinnerSize);
-                Task.Run(() =>
-                {
-                    PVCamHelper.Instance.Pause();
-                    Thread.Sleep(1000);
-                    PVCamHelper.Instance.StartCont();
-                });
             });
         }
 

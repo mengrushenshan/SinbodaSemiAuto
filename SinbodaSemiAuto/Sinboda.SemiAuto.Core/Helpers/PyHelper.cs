@@ -36,12 +36,13 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 PythonEngine.Initialize();
                 using (Py.GIL())
                 {
-                    dynamic py = Py.Import("auto_focus");
-                    PyList res = PyList.AsList(py.find_focused_img_tif(tifPath));
+                    dynamic pyAutoFocus = Py.Import("auto_focus");
+                    PyList res = PyList.AsList(pyAutoFocus.find_focused_img_tif(tifPath));
                     //PyList res = PyList.AsList(py.find_focused_img_pngs("E:/scripts/png_folder"));
                     list.Add((int)(dynamic)res[0]);
                     list.Add((int)(dynamic)res[1]);
                 }
+                PythonEngine.Shutdown();
             }
             return list;
         }
@@ -61,21 +62,13 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 PythonEngine.Initialize();
                 using (Py.GIL())
                 {
-                    dynamic py = Py.Import("data_analyzer");
-                    PyList res = PyList.AsList(py.analyze_single(tifPath, row, col));
+                    dynamic pyDataAnalyzer = Py.Import("data_analyzer");
+                    PyList res = PyList.AsList(pyDataAnalyzer.analyze_single(tifPath, row, col));
                     cellNum = (int)(dynamic)res[1];
                 }
+                PythonEngine.Shutdown();
             }
             return cellNum;
-        }
-
-        public static void Shutdown()
-        {
-            if (flgInit)
-            {
-                PythonEngine.Shutdown();
-                flgInit = false;
-            }
         }
     }
 }
