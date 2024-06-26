@@ -143,7 +143,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 f.Close();
 
                 //调用解析程序
-                PyHelper.Init();
+                //PyHelper.Init();
                 List<int> frameIds = PyHelper.Autofocus(path);
 
                 //计算对焦点坐标

@@ -673,7 +673,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         private void FanEnable(FanData obj)
         {
             //加载py运动环境
-            PyHelper.Init();
             int cellNum = PyHelper.DataAnalyze("D:\\Sinboda\\simoa\\python\\py\\ProjectData\\AD_20240620_0001", 'A', 1);
             Console.WriteLine("cell number is: " + cellNum);
 
