@@ -66,7 +66,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <param name="start">起始坐标</param>
         /// <param name="interval">间隔</param>
         /// <param name="num">照片数量</param>
-        public int ZPos(XimcArm arm, int start, int interval, int num, string file = "")
+        public int ZPos(XimcArm arm, int start, int interval, int num, string file = "", int holdTimeMS = 100)
         {
             try
             {
@@ -80,6 +80,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 zInterval = interval;
                 tifNum = num;
 
+                isSaveEnable = false;
+
                 for (int i = 0; i < tifNum; i++)
                 {
                     //移动z轴
@@ -89,6 +91,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                         pos = zStart + i * zInterval,
                     };
                     cmdZSlowMove.Execute();
+                    Thread.Sleep(holdTimeMS);
                     //记录图像
                     lock (_lockObj)
                     {
@@ -143,7 +146,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 f.Close();
 
                 //调用解析程序
-                PyHelper.Init();
                 List<int> frameIds = PyHelper.Autofocus(path);
 
                 //计算对焦点坐标
@@ -157,8 +159,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
             {
                 //清除数据
                 mats.Clear();
-                //关闭py调用
-                PyHelper.Shutdown();
                 //注销通知
                 Messenger.Default.Unregister<byte[]>(this, MessageToken.TokenCameraBuffer, SaveImage);
             }
