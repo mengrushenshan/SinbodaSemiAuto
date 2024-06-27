@@ -18,18 +18,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
 {
     public class AnalysisHelper : TBaseSingleton<AnalysisHelper>
     {
-        public void Init()
-        {
-            //加载py运行环境
-            PyHelper.Init();
-        }
-
-        public void Shutdown()
-        {
-            //关闭加载的python
-            PyHelper.Shutdown();
-        }
-
         /// <summary>
         /// 一个孔位九个拍摄点
         /// </summary>

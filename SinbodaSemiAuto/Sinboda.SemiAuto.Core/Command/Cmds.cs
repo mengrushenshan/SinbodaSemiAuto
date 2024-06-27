@@ -799,7 +799,7 @@ namespace sin_mole_flu_analyzer.Models.Command
         /// <summary>
         /// 输出电压 0 - 2.5(精确到0.001)
         /// </summary>
-        public double Voltage { get; set; } = 0.25;
+        public double Voltage { get; set; } = 0.5;
 
         /// <summary>
         /// 是否输出 (0:不输出(等待相机爆光信号) 1:输出)

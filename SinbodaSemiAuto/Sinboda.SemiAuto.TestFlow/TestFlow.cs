@@ -248,9 +248,9 @@ namespace Sinboda.SemiAuto.TestFlow
                     int pos = CurTestItem.ItemSample.Position;
                     Task.Run(async () => {
                         await semaphoreSlim.WaitAsync();
-                        AnalysisHelper.Instance.Init();
+                        //AnalysisHelper.Instance.Init();
                         AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, 'A', pos);
-                        AnalysisHelper.Instance.Shutdown();
+                        //AnalysisHelper.Instance.Shutdown();
                         semaphoreSlim.Release();
                     });
                     

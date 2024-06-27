@@ -123,6 +123,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     IsInitSuccess = true;
                     SetROI(0, 0, 2048, 2048);
                     Binning(true);
+                    m_guiUpdateTimer = new Task(GuiUpdateTick);
+                    m_guiUpdateTimer.Start();
                 }
                 catch (Exception ex)
                 {
@@ -224,6 +226,13 @@ namespace Sinboda.SemiAuto.Core.Helpers
 
         public void SetROI(UInt16 x, UInt16 y, UInt16 width, UInt16 height)
         {
+            bool needStart = IsEnabled;
+
+            if (IsEnabled)
+            {
+                camCtrl.StopAcquisition();
+            }
+
             if (camCtrl != null && GetInitFlag())
             {
                 PVCAM.rgn_type region = camCtrl.Region;
@@ -235,6 +244,13 @@ namespace Sinboda.SemiAuto.Core.Helpers
             }
             Width = width / 2; 
             Height = height / 2;
+
+            if (needStart)
+            {
+                camCtrl.SetupAcquisition(PvcamController.AcquisitionType.Continuous, PvcamController.RUN_UNTIL_STOPPED);
+                camCtrl.StartAcquisition();
+                IsEnabled = true;
+            }
         }
 
         public void Binning(bool enable)
@@ -263,8 +279,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 camCtrl.StartAcquisition();
 
                 m_tempTimer = new Task(tempTimer_Tick);
-                m_guiUpdateTimer = new Task(GuiUpdateTick);
-                m_guiUpdateTimer.Start();
             }
         }
 
@@ -281,8 +295,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 camCtrl.StartAcquisition();
 
                 m_tempTimer = new Task(tempTimer_Tick);
-                m_guiUpdateTimer = new Task(GuiUpdateTick);
-                m_guiUpdateTimer.Start();
             }
         }
 
@@ -532,8 +544,14 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <param name="e"></param>
         private void GuiUpdateTick()
         {
-            while (IsEnabled)
+            while (true)
             {
+                if (!IsEnabled)
+                {
+                    Thread.Sleep(100);
+                    continue;
+                }
+                
                 lock (_lockObj)
                 {
                     if (camCtrl.IsNull() || camCtrl.LatestFrameData.IsNull())
@@ -547,6 +565,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     }
                 }
                 //Thread.Sleep(100);
+                
             }
         }
 

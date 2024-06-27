@@ -1440,6 +1440,16 @@
                         Content="{MultiLang:StringResource 0,
                                                            DefaultValue=重置ROI}"
                         IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Button
+                        Grid.Row="4"
+                        Grid.Column="6"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding SaveTiffCommand}"
+                        Content="{MultiLang:StringResource 0,
+                                                           DefaultValue=保存图片}"
+                        IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
                 </sin:SinGrid>
             </sin:SinGrid>
         </sin:SinGroupBox>

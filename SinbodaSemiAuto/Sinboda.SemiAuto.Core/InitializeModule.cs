@@ -36,6 +36,8 @@ namespace Sinboda.SemiAuto.Core
             //AnalysisHelper.Instance.Init();
             //AnalysisHelper.Instance.Analysis(new Model.DatabaseModel.SemiAuto.Sin_Test_Result() { Test_file_name = "E:\\Result" },'A',1);
 
+            //设置Python环境
+            PyHelper.Init();
 
             //加载参数
             GlobalData.Init();

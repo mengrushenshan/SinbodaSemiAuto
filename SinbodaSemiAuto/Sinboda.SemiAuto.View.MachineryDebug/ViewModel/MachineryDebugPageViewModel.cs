@@ -157,7 +157,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             set { Set(ref cameraButtonText, value); }
         }
 
-        private double voltage = 0.25;
+        private double voltage = 0.5;
         public double Voltage 
         {
             get { return voltage; }
@@ -471,6 +471,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 重置ROI区域
         /// </summary>
         public RelayCommand ReSetRoiCommand { get; set; }
+        
+        /// <summary>
+        /// 保存图片
+        /// </summary>
+        public RelayCommand SaveTiffCommand { get; set; }
         #endregion
 
         #region 激光器
@@ -513,6 +518,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             FocusCommand = new RelayCommand(CameraFocus);
             SetRoiCommand = new RelayCommand(SetCameraRoi);
             ReSetRoiCommand = new RelayCommand(SetInitRoi);
+            SaveTiffCommand = new RelayCommand(SaveTiff);
 
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
             OpenLightCommand = new RelayCommand(OpenLight);
@@ -673,7 +679,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         private void FanEnable(FanData obj)
         {
             //加载py运动环境
-            PyHelper.Init();
             int cellNum = PyHelper.DataAnalyze("D:\\Sinboda\\simoa\\python\\py\\ProjectData\\AD_20240620_0001", 'A', 1);
             Console.WriteLine("cell number is: " + cellNum);
 
@@ -1459,11 +1464,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void BigImageShow()
         {
-            InvokeAsync(() =>
+            //InvokeAsync(() =>
             {
                 BigImageWinView bigImageWinView = new BigImageWinView(this);
                 bigImageWinView.Show();
-            });
+            }
+            //);
         }
 
         /// <summary>
@@ -1525,12 +1531,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 //开启激光
                 ControlBusiness.Instance.LightEnableCtrl(1, 0.5, 1);
                 //移动到暂定起始位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, FocusEndPos);
+                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, FocusBeginPos);
                 //获取Z轴位置
                 MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
 
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, focusImageCount, filePath + fileName);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, FocusBeginPos, 64, focusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
@@ -1562,12 +1568,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 NeedRoi = false;
                 PVCamHelper.Instance.SetIsInitRoi(false);
                 PVCamHelper.Instance.SetROI((ushort)(x), (ushort)(y), originalBinnerSize, originalBinnerSize);
-                Task.Run(() =>
-                {
-                    PVCamHelper.Instance.Pause();
-                    Thread.Sleep(1000);
-                    PVCamHelper.Instance.StartCont();
-                });
             });
         }
 
@@ -1584,6 +1584,30 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 PVCamHelper.Instance.SetIsInitRoi(true);
                 PVCamHelper.Instance.SetROI(0, 0, originalSize, originalSize);
             });
+        } 
+        
+        /// <summary>
+        /// 保存图像
+        /// </summary>
+        private void SaveTiff()
+        {
+            SaveFileDialog FBD = new SaveFileDialog();
+            FBD.Title = SystemResources.Instance.LanguageArray[6442];//"请选择路径";
+            FBD.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            FBD.Filter = "(*.tif)|*.tif";
+            if (FBD.ShowDialog() == DialogResult.OK)
+            {
+                if (!string.IsNullOrEmpty(FBD.FileName))
+                {
+                    Cv2.ImWrite(FBD.FileName, matSource);
+                }
+                else
+                {
+                    //  ShowMessageError(SystemResources.Instance.LanguageArray[3543]);
+                }
+
+            }
+          
         }
         #endregion
 
@@ -1922,8 +1946,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             Messenger.Default.Register<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
         }
 
+        /// <summary>
+        /// 元图像
+        /// </summary>
+        private Mat matSource;
+
         public void ImageRefersh(Mat bitmap)
         {
+            matSource= bitmap;
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
                 if (NeedRoi)
