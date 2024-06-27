@@ -66,11 +66,6 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(2691, "结束样本号小于开始样本号,请重新输入"));
                 return;
             }
-            //if (!IsRegex(FilterText))
-            //{
-            //    NotificationService.Instance.ShowError(SystemResources.Instance.LanguageArray[8760]);// "输入不符合规则";
-            //    return;
-            //}
 
             //"确认删除吗？"
             if (NotificationService.Instance.ShowQuestion(SystemResources.Instance.GetLanguage(41, "确认删除吗？")) == MessageBoxResult.No)

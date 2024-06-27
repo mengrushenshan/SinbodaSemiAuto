@@ -93,7 +93,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// <summary>
         /// 架子
         /// </summary>
-        private List<string> rackSouce = new List<string>() { "", SystemResources.Instance.GetLanguage(1719, "全部"),"1", "2", "3" };
+        private List<string> rackSouce = new List<string>() { "", SystemResources.Instance.GetLanguage(1719, "全部"),"A", "B", "C" };
         public List<string> RackSouce
         {
             get { return rackSouce; }
@@ -223,15 +223,6 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         }
 
         /// <summary>
-        /// 孔位变化数据
-        /// </summary>
-        /// <param name="data">孔位号</param>
-        public void HoleIndexChange(string data)
-        {
-
-        }
-
-        /// <summary>
         /// 选中数据
         /// </summary>
         /// <param name="reagent"></param>
@@ -259,7 +250,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             }
 
             string[] strRackAndPos = tag.Split('-');
-            int rack = int.Parse(strRackAndPos[0]);
+            string rack = strRackAndPos[0];
             int pos = int.Parse(strRackAndPos[1]);
 
             var tempList = TemplateList.Where(o => o.Rack == rack && o.Position == pos).ToList();
@@ -272,7 +263,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         }
 
         /// <summary>
-        /// 登记样本
+        /// 删除模板
         /// </summary>
         private void DeleteTemplate()
         {
@@ -282,7 +273,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 return; 
             }
 
-            Task.Run(() => {
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
                 if (BoardTemplateBusiness.Instance.DeleteTemplateNameList(TemplateList))
                 {
                     WriteOperateLog(SystemResources.Instance.GetLanguage(0, "模板删除成功"));
@@ -309,7 +301,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 return;
             }
 
-            Task.Run(() => {
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
                 if (BoardTemplateBusiness.Instance.SaveTemplateNameList(TemplateList))
                 {
                     WriteOperateLog(SystemResources.Instance.GetLanguage(0, "模板保存完成"));

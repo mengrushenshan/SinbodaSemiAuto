@@ -167,6 +167,9 @@
     <Compile Include="UserControls\SampleRoundMonitorControl.xaml.cs">
       <DependentUpon>SampleRoundMonitorControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\SampleRoundMonitorControl96.xaml.cs">
+      <DependentUpon>SampleRoundMonitorControl96.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SpecimensManageItemControl.xaml.cs">
       <DependentUpon>SpecimensManageItemControl.xaml</DependentUpon>
     </Compile>
@@ -233,6 +236,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SampleRoundMonitorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\SampleRoundMonitorControl96.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

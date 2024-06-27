@@ -406,6 +406,8 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     [EnumAnnotate("测试类型", 0)]
     public enum TestType
     {
+        [EnumAnnotate("", 0)]
+        None,
         [EnumAnnotate("样本", 0)]
         Sample,
         [EnumAnnotate("聚焦", 0)]

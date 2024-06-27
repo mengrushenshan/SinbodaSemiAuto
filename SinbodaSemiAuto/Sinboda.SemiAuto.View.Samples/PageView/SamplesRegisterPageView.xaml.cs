@@ -13,16 +13,17 @@ namespace Sinboda.SemiAuto.View.Samples.PageView
     public partial class SamplesRegisterPageView : UserControl
     {
         SamplesRegisterPageViewModel viewModel;
-        SampleRoundMonitorControl sampleRoundMonitorControl;
+        SampleRoundMonitorControl96 sampleRoundMonitorControl96;
         public SamplesRegisterPageView()
         {
             InitializeComponent();
             DataContext = viewModel = new SamplesRegisterPageViewModel();
-            sampleRoundMonitorControl = new SampleRoundMonitorControl();
-            sampleRoundMonitorControl.DataContext = viewModel;
-            sampleRoundMonitorControl.orderEventHandler += viewModel.HoleIndexChange;
-            sampleRoundMonitorControl.InitBoardData();
-            SampleGrid.Children.Add(sampleRoundMonitorControl);
+            sampleRoundMonitorControl96 = new SampleRoundMonitorControl96();
+            sampleRoundMonitorControl96.DataContext = viewModel;
+            sampleRoundMonitorControl96.GetBoard = viewModel.ShowBoardInfo;
+            sampleRoundMonitorControl96.InitBoardData();
+            SampleGrid.Children.Add(sampleRoundMonitorControl96);
+            viewModel.RefTemplateBoard = sampleRoundMonitorControl96.SetBoardData;
 
             this.PreviewMouseWheel += img_PreviewMouseWheel;
             this.PreviewKeyDown += Grid_PreviewKeyDown;

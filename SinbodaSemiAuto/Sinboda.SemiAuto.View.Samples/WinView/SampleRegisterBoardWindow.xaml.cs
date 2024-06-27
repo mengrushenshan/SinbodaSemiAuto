@@ -24,18 +24,17 @@ namespace Sinboda.SemiAuto.View.Samples.WinView
     public partial class SampleRegisterBoardWindow : SinWindow
     {
         SampleRegisterBoardViewModel viewModel;
-        SampleRoundMonitorControl sampleRoundMonitorControl;
+        SampleRoundMonitorControl96 sampleRoundMonitorControl96;
         public SampleRegisterBoardWindow()
         {
             InitializeComponent();
             DataContext = viewModel = new SampleRegisterBoardViewModel();
-            sampleRoundMonitorControl = new SampleRoundMonitorControl();
-            sampleRoundMonitorControl.DataContext = viewModel;
-            sampleRoundMonitorControl.orderEventHandler += viewModel.HoleIndexChange;
-            sampleRoundMonitorControl.GetBoardTemplate = viewModel.ShowTemplateInfo;
-            sampleRoundMonitorControl.InitTemplateData();
-            TempLateList.Children.Add(sampleRoundMonitorControl);
-            viewModel.RefTemplateBoard = sampleRoundMonitorControl.SetTemplateData;
+            sampleRoundMonitorControl96 = new SampleRoundMonitorControl96();
+            sampleRoundMonitorControl96.DataContext = viewModel;
+            sampleRoundMonitorControl96.GetBoardTemplate = viewModel.ShowTemplateInfo;
+            sampleRoundMonitorControl96.InitTemplateData();
+            TempLateList.Children.Add(sampleRoundMonitorControl96);
+            viewModel.RefTemplateBoard = sampleRoundMonitorControl96.SetTemplateData;
 
 
         }

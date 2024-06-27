@@ -5,16 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Sinboda.SemiAuto.View.Samples.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="88"
-    d:DesignWidth="88"
+    d:DesignHeight="66"
+    d:DesignWidth="66"
     Cursor="Hand"
     MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
     mc:Ignorable="d">
 
     <Border
         x:Name="cover_Border"
-        Width="84"
-        Height="84"
+        Width="62"
+        Height="62"
         BorderBrush="#FFC7C7C7"
         BorderThickness="2"
         ClipToBounds="True"
@@ -22,9 +22,9 @@
         <Grid>
             <Grid.Clip>
                 <EllipseGeometry
-                    Center="40,40"
-                    RadiusX="40"
-                    RadiusY="40" />
+                    Center="29,29"
+                    RadiusX="29"
+                    RadiusY="29" />
             </Grid.Clip>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -36,7 +36,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Text="{Binding SampleCode}" />
+                    Text="{Binding ItemName}" />
             </Border>
 
         </Grid>

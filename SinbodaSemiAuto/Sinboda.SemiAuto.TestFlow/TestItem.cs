@@ -75,10 +75,12 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <param name="z"></param>
         /// <param name="rack"></param>
         /// <param name="pos"></param>
-        public void SetTestItemPos(int x, int y, int z, int rack, int pos)
+        public void SetTestItemPos(int x, int y, int z, string rack, int pos)
         {
+            char[] cRack = rack.ToCharArray();
+
             X = x + (pos - 1) * XaxisOffset;
-            Y = y + (rack - 1) * YaxisOffset;
+            Y = y + (cRack[0] - 65) * YaxisOffset;
             Z = z;
         }
 

@@ -23,9 +23,10 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
     public partial class SampleControl : UserControl
     {
         public Action<Sin_BoardTemplate> GetBoardTemplate;
+        public Action<Sin_Board> GetBoard;
         Dictionary<string, ReagentMonitorColor> colorDic = new Dictionary<string, ReagentMonitorColor>();
 
-        Sin_Sample sinSample = new Sin_Sample();
+        Sin_Board sinBoard = new Sin_Board();
         Sin_BoardTemplate sinTemplate = new Sin_BoardTemplate();
         public SampleControl()
         {
@@ -37,10 +38,10 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
         /// 初始化数据
         /// </summary>
         /// <param name="reagent"></param>
-        public void InitBoardData(Sin_Sample sample)
+        public void InitBoardData(Sin_Board board)
         {
-            sinSample = sample;
-            this.DataContext = sinSample;
+            sinBoard = board;
+            this.DataContext = sinBoard;
 
             SetBoardColor();
         }
@@ -59,26 +60,28 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
 
         public void SetBoardColor()
         {
-            if (sinSample == null)
+            if (sinBoard == null)
             {
                 return;
             }
 
-            switch (sinSample.Test_state)
+            switch (sinBoard.TestType)
             {
-                case TestState.Untested:
+                case TestType.Sample:
                     SetColor("1", true);
                     break;
-                case TestState.Testing:
+                case TestType.Focus:
                     SetColor("2", true);
                     break;
-                case TestState.Complete:
+                case TestType.QualityControl:
                     SetColor("3", true);
                     break;
-                case TestState.Failed:
+                case TestType.Calibration:
                     SetColor("4", true);
                     break;
-               
+                case TestType.None:
+                    SetColor("6", true);
+                    break;
 
             }
         }
@@ -146,6 +149,12 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                 RoundColor = Color.FromRgb(84, 84, 155),
             };
             colorDic.Add("5", color);
+            color = new ReagentMonitorColor
+            {
+                RoundColor = Color.FromRgb(216, 216, 216),
+                MiddleRangeColor = Color.FromRgb(255, 255, 255)
+            };
+            colorDic.Add("6", color);
         }
 
         public void SetColor(string index, bool isCover)
@@ -161,7 +170,16 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
 
         private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            GetBoardTemplate(sinTemplate);
+            if (GetBoardTemplate != null)
+            {
+                GetBoardTemplate(sinTemplate);
+            }
+
+            if (GetBoard != null)
+            {
+                GetBoard(sinBoard);
+            }
+
             SetColor("5", false);
         }
     }
