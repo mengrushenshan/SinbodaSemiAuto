@@ -57,7 +57,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         }
 
         public static void Shutdown()
-        { 
+        {
             PythonEngine.Shutdown();
         }
     }
