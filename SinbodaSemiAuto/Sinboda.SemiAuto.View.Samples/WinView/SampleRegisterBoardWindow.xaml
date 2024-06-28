@@ -10,7 +10,7 @@
              xmlns:myStaticResource="clr-namespace:Sinboda.SemiAuto.Model.DatabaseModel.Resource;assembly=Sinboda.SemiAuto.Model"
              mc:Ignorable="d" 
              Title="{MultiLang:StringResource 0, DefaultValue=测试模板}"
-             Height="900" Width="800">
+             Height="800" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />

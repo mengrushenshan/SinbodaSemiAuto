@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
+using Sinboda.Framework.Common;
 using Sinboda.Framework.Control.Controls.Navigation;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.SemiAuto.Business.Samples;
@@ -9,10 +10,12 @@ using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
 using Sinboda.SemiAuto.View.Results.WinView;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace Sinboda.SemiAuto.View.Results.ViewModel
@@ -65,7 +68,73 @@ namespace Sinboda.SemiAuto.View.Results.ViewModel
         public Sin_Test_Result SelectTestResult
         {
             get { return selectTestResult; }
-            set { Set(ref selectTestResult, value); }
+            set { 
+                Set(ref selectTestResult, value);
+                SetImagePath();
+            }
+        }
+
+        private string imagePath1;
+        public string ImagePath1
+        {
+            get { return imagePath1; }
+            set { Set(ref imagePath1, value); }
+        }
+
+        private string imagePath2;
+        public string ImagePath2
+        {
+            get { return imagePath2; }
+            set { Set(ref imagePath2, value); }
+        }
+
+        private string imagePath3;
+        public string ImagePath3
+        {
+            get { return imagePath3; }
+            set { Set(ref imagePath3, value); }
+        }
+
+        private string imagePath4;
+        public string ImagePath4
+        {
+            get { return imagePath4; }
+            set { Set(ref imagePath4, value); }
+        }
+
+        private string imagePath5;
+        public string ImagePath5
+        {
+            get { return imagePath5; }
+            set { Set(ref imagePath5, value); }
+        }
+
+        private string imagePath6;
+        public string ImagePath6
+        {
+            get { return imagePath6; }
+            set { Set(ref imagePath6, value); }
+        }
+
+        private string imagePath7;
+        public string ImagePath7
+        {
+            get { return imagePath7; }
+            set { Set(ref imagePath7, value); }
+        }
+
+        private string imagePath8;
+        public string ImagePath8
+        {
+            get { return imagePath8; }
+            set { Set(ref imagePath8, value); }
+        }
+
+        private string imagePath9;
+        public string ImagePath9
+        {
+            get { return imagePath9; }
+            set { Set(ref imagePath9, value); }
         }
         #endregion
 
@@ -144,6 +213,38 @@ namespace Sinboda.SemiAuto.View.Results.ViewModel
 
         }
 
+        private void SetImagePath()
+        {
+            if (SelectTestResult == null || SelectSample == null)
+            {
+                return;
+            }
+            string samplePath = MapPath.TifPath + "Result\\" + $"{SelectTestResult.Test_file_name}\\";
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                ImagePath1 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_1.jpg";
+                ImagePath2 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_2.jpg";
+                ImagePath3 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_3.jpg";
+                ImagePath4 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_4.jpg";
+                ImagePath5 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_5.jpg";
+                ImagePath6 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_6.jpg";
+                ImagePath7 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_7.jpg";
+                ImagePath8 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_8.jpg";
+                ImagePath9 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_9.jpg";
+            });
+        }
+
+        private void SetImageShowAttr(string imagePath, Visibility imageVisibility)
+        {
+            if (File.Exists(imagePath))
+            {
+                imageVisibility = Visibility.Visible;
+            }
+            else
+            {
+                imageVisibility = Visibility.Hidden;
+            }
+        }
         /// <summary>
         /// 进入页面时触发
         /// </summary>

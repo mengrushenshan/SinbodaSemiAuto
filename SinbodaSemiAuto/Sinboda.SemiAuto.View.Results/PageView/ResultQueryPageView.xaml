@@ -142,8 +142,29 @@
                         </StackPanel>
                     </Grid>
                 </sin:SinGroupBox.Header>
-                
+                <sin:SinGrid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Row="0" Grid.Column="0" Source="{Binding ImagePath1}" Visibility="{Binding ImageVisibility1}" Width="170" Height="170" />
+                    <Image Grid.Row="0" Grid.Column="1" Source="{Binding ImagePath2}" Visibility="{Binding ImageVisibility2}" Width="170" Height="170" />
+                    <Image Grid.Row="0" Grid.Column="2" Source="{Binding ImagePath3}" Visibility="{Binding ImageVisibility3}" Width="170" Height="170" />
+                    <Image Grid.Row="0" Grid.Column="3" Source="{Binding ImagePath4}" Visibility="{Binding ImageVisibility4}" Width="170" Height="170" />
+                    <Image Grid.Row="0" Grid.Column="4" Source="{Binding ImagePath5}" Visibility="{Binding ImageVisibility5}" Width="170" Height="170" />
 
+                    <Image Grid.Row="1" Grid.Column="0" Source="{Binding ImagePath6}" Visibility="{Binding ImageVisibility6}" Width="170" Height="170" />
+                    <Image Grid.Row="1" Grid.Column="1" Source="{Binding ImagePath7}" Visibility="{Binding ImageVisibility7}" Width="170" Height="170" />
+                    <Image Grid.Row="1" Grid.Column="2" Source="{Binding ImagePath8}" Visibility="{Binding ImageVisibility8}" Width="170" Height="170" />
+                    <Image Grid.Row="1" Grid.Column="3" Source="{Binding ImagePath9}" Visibility="{Binding ImageVisibility9}" Width="170" Height="170" />
+                </sin:SinGrid>
             </sin:SinGroupBox>
         </Grid>
         <StackPanel  Grid.Row="2" Grid.Column="1" Orientation="Horizontal"  HorizontalAlignment="Right">
