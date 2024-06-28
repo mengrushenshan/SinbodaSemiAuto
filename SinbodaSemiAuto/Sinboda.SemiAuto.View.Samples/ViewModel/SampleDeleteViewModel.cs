@@ -82,7 +82,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             LoadingHelper.Instance.ShowLoadingWindow(anc =>
             {
                 anc.Title = SystemResources.Instance.GetLanguage(8761, "正在删除样本，请等待...");// "正在删除样本，请等待...";
-                or = SampleBusiness.Instance.DeleteSampleAndResult(codes[0], codes[1], beginData, endData);
+                or = BoardBusiness.Instance.DeleteBoardList(codes[0], codes[1], beginData, endData);
             }, 0, anc =>
             {
                 IfDelete = true;

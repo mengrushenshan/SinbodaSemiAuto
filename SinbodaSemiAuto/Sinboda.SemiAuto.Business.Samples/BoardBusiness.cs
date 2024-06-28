@@ -71,18 +71,18 @@ namespace Sinboda.SemiAuto.Business.Samples
         /// </summary>
         /// <param name="boardList"></param>
         /// <returns></returns>
-        public bool DeleteTemplateNameList(List<Sin_Board> boardList)
+        public OperationResult<List<string>> DeleteBoardList(int beginNo, int endNo, DateTime beginTime, DateTime endTime)
         {
-            bool result = false;
-
-            if (boardList == null)
+            var result = SampleBusiness.Instance.DeleteSampleAndResult(beginNo, endNo, beginTime, endTime);
+            if (result.ResultEnum != OperationResultEnum.FAILED)
             {
-                return result;
+                var boardDelList = Sin_BoardOperation.Instance.Query(o => o.BoardId >= beginNo && o.BoardId <= endNo && o.RegistDate >= beginTime && o.RegistDate <= endTime);
+                if (boardDelList != null)
+                {
+                    boardDelList.ForEach(o => Sin_BoardOperation.Instance.Delete(o.Id));
+                }
             }
-
-            boardList.ForEach(o => Sin_BoardOperation.Instance.Delete(o.Id));
-
-            return result = true;
+            return result;
         }
 
         /// <summary>

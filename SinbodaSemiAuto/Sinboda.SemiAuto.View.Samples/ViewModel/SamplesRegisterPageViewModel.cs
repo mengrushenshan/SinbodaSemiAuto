@@ -512,6 +512,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             SampleRegisterBoardWindow sampleRegisterBoardWindow = new SampleRegisterBoardWindow();
             sampleRegisterBoardWindow.ShowDialog();
+            SetTemplateNameAndList();
         }
 
         private void SampleRigester()
@@ -913,6 +914,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
+                SelectItem = CurBoardItemList[0].ItemName;
                 RefTemplateBoard();
             });
             

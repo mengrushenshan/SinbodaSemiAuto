@@ -135,7 +135,7 @@ namespace Sinboda.SemiAuto.Business.Samples
         {
 
             var msgs = new List<string>();
-            var sampleList = Sin_Sample_DataOperation.Instance.Query(e => e.Sample_date >= beginTime && e.Sample_date <= endTime && e.SampleCode >= beginCode && e.SampleCode <= endCode);
+            var sampleList = Sin_Sample_DataOperation.Instance.Query(e => e.Sample_date >= beginTime && e.Sample_date <= endTime && e.BoardId >= beginCode && e.BoardId <= endCode);
             if (sampleList.Count <= 0)
             {
                 //return Result(false, SystemResources.Instance.GetLanguage(7799, "没有可删除的样本"));

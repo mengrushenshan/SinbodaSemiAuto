@@ -31,7 +31,7 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="rbStartSampleNums" Content="{MultiLang:StringResource 182, DefaultValue=样本号}" Grid.Column="1" Grid.Row="1"
+        <Label x:Name="rbStartSampleNums" Content="{MultiLang:StringResource 0, DefaultValue=实验板号}" Grid.Column="1" Grid.Row="1"
    VerticalContentAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" />
         <sin:SinTextBox  Grid.Column="3" Grid.Row="1" NullText="{MultiLang:StringResource 6717,DefaultValue=例:1或2-9}" 
            MaxLength="9"
