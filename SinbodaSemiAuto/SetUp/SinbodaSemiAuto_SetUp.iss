@@ -1,7 +1,7 @@
 ; 脚本由 Inno Setup 脚本向导 生成！
 ; 有关创建 Inno Setup 脚本文件的详细资料请查阅帮助文档！
 
-#define MyAppName "单分子荧光免疫分析仪"
+#define MyAppName "SinbodaSemiAuto"
 #define MyAppVersion "1.0"
 #define MyAppPublisher "Sinboda"
 ;#define MyAppURL "https://blog.csdn.net/u012842630"
@@ -25,6 +25,7 @@ DefaultGroupName={#MyAppName}
 OutputDir=..\Output
 OutputBaseFilename=   {#OutputBaseFilename2  }
 ;R1 第一次发布
+;UsePreviousAppDir=no 
 
 ;SetupIconFile=E:\文件整理\C#\Start10\Start10\windows8.ico
 ;Password=975354488-ADB0-43EE-BF18-D6DE0D047423
