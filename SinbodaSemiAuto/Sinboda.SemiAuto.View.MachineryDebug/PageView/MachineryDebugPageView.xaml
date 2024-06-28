@@ -22,9 +22,10 @@
                 <sin:SinGrid Grid.Row="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*" />
-                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="2.8*" />
                         <RowDefinition Height="2*" />
                         <RowDefinition Height="2*" />
+                        <RowDefinition Height="1.3*" />
                     </Grid.RowDefinitions>
 
                     <sin:SinGroupBox Grid.Row="0">
@@ -853,6 +854,102 @@
                             </sin:SinGrid>
                         </sin:SinGrid>
 
+                    </sin:SinGroupBox>
+
+                    <sin:SinGroupBox Grid.Row="4" Visibility="Visible">
+                        <sin:SinGroupBox.Header>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Foreground="#414187"
+                                    Text="{MultiLang:StringResource 0,
+                                                                    DefaultValue=激光器}" />
+                                <StackPanel
+                                    Grid.Column="2"
+                                    Height="30"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal" />
+                            </Grid>
+                        </sin:SinGroupBox.Header>
+
+                        <sin:SinGrid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="10" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--#region 激光器-->
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{MultiLang:StringResource 0,
+                                                                DefaultValue=激光器}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{MultiLang:StringResource 0,
+                                                                DefaultValue=频率}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="8"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{MultiLang:StringResource 0,
+                                                                DefaultValue=占空比}" />
+
+                            <sin:SinTextBox
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Text="{Binding Voltage}" />
+                            <sin:SinTextBox Grid.Row="0" Grid.Column="6" />
+                            <sin:SinTextBox Grid.Row="0" Grid.Column="10" />
+
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="12"
+                                Command="{Binding OpenLightCommand}"
+                                Content="{MultiLang:StringResource 0,
+                                                                   DefaultValue=打开}" />
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="14"
+                                Command="{Binding CloseLightCommand}"
+                                Content="{MultiLang:StringResource 0,
+                                                                   DefaultValue=关闭}" />
+                            <!--#endregion-->
+
+                        </sin:SinGrid>
                     </sin:SinGroupBox>
                 </sin:SinGrid>
 
