@@ -656,137 +656,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 1,
-                    Position = 1,
-                    TestType = TestType.Calibration,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 1,
-                    Position = 2,
-                    TestType = TestType.Sample,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 1,
-                    Position = 3,
-                    TestType = TestType.Sample,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 1,
-                    Position = 4,
-                    TestType = TestType.Sample,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 1,
-                    Position = 5,
-                    TestType = TestType.Sample,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 1,
-                    Position = 6,
-                    TestType = TestType.Sample,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 1,
-                    Position = 7,
-                    TestType = TestType.Sample,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 1,
-                    Position = 8,
-                    TestType = TestType.Sample,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 1,
-                    Position = 9,
-                    TestType = TestType.Sample,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 1,
-                    Position = 10,
-                    TestType = TestType.Sample,
-                    ItemName = "AD",
-                    IsEnable = true,
-                    Create_time = DateTime.Now,
-                    Create_user = "Sinboda"
-                });
-
-                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
-                {
-                    Id = Guid.NewGuid(),
-                    TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 1,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -799,7 +669,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 2,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -812,7 +682,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 3,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -825,7 +695,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 4,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -838,7 +708,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 5,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -851,7 +721,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 6,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -864,7 +734,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 7,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -877,7 +747,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 8,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -890,7 +760,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 9,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -903,7 +773,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 2,
+                    Rack = "A",
                     Position = 10,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -916,7 +786,33 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "A",
+                    Position = 11,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "A",
+                    Position = 12,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "B",
                     Position = 1,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -929,7 +825,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "B",
                     Position = 2,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -942,7 +838,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "B",
                     Position = 3,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -955,7 +851,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "B",
                     Position = 4,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -968,7 +864,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "B",
                     Position = 5,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -981,7 +877,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "B",
                     Position = 6,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -994,7 +890,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "B",
                     Position = 7,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -1007,7 +903,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "B",
                     Position = 8,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -1020,7 +916,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "B",
                     Position = 9,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -1033,7 +929,7 @@ namespace Sinboda.SemiAuto.Model
                 {
                     Id = Guid.NewGuid(),
                     TemplateName = "Default",
-                    Rack = 3,
+                    Rack = "B",
                     Position = 10,
                     TestType = TestType.Sample,
                     ItemName = "AD",
@@ -1041,6 +937,969 @@ namespace Sinboda.SemiAuto.Model
                     Create_time = DateTime.Now,
                     Create_user = "Sinboda"
                 });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "B",
+                    Position = 11,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "B",
+                    Position = 12,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 1,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 2,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 3,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 4,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 5,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 6,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 7,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 8,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 9,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 10,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 11,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "C",
+                    Position = 12,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 1,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 2,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 3,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 4,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 5,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 6,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 7,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 8,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 9,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 10,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 11,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "D",
+                    Position = 12,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 1,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 2,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 3,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 4,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 5,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 6,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 7,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 8,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 9,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 10,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 11,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "E",
+                    Position = 12,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 1,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 2,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 3,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 4,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 5,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 6,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 7,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 8,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 9,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 10,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 11,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "F",
+                    Position = 12,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 1,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 2,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 3,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 4,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 5,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 6,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 7,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 8,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 9,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 10,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 11,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "G",
+                    Position = 12,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 1,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 2,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 3,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 4,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 5,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 6,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 7,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 8,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 9,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 10,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 11,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
+                db.Sin_BoardTemplates.Add(new Sin_BoardTemplate
+                {
+                    Id = Guid.NewGuid(),
+                    TemplateName = "Default",
+                    Rack = "H",
+                    Position = 12,
+                    TestType = TestType.Sample,
+                    ItemName = "AD",
+                    IsEnable = true,
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+                });
+
                 db.SaveChanges();
                 #endregion
 

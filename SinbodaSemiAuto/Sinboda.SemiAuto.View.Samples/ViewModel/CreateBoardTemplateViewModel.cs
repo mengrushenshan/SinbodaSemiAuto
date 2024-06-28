@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Threading;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.Framework.Core.Services;
 using Sinboda.Framework.Core.StaticResource;
@@ -47,7 +48,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "方案名已经存在"));
                 return;
             }
-            Task.Run(() => {
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
                 foreach (var boardTemplate in BoardTemplateList)
                 {
                     boardTemplate.Id = Guid.NewGuid();

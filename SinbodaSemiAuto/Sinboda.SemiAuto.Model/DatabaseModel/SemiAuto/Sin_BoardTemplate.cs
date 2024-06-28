@@ -22,7 +22,7 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         /// <summary>
         /// 架号
         /// </summary>
-        public int Rack {  get; set; }
+        public string Rack {  get; set; }
 
         /// <summary>
         /// 位置

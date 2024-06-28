@@ -20,13 +20,13 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
     /// <summary>
     /// SampleRoundMonitorControl.xaml 的交互逻辑
     /// </summary>
-    public partial class SampleRoundMonitorControl : UserControl
+    public partial class SampleRoundMonitorControl96 : UserControl
     {
         public Action<Sin_BoardTemplate> GetBoardTemplate;
         public Action<Sin_Board> GetBoard;
         SamplesRegisterPageViewModel boardViewModel;
         SampleRegisterBoardViewModel TempLateViewModel;
-        public SampleRoundMonitorControl()
+        public SampleRoundMonitorControl96()
         {
             InitializeComponent();
         }
@@ -117,6 +117,5 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
             SetBoardData();
             SetTemplateData();
         }
-
     }
 }

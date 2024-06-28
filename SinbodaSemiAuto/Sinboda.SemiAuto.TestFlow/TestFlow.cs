@@ -98,8 +98,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 return true;
             }
 
-            var sampleList = SampleBusiness.Instance.GetSampleListByPredicate(o => o.RackDish != null && o.Position != null 
-                && o.Sample_date >= today && o.Sample_date < tomorrow && o.Test_state != TestState.Complete);
+            var sampleList = SampleBusiness.Instance.GetSampleListByPredicate(o => o.RackDish != null && o.Sample_date >= today && o.Sample_date < tomorrow && o.Test_state != TestState.Complete);
 
             if (sampleList == null || sampleList.Count == 0) 
             {
@@ -168,7 +167,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 testItem.ItemSample = sampleItem;
                 testItem.Testid = ++testId;
                 testItem.State = TestState.Untested;
-                testItem.SetTestItemPos(X, Y, Z, sampleItem.RackDish ?? 1, sampleItem.Position ?? 1);
+                testItem.SetTestItemPos(X, Y, Z, sampleItem.RackDish, sampleItem.Position);
                 testItem.CreatePoint(fileName, samplePath);
 
                 Items.Add(testItem);
@@ -246,7 +245,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
                 {
                     CurTestItem.State = TestState.Complete;
-                    int pos = CurTestItem.ItemSample.Position ?? 0;
+                    int pos = CurTestItem.ItemSample.Position;
                     Task.Run(async () => {
                         await semaphoreSlim.WaitAsync();
                         //AnalysisHelper.Instance.Init();

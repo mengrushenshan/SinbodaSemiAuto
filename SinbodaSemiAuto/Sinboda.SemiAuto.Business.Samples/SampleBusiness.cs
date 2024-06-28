@@ -67,7 +67,7 @@ namespace Sinboda.SemiAuto.Business.Samples
         /// <param name="rack"></param>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public Sin_Sample GetSampleByRackPos(int rack, int pos)
+        public Sin_Sample GetSampleByRackPos(string rack, int pos)
         {
             List<Sin_Sample> sampleList = Sin_Sample_DataOperation.Instance.QueryTodaySampleList();
 
@@ -88,7 +88,7 @@ namespace Sinboda.SemiAuto.Business.Samples
         /// <param name="rack"></param>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public bool RackPosHaveSample(int rack, int pos)
+        public bool RackPosHaveSample(string rack, int pos)
         {
             List<Sin_Sample> sampleList = Sin_Sample_DataOperation.Instance.QueryTodaySampleList();
             
@@ -135,7 +135,7 @@ namespace Sinboda.SemiAuto.Business.Samples
         {
 
             var msgs = new List<string>();
-            var sampleList = Sin_Sample_DataOperation.Instance.Query(e => e.Sample_date >= beginTime && e.Sample_date <= endTime && e.SampleCode >= beginCode && e.SampleCode <= endCode);
+            var sampleList = Sin_Sample_DataOperation.Instance.Query(e => e.Sample_date >= beginTime && e.Sample_date <= endTime && e.BoardId >= beginCode && e.BoardId <= endCode);
             if (sampleList.Count <= 0)
             {
                 //return Result(false, SystemResources.Instance.GetLanguage(7799, "没有可删除的样本"));
@@ -213,7 +213,7 @@ namespace Sinboda.SemiAuto.Business.Samples
         /// <param name="count"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public OperationResult CreateSample(int sampleCode, int rack, int pos, string barcode, int count, string itemName, int boardId)
+        public OperationResult CreateSample(int sampleCode, string rack, int pos, string barcode, int count, string itemName, int boardId)
         {
             
             OperationResult or = null;

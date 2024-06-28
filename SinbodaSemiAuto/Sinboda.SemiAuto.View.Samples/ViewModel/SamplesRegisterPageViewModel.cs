@@ -34,11 +34,13 @@ using static Sinboda.Framework.Control.DateTimePickers.TMinSexView;
 using Sinboda.Framework.Common;
 using System.IO;
 using DevExpress.CodeParser;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Sinboda.SemiAuto.View.Samples.ViewModel
 {
     public class SamplesRegisterPageViewModel : NavigationViewModelBase
     {
+        public Action RefTemplateBoard;
         /// <summary>
         /// 线程锁
         /// </summary>
@@ -215,6 +217,94 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             get { return focusImageCount; }
             set { Set(ref focusImageCount, value); }
         }
+
+        /// <summary>
+        /// 模板名称
+        /// </summary>
+        private string templateName;
+        public string TemplateName
+        {
+            get { return templateName; }
+            set
+            {
+                Set(ref templateName, value);
+            }
+        }
+
+        /// <summary>
+        /// 模板名称列表
+        /// </summary>
+        private List<string> templateNameList;
+        public List<string> TemplateNameList
+        {
+            get { return templateNameList; }
+            set { Set(ref templateNameList, value); }
+        }
+
+        /// <summary>
+        /// 当前孔位列表
+        /// </summary>
+        private List<Sin_Board> curBoardItemList;
+        public List<Sin_Board> CurBoardItemList
+        {
+            get { return curBoardItemList; }
+            set { Set(ref curBoardItemList, value); }
+        }
+
+        /// <summary>
+        /// 前页孔位列表
+        /// </summary>
+        private List<Sin_Board> beforBoardItemList;
+        public List<Sin_Board> BeforBoardItemList
+        {
+            get { return beforBoardItemList; }
+            set { Set(ref beforBoardItemList, value); }
+        }
+
+        /// <summary>
+        /// 前页孔位列表
+        /// </summary>
+        private List<Sin_Board> nextBoardItemList;
+        public List<Sin_Board> NextBoardItemList
+        {
+            get { return nextBoardItemList; }
+            set { Set(ref nextBoardItemList, value); }
+        }
+
+        /// <summary>
+        /// 板号
+        /// </summary>
+        private int boardId = 1;
+        public int BoardId
+        {
+            get { return boardId; }
+            set { Set(ref boardId, value); }
+        }
+
+        /// <summary>
+        /// 模板队列
+        /// </summary>
+        private List<Sin_BoardTemplate> templateList;
+        public List<Sin_BoardTemplate> TemplateList
+        {
+            get { return templateList; }
+            set { Set(ref templateList, value); }
+        }
+
+        private TestType boardType;
+        public TestType BoardType
+        {
+            get { return boardType; }
+            set { Set(ref boardType, value);}
+        }
+
+        private bool isBoardEnable;
+
+        public bool IsBoardEnable
+        {
+            get { return isBoardEnable; }
+            set { Set(ref isBoardEnable, value); }
+        }
         #endregion
 
         #region 命令
@@ -238,6 +328,16 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// 开始采集
         /// </summary>
         public RelayCommand TestPointStartCommand { get; set; }
+
+        /// <summary>
+        /// 模板编辑
+        /// </summary>
+        public RelayCommand EditTemplateCommand { get; set; }
+
+        /// <summary>
+        /// 模板编辑
+        /// </summary>
+        public RelayCommand UseTemplateCommand { get; set; }
 
         #region 相机
 
@@ -269,15 +369,6 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
         #endregion
 
-        /// <summary>
-        /// 孔位变化数据
-        /// </summary>
-        /// <param name="data">孔位号</param>
-        public void HoleIndexChange(string data)
-        {
-
-        }
-
         public SamplesRegisterPageViewModel()
         {
             DispatcherHelper.Initialize();
@@ -290,11 +381,68 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             CameraFocusCommand = new RelayCommand(CameraFocus);
             TestPointStartCommand = new RelayCommand(TestPointStart);
             TestStartCommand = new RelayCommand(TestStart);
+            EditTemplateCommand = new RelayCommand(EditTemplate);
+            UseTemplateCommand = new RelayCommand(UseTemplateList);
+            SetBoardId();
+            CurBoardItemList = NewNoneBoard();
             ChangeButtonText();
             InitSamplesRegisterPage();
             InitMachinerySource();
+            SetTemplateNameAndList();
         }
 
+        /// <summary>
+        /// 设置板号
+        /// </summary>
+        private void SetBoardId()
+        {
+            BoardId = BoardBusiness.Instance.GetMaxBoardId();
+        }
+
+        /// <summary>
+        /// 模板名称获取
+        /// </summary>
+        private void SetTemplateNameAndList()
+        {
+            TemplateNameList = BoardTemplateBusiness.Instance.GetTemplateNameList();
+            if (TemplateNameList != null)
+            {
+                TemplateNameList.Add(string.Empty);
+                TemplateName = string.Empty;
+            }
+            else
+            {
+                TemplateNameList = new List<string>();
+                TemplateNameList.Add(string.Empty);
+                TemplateName = string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 创建新的板
+        /// </summary>
+        /// <param name="BoardItemList"></param>
+        private List<Sin_Board> NewNoneBoard()
+        {
+            List<Sin_Board> BoardItemList = new List<Sin_Board>();
+            for (int rack = 0; rack < 8; rack++)
+            {
+                for (int pos = 1; pos <= 12; pos++)
+                {
+                    BoardItemList.Add(new Sin_Board()
+                    {
+                        Id = Guid.NewGuid(),
+                        Rack = Convert.ToChar('A' + rack).ToString(),
+                        Position = pos,
+                        TestType = TestType.None,
+                        ItemName = string.Empty,
+                        IsEnable = false,
+                        RegistDate = DateTime.Now,
+                    });
+                }
+            }
+            return BoardItemList;
+        }
         /// <summary>
         /// 初始化界面
         /// </summary>
@@ -360,48 +508,63 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             }
         }
 
-        private void SampleRigester()
+        private void EditTemplate()
         {
             SampleRegisterBoardWindow sampleRegisterBoardWindow = new SampleRegisterBoardWindow();
             sampleRegisterBoardWindow.ShowDialog();
-
-            return;
-
-            if (SampleCode == null || SampleCode < 1 || SampleCode > 99999999)
-            {
-                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(2689, "样本号为空，请重新输入"), MessageBoxButton.OK, SinMessageBoxImage.Information);
-                return;
-            }
-
-            if (Count != 1 && !string.IsNullOrEmpty(Barcode))
-            {
-                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(3751, "条码号不可重复，无法进行批量登记"), MessageBoxButton.OK, SinMessageBoxImage.Information);
-                return;
-            }
-
-            Sin_Sample sin_Sample = SampleBusiness.Instance.SampleCodeHaveSample(SampleCode ?? 0);
-            if (sin_Sample == null)
-            {
-                OperationResult or = new OperationResult();
-                LoadingHelper.Instance.ShowLoadingWindow(a =>
-                {
-
-                    a.Title = SystemResources.Instance.GetLanguage(12495, "正在登记样本，请等待...");
-                    or = SampleBusiness.Instance.CreateSample(SampleCode ?? 0, RackDish, Position, Barcode, Count ?? 0, SelectItem, 0);
-
-                }, 0, a =>
-                {
-                    if (!or.ResultBool)
-                    {
-                        NotificationService.Instance.ShowError(or.Message);
-                        return;
-                    }
-
-                });
-            }
-            
+            SetTemplateNameAndList();
         }
 
+        private void SampleRigester()
+        {
+            if (CurBoardItemList.Count(o => o.IsEnable == true) == 0)
+            {
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "没有可登记样本"));
+                return;
+            }
+
+            var boardList = BoardBusiness.Instance.GetBoardListByBoardId(BoardId);
+            if (boardList == null || boardList.Count == 0)
+            {
+                if (CurBoardItemList != null)
+                {
+                    CurBoardItemList.ForEach(o => o.BoardId = BoardId);
+                    OperationResult or = new OperationResult();
+                    LoadingHelper.Instance.ShowLoadingWindow(a =>
+                    {
+
+                        a.Title = SystemResources.Instance.GetLanguage(12495, "正在登记样本，请等待...");
+                        or = BoardBusiness.Instance.CreateTemplateList(CurBoardItemList);
+
+                    }, 0, a =>
+                    {
+                        if (!or.ResultBool)
+                        {
+                            NotificationService.Instance.ShowError(or.Message);
+                            return;
+                        }
+                        else
+                        {
+                            NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "登记成功"));
+                            ResetBoardPage();
+                        }
+
+                    });
+                }
+            }
+            else
+            {
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "板号已经存在"));
+                return;
+            }
+        }
+
+        private void ResetBoardPage()
+        {
+            SetBoardId();
+            CurBoardItemList = NewNoneBoard();
+            RefTemplateBoard();
+        }
         private void SampleDelete()
         {
             SampleDeleteWindow win = new SampleDeleteWindow();
@@ -413,11 +576,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
         private void Reset()
         {
-            SampleCode = SampleBusiness.Instance.GetMaxSampleCode();
-            RackDish = 1;
-            Position = 1;
-            Count = 1;
-            Barcode = string.Empty;
+            ResetBoardPage();
         }
 
         /// <summary>
@@ -707,7 +866,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             
         }
 
-        public Sin_Sample GetSinSample(string tag)
+        public Sin_Board GetSinBoard(string tag)
         {
             if (!tag.Contains("-"))
             {
@@ -715,12 +874,67 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             }
 
             string[] strRackAndPos = tag.Split('-');
-            int rack = int.Parse(strRackAndPos[0]);
+            string rack = strRackAndPos[0];
             int pos = int.Parse(strRackAndPos[1]);
 
-            Sin_Sample sample = SampleBusiness.Instance.GetSampleByRackPos(rack, pos);
-            return sample;
+            Sin_Board board = CurBoardItemList.Where(o => o.Rack == rack && o.Position == pos).First();
+            return board;
         }
+
+        /// <summary>
+        /// 获取模板
+        /// </summary>
+        private void SetTemplateList()
+        {
+            if (string.IsNullOrEmpty(TemplateName))
+            {
+                TemplateList = BoardTemplateBusiness.Instance.GetBoardList("Default");
+            }
+            else
+            {
+                TemplateList = BoardTemplateBusiness.Instance.GetBoardList(TemplateName);
+            }
+        }
+
+        /// <summary>
+        /// 应用模板
+        /// </summary>
+        private void UseTemplateList()
+        {
+            SetTemplateList();
+
+            if(TemplateList == null)
+                return;
+
+            foreach (var template in TemplateList)
+            {
+                Sin_Board boradItem = CurBoardItemList.Where(o => o.Rack == template.Rack && o.Position == template.Position).First();
+                boradItem.GetTemplateAttribute(template);
+            }
+
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                SelectItem = CurBoardItemList[0].ItemName;
+                RefTemplateBoard();
+            });
+            
+        }
+
+        /// <summary>
+        /// 选中数据
+        /// </summary>
+        /// <param name="reagent"></param>
+        public void ShowBoardInfo(Sin_Board board)
+        {
+            RefTemplateBoard();
+
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                BoardType = board.TestType;
+                IsBoardEnable = board.IsEnable;
+            });
+        }
+
         /// <summary>
         /// 进入页面时触发
         /// </summary>

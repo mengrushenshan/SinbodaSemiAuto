@@ -46,22 +46,22 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
             }
         }
 
-        private int? rackDish;
+        private string rackDish;
         /// <summary>
         /// 样本架
         /// <para></para>
         /// </summary>
-        public int? RackDish
+        public string RackDish
         {
             get { return rackDish; }
             set { Set(ref rackDish, value); }
         }
 
-        private int? position;
+        private int position;
         /// <summary>
         /// 位置
         /// </summary>
-        public int? Position
+        public int Position
         {
             get { return position; }
             set { Set(ref position, value); }

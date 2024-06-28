@@ -61,8 +61,8 @@
                 </dxg:GridControl.ContextMenu>
 
                 <!--急诊/常规-->
-               
-                
+
+                <dxg:GridColumn  Header="{MultiLang:StringResource 0, DefaultValue=实验板号}" FieldName="BoardId"  Width="100"/>
                 <dxg:GridColumn  Header="{MultiLang:StringResource 182, DefaultValue=样本号}" FieldName="SampleCode"  Width="80"/>
                 <dxg:GridColumn  Header="{MultiLang:StringResource 1843, DefaultValue=条码号}" FieldName="Barcode"  Width="120" />
                 <dxg:GridColumn  Header="{MultiLang:StringResource 1260, DefaultValue=检测日期}" FieldName="Sample_date">

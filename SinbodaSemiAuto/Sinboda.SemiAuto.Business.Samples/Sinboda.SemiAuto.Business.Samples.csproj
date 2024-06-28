@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardBusiness.cs" />
     <Compile Include="BoardTemplateBusiness.cs" />
     <Compile Include="PatientBusiness.cs" />
     <Compile Include="SampleBusiness.cs" />

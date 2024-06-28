@@ -22,7 +22,7 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         /// <summary>
         /// 架号
         /// </summary>
-        public int Rack { get; set; }
+        public string Rack { get; set; }
 
         /// <summary>
         /// 位置
@@ -44,5 +44,16 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto
         /// </summary>
         public bool IsEnable { get; set; }
 
+        /// <summary>
+        /// 登记时间
+        /// </summary>
+        public DateTime RegistDate { get; set; }
+
+        public void GetTemplateAttribute(Sin_BoardTemplate boardTemplate)
+        {
+            TestType = boardTemplate.TestType;
+            ItemName = boardTemplate.ItemName;
+            IsEnable = boardTemplate.IsEnable;
+        }
     }
 }
