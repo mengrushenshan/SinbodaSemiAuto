@@ -6,8 +6,8 @@
     xmlns:local="clr-namespace:Sinboda.SemiAuto.View.Samples.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="UserControl_Loaded"
-    d:DesignHeight="740"
-    d:DesignWidth="960"
+    d:DesignHeight="560"
+    d:DesignWidth="900"
     mc:Ignorable="d">
     <UserControl.Resources>
         <SolidColorBrush x:Key="colorWhite" Color="#ffffff" />
@@ -16,216 +16,136 @@
         <Viewbox>
             <Canvas
                 x:Name="canvasControl"
-                MinWidth="960"
-                MinHeight="740"
+                MinWidth="900"
+                MinHeight="560"
                 Background="{DynamicResource colorWhite}">
-                <local:SampleControl Canvas.Left="10" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-1" />
-                <local:SampleControl Canvas.Left="90" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-2" />
-                <local:SampleControl Canvas.Left="170" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-3" />
-                <local:SampleControl Canvas.Left="250" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-4" />
-                <local:SampleControl Canvas.Left="330" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-5" />
-                <local:SampleControl Canvas.Left="410" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-6" />
-                <local:SampleControl Canvas.Left="490" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-7" />
-                <local:SampleControl Canvas.Left="570" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-8" />
-                <local:SampleControl Canvas.Left="650" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-9" />
-                <local:SampleControl Canvas.Left="730" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-10" />
-                <local:SampleControl Canvas.Left="810" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-11" />
-                <local:SampleControl Canvas.Left="890" Canvas.Top="10" Background="{DynamicResource colorWhite}" Tag="A-12" />
+                <TextBlock Canvas.Left="68" Canvas.Top="10" Text="1" />
+                <TextBlock Canvas.Left="138" Canvas.Top="10" Text="2" />
+                <TextBlock Canvas.Left="208" Canvas.Top="10" Text="3" />
+                <TextBlock Canvas.Left="278" Canvas.Top="10" Text="4" />
+                <TextBlock Canvas.Left="348" Canvas.Top="10" Text="5" />
+                <TextBlock Canvas.Left="418" Canvas.Top="10" Text="6" />
+                <TextBlock Canvas.Left="488" Canvas.Top="10" Text="7" />
+                <TextBlock Canvas.Left="558" Canvas.Top="10" Text="8" />
+                <TextBlock Canvas.Left="628" Canvas.Top="10" Text="9" />
+                <TextBlock Canvas.Left="698" Canvas.Top="10" Text="10" />
+                <TextBlock Canvas.Left="768" Canvas.Top="10" Text="11" />
+                <TextBlock Canvas.Left="838" Canvas.Top="10" Text="12" />
+
+                <TextBlock Canvas.Left="10" Canvas.Top="35" Text="A" FontSize="25"/>
+                <TextBlock Canvas.Left="10" Canvas.Top="100" Text="B" FontSize="25"/>
+                <TextBlock Canvas.Left="10" Canvas.Top="165" Text="C" FontSize="25"/>
+                <TextBlock Canvas.Left="10" Canvas.Top="230" Text="D" FontSize="25"/>
+                <TextBlock Canvas.Left="10" Canvas.Top="295" Text="E" FontSize="25"/>
+                <TextBlock Canvas.Left="10" Canvas.Top="360" Text="F" FontSize="25"/>
+                <TextBlock Canvas.Left="10" Canvas.Top="425" Text="G" FontSize="25"/>
+                <TextBlock Canvas.Left="10" Canvas.Top="490" Text="H" FontSize="25"/>
+
                 
-                <TextBlock Canvas.Left="30" Canvas.Top="80" Text="A-1" />
-                <TextBlock Canvas.Left="110" Canvas.Top="80" Text="A-2" />
-                <TextBlock Canvas.Left="190" Canvas.Top="80" Text="A-3" />
-                <TextBlock Canvas.Left="270" Canvas.Top="80" Text="A-4" />
-                <TextBlock Canvas.Left="350" Canvas.Top="80" Text="A-5" />
-                <TextBlock Canvas.Left="430" Canvas.Top="80" Text="A-6" />
-                <TextBlock Canvas.Left="510" Canvas.Top="80" Text="A-7" />
-                <TextBlock Canvas.Left="590" Canvas.Top="80" Text="A-8" />
-                <TextBlock Canvas.Left="670" Canvas.Top="80" Text="A-9" />
-                <TextBlock Canvas.Left="750" Canvas.Top="80" Text="A-10" />
-                <TextBlock Canvas.Left="830" Canvas.Top="80" Text="A-11" />
-                <TextBlock Canvas.Left="910" Canvas.Top="80" Text="A-12" />
+                <local:SampleControl Canvas.Left="40" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-1" />
+                <local:SampleControl Canvas.Left="110" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-2" />
+                <local:SampleControl Canvas.Left="180" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-3" />
+                <local:SampleControl Canvas.Left="250" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-4" />
+                <local:SampleControl Canvas.Left="320" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-5" />
+                <local:SampleControl Canvas.Left="390" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-6" />
+                <local:SampleControl Canvas.Left="460" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-7" />
+                <local:SampleControl Canvas.Left="530" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-8" />
+                <local:SampleControl Canvas.Left="600" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-9" />
+                <local:SampleControl Canvas.Left="670" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-10" />
+                <local:SampleControl Canvas.Left="740" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-11" />
+                <local:SampleControl Canvas.Left="810" Canvas.Top="25" Background="{DynamicResource colorWhite}" Tag="A-12" />
 
-                <local:SampleControl Canvas.Left="10" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-1" />
-                <local:SampleControl Canvas.Left="90" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-2" />
-                <local:SampleControl Canvas.Left="170" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-3" />
-                <local:SampleControl Canvas.Left="250" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-4" />
-                <local:SampleControl Canvas.Left="330" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-5" />
-                <local:SampleControl Canvas.Left="410" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-6" />
-                <local:SampleControl Canvas.Left="490" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-7" />
-                <local:SampleControl Canvas.Left="570" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-8" />
-                <local:SampleControl Canvas.Left="650" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-9" />
-                <local:SampleControl Canvas.Left="730" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-10" />
-                <local:SampleControl Canvas.Left="810" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-11" />
-                <local:SampleControl Canvas.Left="890" Canvas.Top="100" Background="{DynamicResource colorWhite}" Tag="B-12" />
+                <local:SampleControl Canvas.Left="40" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-1" />
+                <local:SampleControl Canvas.Left="110" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-2" />
+                <local:SampleControl Canvas.Left="180" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-3" />
+                <local:SampleControl Canvas.Left="250" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-4" />
+                <local:SampleControl Canvas.Left="320" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-5" />
+                <local:SampleControl Canvas.Left="390" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-6" />
+                <local:SampleControl Canvas.Left="460" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-7" />
+                <local:SampleControl Canvas.Left="530" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-8" />
+                <local:SampleControl Canvas.Left="600" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-9" />
+                <local:SampleControl Canvas.Left="670" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-10" />
+                <local:SampleControl Canvas.Left="740" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-11" />
+                <local:SampleControl Canvas.Left="810" Canvas.Top="90" Background="{DynamicResource colorWhite}" Tag="A-12" />
 
-                <TextBlock Canvas.Left="30" Canvas.Top="170" Text="B-1" />
-                <TextBlock Canvas.Left="110" Canvas.Top="170" Text="B-2" />
-                <TextBlock Canvas.Left="190" Canvas.Top="170" Text="B-3" />
-                <TextBlock Canvas.Left="270" Canvas.Top="170" Text="B-4" />
-                <TextBlock Canvas.Left="350" Canvas.Top="170" Text="B-5" />
-                <TextBlock Canvas.Left="430" Canvas.Top="170" Text="B-6" />
-                <TextBlock Canvas.Left="510" Canvas.Top="170" Text="B-7" />
-                <TextBlock Canvas.Left="590" Canvas.Top="170" Text="B-8" />
-                <TextBlock Canvas.Left="670" Canvas.Top="170" Text="B-9" />
-                <TextBlock Canvas.Left="750" Canvas.Top="170" Text="B-10" />
-                <TextBlock Canvas.Left="830" Canvas.Top="170" Text="B-11" />
-                <TextBlock Canvas.Left="910" Canvas.Top="170" Text="B-12" />
+                <local:SampleControl Canvas.Left="40" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-1" />
+                <local:SampleControl Canvas.Left="110" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-2" />
+                <local:SampleControl Canvas.Left="180" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-3" />
+                <local:SampleControl Canvas.Left="250" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-4" />
+                <local:SampleControl Canvas.Left="320" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-5" />
+                <local:SampleControl Canvas.Left="390" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-6" />
+                <local:SampleControl Canvas.Left="460" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-7" />
+                <local:SampleControl Canvas.Left="530" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-8" />
+                <local:SampleControl Canvas.Left="600" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-9" />
+                <local:SampleControl Canvas.Left="670" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-10" />
+                <local:SampleControl Canvas.Left="740" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-11" />
+                <local:SampleControl Canvas.Left="810" Canvas.Top="155" Background="{DynamicResource colorWhite}" Tag="A-12" />
 
-                <local:SampleControl Canvas.Left="10" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-1" />
-                <local:SampleControl Canvas.Left="90" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-2" />
-                <local:SampleControl Canvas.Left="170" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-3" />
-                <local:SampleControl Canvas.Left="250" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-4" />
-                <local:SampleControl Canvas.Left="330" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-5" />
-                <local:SampleControl Canvas.Left="410" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-6" />
-                <local:SampleControl Canvas.Left="490" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-7" />
-                <local:SampleControl Canvas.Left="570" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-8" />
-                <local:SampleControl Canvas.Left="650" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-9" />
-                <local:SampleControl Canvas.Left="730" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-10" />
-                <local:SampleControl Canvas.Left="810" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-11" />
-                <local:SampleControl Canvas.Left="890" Canvas.Top="190" Background="{DynamicResource colorWhite}" Tag="C-12" />
+                <local:SampleControl Canvas.Left="40" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-1" />
+                <local:SampleControl Canvas.Left="110" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-2" />
+                <local:SampleControl Canvas.Left="180" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-3" />
+                <local:SampleControl Canvas.Left="250" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-4" />
+                <local:SampleControl Canvas.Left="320" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-5" />
+                <local:SampleControl Canvas.Left="390" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-6" />
+                <local:SampleControl Canvas.Left="460" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-7" />
+                <local:SampleControl Canvas.Left="530" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-8" />
+                <local:SampleControl Canvas.Left="600" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-9" />
+                <local:SampleControl Canvas.Left="670" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-10" />
+                <local:SampleControl Canvas.Left="740" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-11" />
+                <local:SampleControl Canvas.Left="810" Canvas.Top="220" Background="{DynamicResource colorWhite}" Tag="A-12" />
 
-                <TextBlock Canvas.Left="30" Canvas.Top="260" Text="C-1" />
-                <TextBlock Canvas.Left="110" Canvas.Top="260" Text="C-2" />
-                <TextBlock Canvas.Left="190" Canvas.Top="260" Text="C-3" />
-                <TextBlock Canvas.Left="270" Canvas.Top="260" Text="C-4" />
-                <TextBlock Canvas.Left="350" Canvas.Top="260" Text="C-5" />
-                <TextBlock Canvas.Left="430" Canvas.Top="260" Text="C-6" />
-                <TextBlock Canvas.Left="510" Canvas.Top="260" Text="C-7" />
-                <TextBlock Canvas.Left="590" Canvas.Top="260" Text="C-8" />
-                <TextBlock Canvas.Left="670" Canvas.Top="260" Text="C-9" />
-                <TextBlock Canvas.Left="750" Canvas.Top="260" Text="C-10" />
-                <TextBlock Canvas.Left="830" Canvas.Top="260" Text="C-11" />
-                <TextBlock Canvas.Left="910" Canvas.Top="260" Text="C-12" />
+                <local:SampleControl Canvas.Left="40" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-1" />
+                <local:SampleControl Canvas.Left="110" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-2" />
+                <local:SampleControl Canvas.Left="180" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-3" />
+                <local:SampleControl Canvas.Left="250" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-4" />
+                <local:SampleControl Canvas.Left="320" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-5" />
+                <local:SampleControl Canvas.Left="390" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-6" />
+                <local:SampleControl Canvas.Left="460" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-7" />
+                <local:SampleControl Canvas.Left="530" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-8" />
+                <local:SampleControl Canvas.Left="600" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-9" />
+                <local:SampleControl Canvas.Left="670" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-10" />
+                <local:SampleControl Canvas.Left="740" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-11" />
+                <local:SampleControl Canvas.Left="810" Canvas.Top="285" Background="{DynamicResource colorWhite}" Tag="A-12" />
 
-                <local:SampleControl Canvas.Left="10" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-1" />
-                <local:SampleControl Canvas.Left="90" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-2" />
-                <local:SampleControl Canvas.Left="170" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-3" />
-                <local:SampleControl Canvas.Left="250" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-4" />
-                <local:SampleControl Canvas.Left="330" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-5" />
-                <local:SampleControl Canvas.Left="410" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-6" />
-                <local:SampleControl Canvas.Left="490" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-7" />
-                <local:SampleControl Canvas.Left="570" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-8" />
-                <local:SampleControl Canvas.Left="650" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-9" />
-                <local:SampleControl Canvas.Left="730" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-10" />
-                <local:SampleControl Canvas.Left="810" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-11" />
-                <local:SampleControl Canvas.Left="890" Canvas.Top="280" Background="{DynamicResource colorWhite}" Tag="D-12" />
+                <local:SampleControl Canvas.Left="40" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-1" />
+                <local:SampleControl Canvas.Left="110" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-2" />
+                <local:SampleControl Canvas.Left="180" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-3" />
+                <local:SampleControl Canvas.Left="250" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-4" />
+                <local:SampleControl Canvas.Left="320" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-5" />
+                <local:SampleControl Canvas.Left="390" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-6" />
+                <local:SampleControl Canvas.Left="460" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-7" />
+                <local:SampleControl Canvas.Left="530" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-8" />
+                <local:SampleControl Canvas.Left="600" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-9" />
+                <local:SampleControl Canvas.Left="670" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-10" />
+                <local:SampleControl Canvas.Left="740" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-11" />
+                <local:SampleControl Canvas.Left="810" Canvas.Top="350" Background="{DynamicResource colorWhite}" Tag="A-12" />
 
-                <TextBlock Canvas.Left="30" Canvas.Top="350" Text="D-1" />
-                <TextBlock Canvas.Left="110" Canvas.Top="350" Text="D-2" />
-                <TextBlock Canvas.Left="190" Canvas.Top="350" Text="D-3" />
-                <TextBlock Canvas.Left="270" Canvas.Top="350" Text="D-4" />
-                <TextBlock Canvas.Left="350" Canvas.Top="350" Text="D-5" />
-                <TextBlock Canvas.Left="430" Canvas.Top="350" Text="D-6" />
-                <TextBlock Canvas.Left="510" Canvas.Top="350" Text="D-7" />
-                <TextBlock Canvas.Left="590" Canvas.Top="350" Text="D-8" />
-                <TextBlock Canvas.Left="670" Canvas.Top="350" Text="D-9" />
-                <TextBlock Canvas.Left="750" Canvas.Top="350" Text="D-10" />
-                <TextBlock Canvas.Left="830" Canvas.Top="350" Text="D-11" />
-                <TextBlock Canvas.Left="910" Canvas.Top="350" Text="D-12" />
+                <local:SampleControl Canvas.Left="40" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-1" />
+                <local:SampleControl Canvas.Left="110" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-2" />
+                <local:SampleControl Canvas.Left="180" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-3" />
+                <local:SampleControl Canvas.Left="250" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-4" />
+                <local:SampleControl Canvas.Left="320" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-5" />
+                <local:SampleControl Canvas.Left="390" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-6" />
+                <local:SampleControl Canvas.Left="460" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-7" />
+                <local:SampleControl Canvas.Left="530" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-8" />
+                <local:SampleControl Canvas.Left="600" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-9" />
+                <local:SampleControl Canvas.Left="670" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-10" />
+                <local:SampleControl Canvas.Left="740" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-11" />
+                <local:SampleControl Canvas.Left="810" Canvas.Top="415" Background="{DynamicResource colorWhite}" Tag="A-12" />
 
-                <local:SampleControl Canvas.Left="10" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-1" />
-                <local:SampleControl Canvas.Left="90" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-2" />
-                <local:SampleControl Canvas.Left="170" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-3" />
-                <local:SampleControl Canvas.Left="250" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-4" />
-                <local:SampleControl Canvas.Left="330" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-5" />
-                <local:SampleControl Canvas.Left="410" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-6" />
-                <local:SampleControl Canvas.Left="490" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-7" />
-                <local:SampleControl Canvas.Left="570" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-8" />
-                <local:SampleControl Canvas.Left="650" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-9" />
-                <local:SampleControl Canvas.Left="730" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-10" />
-                <local:SampleControl Canvas.Left="810" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-11" />
-                <local:SampleControl Canvas.Left="890" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="E-12" />
+                <local:SampleControl Canvas.Left="40" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-1" />
+                <local:SampleControl Canvas.Left="110" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-2" />
+                <local:SampleControl Canvas.Left="180" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-3" />
+                <local:SampleControl Canvas.Left="250" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-4" />
+                <local:SampleControl Canvas.Left="320" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-5" />
+                <local:SampleControl Canvas.Left="390" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-6" />
+                <local:SampleControl Canvas.Left="460" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-7" />
+                <local:SampleControl Canvas.Left="530" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-8" />
+                <local:SampleControl Canvas.Left="600" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-9" />
+                <local:SampleControl Canvas.Left="670" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-10" />
+                <local:SampleControl Canvas.Left="740" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-11" />
+                <local:SampleControl Canvas.Left="810" Canvas.Top="480" Background="{DynamicResource colorWhite}" Tag="A-12" />
 
-                <TextBlock Canvas.Left="30" Canvas.Top="440" Text="E-1" />
-                <TextBlock Canvas.Left="110" Canvas.Top="440" Text="E-2" />
-                <TextBlock Canvas.Left="190" Canvas.Top="440" Text="E-3" />
-                <TextBlock Canvas.Left="270" Canvas.Top="440" Text="E-4" />
-                <TextBlock Canvas.Left="350" Canvas.Top="440" Text="E-5" />
-                <TextBlock Canvas.Left="430" Canvas.Top="440" Text="E-6" />
-                <TextBlock Canvas.Left="510" Canvas.Top="440" Text="E-7" />
-                <TextBlock Canvas.Left="590" Canvas.Top="440" Text="E-8" />
-                <TextBlock Canvas.Left="670" Canvas.Top="440" Text="E-9" />
-                <TextBlock Canvas.Left="750" Canvas.Top="440" Text="E-10" />
-                <TextBlock Canvas.Left="830" Canvas.Top="440" Text="E-11" />
-                <TextBlock Canvas.Left="910" Canvas.Top="440" Text="E-12" />
-
-                <local:SampleControl Canvas.Left="10" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-1" />
-                <local:SampleControl Canvas.Left="90" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-2" />
-                <local:SampleControl Canvas.Left="170" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-3" />
-                <local:SampleControl Canvas.Left="250" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-4" />
-                <local:SampleControl Canvas.Left="330" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-5" />
-                <local:SampleControl Canvas.Left="410" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-6" />
-                <local:SampleControl Canvas.Left="490" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-7" />
-                <local:SampleControl Canvas.Left="570" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-8" />
-                <local:SampleControl Canvas.Left="650" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-9" />
-                <local:SampleControl Canvas.Left="730" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-10" />
-                <local:SampleControl Canvas.Left="810" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-11" />
-                <local:SampleControl Canvas.Left="890" Canvas.Top="460" Background="{DynamicResource colorWhite}" Tag="F-12" />
-
-                <TextBlock Canvas.Left="30" Canvas.Top="530" Text="F-1" />
-                <TextBlock Canvas.Left="110" Canvas.Top="530" Text="F-2" />
-                <TextBlock Canvas.Left="190" Canvas.Top="530" Text="F-3" />
-                <TextBlock Canvas.Left="270" Canvas.Top="530" Text="F-4" />
-                <TextBlock Canvas.Left="350" Canvas.Top="530" Text="F-5" />
-                <TextBlock Canvas.Left="430" Canvas.Top="530" Text="F-6" />
-                <TextBlock Canvas.Left="510" Canvas.Top="530" Text="F-7" />
-                <TextBlock Canvas.Left="590" Canvas.Top="530" Text="F-8" />
-                <TextBlock Canvas.Left="670" Canvas.Top="530" Text="F-9" />
-                <TextBlock Canvas.Left="750" Canvas.Top="530" Text="F-10" />
-                <TextBlock Canvas.Left="830" Canvas.Top="530" Text="F-11" />
-                <TextBlock Canvas.Left="910" Canvas.Top="530" Text="F-12" />
-
-                <local:SampleControl Canvas.Left="10" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-1" />
-                <local:SampleControl Canvas.Left="90" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-2" />
-                <local:SampleControl Canvas.Left="170" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-3" />
-                <local:SampleControl Canvas.Left="250" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-4" />
-                <local:SampleControl Canvas.Left="330" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-5" />
-                <local:SampleControl Canvas.Left="410" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-6" />
-                <local:SampleControl Canvas.Left="490" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-7" />
-                <local:SampleControl Canvas.Left="570" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-8" />
-                <local:SampleControl Canvas.Left="650" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-9" />
-                <local:SampleControl Canvas.Left="730" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-10" />
-                <local:SampleControl Canvas.Left="810" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-11" />
-                <local:SampleControl Canvas.Left="890" Canvas.Top="550" Background="{DynamicResource colorWhite}" Tag="G-12" />
-
-                <TextBlock Canvas.Left="30" Canvas.Top="620" Text="G-1" />
-                <TextBlock Canvas.Left="110" Canvas.Top="620" Text="G-2" />
-                <TextBlock Canvas.Left="190" Canvas.Top="620" Text="G-3" />
-                <TextBlock Canvas.Left="270" Canvas.Top="620" Text="G-4" />
-                <TextBlock Canvas.Left="350" Canvas.Top="620" Text="G-5" />
-                <TextBlock Canvas.Left="430" Canvas.Top="620" Text="G-6" />
-                <TextBlock Canvas.Left="510" Canvas.Top="620" Text="G-7" />
-                <TextBlock Canvas.Left="590" Canvas.Top="620" Text="G-8" />
-                <TextBlock Canvas.Left="670" Canvas.Top="620" Text="G-9" />
-                <TextBlock Canvas.Left="750" Canvas.Top="620" Text="G-10" />
-                <TextBlock Canvas.Left="830" Canvas.Top="620" Text="G-11" />
-                <TextBlock Canvas.Left="910" Canvas.Top="620" Text="G-12" />
-
-                <local:SampleControl Canvas.Left="10" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-1" />
-                <local:SampleControl Canvas.Left="90" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-2" />
-                <local:SampleControl Canvas.Left="170" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-3" />
-                <local:SampleControl Canvas.Left="250" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-4" />
-                <local:SampleControl Canvas.Left="330" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-5" />
-                <local:SampleControl Canvas.Left="410" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-6" />
-                <local:SampleControl Canvas.Left="490" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-7" />
-                <local:SampleControl Canvas.Left="570" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-8" />
-                <local:SampleControl Canvas.Left="650" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-9" />
-                <local:SampleControl Canvas.Left="730" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-10" />
-                <local:SampleControl Canvas.Left="810" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-11" />
-                <local:SampleControl Canvas.Left="890" Canvas.Top="640" Background="{DynamicResource colorWhite}" Tag="H-12" />
-
-                <TextBlock Canvas.Left="30" Canvas.Top="710" Text="H-1" />
-                <TextBlock Canvas.Left="110" Canvas.Top="710" Text="H-2" />
-                <TextBlock Canvas.Left="190" Canvas.Top="710" Text="H-3" />
-                <TextBlock Canvas.Left="270" Canvas.Top="710" Text="H-4" />
-                <TextBlock Canvas.Left="350" Canvas.Top="710" Text="H-5" />
-                <TextBlock Canvas.Left="430" Canvas.Top="710" Text="H-6" />
-                <TextBlock Canvas.Left="510" Canvas.Top="710" Text="H-7" />
-                <TextBlock Canvas.Left="590" Canvas.Top="710" Text="H-8" />
-                <TextBlock Canvas.Left="670" Canvas.Top="710" Text="H-9" />
-                <TextBlock Canvas.Left="750" Canvas.Top="710" Text="H-10" />
-                <TextBlock Canvas.Left="830" Canvas.Top="710" Text="H-11" />
-                <TextBlock Canvas.Left="910" Canvas.Top="710" Text="H-12" />
             </Canvas>
         </Viewbox>
     </Grid>

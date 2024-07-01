@@ -46,6 +46,11 @@ namespace Sinboda.SemiAuto.TestFlow
         private List<Sin_Sample> SampleList = new List<Sin_Sample>();
 
         /// <summary>
+        /// 测试板号
+        /// </summary>
+        public int BoardId { get; set; }
+
+        /// <summary>
         /// 基础位置X
         /// </summary>
         public int X {  get; set; }
@@ -98,7 +103,13 @@ namespace Sinboda.SemiAuto.TestFlow
                 return true;
             }
 
-            var sampleList = SampleBusiness.Instance.GetSampleListByPredicate(o => o.RackDish != null && o.Sample_date >= today && o.Sample_date < tomorrow && o.Test_state != TestState.Complete);
+            var boardList = BoardBusiness.Instance.GetBoardListByBoardId(BoardId);
+            if (boardList == null || boardList.Count == 0)
+            {
+                return false;
+            }
+
+            var sampleList = SampleBusiness.Instance.GetSampleListByPredicate(o => o.Sample_date >= today && o.Sample_date < tomorrow && o.Test_state != TestState.Complete);
 
             if (sampleList == null || sampleList.Count == 0) 
             {

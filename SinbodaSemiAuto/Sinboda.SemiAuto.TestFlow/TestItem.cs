@@ -35,6 +35,11 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// 测试状态
         /// </summary>
+        public TestType Type { get; set; }
+
+        /// <summary>
+        /// 测试状态
+        /// </summary>
         public TestState State { get; set; }
 
         /// <summary>
