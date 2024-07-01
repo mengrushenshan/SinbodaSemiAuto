@@ -351,20 +351,12 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         public RelayCommand CameraInitCommand { get; set; }
 
-        /// <summary>
-        /// 大图展示
-        /// </summary>
-        public RelayCommand BigImageCommand { get; set; }
 
         /// <summary>
         /// 相机聚焦
         /// </summary>
         public RelayCommand CameraFocusCommand { get; set; }
 
-        /// <summary>
-        /// 相机聚焦
-        /// </summary>
-        public RelayCommand TestStartCommand { get; set; }
         #endregion
 
         #endregion
@@ -377,10 +369,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             ResetCommand = new RelayCommand(Reset);
             OpenAndCloseCommand = new RelayCommand(CameraOpenAndClose);
             CameraInitCommand = new RelayCommand(InitCamera);
-            BigImageCommand = new RelayCommand(BigImageShow);
             CameraFocusCommand = new RelayCommand(CameraFocus);
             TestPointStartCommand = new RelayCommand(TestPointStart);
-            TestStartCommand = new RelayCommand(TestStart);
             EditTemplateCommand = new RelayCommand(EditTemplate);
             UseTemplateCommand = new RelayCommand(UseTemplateList);
             SetBoardId();
@@ -751,15 +741,6 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         }
 
         /// <summary>
-        /// 大图界面展示
-        /// </summary>
-        private void BigImageShow()
-        {
-            //BigImageWinView bigImageWinView = new BigImageWinView(this);
-            //bigImageWinView.Show();
-        }
-
-        /// <summary>
         /// 相机暂停
         /// </summary>
         private void CameraPause()
@@ -855,14 +836,6 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 });
             });
 
-            
-        }
-
-        /// <summary>
-        /// 开始测试
-        /// </summary>
-        private void TestStart()
-        {
             
         }
 
