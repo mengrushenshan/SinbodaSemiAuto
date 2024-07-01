@@ -234,6 +234,18 @@ namespace Sinboda.SemiAuto.View.Results.ViewModel
             });
         }
 
+        /// <summary>
+        /// 结果图像单独展示
+        /// </summary>
+        /// <param name="i"></param>
+        public void ResultImageShow(int imagePos)
+        {
+            Sin_Sample sample = SelectSample;
+            sample.TestResult = SelectTestResult;
+            ResultImageWinView resultImageWinView = new ResultImageWinView(sample, imagePos);
+            resultImageWinView.ShowDialog();
+        }
+
         private void SetImageShowAttr(string imagePath, Visibility imageVisibility)
         {
             if (File.Exists(imagePath))

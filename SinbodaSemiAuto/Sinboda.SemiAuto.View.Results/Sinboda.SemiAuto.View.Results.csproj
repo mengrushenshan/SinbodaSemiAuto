@@ -115,10 +115,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Compile Include="ViewModel\ResultHistoryQueryViewModel.cs" />
+    <Compile Include="ViewModel\ResultImageViewModel.cs" />
     <Compile Include="ViewModel\ResultQueryPageViewModel.cs" />
     <Compile Include="ViewModel\SampleDeleteViewModel.cs" />
     <Compile Include="WinView\ResultHistoryQueryWindow.xaml.cs">
       <DependentUpon>ResultHistoryQueryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WinView\ResultImageWinView.xaml.cs">
+      <DependentUpon>ResultImageWinView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinView\SampleDeleteWindow.xaml.cs">
       <DependentUpon>SampleDeleteWindow.xaml</DependentUpon>
@@ -160,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WinView\ResultHistoryQueryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WinView\ResultImageWinView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

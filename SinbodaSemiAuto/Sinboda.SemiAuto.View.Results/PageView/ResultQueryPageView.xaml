@@ -154,16 +154,16 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Row="0" Grid.Column="0" Source="{Binding ImagePath1}" Visibility="{Binding ImageVisibility1}" Width="170" Height="170" />
-                    <Image Grid.Row="0" Grid.Column="1" Source="{Binding ImagePath2}" Visibility="{Binding ImageVisibility2}" Width="170" Height="170" />
-                    <Image Grid.Row="0" Grid.Column="2" Source="{Binding ImagePath3}" Visibility="{Binding ImageVisibility3}" Width="170" Height="170" />
-                    <Image Grid.Row="0" Grid.Column="3" Source="{Binding ImagePath4}" Visibility="{Binding ImageVisibility4}" Width="170" Height="170" />
-                    <Image Grid.Row="0" Grid.Column="4" Source="{Binding ImagePath5}" Visibility="{Binding ImageVisibility5}" Width="170" Height="170" />
+                    <Image x:Name="image1" Grid.Row="0" Grid.Column="0" Source="{Binding ImagePath1}" MouseDown="image1_MouseDown" Width="170" Height="170" />
+                    <Image x:Name="image2" Grid.Row="0" Grid.Column="1" Source="{Binding ImagePath2}" MouseDown="image2_MouseDown" Width="170" Height="170" />
+                    <Image x:Name="image3" Grid.Row="0" Grid.Column="2" Source="{Binding ImagePath3}" MouseDown="image3_MouseDown" Width="170" Height="170" />
+                    <Image x:Name="image4" Grid.Row="0" Grid.Column="3" Source="{Binding ImagePath4}" MouseDown="image4_MouseDown" Width="170" Height="170" />
+                    <Image x:Name="image5" Grid.Row="0" Grid.Column="4" Source="{Binding ImagePath5}" MouseDown="image5_MouseDown" Width="170" Height="170" />
 
-                    <Image Grid.Row="1" Grid.Column="0" Source="{Binding ImagePath6}" Visibility="{Binding ImageVisibility6}" Width="170" Height="170" />
-                    <Image Grid.Row="1" Grid.Column="1" Source="{Binding ImagePath7}" Visibility="{Binding ImageVisibility7}" Width="170" Height="170" />
-                    <Image Grid.Row="1" Grid.Column="2" Source="{Binding ImagePath8}" Visibility="{Binding ImageVisibility8}" Width="170" Height="170" />
-                    <Image Grid.Row="1" Grid.Column="3" Source="{Binding ImagePath9}" Visibility="{Binding ImageVisibility9}" Width="170" Height="170" />
+                    <Image x:Name="image6" Grid.Row="1" Grid.Column="0" Source="{Binding ImagePath6}" MouseDown="image6_MouseDown" Width="170" Height="170" />
+                    <Image x:Name="image7" Grid.Row="1" Grid.Column="1" Source="{Binding ImagePath7}" MouseDown="image7_MouseDown" Width="170" Height="170" />
+                    <Image x:Name="image8" Grid.Row="1" Grid.Column="2" Source="{Binding ImagePath8}" MouseDown="image8_MouseDown" Width="170" Height="170" />
+                    <Image x:Name="image9" Grid.Row="1" Grid.Column="3" Source="{Binding ImagePath9}" MouseDown="image9_MouseDown" Width="170" Height="170" />
                 </sin:SinGrid>
             </sin:SinGroupBox>
         </Grid>
