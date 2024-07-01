@@ -36,6 +36,8 @@ using System.Threading.Tasks;
 using Sinboda.Framework.Control.Controls;
 using Sinboda.Framework.Control.Loading;
 using System.Windows.Media.Media3D;
+using System.Runtime.InteropServices;
+using System.Windows.Shapes;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -133,7 +135,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         public List<FanData> FanList
         {
             get { return fanList; }
-            set { Set(ref fanList, value);}
+            set { Set(ref fanList, value); }
         }
 
         /// <summary>
@@ -153,15 +155,15 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         public string CameraButtonText
         {
-            get { return cameraButtonText;  }
+            get { return cameraButtonText; }
             set { Set(ref cameraButtonText, value); }
         }
 
         private double voltage = 0.5;
-        public double Voltage 
+        public double Voltage
         {
             get { return voltage; }
-            set { Set(ref voltage, value); } 
+            set { Set(ref voltage, value); }
         }
         #region 风扇按钮文言
 
@@ -252,16 +254,16 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         private bool isCameraInitEnable;
-        public bool IsCameraInitEnable 
+        public bool IsCameraInitEnable
         {
             get { return isCameraInitEnable; }
-            set { Set(ref isCameraInitEnable, value); } 
+            set { Set(ref isCameraInitEnable, value); }
         }
 
         private bool isCameraOpenEnable;
-        public bool IsCameraOpenEnable 
+        public bool IsCameraOpenEnable
         {
-            get { return isCameraOpenEnable; } 
+            get { return isCameraOpenEnable; }
             set { Set(ref isCameraOpenEnable, value); }
         }
 
@@ -273,7 +275,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         public string UpgradeFile
         {
             get { return upgradeFile; }
-            set { Set(ref upgradeFile, value);}
+            set { Set(ref upgradeFile, value); }
         }
 
         /// <summary>
@@ -456,7 +458,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 大图展示
         /// </summary>
         public RelayCommand BigImageCommand { get; set; }
-       
+
         /// <summary>
         /// 大图展示
         /// </summary>
@@ -471,7 +473,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 重置ROI区域
         /// </summary>
         public RelayCommand ReSetRoiCommand { get; set; }
-        
+
         /// <summary>
         /// 保存图片
         /// </summary>
@@ -504,7 +506,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         #endregion
 
-        public MachineryDebugPageViewModel() 
+        public MachineryDebugPageViewModel()
         {
             //界面线程初始化
             DispatcherHelper.Initialize();
@@ -523,7 +525,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
             OpenLightCommand = new RelayCommand(OpenLight);
             CloseLightCommand = new RelayCommand(CloseLight);
-            
+
             BrowseCommand = new RelayCommand(BrowseFile);
             UpgradeCommand = new RelayCommand(UpgradeBoard);
             ChangeButtonText();
@@ -1584,13 +1586,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 PVCamHelper.Instance.SetIsInitRoi(true);
                 PVCamHelper.Instance.SetROI(0, 0, originalSize, originalSize);
             });
-        } 
-        
+        }
+
         /// <summary>
         /// 保存图像
         /// </summary>
         private void SaveTiff()
         {
+            isSave = true;
             SaveFileDialog FBD = new SaveFileDialog();
             FBD.Title = SystemResources.Instance.LanguageArray[6442];//"请选择路径";
             FBD.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -1599,7 +1602,15 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             {
                 if (!string.IsNullOrEmpty(FBD.FileName))
                 {
-                    Cv2.ImWrite(FBD.FileName, matSource);
+                    TiffBitmapEncoder encoder = new TiffBitmapEncoder
+                    {
+                        Compression = TiffCompressOption.Zip
+                    };
+                    encoder.Frames.Add(BitmapFrame.Create(bmpSouce));
+                    FileStream f = new FileStream(FBD.FileName, FileMode.Create);
+                    encoder.Save(f);
+                    //释放流
+                    f.Close();
                 }
                 else
                 {
@@ -1607,7 +1618,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 }
 
             }
-          
+            isSave=false;
         }
         #endregion
 
@@ -1644,7 +1655,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     if (MouseKeyBoardHelper.IsAltDown())
                     {
                         //移动固定步长
-                        MoveRelativePos(ZaxisMotor, false,GlobalData.XimcFocusSlowStep);
+                        MoveRelativePos(ZaxisMotor, false, GlobalData.XimcFocusSlowStep);
                         //MoveRelativePos(ZaxisMotor, false, message.Delta);
                         LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
                     }
@@ -1811,7 +1822,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 ShowMessageError(SystemResources.Instance.GetLanguage(0, "选择文件不存在"));
                 return;
             }
-           
+
             LoadingHelper.Instance.ShowLoadingWindow(a =>
             {
 
@@ -1849,7 +1860,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 }
 
             });
-            
+
         }
 
         private void BrowseFile()
@@ -1944,16 +1955,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             IsCameraOpenEnable = PVCamHelper.Instance.GetInitFlag();
             // 注册刷新消息
             Messenger.Default.Register<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
+            Messenger.Default.Register<byte[]>(this, MessageToken.TokenCameraBuffer, ImageBufferRefersh);
         }
-
-        /// <summary>
-        /// 元图像
-        /// </summary>
-        private Mat matSource;
 
         public void ImageRefersh(Mat bitmap)
         {
-            matSource= bitmap;
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
                 if (NeedRoi)
@@ -1974,6 +1980,40 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        BitmapSource bmpSouce = null;
+
+        /// <summary>
+        /// 正在保存图像
+        /// </summary>
+        private bool isSave=false;
+
+        /// <summary>
+        /// 刷新界面
+        /// </summary>
+        /// <param name="src"></param>
+        private void ImageBufferRefersh(byte[] src)
+        {
+            if(isSave)
+                return;
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            {
+                System.Drawing.Size imageSize = new System.Drawing.Size() { Width = PVCamHelper.Instance.GetWidth(), Height = PVCamHelper.Instance.GetHeight() };
+                int lenth = imageSize.Width * imageSize.Height;
+                byte[] bufBytes = new byte[lenth * 2];
+
+                IntPtr intptr = Marshal.UnsafeAddrOfPinnedArrayElement(src, 0);
+                Marshal.Copy(intptr, bufBytes, 0, src.Length);
+
+                BitmapPalette myPalette = BitmapPalettes.Gray16;
+                int rawStride = (imageSize.Width * 16 + 7) / 8;
+
+                bmpSouce = BitmapSource.Create(imageSize.Width, imageSize.Height, 96, 96, System.Windows.Media.PixelFormats.Gray16, myPalette, bufBytes, rawStride);
+            });
+        }
+
+        /// <summary>
         /// 离开页面时触发
         /// </summary>
         /// <param name="source"></param>
@@ -1989,6 +2029,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
             // 离开页面时删除刷新消息
             Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
+            Messenger.Default.Unregister<byte[]>(this, MessageToken.TokenCameraBuffer, ImageBufferRefersh);
 
             if (isOpenCamera)
             {
