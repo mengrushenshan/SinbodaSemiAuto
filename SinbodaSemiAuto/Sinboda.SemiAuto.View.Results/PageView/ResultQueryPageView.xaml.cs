@@ -116,5 +116,50 @@ namespace Sinboda.SemiAuto.View.Results.PageView
                 LogHelper.logSoftWare.Error("InitResultGridColumn:", ex);
             }
         }
+
+        private void image1_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.ResultImageShow(1);
+        }
+
+        private void image2_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.ResultImageShow(2);
+        }
+
+        private void image3_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.ResultImageShow(3);
+        }
+
+        private void image4_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.ResultImageShow(4);
+        }
+
+        private void image5_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.ResultImageShow(5);
+        }
+
+        private void image6_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.ResultImageShow(6);
+        }
+
+        private void image7_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.ResultImageShow(7);
+        }
+
+        private void image8_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.ResultImageShow(8);
+        }
+
+        private void image9_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            viewModel.ResultImageShow(9);
+        }
     }
 }

@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
@@ -271,6 +272,12 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             {
                 NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "默认模板不能删除"));
                 return; 
+            }
+
+            //"确认删除吗？"
+            if (NotificationService.Instance.ShowQuestion(SystemResources.Instance.GetLanguage(41, "确认删除吗？")) == MessageBoxResult.No)
+            {
+                return;
             }
 
             DispatcherHelper.CheckBeginInvokeOnUI(() =>

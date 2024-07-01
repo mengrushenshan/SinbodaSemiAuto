@@ -162,7 +162,7 @@ namespace Sinboda.SemiAuto.TestFlow
 
             foreach (var sampleItem in SampleList)
             {
-                string fileName = "A" + "_" + sampleItem.Position;
+                string fileName = sampleItem.RackDish + "_" + sampleItem.Position;
                 TestItem testItem = new TestItem();
                 testItem.ItemSample = sampleItem;
                 testItem.Testid = ++testId;
@@ -245,11 +245,12 @@ namespace Sinboda.SemiAuto.TestFlow
                 if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
                 {
                     CurTestItem.State = TestState.Complete;
+                    string rack = CurTestItem.ItemSample.RackDish;
                     int pos = CurTestItem.ItemSample.Position;
                     Task.Run(async () => {
                         await semaphoreSlim.WaitAsync();
                         //AnalysisHelper.Instance.Init();
-                        AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, 'A', pos);
+                        AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, rack.ToCharArray()[0], pos);
                         //AnalysisHelper.Instance.Shutdown();
                         semaphoreSlim.Release();
                     });

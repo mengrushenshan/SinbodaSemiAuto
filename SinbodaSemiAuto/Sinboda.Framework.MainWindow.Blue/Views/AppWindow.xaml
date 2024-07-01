@@ -40,8 +40,8 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
-                <!--Logo-->
                 <!--<Image Width="198" Height="88" HorizontalAlignment="Left" Source="{Binding ImageSource,UpdateSourceTrigger=PropertyChanged}"/>-->
+                <Image Width="198" Height="88" HorizontalAlignment="Left" Source="/Sinboda.Framework.MainWindow.Blue;component/images/Logo.png"/>
 
                 <!--系统菜单-->
                 <local:SystemMenuView x:Name="upMenus" Grid.Column="1" SelectedItem ="{Binding MenuItemSelected}"/>
