@@ -1538,7 +1538,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
 
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, FocusBeginPos, 64, focusImageCount, filePath + fileName);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
@@ -2031,16 +2031,16 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
             Messenger.Default.Unregister<byte[]>(this, MessageToken.TokenCameraBuffer, ImageBufferRefersh);
 
-            if (isOpenCamera)
-            {
-                Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
-                {
-                    PVCamHelper.Instance.Pause();
-                }));
-                isOpenCamera = false;
-                ChangeButtonText();
+            //if (isOpenCamera)
+            //{
+            //    Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+            //    {
+            //        PVCamHelper.Instance.Pause();
+            //    }));
+            //    isOpenCamera = false;
+            //    ChangeButtonText();
 
-            }
+            //}
 
             return base.NavigatedFrom(source, mode, navigationState);
         }

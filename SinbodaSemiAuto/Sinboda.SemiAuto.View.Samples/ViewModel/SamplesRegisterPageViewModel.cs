@@ -944,15 +944,15 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             // 离开页面时删除刷新消息
             Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
 
-            if (isOpenCamera)
-            {
-                Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
-                {
-                    PVCamHelper.Instance.Pause();
-                }));
-                isOpenCamera = false;
-                ChangeButtonText();
-            }
+            //if (isOpenCamera)
+            //{
+            //    Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+            //    {
+            //        PVCamHelper.Instance.Pause();
+            //    }));
+            //    isOpenCamera = false;
+            //    ChangeButtonText();
+            //}
 
             return base.NavigatedFrom(source, mode, navigationState);
         }
