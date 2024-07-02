@@ -334,9 +334,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         public RelayCommand PlatformStopCommand { get; set; }
 
         /// <summary>
-        /// 平台移动
+        /// 平台老化
         /// </summary>
         public RelayCommand PlatformAgingCommand { get; set; }
+        /// <summary>
+        /// 老化停止
+        /// </summary>
+        public RelayCommand AgingStopCommand { get; set; }
 
         /// <summary>
         /// 设置点位
@@ -598,6 +602,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             PlatformMoveCommand = new RelayCommand(PlatformMove);
             PlatformStopCommand = new RelayCommand(PlatformStop);
             PlatformAgingCommand = new RelayCommand(PlatformAging);
+            AgingStopCommand = new RelayCommand(AgingStop);
         }
 
         /// <summary>
@@ -961,6 +966,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 TestFlow.TestFlow.Instance.StartAgingTest();
 
             });
+        }
+
+        private void AgingStop()
+        {
+            TestFlow.TestFlow.Instance.SetAgingIsChannel(true);
         }
         #endregion
 

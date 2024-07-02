@@ -85,6 +85,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public XimcArm ZAxisMotor { get; set; }
 
+        private bool agingIsChannel = false;
         /// <summary>
         /// 测试流程初始化
         /// </summary>
@@ -146,6 +147,15 @@ namespace Sinboda.SemiAuto.TestFlow
         }
 
         /// <summary>
+        /// 老化停止标志
+        /// </summary>
+        /// <param name="isChannel"></param>
+        public void SetAgingIsChannel(bool isChannel)
+        {
+            agingIsChannel = isChannel;
+        }
+
+        /// <summary>
         /// 根据1位置创建测试缓存
         /// </summary>
         public bool CreateTest()
@@ -197,6 +207,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public void CreateAgingTest()
         {
+            SetAgingIsChannel(false);
             ResMotorStatus xStatus = MotorBusiness.Instance.GetMotorStatus((int)XAxisMotor.MotorId);
             ResMotorStatus yStatus = MotorBusiness.Instance.GetMotorStatus((int)YAxisMotor.MotorId);
             MotorBusiness.Instance.SetXimcStatus(ZAxisMotor);
@@ -336,18 +347,32 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public void StartAgingTest()
         {
-            foreach (var item in Items)
+            while (true)
             {
-                CurTestItem = item;
-
-                if (CurTestItem.X != X && CurTestItem.Y != Y)
+                if (agingIsChannel)
                 {
-                    MoveTestItemPos();
+                    break;
                 }
 
-                PointAgingTest();
+                foreach (var item in Items)
+                {
+                    CurTestItem = item;
 
+                    if (agingIsChannel)
+                    {
+                        break;
+                    }
+
+                    if (CurTestItem.X != X && CurTestItem.Y != Y)
+                    {
+                        MoveTestItemPos();
+                    }
+
+                    PointAgingTest();
+
+                }
             }
+            
         }
 
         /// <summary>
@@ -360,6 +385,10 @@ namespace Sinboda.SemiAuto.TestFlow
 
             foreach (var point in points)
             {
+                if (agingIsChannel)
+                {
+                    break;
+                }
                 CurTestItem.CurTestPoint = point;
                 MoveTestPointPos();
             }
