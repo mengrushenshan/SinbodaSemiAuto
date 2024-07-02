@@ -6,6 +6,7 @@ using sin_mole_flu_analyzer.Models.Command;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.SemiAuto.Core.Models;
 using Sinboda.SemiAuto.Core.Resources;
+using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -66,7 +67,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <param name="start">起始坐标</param>
         /// <param name="interval">间隔</param>
         /// <param name="num">照片数量</param>
-        public int ZPos(XimcArm arm, int start, int interval, int num, string file = "", int holdTimeMS = 100)
+        public int ZPos(Sin_Motor obj,int start, int interval, int num, string file = "", int holdTimeMS = 100)
         {
             try
             {
@@ -85,12 +86,12 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 for (int i = 0; i < tifNum; i++)
                 {
                     //移动z轴
-                    CmdZSlowMove cmdZSlowMove = new CmdZSlowMove()
+                    CmdMoveAbsolute cmdMoveAbsolute = new CmdMoveAbsolute()
                     {
-                        arm = arm,
-                        pos = zStart + i * zInterval,
+                        Id = (int)obj.MotorId,
+                        TargetPos = obj.TargetPos
                     };
-                    cmdZSlowMove.Execute();
+                    cmdMoveAbsolute.Execute();
                     Thread.Sleep(holdTimeMS);
                     //记录图像
                     lock (_lockObj)

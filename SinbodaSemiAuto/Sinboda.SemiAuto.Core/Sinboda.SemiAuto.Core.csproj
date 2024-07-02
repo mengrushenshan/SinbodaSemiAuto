@@ -173,7 +173,6 @@
     <Compile Include="Helpers\PVCamHelper.cs" />
     <Compile Include="Helpers\TcpCmdActuators.cs" />
     <Compile Include="Helpers\Util.cs" />
-    <Compile Include="Helpers\XimcHelper.cs" />
     <Compile Include="Helpers\XmlHelper.cs" />
     <Compile Include="InitializeModule.cs" />
     <Compile Include="Interfaces\ICommDriver.cs" />
@@ -188,7 +187,6 @@
     <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\MotorData.cs" />
     <Compile Include="Models\MouseKeyboardEvent.cs" />
-    <Compile Include="Models\XimcArm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pvcam\PvcamController.cs" />
     <Compile Include="Resources\MessageToken.cs" />

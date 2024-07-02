@@ -45,7 +45,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
     public class MachineryDebugPageViewModel : NavigationViewModelBase
     {
-        private XimcHelper ximcController;
         private bool isOpenCamera = false;
         private const int originalSize = 2048;
         private const int originalBinnerSize = 1024;
@@ -105,16 +104,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         /// <summary>
-        /// z轴
-        /// </summary>
-        private XimcArm zaxisMotor;
-        public XimcArm ZaxisMotor
-        {
-            get { return zaxisMotor; }
-            set { Set(ref zaxisMotor, value); }
-        }
-
-        /// <summary>
         /// 电机列表
         /// </summary>
         private List<Sin_Motor> motorList = new List<Sin_Motor>();
@@ -122,16 +111,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             get { return motorList; }
             set { Set(ref motorList, value); }
-        }
-
-        /// <summary>
-        /// Z轴设备
-        /// </summary>
-        private List<XimcArm> _devices;
-        public List<XimcArm> Devices
-        {
-            get { return _devices; }
-            set { Set(ref _devices, value); }
         }
 
         /// <summary>
@@ -240,7 +219,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         /// <summary>
-        /// Y轴位置
+        /// X轴位置
         /// </summary>
         private int originXaxis;
         public int OriginXaxis
@@ -257,6 +236,16 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             get { return originYaxis; }
             set { Set(ref originYaxis, value); }
+        } 
+        
+        /// <summary>
+        /// Z轴位置
+        /// </summary>
+        private int originZaxis;
+        public int OriginZaxis
+        {
+            get { return originZaxis; }
+            set { Set(ref originZaxis, value); }
         }
 
         private bool isCameraInitEnable;
@@ -391,52 +380,52 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <summary>
         /// 机械原点复位
         /// </summary>
-        public RelayCommand<XimcArm> XimcResetCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcResetCommand { get; set; }
 
         /// <summary>
         /// 工作原点复位
         /// </summary>
-        public RelayCommand<XimcArm> XimcWorkResetCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcWorkResetCommand { get; set; }
 
         /// <summary>
         /// 停止
         /// </summary>
-        public RelayCommand<XimcArm> XimcStopCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcStopCommand { get; set; }
 
         /// <summary>
         /// 一直左移
         /// </summary>
-        public RelayCommand<XimcArm> XimcLeftAlwaysCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcLeftAlwaysCommand { get; set; }
 
         /// <summary>
         /// 一直右移
         /// </summary>
-        public RelayCommand<XimcArm> XimcRightAlwaysCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcRightAlwaysCommand { get; set; }
 
         /// <summary>
         /// 一直右移
         /// </summary>
-        public RelayCommand<XimcArm> XimcMoveRelativeCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcMoveRelativeCommand { get; set; }
 
         /// <summary>
         /// 设定原点
         /// </summary>
-        public RelayCommand<XimcArm> XimcSetOriginCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcSetOriginCommand { get; set; }
 
         /// <summary>
         /// 慢速原点
         /// </summary>
-        public RelayCommand<XimcArm> XimcSlowMoveCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcSlowMoveCommand { get; set; }
 
         /// <summary>
         /// 快速原点
         /// </summary>
-        public RelayCommand<XimcArm> XimcFastMoveCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcFastMoveCommand { get; set; }
 
         /// <summary>
         /// 保存按钮
         /// </summary>
-        public RelayCommand<XimcArm> XimcSaveCommand { get; set; }
+        public RelayCommand<Sin_Motor> XimcSaveCommand { get; set; }
         #endregion
 
         #region 风扇
@@ -542,9 +531,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             UpgradeCommand = new RelayCommand(UpgradeBoard);
             ChangeButtonText();
 
-            Devices = GlobalData.XimcArmsData.XimcArms;
-            ximcController = XimcHelper.Instance;
-
             InitMachinerySource();
         }
 
@@ -613,16 +599,16 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private void InitXimcCommon()
         {
-            XimcResetCommand = new RelayCommand<XimcArm>(XimcHome);
-            XimcWorkResetCommand = new RelayCommand<XimcArm>(XimcWorkHome);
-            XimcStopCommand = new RelayCommand<XimcArm>(XimcStop);
-            XimcLeftAlwaysCommand = new RelayCommand<XimcArm>(XimcMoveLeftAlways);
-            XimcRightAlwaysCommand = new RelayCommand<XimcArm>(XimcMoveRightAlways);
-            XimcMoveRelativeCommand = new RelayCommand<XimcArm>(XimcMoveRelative);
-            XimcSetOriginCommand = new RelayCommand<XimcArm>(XimcLocation);
-            XimcSlowMoveCommand = new RelayCommand<XimcArm>(XimcMoveSlow);
-            XimcFastMoveCommand = new RelayCommand<XimcArm>(XimcMoveFast);
-            XimcSaveCommand = new RelayCommand<XimcArm>(XimcSaveMotroParam);
+            XimcResetCommand = new RelayCommand<Sin_Motor>(ResetPhysicalMotor);
+            XimcWorkResetCommand = new RelayCommand<Sin_Motor>(ResetLogicalMotor);
+            XimcStopCommand = new RelayCommand<Sin_Motor>(StopMotor);
+            XimcLeftAlwaysCommand = new RelayCommand<Sin_Motor>(AlawysMove);
+            XimcRightAlwaysCommand = new RelayCommand<Sin_Motor>(AlawysMove);
+            XimcMoveRelativeCommand = new RelayCommand<Sin_Motor>(MoveRelate);
+            XimcSetOriginCommand = new RelayCommand<Sin_Motor>(SetOrigin);
+            XimcSlowMoveCommand = new RelayCommand<Sin_Motor>(MoveAbsolute);
+            XimcFastMoveCommand = new RelayCommand<Sin_Motor>(MoveAbsolute);
+            //XimcSaveCommand = new RelayCommand<Sin_Motor>(XimcSaveMotroParam);
         }
 
         /// <summary>
@@ -635,12 +621,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
             //初始化电机
             MotorList.Clear();
-
             MotorList = MotorBusiness.Instance.GetMotorList();
-            if (MotorList.Count() != 2)
+            if (MotorList.Count() != 3)
             {
                 MotorList.Clear();
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     MotorList.Add(new Sin_Motor() { MotorId = (MotorId)i });
                 }
@@ -663,18 +648,13 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                                 OriginYaxis = motorItem.OriginPoint;
                             }
                             break;
+                        case MotorId.Zaxis:
+                            {
+                                PosZaxis = motorItem.TargetPos;
+                                OriginZaxis = motorItem.OriginPoint;
+                            }
+                            break;
                     }
-                }
-            }
-
-            //初始化z轴
-            if (Devices.Count > 0)
-            {
-                var zZone = Devices.Where(o => o.CtrlName == SerType.Left_Z);
-                if (zZone.Count() > 0)
-                {
-                    ZaxisMotor = zZone.FirstOrDefault();
-                    SetXimcStatus(ZaxisMotor.DeveiceId);
                 }
             }
 
@@ -906,8 +886,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     return;
                 }
 
-                PosZaxis = 3000;
-                XimcMoveFast(ZaxisMotor);
+                MotorList[2].TargetPos= PosZaxis = 3000;
+                MoveAbsolute(MotorList[2]);
 
                 CmdPlatformMove cmdPlatformMove = new CmdPlatformMove()
                 {
@@ -930,8 +910,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     return;
                 }
 
-                PosZaxis = cellItem.Z;
-                XimcMoveFast(ZaxisMotor);
+                MotorList[2].TargetPos = PosZaxis = cellItem.Z;
+                MoveAbsolute(MotorList[2]);
             });
         }
 
@@ -942,7 +922,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             StopMotor(MotorList[0]);
             StopMotor(MotorList[1]);
-            XimcStop(ZaxisMotor);
+            StopMotor(MotorList[2]);
         }
         #endregion
 
@@ -1049,6 +1029,12 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                                 OriginYaxis = PosYaxis;
                                 obj.OriginPoint = PosYaxis;
                             }
+                            break; 
+                        case MotorId.Zaxis:
+                            {
+                                OriginZaxis = PosZaxis;
+                                obj.OriginPoint = PosZaxis;
+                            }
                             break;
                     }
 
@@ -1132,7 +1118,18 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             InvokeAsync(() =>
             {
-                obj.TargetPos = obj.MotorId == MotorId.Xaxis ? PosXaxis : PosYaxis;
+                switch (obj.MotorId)
+                {
+                    case MotorId.Xaxis:
+                        obj.TargetPos = PosXaxis;
+                        break;
+                    case MotorId.Yaxis:
+                        obj.TargetPos = PosYaxis;
+                        break;
+                    case MotorId.Zaxis:
+                        obj.TargetPos = PosZaxis;
+                        break;
+                }
 
                 CmdMoveAbsolute cmdMoveAbsolute = new CmdMoveAbsolute()
                 {
@@ -1175,6 +1172,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                         PosYaxis = motorObj.TargetPos;
                     }
                     break;
+                case MotorId.Zaxis:
+                    {
+                        PosZaxis = motorObj.TargetPos;
+                    }
+                    break;
             }
         }
 
@@ -1202,241 +1204,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机状态获取失败"));
             }
             return null;
-        }
-        #endregion
-
-        #region ximc
-
-        /// <summary>
-        /// 保存电机参数
-        /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        private void XimcSaveMotroParam(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                XimcHelper.Instance.Set_Move_Settings(obj);
-                XimcHelper.Instance.Set_Controller_Name(obj);
-                XimcHelper.Instance.Command_Save_Settings(obj);
-
-                GlobalData.Save();
-            });
-        }
-
-
-        /// <summary>
-        /// 将当前位置 设置为原点
-        /// </summary>
-        /// <param name="obj"></param>
-        private void XimcLocation(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                obj.Originption = PosZaxis;
-                GlobalData.Save();
-            });
-        }
-
-        /// <summary>
-        /// 机械复位指令
-        /// </summary>
-        /// <param name="obj"></param>
-        private void XimcHome(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                CmdZResetPhysical cmdZReset = new CmdZResetPhysical() { arm = obj };
-
-                if (!cmdZReset.Execute())
-                {
-                    LogHelper.logSoftWare.Error("XimcHome failed");
-                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机复位失败"));
-                }
-                else
-                {
-                    SetXimcStatus(obj.DeveiceId);
-                }
-            });
-        }
-
-        /// <summary>
-        /// 工作原点复位指令
-        /// </summary>
-        /// <param name="obj"></param>
-        private void XimcWorkHome(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                CmdZResetLogical cmdZReset = new CmdZResetLogical() { arm = obj, pos = obj.Originption };
-
-                if (!cmdZReset.Execute())
-                {
-                    LogHelper.logSoftWare.Error("XimcHome failed");
-                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机复位失败"));
-                }
-                else
-                {
-                    SetXimcStatus(obj.DeveiceId);
-                }
-            });
-        }
-
-        /// <summary>
-        /// 慢速移动指令
-        /// </summary>
-        /// <param name="obj"></param>
-        private void XimcMoveSlow(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                CmdZSlowMove cmdZSlowMove = new CmdZSlowMove()
-                {
-                    arm = obj,
-                    pos = PosZaxis
-                };
-
-                if (!cmdZSlowMove.Execute())
-                {
-                    LogHelper.logSoftWare.Error("XimcMoveSlow failed");
-                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机慢速移动失败"));
-                }
-                else
-                {
-                    SetXimcStatus(obj.DeveiceId);
-                }
-            });
-        }
-
-        /// <summary>
-        /// 快速移动指令
-        /// </summary>
-        /// <param name="obj"></param>
-        private void XimcMoveFast(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                CmdZFastMove cmdZFastMove = new CmdZFastMove()
-                {
-                    arm = obj,
-                    pos = PosZaxis
-                };
-
-                if (!cmdZFastMove.Execute())
-                {
-                    LogHelper.logSoftWare.Error("XimcMoveFast failed");
-                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机快速移动失败"));
-                }
-                else
-                {
-                    SetXimcStatus(obj.DeveiceId);
-                }
-            });
-        }
-
-        /// <summary>
-        /// 停止移动
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        private void XimcStop(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                if (MotorBusiness.Instance.XimcStop(obj))
-                {
-                    SetXimcStatus(obj.DeveiceId);
-                }
-            });
-        }
-
-        /// <summary>
-        /// 一直左移
-        /// </summary>
-        /// <param name="obj"></param>
-        private void XimcMoveLeftAlways(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                ximcController.Cmd_Left(obj.DeveiceId);
-            });
-        }
-
-        /// <summary>
-        /// 一直右移
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        private void XimcMoveRightAlways(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                ximcController.Cmd_Right(obj.DeveiceId);
-            });
-        }
-
-        /// <summary>
-        /// 相对移动指令
-        /// </summary>
-        /// <param name="obj"></param>
-        private void XimcMoveRelative(XimcArm obj)
-        {
-            InvokeAsync(() =>
-            {
-                MoveRelativePos(obj, true, StepZaxis);
-            });
-        }
-
-        /// <summary>
-        /// 相对移动
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="isFast"></param>
-        /// <param name="nStep"></param>
-        private void MoveRelativePos(XimcArm obj, bool isFast, int nStep)
-        {
-            Status_Ximc status = ximcController.Get_Status(ZaxisMotor.DeveiceId);
-            Cmd_Move_Relative cmd_Move_Relative = new Cmd_Move_Relative()
-            {
-                arm = obj,
-                fast = isFast,
-                pos = nStep
-            };
-
-            if (status.CurSpeed != 0)
-            {
-                return;
-            }
-
-            if (cmd_Move_Relative.Execute())
-            {
-                SetXimcStatus(obj.DeveiceId);
-            }
-            else
-            {
-                LogHelper.logSoftWare.Error("XimcMoveRelative failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机相对移动失败"));
-            }
-        }
-
-        /// <summary>
-        /// 获取电机位置
-        /// </summary>
-        /// <param name="deveiceId"></param>
-        /// <returns></returns>
-        private bool SetXimcStatus(int deveiceId)
-        {
-            bool result = false;
-
-            Status_Ximc status = ximcController.Get_Status(deveiceId);
-
-            if (status == null)
-            {
-                return result;
-            }
-
-            PosZaxis = status.CurPosition;
-
-            return result = true;
         }
         #endregion
 
@@ -1545,15 +1312,15 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 //开启激光
                 ControlBusiness.Instance.LightEnableCtrl(1, 0.5, 1);
                 //移动到暂定起始位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, FocusBeginPos);
-                //获取Z轴位置
-                MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
+                PosZaxis = FocusBeginPos;
+                MoveAbsolute(MotorList[2]);
 
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(MotorList[2], FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
+                PosZaxis = autoFocusPos;
+                MoveAbsolute(MotorList[2]);
                 //关闭激光
                 ControlBusiness.Instance.LightEnableCtrl(0, 0.5, 1);
 
@@ -1717,13 +1484,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     if (MouseKeyBoardHelper.IsAltDown())
                     {
                         //移动固定步长
-                        MoveRelativePos(ZaxisMotor, false, GlobalData.XimcFocusSlowStep);
+                        MoveRelate(MotorList[2]);
                         //MoveRelativePos(ZaxisMotor, false, message.Delta);
                         LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
                     }
                     else
                     {
-                        MoveRelativePos(ZaxisMotor, true, message.Delta);
+                        //移动固定步长
+                        MoveRelate(MotorList[2]);
                         LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
                     }
                 }
@@ -1825,11 +1593,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     //按下
                     if (msg.IsKeyDown)
                     {
-                        XimcMoveRightAlways(ZaxisMotor);
+                        if (MouseKeyBoardHelper.IsAltDown())
+                            MoveCon(MotorList[2], (int)Direction.Backward, (int)Rate.slow);
+                        else
+                            MoveCon(MotorList[2], (int)Direction.Backward, (int)Rate.fast);
                     }
                     else
                     {
-                        XimcStop(ZaxisMotor);
+                        StopMotor(MotorList[2]);
                     }
                 }
                 else if (msg.KeyCode == System.Windows.Input.Key.S)
@@ -1837,11 +1608,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     //按下
                     if (msg.IsKeyDown)
                     {
-                        XimcMoveLeftAlways(ZaxisMotor);
+                        if (MouseKeyBoardHelper.IsAltDown())
+                            MoveCon(MotorList[2], (int)Direction.Forward, (int)Rate.slow);
+                        else
+                            MoveCon(MotorList[2], (int)Direction.Forward, (int)Rate.fast);
                     }
                     else
                     {
-                        XimcStop(ZaxisMotor);
+                        StopMotor(MotorList[2]);
                     }
                 }
             }

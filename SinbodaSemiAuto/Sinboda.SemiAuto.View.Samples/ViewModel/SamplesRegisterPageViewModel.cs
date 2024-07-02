@@ -163,8 +163,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// <summary>
         /// z轴
         /// </summary>
-        private XimcArm zaxisMotor;
-        public XimcArm ZaxisMotor
+        private Sin_Motor zaxisMotor;
+        public Sin_Motor ZaxisMotor
         {
             get { return zaxisMotor; }
             set { Set(ref zaxisMotor, value); }
@@ -184,9 +184,9 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// 初始化按钮使能
         /// </summary>
         private bool isCameraInitEnable;
-        public bool IsCameraInitEnable 
-        { 
-            get { return isCameraInitEnable; } 
+        public bool IsCameraInitEnable
+        {
+            get { return isCameraInitEnable; }
             set { Set(ref isCameraInitEnable, value); }
         }
 
@@ -194,10 +194,10 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// 相机开关使能
         /// </summary>
         private bool isCameraOpenEnable;
-        public bool IsCameraOpenEnable 
-        { 
+        public bool IsCameraOpenEnable
+        {
             get { return isCameraOpenEnable; }
-            set { Set (ref isCameraOpenEnable, value); }
+            set { Set(ref isCameraOpenEnable, value); }
         }
 
         /// <summary>
@@ -295,8 +295,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         public TestType BoardType
         {
             get { return boardType; }
-            set 
-            { 
+            set
+            {
                 Set(ref boardType, value);
                 if (SelectBoard != null)
                 {
@@ -311,8 +311,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         public bool IsBoardEnable
         {
             get { return isBoardEnable; }
-            set 
-            { 
+            set
+            {
                 Set(ref isBoardEnable, value);
                 if (SelectBoard != null)
                 {
@@ -329,7 +329,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         public Sin_Board SelectBoard
         {
             get { return selectBoard; }
-            set { Set(ref selectBoard, value);}
+            set { Set(ref selectBoard, value); }
         }
         #endregion
 
@@ -510,18 +510,6 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                     }
                 }
             }
-
-            var Devices = GlobalData.XimcArmsData.XimcArms;
-            //初始化z轴
-            if (Devices.Count > 0)
-            {
-                var zZone = Devices.Where(o => o.CtrlName == SerType.Left_Z);
-                if (zZone.Count() > 0)
-                {
-                    ZaxisMotor = zZone.FirstOrDefault();
-                    MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
-                }
-            }
         }
 
         private void EditTemplate()
@@ -585,7 +573,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             SampleDeleteWindow win = new SampleDeleteWindow();
             if (win.ShowDialog() == true)
-            { 
+            {
 
             }
         }
@@ -602,7 +590,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             MotorBusiness.Instance.StopMotor(XAxisMotor);
             MotorBusiness.Instance.StopMotor(YAxisMotor);
-            MotorBusiness.Instance.XimcStop(ZaxisMotor);
+            MotorBusiness.Instance.StopMotor(ZaxisMotor);
         }
 
         #region 外设输入
@@ -622,16 +610,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 //控制左侧 上下机械臂
                 if (MouseKeyBoardHelper.IsCtrlDown())
                 {
-                    if (MouseKeyBoardHelper.IsAltDown())
-                    {
-                        MotorBusiness.Instance.MoveRelativePos(ZaxisMotor, false, message.Delta);
-                        LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
-                    }
-                    else
-                    {
-                        MotorBusiness.Instance.MoveRelativePos(ZaxisMotor, true, message.Delta);
-                        LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
-                    }
+                    MotorBusiness.Instance.MoveRelative((int)ZaxisMotor.MotorId, message.Delta);
+                    LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
                 }
             }
             catch (Exception ex)
@@ -816,15 +796,13 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 //开启激光
                 ControlBusiness.Instance.LightEnableCtrl(1, 1);
                 //移动到暂定起始位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, 5033000);
-                //获取Z轴位置
-                MotorBusiness.Instance.SetXimcStatus(ZaxisMotor);
+                MotorBusiness.Instance.MoveAbsolute((int)ZaxisMotor.MotorId, 5033000);
 
                 //计算聚焦位置
                 int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, FocusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
-                MotorBusiness.Instance.XimcMoveFast(ZaxisMotor, autoFocusPos);
+                MotorBusiness.Instance.MoveAbsolute((int)ZaxisMotor.MotorId, autoFocusPos);
                 //关闭激光
                 ControlBusiness.Instance.LightEnableCtrl(0, 1);
 
@@ -862,7 +840,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 });
             });
 
-            
+
         }
 
         public Sin_Board GetSinBoard(string tag)
@@ -902,7 +880,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             SetTemplateList();
 
-            if(TemplateList == null)
+            if (TemplateList == null)
                 return;
 
             foreach (var template in TemplateList)
@@ -916,7 +894,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 SelectItem = CurBoardItemList[0].ItemName;
                 RefTemplateBoard();
             });
-            
+
         }
 
         /// <summary>

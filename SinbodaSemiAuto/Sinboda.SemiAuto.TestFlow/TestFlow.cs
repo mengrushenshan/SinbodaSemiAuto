@@ -83,7 +83,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// Z轴电机
         /// </summary>
-        public XimcArm ZAxisMotor { get; set; }
+        public Sin_Motor ZAxisMotor { get; set; }
 
         /// <summary>
         /// 测试流程初始化
@@ -111,7 +111,7 @@ namespace Sinboda.SemiAuto.TestFlow
             //启动测试时，实时获取电机所在位置
             ResMotorStatus xStatus = MotorBusiness.Instance.GetMotorStatus((int)XAxisMotor.MotorId);
             ResMotorStatus yStatus = MotorBusiness.Instance.GetMotorStatus((int)YAxisMotor.MotorId);
-            MotorBusiness.Instance.SetXimcStatus(ZAxisMotor);
+            ResMotorStatus zStatus = MotorBusiness.Instance.GetMotorStatus((int)ZAxisMotor.MotorId);
 
             Z = ZAxisMotor.TargetPos;
 
@@ -132,13 +132,22 @@ namespace Sinboda.SemiAuto.TestFlow
             {
                 return false;
             }
+            
+            if (yStatus != null)
+            {
+                Z = zStatus.CurrPos;
+            }
+            else
+            {
+                return false;
+            }
 
             Messenger.Default.Register<object>(this, MessageToken.AcquiringImageComplete, ReceiveImageComplete);
 
             return isInitComplete = true;
         }
 
-        public void SetMotorObj(Sin_Motor xAxis, Sin_Motor yAxis, XimcArm zAxis)
+        public void SetMotorObj(Sin_Motor xAxis, Sin_Motor yAxis, Sin_Motor zAxis)
         {
             XAxisMotor = xAxis;
             YAxisMotor = yAxis;

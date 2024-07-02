@@ -359,7 +359,8 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     public enum MotorId : int
     {
         Xaxis,
-        Yaxis
+        Yaxis,
+        Zaxis,
     }
 
     /// <summary>

@@ -112,18 +112,18 @@ namespace Sinboda.SemiAuto.TestFlow
         /// 移动到Z轴位置
         /// </summary>
         /// <param name="ximcArm"></param>
-        public void MoveTestItemZPos(XimcArm ximcArm)
+        public void MoveTestItemZPos(int motorId)
         {
-            MotorBusiness.Instance.XimcMoveFast(ximcArm, Z);
+            MotorBusiness.Instance.MoveAbsolute(motorId, Z);
         }
 
         /// <summary>
         /// 根据偏移量移动到Z轴位置
         /// </summary>
         /// <param name="ximcArm"></param>
-        public void MoveTestItemZPosByOffset(XimcArm ximcArm, int offset)
+        public void MoveTestItemZPosByOffset(int motorId, int offset)
         {
-            MotorBusiness.Instance.XimcMoveFast(ximcArm, Z + offset);
+            MotorBusiness.Instance.MoveAbsolute(motorId, Z + offset);
         }
 
         /// <summary>

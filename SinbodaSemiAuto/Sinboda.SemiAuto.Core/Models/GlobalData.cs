@@ -48,11 +48,6 @@ namespace Sinboda.SemiAuto.Core.Models
         public readonly static string FileNameConfigData = $"Config.xml";
 
         /// <summary>
-        /// 电机参数
-        /// </summary>
-        public static XimcArmsData XimcArmsData { get; set; } = new XimcArmsData();
-
-        /// <summary>
         /// 曝光时间 us
         /// </summary>
         public static uint ExposureTime { get; set; } = 30;
@@ -161,9 +156,6 @@ namespace Sinboda.SemiAuto.Core.Models
         {
             Config config = new Config();
             config = XmlHelper.GetXmlData<Config>(FileNameConfigData);
-            //按照使用编号 重新排序
-            config.XimcArmsData.XimcArms.Sort((x, y) => x.CtrlName.CompareTo(y.CtrlName));
-            GlobalData.XimcArmsData = config.XimcArmsData;
             GlobalData.ExposureTime = config.ExposureTime;
             GlobalData.FrameNum = config.FrameNum;
             GlobalData.IpAddress = config.IpAddress;
@@ -177,7 +169,6 @@ namespace Sinboda.SemiAuto.Core.Models
         public static void Save()
         {
             Config config = new Config();
-            config.XimcArmsData = GlobalData.XimcArmsData;
             config.ExposureTime = GlobalData.ExposureTime;
             config.FrameNum = GlobalData.FrameNum;
             config.IpAddress = GlobalData.IpAddress;
@@ -189,9 +180,6 @@ namespace Sinboda.SemiAuto.Core.Models
     [Serializable]
     public class Config
     {
-        [XmlElement("MotorArmsData")]
-        public XimcArmsData XimcArmsData { get; set; } = new XimcArmsData();
-
         /// <summary>
         /// 曝光时间 us
         /// </summary>

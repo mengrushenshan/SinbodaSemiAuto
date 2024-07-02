@@ -220,9 +220,9 @@ namespace Sinboda.SemiAuto.TestFlow
         /// 移动到Z轴位置
         /// </summary>
         /// <param name="ximcArm"></param>
-        public void MoveTestItemZPos(XimcArm ximcArm)
+        public void MoveTestItemZPos(int motorId)
         {
-            MotorBusiness.Instance.XimcMoveFast(ximcArm, Z);
+            MotorBusiness.Instance.MoveAbsolute(motorId, Z);
         }
     }
 }

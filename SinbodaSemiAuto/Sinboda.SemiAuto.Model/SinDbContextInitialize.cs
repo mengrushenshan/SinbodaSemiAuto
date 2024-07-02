@@ -645,6 +645,17 @@ namespace Sinboda.SemiAuto.Model
                     Steps = 1000,
                     OriginPoint = 0,
                     TargetPos = 0
+                }); 
+                
+                db.Sin_Motors.Add(new Sin_Motor
+                {
+                    Id = Guid.NewGuid(),
+                    MotorId = MotorId.Zaxis,
+                    Dir = Direction.Forward,
+                    UseFastSpeed = Rate.fast,
+                    Steps = 1000,
+                    OriginPoint = 0,
+                    TargetPos = 0
                 });
 
                 db.SaveChanges();

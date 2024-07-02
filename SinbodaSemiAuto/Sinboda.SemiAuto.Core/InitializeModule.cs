@@ -42,11 +42,8 @@ namespace Sinboda.SemiAuto.Core
             //加载参数
             GlobalData.Init();
 
-            //电机初始化
-            XimcHelper.Instance.Init();
-
             //相机初始化
-            PVCamHelper.Instance.Init();
+            //PVCamHelper.Instance.Init();
 
             //tcp指令通讯器初始化 并连接
             TcpCmdActuators.Instance.Init();

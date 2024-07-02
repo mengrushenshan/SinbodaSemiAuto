@@ -139,9 +139,6 @@ namespace SinbodaSemiAuto
                 //释放相机资源
                 PVCamHelper.Instance.Dispose();
 
-                //释放电机资源
-                XimcHelper.Instance.Dispose();
-
                 //释放通讯资源
                 TcpCmdActuators.Instance.Dispose();
             }

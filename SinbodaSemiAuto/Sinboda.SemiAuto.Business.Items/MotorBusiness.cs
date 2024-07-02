@@ -90,6 +90,25 @@ namespace Sinboda.SemiAuto.Business.Items
                 LogHelper.logSoftWare.Error("MoveAbsolute failed");
                 NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机绝对移动失败"));
             }
+        }  
+        
+        /// <summary>
+        /// 电机相对移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void MoveRelative(int motorId, int pos)
+        {
+            CmdMoveRelate cmdMoveRelative = new CmdMoveRelate()
+            {
+                Id = motorId,
+                Steps = pos
+            };
+
+            if (!cmdMoveRelative.Execute())
+            {
+                LogHelper.logSoftWare.Error("MoveRelative failed");
+                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机相对移动失败"));
+            }
         }
 
         /// <summary>
@@ -180,93 +199,6 @@ namespace Sinboda.SemiAuto.Business.Items
             return null;
         }
         #endregion
-
-        #region Ximc
-
-        /// <summary>
-        /// 快速移动指令
-        /// </summary>
-        /// <param name="obj"></param>
-        public void XimcMoveFast(XimcArm obj, int pos)
-        {
-            CmdZFastMove cmdZFastMove = new CmdZFastMove()
-            {
-                arm = obj,
-                pos = pos
-            };
-
-            if (!cmdZFastMove.Execute())
-            {
-                LogHelper.logSoftWare.Error("XimcMoveFast failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机快速移动失败"));
-            }
-        }
-
-        /// <summary>
-        /// 相对移动
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="isFast"></param>
-        /// <param name="nStep"></param>
-        public bool MoveRelativePos(XimcArm obj, bool isFast, int nStep)
-        {
-            Status_Ximc status_Ximc = XimcHelper.Instance.Get_Status(obj.DeveiceId);
-            Cmd_Move_Relative cmd_Move_Relative = new Cmd_Move_Relative()
-            {
-                arm = obj,
-                fast = isFast,
-                pos = nStep
-            };
-
-            if (status_Ximc.CurSpeed != 0)
-            {
-                return false;
-            }
-
-            if (cmd_Move_Relative.Execute())
-            {
-                SetXimcStatus(obj);
-                return true;
-            }
-            else
-            {
-                LogHelper.logSoftWare.Error("XimcMoveRelative failed");
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机相对移动失败"));
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 获取电机位置
-        /// </summary>
-        /// <param name="deveiceId"></param>
-        /// <returns></returns>
-        public bool SetXimcStatus(XimcArm obj)
-        {
-            bool result = false;
-
-            Status_Ximc status_Ximc = XimcHelper.Instance.Get_Status(obj.DeveiceId);
-            if (status_Ximc == null)
-            {
-                return result;
-            }
-
-            obj.TargetPos = status_Ximc.CurPosition;
-
-            return result = true;
-        }
-
-        /// <summary>
-        /// 停止移动
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public bool XimcStop(XimcArm obj)
-        {
-            XimcHelper.Instance.Cmd_SlowStop(obj.DeveiceId);
-
-            return true;
-        }
-        #endregion
+      
     }
 }
