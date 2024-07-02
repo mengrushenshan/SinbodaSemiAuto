@@ -41,9 +41,9 @@ namespace Sinboda.SemiAuto.TestFlow
         private int testId = 0;
 
         /// <summary>
-        /// 测试样本列表
+        /// 测试板号
         /// </summary>
-        private List<Sin_Sample> SampleList = new List<Sin_Sample>();
+        public int BoardId { get; set; }
 
         /// <summary>
         /// 基础位置X
@@ -88,7 +88,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// 测试流程初始化
         /// </summary>
-        private bool Init()
+        private bool Init(ref List<Sin_Sample> SampleList)
         {
             AcquiringImageFinish.Reset();
             DateTime today = DateTime.Now.Date;
@@ -98,7 +98,8 @@ namespace Sinboda.SemiAuto.TestFlow
                 return true;
             }
 
-            var sampleList = SampleBusiness.Instance.GetSampleListByPredicate(o => o.RackDish != null && o.Sample_date >= today && o.Sample_date < tomorrow && o.Test_state != TestState.Complete);
+            //获取样本队列
+            var sampleList = SampleBusiness.Instance.GetSampleListByPredicate(o => o.BoardId == BoardId && o.Sample_date >= today && o.Sample_date < tomorrow && o.Test_state != TestState.Complete);
 
             if (sampleList == null || sampleList.Count == 0) 
             {
@@ -149,7 +150,8 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public bool CreateTest()
         {
-            if (!Init())
+            List<Sin_Sample> SampleList = new List<Sin_Sample>();
+            if (!Init(ref SampleList))
             {
                 return false;
             }
@@ -167,7 +169,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 testItem.ItemSample = sampleItem;
                 testItem.Testid = ++testId;
                 testItem.State = TestState.Untested;
-                testItem.SetTestItemPos(X, Y, Z, sampleItem.RackDish, sampleItem.Position);
+                testItem.SetTestItemPos(X, Y, Z);
                 testItem.CreatePoint(fileName, samplePath);
 
                 Items.Add(testItem);
@@ -297,7 +299,6 @@ namespace Sinboda.SemiAuto.TestFlow
             CurTestItem.ChannelPoint();
             CurTestItem = null;
             isInitComplete = false;
-            SampleList.Clear();
             XAxisMotor = null;
             YAxisMotor = null;
             ZAxisMotor = null;

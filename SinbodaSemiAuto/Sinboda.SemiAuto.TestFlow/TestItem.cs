@@ -35,6 +35,11 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// 测试状态
         /// </summary>
+        public TestType Type { get; set; }
+
+        /// <summary>
+        /// 测试状态
+        /// </summary>
         public TestState State { get; set; }
 
         /// <summary>
@@ -75,11 +80,11 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <param name="z"></param>
         /// <param name="rack"></param>
         /// <param name="pos"></param>
-        public void SetTestItemPos(int x, int y, int z, string rack, int pos)
+        public void SetTestItemPos(int x, int y, int z)
         {
-            char[] cRack = rack.ToCharArray();
+            char[] cRack = ItemSample.RackDish.ToCharArray();
 
-            X = x + (pos - 1) * XaxisOffset;
+            X = x + (ItemSample.Position - 1) * XaxisOffset;
             Y = y + (cRack[0] - 65) * YaxisOffset;
             Z = z;
         }
