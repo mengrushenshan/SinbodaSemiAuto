@@ -38,6 +38,8 @@ using Sinboda.Framework.Control.Loading;
 using System.Windows.Media.Media3D;
 using System.Runtime.InteropServices;
 using System.Windows.Shapes;
+using System.Collections;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -54,6 +56,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         private readonly static object objLock = new object();
 
+        /// <summary>
+        /// 点位对应图像
+        /// </summary>
+        private List<byte[]> tifList = new List<byte[]>();
         #region 数据
 
         /// <summary>
@@ -478,6 +484,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 保存图片
         /// </summary>
         public RelayCommand SaveTiffCommand { get; set; }
+
+        /// <summary>
+        /// 保存图片
+        /// </summary>
+        public RelayCommand PointCollectCommand { get; set; }
         #endregion
 
         #region 激光器
@@ -521,6 +532,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             SetRoiCommand = new RelayCommand(SetCameraRoi);
             ReSetRoiCommand = new RelayCommand(SetInitRoi);
             SaveTiffCommand = new RelayCommand(SaveTiff);
+            PointCollectCommand = new RelayCommand(Point100ImageCollect);
 
             CtrlFanCommand = new RelayCommand<FanData>(FanEnable);
             OpenLightCommand = new RelayCommand(OpenLight);
@@ -1619,6 +1631,56 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
             }
             isSave=false;
+        }
+
+        private void Point100ImageCollect()
+        {
+            InvokeAsync(() =>
+            {
+                if (!isOpenCamera)
+                {
+                    PVCamHelper.Instance.StartCont();
+                    isOpenCamera = true;
+                    ChangeButtonText();
+                }
+
+                Messenger.Default.Register<byte[]>(this, MessageToken.TokenCameraBuffer, AcquiringImage);
+            });
+        }
+
+        public void AcquiringImage(byte[] bitmap)
+        {
+            //收到5张黑图后通知激光由相机采图后开启
+            if (tifList.Count == 5)
+            {
+                ControlBusiness.Instance.LightEnableCtrl(1, 0);
+            }
+
+
+            if (tifList.Count < 100)
+            {
+                tifList.Add(bitmap);
+            }
+            else
+            {
+                //图像采集完成时关闭激光
+                ControlBusiness.Instance.LightEnableCtrl(0, 0);
+                Messenger.Default.Unregister<byte[]>(this, MessageToken.TokenCameraBuffer, AcquiringImage);
+                SaveMatList();
+            }
+        }
+
+        public void SaveMatList()
+        {
+            string filePath = MapPath.TifPath + "Collect\\" + DateTime.Now.ToString("yyyyMMdd") + "\\";
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+            string fileName = $"Collect_{DateTime.Now.ToString("HHmmss")}.tif";
+            filePath = filePath + fileName;
+            AnalysisHelper.Instance.SaveImage(filePath, tifList);
+            tifList.Clear();
         }
         #endregion
 

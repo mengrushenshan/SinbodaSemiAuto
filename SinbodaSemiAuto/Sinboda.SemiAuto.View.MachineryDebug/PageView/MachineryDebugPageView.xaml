@@ -1537,7 +1537,15 @@
                         Content="{MultiLang:StringResource 0,
                                                            DefaultValue=重置ROI}"
                         IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
-
+                    <Button
+                        Grid.Row="4"
+                        Grid.Column="4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding PointCollectCommand}"
+                        Content="{MultiLang:StringResource 0,
+                                                           DefaultValue=单点采集}"
+                        IsEnabled="{Binding IsCameraOpenEnable, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
                         Grid.Row="4"
                         Grid.Column="6"
