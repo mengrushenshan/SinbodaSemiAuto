@@ -941,7 +941,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             InvokeAsync(() =>
             {
-                TestFlow.TestFlow.Instance.SetMotorObj(MotorList[0], MotorList[1], ZaxisMotor);
+                TestFlow.TestFlow.Instance.SetMotorObj(MotorList[0], MotorList[1], MotorList[2]);
                 TestFlow.TestFlow.Instance.CreateAgingTest();
                 TestFlow.TestFlow.Instance.StartAgingTest();
 

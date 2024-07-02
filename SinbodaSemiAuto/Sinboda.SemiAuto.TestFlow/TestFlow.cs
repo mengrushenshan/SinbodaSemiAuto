@@ -219,7 +219,7 @@ namespace Sinboda.SemiAuto.TestFlow
             SetAgingIsChannel(false);
             ResMotorStatus xStatus = MotorBusiness.Instance.GetMotorStatus((int)XAxisMotor.MotorId);
             ResMotorStatus yStatus = MotorBusiness.Instance.GetMotorStatus((int)YAxisMotor.MotorId);
-            MotorBusiness.Instance.SetXimcStatus(ZAxisMotor);
+            ResMotorStatus zStatus = MotorBusiness.Instance.GetMotorStatus((int)ZAxisMotor.MotorId);
 
             Z = ZAxisMotor.TargetPos;
 
@@ -235,6 +235,15 @@ namespace Sinboda.SemiAuto.TestFlow
             if (yStatus != null)
             {
                 Y = yStatus.CurrPos;
+            }
+            else
+            {
+                return;
+            }
+
+            if (zStatus != null)
+            {
+                Z = zStatus.CurrPos;
             }
             else
             {
