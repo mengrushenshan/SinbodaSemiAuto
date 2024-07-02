@@ -295,7 +295,15 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         public TestType BoardType
         {
             get { return boardType; }
-            set { Set(ref boardType, value);}
+            set 
+            { 
+                Set(ref boardType, value);
+                if (SelectBoard != null)
+                {
+                    SelectBoard.TestType = value;
+                    RefTemplateBoard();
+                }
+            }
         }
 
         private bool isBoardEnable;
@@ -303,7 +311,25 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         public bool IsBoardEnable
         {
             get { return isBoardEnable; }
-            set { Set(ref isBoardEnable, value); }
+            set 
+            { 
+                Set(ref isBoardEnable, value);
+                if (SelectBoard != null)
+                {
+                    SelectBoard.IsEnable = value;
+                    RefTemplateBoard();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 选中样本
+        /// </summary>
+        private Sin_Board selectBoard;
+        public Sin_Board SelectBoard
+        {
+            get { return selectBoard; }
+            set { Set(ref selectBoard, value);}
         }
         #endregion
 
@@ -900,7 +926,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         public void ShowBoardInfo(Sin_Board board)
         {
             RefTemplateBoard();
-
+            SelectBoard = board;
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
                 BoardType = board.TestType;

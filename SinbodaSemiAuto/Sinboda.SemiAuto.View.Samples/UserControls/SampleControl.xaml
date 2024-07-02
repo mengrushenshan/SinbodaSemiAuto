@@ -31,12 +31,12 @@
             </Grid.RowDefinitions>
 
             <Border x:Name="middle_border">
-                <TextBlock
+                <!--<TextBlock
                     x:Name="reagent_TextBlock"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Text="{Binding ItemName}" />
+                    Text="{Binding ItemName}" />-->
             </Border>
 
         </Grid>

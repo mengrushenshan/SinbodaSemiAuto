@@ -65,24 +65,30 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                 return;
             }
 
-            switch (sinBoard.TestType)
+            if (sinBoard.IsEnable)
             {
-                case TestType.Sample:
-                    SetColor("1", true);
-                    break;
-                case TestType.Focus:
-                    SetColor("2", true);
-                    break;
-                case TestType.QualityControl:
-                    SetColor("3", true);
-                    break;
-                case TestType.Calibration:
-                    SetColor("4", true);
-                    break;
-                case TestType.None:
-                    SetColor("6", true);
-                    break;
-
+                switch (sinBoard.TestType)
+                {
+                    case TestType.Sample:
+                        SetColor("1", true);
+                        break;
+                    case TestType.Focus:
+                        SetColor("2", true);
+                        break;
+                    case TestType.QualityControl:
+                        SetColor("3", true);
+                        break;
+                    case TestType.Calibration:
+                        SetColor("4", true);
+                        break;
+                    case TestType.None:
+                        SetColor("6", true);
+                        break;
+                }
+            }
+            else
+            {
+                SetColor("6", true);
             }
         }
 
@@ -93,21 +99,32 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                 return;
             }
 
-            switch (sinTemplate.TestType)
+            if (sinTemplate.IsEnable)
             {
-                case TestType.Sample:
-                    SetColor("1", true);
-                    break;
-                case TestType.Focus:
-                    SetColor("2", true);
-                    break;
-                case TestType.QualityControl:
-                    SetColor("3", true);
-                    break;
-                case TestType.Calibration:
-                    SetColor("4", true);
-                    break;
+                switch (sinTemplate.TestType)
+                {
+                    case TestType.Sample:
+                        SetColor("1", true);
+                        break;
+                    case TestType.Focus:
+                        SetColor("2", true);
+                        break;
+                    case TestType.QualityControl:
+                        SetColor("3", true);
+                        break;
+                    case TestType.Calibration:
+                        SetColor("4", true);
+                        break;
+                    case TestType.None:
+                        SetColor("6", true);
+                        break;
+                }
             }
+            else
+            {
+                SetColor("6", true);
+            }
+           
         }
         /// <summary>
         /// 初始化颜色
@@ -118,28 +135,28 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
             //样本
             color = new ReagentMonitorColor
             {
-                RoundColor = Color.FromRgb(137, 200, 123),
+                //RoundColor = Color.FromRgb(137, 200, 123),
                 MiddleRangeColor = Color.FromRgb(127, 191, 113)
             };
             colorDic.Add("1", color);
             //聚焦
             color = new ReagentMonitorColor
             {
-                RoundColor = Color.FromRgb(59, 208, 196),
+                //RoundColor = Color.FromRgb(59, 208, 196),
                 MiddleRangeColor = Color.FromRgb(59, 208, 196)
             };
             colorDic.Add("2", color);
             //质控
             color = new ReagentMonitorColor
             {
-                RoundColor = Color.FromRgb(218, 60, 183),
+                //RoundColor = Color.FromRgb(218, 60, 183),
                 MiddleRangeColor = Color.FromRgb(247, 176, 232)
             };
             colorDic.Add("3", color);
             //校准
             color = new ReagentMonitorColor
             {
-                RoundColor = Color.FromRgb(192, 157, 0),
+                //RoundColor = Color.FromRgb(192, 157, 0),
                 MiddleRangeColor = Color.FromRgb(255, 234, 138)
             };
             colorDic.Add("4", color);
@@ -162,7 +179,6 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
             if (isCover)
             {
                 middle_border.Background = new SolidColorBrush(colorDic[index].MiddleRangeColor);
-                
             }
 
             cover_Border.BorderBrush = new SolidColorBrush(colorDic[index].RoundColor);
