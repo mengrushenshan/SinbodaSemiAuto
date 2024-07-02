@@ -25,7 +25,7 @@ DefaultGroupName={#MyAppName}
 OutputDir=..\Output
 OutputBaseFilename=   {#OutputBaseFilename2  }
 ;R1 第一次发布
-;UsePreviousAppDir=no 
+UsePreviousAppDir=no 
 
 ;SetupIconFile=E:\文件整理\C#\Start10\Start10\windows8.ico
 ;Password=975354488-ADB0-43EE-BF18-D6DE0D047423
