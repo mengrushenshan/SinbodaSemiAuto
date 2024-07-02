@@ -85,6 +85,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public Sin_Motor ZAxisMotor { get; set; }
 
+        private bool agingIsChannel = false;
         /// <summary>
         /// 测试流程初始化
         /// </summary>
@@ -155,6 +156,15 @@ namespace Sinboda.SemiAuto.TestFlow
         }
 
         /// <summary>
+        /// 老化停止标志
+        /// </summary>
+        /// <param name="isChannel"></param>
+        public void SetAgingIsChannel(bool isChannel)
+        {
+            agingIsChannel = isChannel;
+        }
+
+        /// <summary>
         /// 根据1位置创建测试缓存
         /// </summary>
         public bool CreateTest()
@@ -199,6 +209,76 @@ namespace Sinboda.SemiAuto.TestFlow
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 老化测试
+        /// </summary>
+        public void CreateAgingTest()
+        {
+            SetAgingIsChannel(false);
+            ResMotorStatus xStatus = MotorBusiness.Instance.GetMotorStatus((int)XAxisMotor.MotorId);
+            ResMotorStatus yStatus = MotorBusiness.Instance.GetMotorStatus((int)YAxisMotor.MotorId);
+            MotorBusiness.Instance.SetXimcStatus(ZAxisMotor);
+
+            Z = ZAxisMotor.TargetPos;
+
+            if (xStatus != null)
+            {
+                X = xStatus.CurrPos;
+            }
+            else
+            {
+                return;
+            }
+
+            if (yStatus != null)
+            {
+                Y = yStatus.CurrPos;
+            }
+            else
+            {
+                return;
+            }
+
+            List<Sin_Sample> SampleList = NewNoneBoard();
+
+            foreach (var sampleItem in SampleList)
+            {
+                string fileName = sampleItem.RackDish + "_" + sampleItem.Position;
+                TestItem testItem = new TestItem();
+                testItem.ItemSample = sampleItem;
+                testItem.Testid = ++testId;
+                testItem.State = TestState.Untested;
+                testItem.SetTestItemPos(X, Y, Z);
+                testItem.CreatePoint();
+
+                Items.Add(testItem);
+            }
+
+            CurTestItem = Items[0];
+
+        }
+
+        /// <summary>
+        /// 创建新的板
+        /// </summary>
+        /// <param name="BoardItemList"></param>
+        private List<Sin_Sample> NewNoneBoard()
+        {
+            List<Sin_Sample> SampleList = new List<Sin_Sample>();
+            for (int rack = 0; rack < 8; rack++)
+            {
+                for (int pos = 1; pos <= 12; pos++)
+                {
+                    SampleList.Add(new Sin_Sample()
+                    {
+                        RackDish = Convert.ToChar('A' + rack).ToString(),
+                        Position = pos,
+                    });
+                }
+            }
+            return SampleList;
         }
 
         /// <summary>
@@ -268,6 +348,58 @@ namespace Sinboda.SemiAuto.TestFlow
                     
                     ChangeNextItem();
                 }
+            }
+        }
+
+        /// <summary>
+        /// 测试流程
+        /// </summary>
+        public void StartAgingTest()
+        {
+            while (true)
+            {
+                if (agingIsChannel)
+                {
+                    break;
+                }
+
+                foreach (var item in Items)
+                {
+                    CurTestItem = item;
+
+                    if (agingIsChannel)
+                    {
+                        break;
+                    }
+
+                    if (CurTestItem.X != X && CurTestItem.Y != Y)
+                    {
+                        MoveTestItemPos();
+                    }
+
+                    PointAgingTest();
+
+                }
+            }
+            
+        }
+
+        /// <summary>
+        /// 9点数据采集
+        /// </summary>
+        private void PointAgingTest()
+        {
+            //同一孔位9点测试
+            List<TestPoint> points = CurTestItem.points.Where(o => o.Status == TestState.Untested).ToList();
+
+            foreach (var point in points)
+            {
+                if (agingIsChannel)
+                {
+                    break;
+                }
+                CurTestItem.CurTestPoint = point;
+                MoveTestPointPos();
             }
         }
 

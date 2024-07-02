@@ -175,6 +175,10 @@
       <Project>{ef61fe73-1897-4103-97f6-e01df667b31d}</Project>
       <Name>Sinboda.SemiAuto.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sinboda.SemiAuto.TestFlow\Sinboda.SemiAuto.TestFlow.csproj">
+      <Project>{C6B503EE-2993-4409-BD86-9E1D2F7975E2}</Project>
+      <Name>Sinboda.SemiAuto.TestFlow</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="PageView\MachineryDebugPageView.xaml">

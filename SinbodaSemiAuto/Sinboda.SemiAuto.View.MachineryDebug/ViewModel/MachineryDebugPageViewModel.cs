@@ -40,6 +40,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Shapes;
 using System.Collections;
 using System.Runtime.InteropServices.ComTypes;
+using Sinboda.SemiAuto.TestFlow;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -322,6 +323,15 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         public RelayCommand PlatformStopCommand { get; set; }
 
         /// <summary>
+        /// 平台老化
+        /// </summary>
+        public RelayCommand PlatformAgingCommand { get; set; }
+        /// <summary>
+        /// 老化停止
+        /// </summary>
+        public RelayCommand AgingStopCommand { get; set; }
+
+        /// <summary>
         /// 设置点位
         /// </summary>
         public RelayCommand<string> SetCellCommand { get; set; }
@@ -577,6 +587,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             MoveCellCommand = new RelayCommand(MoveCell);
             PlatformMoveCommand = new RelayCommand(PlatformMove);
             PlatformStopCommand = new RelayCommand(PlatformStop);
+            PlatformAgingCommand = new RelayCommand(PlatformAging);
+            AgingStopCommand = new RelayCommand(AgingStop);
         }
 
         /// <summary>
@@ -923,6 +935,22 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             StopMotor(MotorList[0]);
             StopMotor(MotorList[1]);
             StopMotor(MotorList[2]);
+        }
+
+        private void PlatformAging()
+        {
+            InvokeAsync(() =>
+            {
+                TestFlow.TestFlow.Instance.SetMotorObj(MotorList[0], MotorList[1], ZaxisMotor);
+                TestFlow.TestFlow.Instance.CreateAgingTest();
+                TestFlow.TestFlow.Instance.StartAgingTest();
+
+            });
+        }
+
+        private void AgingStop()
+        {
+            TestFlow.TestFlow.Instance.SetAgingIsChannel(true);
         }
         #endregion
 

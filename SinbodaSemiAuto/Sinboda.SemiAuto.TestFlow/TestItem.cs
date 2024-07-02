@@ -129,6 +129,26 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// 创建测试点
         /// </summary>
+        public void CreatePoint()
+        {
+            for (int i = 1; i <= PointCount; i++)
+            {
+                TestPoint testPoint = new TestPoint();
+                testPoint.TestNo = i;
+                testPoint.Status = TestState.Untested;
+                testPoint.SetTestPointPos(X, Y, Z);
+                points.Add(testPoint);
+            }
+
+            if (points.Count > 0)
+            {
+                CurTestPoint = points[0];
+            }
+        }
+
+        /// <summary>
+        /// 创建测试点
+        /// </summary>
         public void CreatePoint(string fileName, string filePath)
         { 
             for (int i = 1; i <= PointCount; i++) 
