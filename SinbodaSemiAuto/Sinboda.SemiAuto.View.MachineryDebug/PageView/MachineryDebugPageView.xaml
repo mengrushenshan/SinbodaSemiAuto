@@ -158,8 +158,7 @@
                                 Command="{Binding AgingStopCommand}"
                                 CommandParameter="1"
                                 Content="{MultiLang:StringResource 0,
-                                                                   DefaultValue=停止老化}"
-                                IsEnabled="{Binding IsIdle}" />
+                                                                   DefaultValue=停止老化}"/>
                             <Button
                                 Grid.Row="1"
                                 Grid.Column="3"
