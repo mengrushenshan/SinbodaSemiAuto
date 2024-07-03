@@ -26,16 +26,6 @@ namespace Sinboda.SemiAuto.Core
 
         public InitTaskResult InitializeResource()
         {
-            //PrintHelper.Instance.Init("FUJIFILM Apeos C2560");
-            //Mat img1 = Cv2.ImRead(@"C:\Users\Lenovo\Desktop\1.jpg", ImreadModes.AnyColor);
-            //PrintHelper.Instance.Print(img1.ToBitmap()); 
-            //PrintHelper.Instance.Print("测试","we are all down the god" +
-            //    "but .................." +
-            //    ".......");
-
-            //AnalysisHelper.Instance.Init();
-            //AnalysisHelper.Instance.Analysis(new Model.DatabaseModel.SemiAuto.Sin_Test_Result() { Test_file_name = "E:\\Result" },'A',1);
-
             //设置Python环境
             PyHelper.Init();
 
@@ -43,7 +33,7 @@ namespace Sinboda.SemiAuto.Core
             GlobalData.Init();
 
             //相机初始化
-            //PVCamHelper.Instance.Init();
+            PVCamHelper.Instance.Init();
 
             //tcp指令通讯器初始化 并连接
             TcpCmdActuators.Instance.Init();
