@@ -179,6 +179,8 @@
     <Compile Include="Interfaces\IDataFrame.cs" />
     <Compile Include="Interfaces\IRequest.cs" />
     <Compile Include="Interfaces\ISubSystem.cs" />
+    <Compile Include="Manager\ModuleVersionCacheManager.cs" />
+    <Compile Include="Models\BoardInfo.cs" />
     <Compile Include="Models\Common\DataFrame.cs" />
     <Compile Include="Models\Common\Request.cs" />
     <Compile Include="Models\Common\Response.cs" />

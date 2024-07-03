@@ -180,9 +180,9 @@
       <Project>{42cbb544-20b4-42ea-9324-41dfd84e8002}</Project>
       <Name>Sinboda.Framework.View.SystemSetup</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sinboda.MultiModule.View.PageView.AboutView\Sinboda.SemiAuto.View.PageView.AboutView.csproj">
+    <ProjectReference Include="..\Sinboda.MultiModule.View.PageView.AboutView\Sinboda.SemiAuto.View.csproj">
       <Project>{a38c2f93-2ff7-4a70-9725-a28e9866fae5}</Project>
-      <Name>Sinboda.SemiAuto.View.PageView.AboutView</Name>
+      <Name>Sinboda.SemiAuto.View</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sinboda.SemiAuto.Core\Sinboda.SemiAuto.Core.csproj">
       <Project>{fb80f0d5-02fe-4a86-8faa-072e1ed1b373}</Project>

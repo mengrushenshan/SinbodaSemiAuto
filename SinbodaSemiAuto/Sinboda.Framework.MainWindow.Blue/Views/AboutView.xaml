@@ -8,12 +8,11 @@
              xmlns:infrastructure="clr-namespace:Sinboda.Framework.Infrastructure;assembly=Sinboda.Framework.Infrastructure"
              xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             Height="580" Width="800">
     <Grid>
         <ContentControl infrastructure:RegionManager.RegionName="about"/>
     </Grid>
     <sin:SinWindow.BottomPanel>
-        <!--<dr:DrButton x:Name="btnRegist" Content="{MultiLang:StringResource 2124,DefaultValue=注册}" Margin="0" Click="btnRegist_Click"/>-->
         <sin:SinButton x:Name="btnClose" Content="{MultiLang:StringResource 144,DefaultValue=关闭}" Margin="0" Click="btnClose_Click"/>
     </sin:SinWindow.BottomPanel>
 </sin:SinWindow>
