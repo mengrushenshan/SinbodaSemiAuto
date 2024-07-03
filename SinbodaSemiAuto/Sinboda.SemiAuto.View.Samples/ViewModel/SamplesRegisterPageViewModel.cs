@@ -40,7 +40,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 {
     public class SamplesRegisterPageViewModel : NavigationViewModelBase
     {
-        public Action RefTemplateBoard;
+        public Action<bool> RefTemplateBoard;
         /// <summary>
         /// 线程锁
         /// </summary>
@@ -299,8 +299,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 Set(ref boardType, value);
                 if (SelectBoard != null)
                 {
-                    SelectBoard.TestType = value;
-                    RefTemplateBoard();
+                    SelectBoard.ForEach(o => o.TestType = value);
+                    RefTemplateBoard(true);
                 }
             }
         }
@@ -315,8 +315,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 Set(ref isBoardEnable, value);
                 if (SelectBoard != null)
                 {
-                    SelectBoard.IsEnable = value;
-                    RefTemplateBoard();
+                    SelectBoard.ForEach(o => o.IsEnable = value);
+                    RefTemplateBoard(true);
                 }
             }
         }
@@ -324,8 +324,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// <summary>
         /// 选中样本
         /// </summary>
-        private Sin_Board selectBoard;
-        public Sin_Board SelectBoard
+        private List<Sin_Board> selectBoard = new List<Sin_Board>();
+        public List<Sin_Board> SelectBoard
         {
             get { return selectBoard; }
             set { Set(ref selectBoard, value); }
@@ -566,7 +566,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             SetBoardId();
             CurBoardItemList = NewNoneBoard();
-            RefTemplateBoard();
+            RefTemplateBoard(false);
         }
         private void SampleDelete()
         {
@@ -887,7 +887,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
                 SelectItem = CurBoardItemList[0].ItemName;
-                RefTemplateBoard();
+                RefTemplateBoard(false);
             });
 
         }
@@ -898,13 +898,43 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// <param name="reagent"></param>
         public void ShowBoardInfo(Sin_Board board)
         {
-            RefTemplateBoard();
-            SelectBoard = board;
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            RefTemplateBoard(true);
+            if (SelectBoard.Contains(board))
             {
-                BoardType = board.TestType;
-                IsBoardEnable = board.IsEnable;
-            });
+                SelectBoard.Remove(board);
+            }
+            else
+            {
+                SelectBoard.Add(board);
+            }
+        }
+
+        public void ShowRackBoard(string rack)
+        {
+            RefTemplateBoard(true);
+            if (!string.IsNullOrEmpty(rack))
+            {
+                CurBoardItemList.Where(o => o.Rack == rack).ToList().ForEach(p => {
+                    if (!SelectBoard.Contains(p))
+                    {
+                        SelectBoard.Add(p);
+                    }
+                });
+            }
+        }
+
+        public void ShowColBoard(int col)
+        {
+            RefTemplateBoard(true);
+            if (col != 0)
+            {
+                CurBoardItemList.Where(o => o.Position == col).ToList().ForEach(p => {
+                    if (!SelectBoard.Contains(p))
+                    {
+                        SelectBoard.Add(p);
+                    }
+                });
+            }
         }
 
         /// <summary>

@@ -26,6 +26,8 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
         public Action<Sin_Board> GetBoard;
         Dictionary<string, ReagentMonitorColor> colorDic = new Dictionary<string, ReagentMonitorColor>();
 
+        bool isSelected = false;
+
         Sin_Board sinBoard = new Sin_Board();
         Sin_BoardTemplate sinTemplate = new Sin_BoardTemplate();
         public SampleControl()
@@ -181,11 +183,23 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                 middle_border.Background = new SolidColorBrush(colorDic[index].MiddleRangeColor);
             }
 
-            cover_Border.BorderBrush = new SolidColorBrush(colorDic[index].RoundColor);
+            if (!isSelected)
+            {
+                cover_Border.BorderBrush = new SolidColorBrush(colorDic[index].RoundColor);
+            }
+            
+        }
+
+        public void SetIsSelectedFalse()
+        {
+            isSelected = false;
         }
 
         private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            SetColor("5", false);
+            isSelected = !isSelected;
+
             if (GetBoardTemplate != null)
             {
                 GetBoardTemplate(sinTemplate);
@@ -195,8 +209,6 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
             {
                 GetBoard(sinBoard);
             }
-
-            SetColor("5", false);
         }
     }
 

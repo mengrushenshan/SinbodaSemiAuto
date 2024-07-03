@@ -24,6 +24,8 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
     {
         public Action<Sin_BoardTemplate> GetBoardTemplate;
         public Action<Sin_Board> GetBoard;
+        public Action<string> SetRowBoard;
+        public Action<int> SetColBoard;
         SamplesRegisterPageViewModel boardViewModel;
         SampleRegisterBoardViewModel TempLateViewModel;
         public SampleRoundMonitorControl96()
@@ -41,6 +43,18 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                     SampleControl temp = item as SampleControl;
                     temp.GetBoard = GetBoard;
                 }
+                else if (item is SampleRowControl) 
+                {
+                    SampleRowControl rowTemp = item as SampleRowControl;
+                    rowTemp.row_TextBlock.Text = rowTemp.Tag.ToString();
+                    rowTemp.ShowRowBoard = SetRowBoard;
+                }
+                else if (item is SampleColControl)
+                {
+                    SampleColControl colTemp = item as SampleColControl;
+                    colTemp.col_TextBlock.Text = colTemp.Tag.ToString();
+                    colTemp.ShowColBoard = SetColBoard;
+                }
 
             }
         }
@@ -55,14 +69,23 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                     SampleControl temp = item as SampleControl;
                     temp.GetBoardTemplate = GetBoardTemplate;
                 }
-               
+                else if (item is SampleRowControl)
+                {
+                    SampleRowControl rowTemp = item as SampleRowControl;
+                    rowTemp.row_TextBlock.Text = rowTemp.Tag.ToString();
+                }
+                else if (item is SampleColControl)
+                {
+                    SampleColControl colTemp = item as SampleColControl;
+                    colTemp.col_TextBlock.Text = colTemp.Tag.ToString();
+                }
             }
 
         }
         /// <summary>
         /// 遍历每一个试剂，进行数据赋值
         /// </summary>
-        public void SetBoardData()
+        public void SetBoardData(bool isSelected)
         {
             if (boardViewModel == null)
             {
@@ -76,8 +99,14 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                     SampleControl temp = item as SampleControl;
                     if (temp.Tag != null)
                     {
+                        
                         Sin_Board board = boardViewModel.GetSinBoard(temp.Tag.ToString());
+                        if (!isSelected)
+                        {
+                            temp.SetIsSelectedFalse();
+                        }
                         temp.InitBoardData(board);
+                        
                     }
                 }
             }
@@ -114,7 +143,7 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
         /// <param name="e"></param>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            SetBoardData();
+            SetBoardData(false);
             SetTemplateData();
         }
     }

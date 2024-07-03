@@ -21,6 +21,8 @@ namespace Sinboda.SemiAuto.View.Samples.PageView
             sampleRoundMonitorControl96 = new SampleRoundMonitorControl96();
             sampleRoundMonitorControl96.DataContext = viewModel;
             sampleRoundMonitorControl96.GetBoard = viewModel.ShowBoardInfo;
+            sampleRoundMonitorControl96.SetRowBoard = viewModel.ShowRackBoard;
+            sampleRoundMonitorControl96.SetColBoard = viewModel.ShowColBoard;
             sampleRoundMonitorControl96.InitBoardData();
             SampleGrid.Children.Add(sampleRoundMonitorControl96);
             viewModel.RefTemplateBoard = sampleRoundMonitorControl96.SetBoardData;
