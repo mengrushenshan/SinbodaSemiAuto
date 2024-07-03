@@ -758,7 +758,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             {
                 CmdPlatformReset cmdPlatformReset = new CmdPlatformReset()
                 {
-                    ReturnHome = isReturnHome
+                    ReturnHome = isReturnHome,
+                    CloseLaser = 0
                 };
 
                 if (!cmdPlatformReset.Execute())
@@ -771,6 +772,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     ResPlatformReset resPlatformReset = cmdPlatformReset.GetResponse() as ResPlatformReset;
                     PosXaxis = resPlatformReset.CurrPosX;
                     PosYaxis = resPlatformReset.CurrPosY;
+                    PosZaxis = resPlatformReset.CurrPosZ;
                 }
             });
         }
@@ -785,7 +787,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 CmdPlatformMove cmdPlatformMove = new CmdPlatformMove()
                 {
                     X = PosXaxis,
-                    Y = PosYaxis
+                    Y = PosYaxis,
+                    Z = PosZaxis
                 };
 
                 if (cmdPlatformMove.Execute())
@@ -793,6 +796,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     ResPlatformReset resPlatformReset = cmdPlatformMove.GetResponse() as ResPlatformReset;
                     PosXaxis = resPlatformReset.CurrPosX;
                     PosYaxis = resPlatformReset.CurrPosY;
+                    PosZaxis = resPlatformReset.CurrPosZ;
                 }
                 else
                 {
@@ -816,6 +820,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     ResPlatformReset resPlatformReset = cmdPlatformStop.GetResponse() as ResPlatformReset;
                     PosXaxis = resPlatformReset.CurrPosX;
                     PosYaxis = resPlatformReset.CurrPosY;
+                    PosZaxis = resPlatformReset.CurrPosZ;
                 }
                 else
                 {
@@ -913,6 +918,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     {
                         PosXaxis = res.CurrPosX;
                         PosYaxis = res.CurrPosY;
+                        PosZaxis = res.CurrPosZ;
                     }
                 }
                 else
@@ -1869,6 +1875,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 int rawStride = (imageSize.Width * 16 + 7) / 8;
 
                 bmpSouce = BitmapSource.Create(imageSize.Width, imageSize.Height, 96, 96, System.Windows.Media.PixelFormats.Gray16, myPalette, bufBytes, rawStride);
+
+                //TODO::有一定可行性 暂时不可用
+                //var dst = bmpSouce.ToMat();
+                //Cv2.ConvertScaleAbs(dst, dst,0.5,0.5);   //把dst中的数据映射到0-65535的范围中
+                //CameraSouce = dst.ToBitmapSource();
             });
         }
 

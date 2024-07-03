@@ -257,6 +257,12 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// </summary>
         [JsonProperty("ReturnHome")]
         public int ReturnHome { get; set; }
+
+        /// <summary>
+        /// 1 关闭激光，0 不关闭激光
+        /// </summary>
+        [JsonProperty("CloseLaser")]
+        public int CloseLaser { get; set; }
     }
 
     /// <summary>
@@ -280,6 +286,18 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// </summary>
         [JsonProperty("Y")]
         public int Y { get; set; }
+
+        /// <summary>
+        /// Z坐标
+        /// </summary>
+        [JsonProperty("Z")]
+        public int Z { get; set; }
+        
+        /// <summary>
+        /// 1 先移动z轴 0不先移动z轴
+        /// </summary>
+        [JsonProperty("ZFirst")]
+        public int ZFirst { get; set; }
     }
 
     /// <summary>

@@ -104,11 +104,17 @@ namespace sin_mole_flu_analyzer.Models.Command
         /// </summary>
         public int ReturnHome { get; set; }
 
+        /// <summary>
+        /// 1 关闭激光，0 不关闭激光
+        /// </summary>
+        public int CloseLaser { get; set; }
+
         public override bool Execute()
         {
             IRequest req = new ReqPlatformReset()
             {
                 ReturnHome = ReturnHome,
+                CloseLaser= CloseLaser
             };
             IResponse res = new ResPlatformReset(req);
             return ExeInternal(req, res);
@@ -119,6 +125,7 @@ namespace sin_mole_flu_analyzer.Models.Command
             IRequest req = new ReqPlatformReset()
             {
                 ReturnHome = ReturnHome,
+                CloseLaser= CloseLaser
             };
             IResponse res = new ResPlatformReset(req);
             return ExeAsyncInternal(req, res);
@@ -140,12 +147,24 @@ namespace sin_mole_flu_analyzer.Models.Command
         /// </summary>
         public int Y { get; set; }
 
+        /// <summary>
+        /// Z坐标
+        /// </summary>
+        public int Z { get; set; }
+
+        /// <summary>
+        /// 1 先移动z轴 0不先移动z轴
+        /// </summary>
+        public int ZFirst { get; set; }
+
         public override bool Execute()
         {
             IRequest req = new ReqMovePos()
             {
                 X = X,
                 Y = Y,
+                Z = Z,
+                ZFirst = ZFirst
             };
             IResponse res = new ResPlatformReset(req);
             return ExeInternal(req, res);
@@ -157,6 +176,8 @@ namespace sin_mole_flu_analyzer.Models.Command
             {
                 X = X,
                 Y = Y,
+                Z = Z,
+                ZFirst = ZFirst
             };
             IResponse res = new ResPlatformReset(req);
             return ExeAsyncInternal(req, res);

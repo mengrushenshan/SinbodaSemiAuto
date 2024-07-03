@@ -36,6 +36,27 @@ namespace Sinboda.SemiAuto.Business.Items
         }
 
         /// <summary>
+        /// 整机复位
+        /// </summary>
+        /// <returns></returns>
+        public bool MachineReset()
+        {
+            CmdPlatformReset cmdPlatformReset = new CmdPlatformReset()
+            {
+                ReturnHome = 1,
+                CloseLaser = 1
+            };
+
+            if (!cmdPlatformReset.Execute())
+            {
+                LogHelper.logSoftWare.Error("MachineReset failed");
+                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "整机复位失败"));
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// 保存电机参数
         /// </summary>
         /// <returns></returns>

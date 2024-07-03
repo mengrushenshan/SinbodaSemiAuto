@@ -201,7 +201,13 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// y当前坐标
         /// </summary>
         [JsonProperty("CurrPosY")]
-        public int CurrPosY { get; set; }
+        public int CurrPosY { get; set; } 
+        
+        /// <summary>
+        /// z当前坐标
+        /// </summary>
+        [JsonProperty("CurrPosZ")]
+        public int CurrPosZ { get; set; }
 
         /// <summary>
         /// 
