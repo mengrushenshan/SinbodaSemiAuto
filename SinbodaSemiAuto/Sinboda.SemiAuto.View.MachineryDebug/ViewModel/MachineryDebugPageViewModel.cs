@@ -46,7 +46,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
     public class MachineryDebugPageViewModel : NavigationViewModelBase
     {
-        private bool isOpenCamera = false;
         private const int originalSize = 2048;
         private const int originalBinnerSize = 1024;
         private const int showSize = 512;
@@ -1253,16 +1252,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             InvokeAsync(() =>
             {
-                if (isOpenCamera)
+                if (PVCamHelper.Instance.GetOpenFlag())
                 {
                     PVCamHelper.Instance.Pause();
-                    isOpenCamera = false;
                     ChangeButtonText();
                 }
                 else
                 {
                     PVCamHelper.Instance.StartCont();
-                    isOpenCamera = true;
                     ChangeButtonText();
                 }
             });
@@ -1288,7 +1285,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             InvokeAsync(() =>
             {
-                if (isOpenCamera)
+                if (PVCamHelper.Instance.GetOpenFlag())
                 {
                     PVCamHelper.Instance.Pause();
                 }
@@ -1302,7 +1299,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
-                CameraButtonText = isOpenCamera ? SystemResources.Instance.GetLanguage(0, "关闭相机") : SystemResources.Instance.GetLanguage(0, "打开相机");
+                CameraButtonText = PVCamHelper.Instance.GetOpenFlag() ? SystemResources.Instance.GetLanguage(0, "关闭相机") : SystemResources.Instance.GetLanguage(0, "打开相机");
             });
         }
 
@@ -1325,10 +1322,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
                 int focusImageCount = (FocusEndPos - FocusBeginPos) / focusMoveStep;
 
-                if (!isOpenCamera)
+                if (!PVCamHelper.Instance.GetOpenFlag())
                 {
                     PVCamHelper.Instance.StartCont();
-                    isOpenCamera = true;
                     ChangeButtonText();
                 }
 
@@ -1432,10 +1428,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             InvokeAsync(() =>
             {
-                if (!isOpenCamera)
+                if (!PVCamHelper.Instance.GetOpenFlag())
                 {
                     PVCamHelper.Instance.StartCont();
-                    isOpenCamera = true;
                     ChangeButtonText();
                 }
 
