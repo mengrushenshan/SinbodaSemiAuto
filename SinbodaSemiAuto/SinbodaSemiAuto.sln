@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sinboda.Framework.View.Syst
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sinboda.Framework.View.SystemAlarm", "Sinboda.Framework.View.SystemAlarm\Sinboda.Framework.View.SystemAlarm.csproj", "{1356ED85-D501-4026-B510-698BDAFDFB60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sinboda.SemiAuto.View.PageView.AboutView", "Sinboda.MultiModule.View.PageView.AboutView\Sinboda.SemiAuto.View.PageView.AboutView.csproj", "{A38C2F93-2FF7-4A70-9725-A28E9866FAE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sinboda.SemiAuto.View", "Sinboda.MultiModule.View.PageView.AboutView\Sinboda.SemiAuto.View.csproj", "{A38C2F93-2FF7-4A70-9725-A28E9866FAE5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sinboda.Framework.Print", "Sinboda.Framework.Print\Sinboda.Framework.Print.csproj", "{5924F8E7-0123-4318-904A-26BFBF4B02E1}"
 EndProject

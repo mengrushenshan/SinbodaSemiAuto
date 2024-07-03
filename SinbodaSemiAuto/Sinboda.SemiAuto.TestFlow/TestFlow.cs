@@ -275,15 +275,17 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <param name="BoardItemList"></param>
         private List<Sin_Sample> NewNoneBoard()
         {
+            bool NeedCut = true;
             List<Sin_Sample> SampleList = new List<Sin_Sample>();
             for (int rack = 0; rack < 8; rack++)
             {
+                NeedCut = !NeedCut;
                 for (int pos = 1; pos <= 12; pos++)
                 {
                     SampleList.Add(new Sin_Sample()
                     {
                         RackDish = Convert.ToChar('A' + rack).ToString(),
-                        Position = pos,
+                        Position = NeedCut ? 13 - pos : pos,
                     });
                 }
             }

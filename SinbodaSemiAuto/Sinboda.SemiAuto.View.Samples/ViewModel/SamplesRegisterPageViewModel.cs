@@ -46,7 +46,6 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private readonly static object objLock = new object();
 
-        private bool isOpenCamera = false;
         #region 数据
         /// <summary>
         /// 三排孔位
@@ -732,16 +731,14 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private void CameraOpenAndClose()
         {
-            if (isOpenCamera)
+            if (PVCamHelper.Instance.GetOpenFlag())
             {
                 PVCamHelper.Instance.Pause();
-                isOpenCamera = false;
                 ChangeButtonText();
             }
             else
             {
                 PVCamHelper.Instance.StartCont();
-                isOpenCamera = true;
                 ChangeButtonText();
             }
         }
@@ -751,7 +748,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private void CameraPause()
         {
-            if (isOpenCamera)
+            if (PVCamHelper.Instance.GetOpenFlag())
             {
                 PVCamHelper.Instance.Pause();
             }
@@ -764,7 +761,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
-                CameraButtonText = isOpenCamera ? SystemResources.Instance.GetLanguage(0, "关闭相机") : SystemResources.Instance.GetLanguage(0, "打开相机");
+                CameraButtonText = PVCamHelper.Instance.GetOpenFlag() ? SystemResources.Instance.GetLanguage(0, "关闭相机") : SystemResources.Instance.GetLanguage(0, "打开相机");
             });
         }
 
@@ -779,10 +776,9 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
             string fileName = $"{dateText}.tif";
 
-            if (!isOpenCamera)
+            if (!PVCamHelper.Instance.GetOpenFlag())
             {
                 PVCamHelper.Instance.StartCont();
-                isOpenCamera = true;
                 ChangeButtonText();
             }
 
@@ -828,10 +824,9 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
 
             }, 0, ancBegin =>
             {
-                if (!isOpenCamera)
+                if (!PVCamHelper.Instance.GetOpenFlag())
                 {
                     PVCamHelper.Instance.StartCont();
-                    isOpenCamera = true;
                     ChangeButtonText();
                 }
                 Task.Run(() =>

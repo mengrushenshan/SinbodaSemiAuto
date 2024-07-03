@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Sinboda.SemiAuto.View.PageView.SemiAutoTopRange"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.SemiAuto.View.PageView"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <ItemsControl>
+            <Button Click="Button_Click">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <Path Data="{DynamicResource Glyphicon-Send}" Fill="White" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="36" Width="36"/>
+                    <TextBlock Text="{MultiLang:StringResource 1878,DefaultValue=发送}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
+                </Grid>
+            </Button>
+            <Button Name="btnStop" Click="btnStop_Click">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="35"/>
+                    </Grid.RowDefinitions>
+                    <Path Data="{DynamicResource Glyphicon-Stop}" Fill="White" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="32" Width="32"/>
+                    <TextBlock Text="{MultiLang:StringResource 814,DefaultValue=停止}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
+                </Grid>
+            </Button>
+            
+        </ItemsControl>
+    </Grid>
+</UserControl>

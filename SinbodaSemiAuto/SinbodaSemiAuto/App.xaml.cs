@@ -60,6 +60,7 @@ namespace SinbodaSemiAuto
 
                     //产品部分
                     bootStrapper.ModuleManager.ModuleInitDic.Add("Sinboda.SemiAuto.Core.dll#Sinboda.SemiAuto.Core.InitializeModule", new Sinboda.SemiAuto.Core.InitializeModule());
+                    bootStrapper.ModuleManager.ModuleInitDic.Add("Sinboda.SemiAuto.View.dll#Sinboda.SemiAuto.View.InitializeModule", new Sinboda.SemiAuto.View.InitializeModule());
                     bootStrapper.ModuleManager.ModuleInitDic.Add("Sinboda.SemiAuto.View.Samples.dll#Sinboda.SemiAuto.View.Samples.InitializeModule", new Sinboda.SemiAuto.View.Samples.InitializeModule());
                     bootStrapper.ModuleManager.ModuleInitDic.Add("Sinboda.SemiAuto.View.Results.dll#Sinboda.SemiAuto.View.Results.InitializeModule", new Sinboda.SemiAuto.View.Results.InitializeModule());
                     bootStrapper.ModuleManager.ModuleInitDic.Add("Sinboda.SemiAuto.View.MachineryDebug.dll#Sinboda.SemiAuto.View.MachineryDebug.InitializeModule", new Sinboda.SemiAuto.View.MachineryDebug.InitializeModule());

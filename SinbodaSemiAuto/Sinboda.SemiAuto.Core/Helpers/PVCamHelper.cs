@@ -36,6 +36,10 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// </summary>
         private bool IsInitSuccess = false;
         /// <summary>
+        /// 初始化标志
+        /// </summary>
+        private bool IsOpenFlag = false;
+        /// <summary>
         /// 线程锁
         /// </summary>
         private readonly object _lockObj = new object();
@@ -145,6 +149,15 @@ namespace Sinboda.SemiAuto.Core.Helpers
             return IsInitSuccess;
         }
 
+        /// <summary>
+        /// 获取初始化标志
+        /// </summary>
+        /// <returns></returns>
+        public bool GetOpenFlag()
+        {
+            return IsOpenFlag;
+        }
+
         public RotateFlags GetRotateFlags()
         {
             return rotateFlag;
@@ -162,6 +175,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                         videoWriter.Release();
                     //停止定时器
                     IsEnabled = false;
+                    IsOpenFlag = false;
 
                     //释放相机资源
                     if (camCtrl.IsNull())
@@ -200,7 +214,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 {
                     //停止定时器
                     IsEnabled = false;
-
+                    IsOpenFlag = false;
                     //释放相机资源
                     if (camCtrl.IsNull())
                         return;
@@ -274,6 +288,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
             lock (_lockObj)
             {
                 IsEnabled = true;
+                IsOpenFlag = true;
                 //设置连续模式 ，获取帧直到结束
                 camCtrl.SetupAcquisition(PvcamController.AcquisitionType.Continuous, PvcamController.RUN_UNTIL_STOPPED);
                 camCtrl.StartAcquisition();
@@ -290,6 +305,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
             lock (_lockObj)
             {
                 IsEnabled = true;
+                IsOpenFlag = true;
                 //序列模式 获取一帧
                 camCtrl.SetupAcquisition(PvcamController.AcquisitionType.Sequence, GlobalData.FrameNum);
                 camCtrl.StartAcquisition();
