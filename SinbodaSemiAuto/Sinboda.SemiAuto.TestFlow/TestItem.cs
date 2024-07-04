@@ -15,12 +15,12 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// X轴每个点的便宜量
         /// </summary>
-        private const int XaxisOffset = 14400;
+        private const int XaxisOffset = 9 * 16 * 200;   // 9mm;
 
         /// <summary>
         /// Y轴每个点的便宜量
         /// </summary>
-        private const int YaxisOffset = 14400;
+        private const int YaxisOffset = 9 * 16 * 200;
 
         /// <summary>
         /// 测试点位数量
@@ -85,7 +85,7 @@ namespace Sinboda.SemiAuto.TestFlow
             char[] cRack = ItemSample.RackDish.ToCharArray();
 
             X = x + (ItemSample.Position - 1) * XaxisOffset;
-            Y = y + (cRack[0] - 65) * YaxisOffset;
+            Y = y + (cRack[0] - 'A') * YaxisOffset;
             Z = z;
         }
 
