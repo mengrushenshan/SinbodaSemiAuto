@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Size = System.Drawing.Size;
@@ -460,15 +461,19 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <returns></returns>
         public void FrameToBMP(byte[] srcData, Size imageSize, PVCAM.PL_IMAGE_FORMATS srcFmt, double srcMin, double srcMax, bool useParallelProcessing)
         {
-            //生成数据
-            m_displayableBitmap = new DirectBitmap(imageSize);
-            m_displayableBitmap.FrameToBMP(srcData, imageSize, srcFmt, srcMin, srcMax, useParallelProcessing);
+            Mat source = new Mat(imageSize.Width, imageSize.Height, MatType.CV_16UC1, srcData);
+            Mat temp = new Mat(imageSize.Width, imageSize.Height, MatType.CV_16UC1);
+            Mat dst = new Mat(imageSize.Width, imageSize.Height, MatType.CV_8UC1);
 
-            //缩放 并且旋转图像
-            Mat matTemp = Rehandle(m_displayableBitmap.Bitmap.ToMat(), new OpenCvSharp.Size(imageSize.Width, imageSize.Height));
+            OpenCvSharp.Size gridSize = new OpenCvSharp.Size(1, 1);
+            CLAHE clahe = Cv2.CreateCLAHE(0.5, gridSize);
+            clahe.Apply(source, temp);
+            double maxV, minV;
+            Cv2.MinMaxLoc(temp, out minV, out maxV);
+            Cv2.Normalize(temp, dst, 0, maxV, NormTypes.MinMax, MatType.CV_8UC1);
 
-            //ROI处理 TODO:需要根据用户设置 输入ROI范围 
-            //Mat matROI = ROI(matTemp, 0, Width, 0, Height); 相机已经设置ROI，图像不在处理ROI
+            Mat matTemp = new Mat();
+            Cv2.Rotate(dst, matTemp, GetRotateFlags());
            
             //通知界面
             Messenger.Default.Send<Mat>(matTemp, MessageToken.TokenCamera);
@@ -481,26 +486,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 matTemp = Bit32To24(bmp).ToMat();
                 videoWriter.Write(matTemp);
             }
-
-            //释放
-            m_displayableBitmap.Dispose();
-        }
-
-        /// <summary>
-        /// 图像重新处理
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="size"></param>
-        /// <param name="rotateFlags"></param>
-        /// <returns></returns>
-        private Mat Rehandle(Mat source, OpenCvSharp.Size size, RotateFlags rotateFlags = RotateFlags.Rotate90Counterclockwise)
-        {
-            //Mat mat = new Mat();
-            Mat dst = new Mat();
-            //Cv2.Resize(source, mat, size);
-            //旋转
-            Cv2.Rotate(source, dst, GetRotateFlags());
-            return dst;
         }
 
         /// <summary>
