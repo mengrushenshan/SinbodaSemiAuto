@@ -189,6 +189,12 @@ namespace Sinboda.SemiAuto.TestFlow
                 {
                     var pos = isOrder ? i : 13 - i;
                     Sin_Board boardItem = BoardList.Where(o => o.Rack == rack.ToString() && o.Position ==  pos).First();
+
+                    if (!boardItem.IsEnable)
+                    {
+                        continue;
+                    }
+
                     string fileName = boardItem.Rack + "_" + boardItem.Position;
                     TestItem testItem = new TestItem();
                     testItem.ItemBoard = boardItem;
