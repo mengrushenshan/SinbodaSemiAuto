@@ -24,6 +24,11 @@ namespace Sinboda.SemiAuto.TestFlow
 {
     public class TestFlow : TBaseSingleton<TestFlow>
     {
+        /// <summary>
+        /// 聚焦步长
+        /// </summary>
+        private const int focusMoveStep = 4;
+
         private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
         /// <summary>
         /// 等待拍照结束通知
@@ -89,7 +94,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <summary>
         /// 测试流程初始化
         /// </summary>
-        private bool Init(ref List<Sin_Sample> SampleList)
+        private bool Init()
         {
             AcquiringImageFinish.Reset();
             DateTime today = DateTime.Now.Date;
@@ -98,16 +103,6 @@ namespace Sinboda.SemiAuto.TestFlow
             {
                 return true;
             }
-
-            //获取样本队列
-            var sampleList = SampleBusiness.Instance.GetSampleListByPredicate(o => o.BoardId == BoardId && o.Sample_date >= today && o.Sample_date < tomorrow && o.Test_state != TestState.Complete);
-
-            if (sampleList == null || sampleList.Count == 0) 
-            {
-                return false;
-            }
-
-            SampleList = sampleList.OrderBy(p => p.RackDish).ThenBy(q => q.Position).ToList();
 
             //启动测试时，实时获取电机所在位置
             ResMotorStatus xStatus = MotorBusiness.Instance.GetMotorStatus((int)XAxisMotor.MotorId);
@@ -169,29 +164,46 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public bool CreateTest()
         {
-            List<Sin_Sample> SampleList = new List<Sin_Sample>();
-            if (!Init(ref SampleList))
+            bool isOrder = false;
+            if (!Init())
             {
                 return false;
             }
 
-            string samplePath = MapPath.TifPath + "Result\\" + $"{SampleList.First().TestResult.Test_file_name}\\";
+            List<Sin_Board> BoardList = BoardBusiness.Instance.GetBoardListByBoardId(BoardId);
+            if (BoardList == null || BoardList.Count() == 0)
+            {
+                return false;
+            }
+
+            string samplePath = MapPath.TifPath + "Result\\" + $"{BoardList.First().ItemName}\\";
             if (!Directory.Exists(samplePath))
             {
                 Directory.CreateDirectory(samplePath);
             }
 
-            foreach (var sampleItem in SampleList)
+            for (char rack = 'A'; rack <= 'H'; rack++)
             {
-                string fileName = sampleItem.RackDish + "_" + sampleItem.Position;
-                TestItem testItem = new TestItem();
-                testItem.ItemSample = sampleItem;
-                testItem.Testid = ++testId;
-                testItem.State = TestState.Untested;
-                testItem.SetTestItemPos(X, Y, Z);
-                testItem.CreatePoint(fileName, samplePath);
+                isOrder = !isOrder;
+                for (int i = 1; i <= 12; i++)
+                {
+                    var pos = isOrder ? i : 13 - i;
+                    Sin_Board boardItem = BoardList.Where(o => o.Rack == rack.ToString() && o.Position ==  pos).First();
+                    string fileName = boardItem.Rack + "_" + boardItem.Position;
+                    TestItem testItem = new TestItem();
+                    testItem.ItemBoard = boardItem;
+                    testItem.Type = boardItem.TestType;
+                    testItem.Testid = ++testId;
+                    testItem.State = TestState.Untested;
+                    testItem.SetTestItemPos(X, Y, Z);
+                    if (testItem.Type == TestType.Sample)
+                    {
+                        testItem.ItemSample = SampleBusiness.Instance.GetSampleByRackPos(boardItem.BoardId, boardItem.Rack, boardItem.Position);
+                        testItem.CreatePoint(fileName, samplePath);
+                    }
 
-                Items.Add(testItem);
+                    Items.Add(testItem);
+                }
             }
 
             if (Items.Count == 0)
@@ -293,6 +305,14 @@ namespace Sinboda.SemiAuto.TestFlow
         }
 
         /// <summary>
+        /// 移动到聚焦位置
+        /// </summary>
+        public void MoveFocusPos()
+        {
+            MotorBusiness.Instance.MoveAbsolute((int)ZAxisMotor.MotorId, Z);
+        }
+
+        /// <summary>
         /// 移动测试位置
         /// </summary>
         public void MoveTestItemPos()
@@ -309,14 +329,6 @@ namespace Sinboda.SemiAuto.TestFlow
             //移动xy
             CurTestItem.CurTestPoint.MoveTestItemXPos((int)XAxisMotor.MotorId);
             CurTestItem.CurTestPoint.MoveTestItemYPos((int)YAxisMotor.MotorId);
-        }
-
-        /// <summary>
-        /// 启动测试流程
-        /// </summary>
-        public void ChangeNextItem()
-        {
-            
         }
 
         /// <summary>
@@ -340,26 +352,80 @@ namespace Sinboda.SemiAuto.TestFlow
                 {
                     MoveTestItemPos();
                 }
-
-                PointAcquiringImage();
-
-                //点位测试完成后，移动到下一个点
-                if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
+                switch (CurTestItem.Type)
                 {
-                    CurTestItem.State = TestState.Complete;
-                    string rack = CurTestItem.ItemSample.RackDish;
-                    int pos = CurTestItem.ItemSample.Position;
-                    Task.Run(async () => {
-                        await semaphoreSlim.WaitAsync();
-                        //AnalysisHelper.Instance.Init();
-                        AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, rack.ToCharArray()[0], pos);
-                        //AnalysisHelper.Instance.Shutdown();
-                        semaphoreSlim.Release();
-                    });
-                    
-                    ChangeNextItem();
+                    case TestType.Sample:
+                        {
+                            SampleTestFlow();
+                        }
+                        break;
+                    case TestType.Focus:
+                        { 
+
+                        }
+                        break;
+
+
                 }
+                
             }
+        }
+        private void SampleTestFlow()
+        {
+            PointAcquiringImage();
+
+            //点位测试完成后，移动到下一个点
+            if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
+            {
+                CurTestItem.State = TestState.Complete;
+                string rack = CurTestItem.ItemSample.RackDish;
+                int pos = CurTestItem.ItemSample.Position;
+                Task.Run(async () => {
+                    await semaphoreSlim.WaitAsync();
+                    //AnalysisHelper.Instance.Init();
+                    AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, rack.ToCharArray()[0], pos);
+                    //AnalysisHelper.Instance.Shutdown();
+                    semaphoreSlim.Release();
+                });
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void FocusTestFlow(int FocusBeginPos, int FocusEndPos)
+        {
+            string dateText = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
+            string fileName = $"{dateText}.tif";
+
+            if (FocusBeginPos > FocusEndPos)
+            {
+                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "聚焦起始位置大于结束位置"));
+                return;
+            }
+
+            int focusImageCount = (FocusEndPos - FocusBeginPos) / focusMoveStep;
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            //开启激光
+            ControlBusiness.Instance.LightEnableCtrl(1, 0.5, 1);
+            //移动到暂定起始位置
+            Z = FocusBeginPos;
+            MoveFocusPos();
+
+            //计算聚焦位置
+            int autoFocusPos = AutofocusHelper.Instance.ZPos(ZAxisMotor, FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
+
+            //移动到最佳聚焦位置
+            Z = autoFocusPos;
+            MoveFocusPos();
+            //关闭激光
+            ControlBusiness.Instance.LightEnableCtrl(0, 0.5, 1);
         }
 
         /// <summary>

@@ -63,6 +63,11 @@ namespace Sinboda.SemiAuto.TestFlow
         public List<TestPoint> points { get; set; } = new List<TestPoint>();
 
         /// <summary>
+        /// 测试对应板孔
+        /// </summary>
+        public Sin_Board ItemBoard { get; set; }
+
+        /// <summary>
         /// 测试对应样本
         /// </summary>
         public Sin_Sample ItemSample { get; set; }
@@ -82,9 +87,9 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <param name="pos"></param>
         public void SetTestItemPos(int x, int y, int z)
         {
-            char[] cRack = ItemSample.RackDish.ToCharArray();
+            char[] cRack = ItemBoard.Rack.ToCharArray();
 
-            X = x + (ItemSample.Position - 1) * XaxisOffset;
+            X = x + (ItemBoard.Position - 1) * XaxisOffset;
             Y = y + (cRack[0] - 65) * YaxisOffset;
             Z = z;
         }

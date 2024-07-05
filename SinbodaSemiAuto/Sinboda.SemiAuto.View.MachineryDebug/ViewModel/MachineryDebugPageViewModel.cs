@@ -49,7 +49,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         private const int originalSize = 2048;
         private const int originalBinnerSize = 1024;
         private const int showSize = 512;
-        private const int focusMoveStep = 64;
+        private const int focusMoveStep = 4;
         /// <summary>
         /// 线程锁
         /// </summary>

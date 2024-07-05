@@ -67,13 +67,13 @@ namespace Sinboda.SemiAuto.Business.Samples
         /// <param name="rack"></param>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public Sin_Sample GetSampleByRackPos(string rack, int pos)
+        public Sin_Sample GetSampleByRackPos(int boardId, string rack, int pos)
         {
             List<Sin_Sample> sampleList = Sin_Sample_DataOperation.Instance.QueryTodaySampleList();
 
             if (sampleList != null)
             {
-                var sampleTemp = sampleList.Where(o => o.RackDish == rack && o.Position == pos).ToList();
+                var sampleTemp = sampleList.Where(o => o.RackDish == rack && o.Position == pos && o.BoardId == boardId).ToList();
                 if (sampleTemp.Count > 0)
                 {
                     return sampleTemp.FirstOrDefault();

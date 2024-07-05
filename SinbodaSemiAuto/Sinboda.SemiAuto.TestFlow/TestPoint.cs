@@ -137,7 +137,7 @@ namespace Sinboda.SemiAuto.TestFlow
             switch (TestNo)
             {
                 case 1:
-                case 4:
+                case 6:
                 case 7:
                     {
                         result = x - XaxisOffset;
@@ -151,7 +151,7 @@ namespace Sinboda.SemiAuto.TestFlow
                     }
                     break;
                 case 3:
-                case 6:
+                case 4:
                 case 9:
                     {
                         result = x + XaxisOffset;
