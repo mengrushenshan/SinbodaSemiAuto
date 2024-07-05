@@ -158,7 +158,7 @@
                                 Command="{Binding AgingStopCommand}"
                                 CommandParameter="1"
                                 Content="{MultiLang:StringResource 0,
-                                                                   DefaultValue=停止老化}"/>
+                                                                   DefaultValue=停止老化}" />
                             <Button
                                 Grid.Row="1"
                                 Grid.Column="3"
@@ -343,23 +343,24 @@
                                     <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
 
-                                <!--#region 第二个电机-->
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Command="{Binding MoveRelateCommand}"
+                                    Command="{Binding ResetCommand}"
                                     CommandParameter="{Binding MotorList[2]}"
                                     Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=相对移动}"
+                                                                       DefaultValue=复位机械原点}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="2"
-                                    Command="{Binding MoveAbsoluteCommand}"
+                                    Command="{Binding ResetLogicalCommand}"
                                     CommandParameter="{Binding MotorList[2]}"
                                     Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=绝对移动}"
+                                                                       DefaultValue=复位工作原点}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="4"
@@ -368,29 +369,32 @@
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=一直移动}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="6"
-                                    Command="{Binding ResetCommand}"
-                                    CommandParameter="{Binding MotorList[2]}"
-                                    Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=复位机械原点}"
-                                    IsEnabled="{Binding IsIdle}" />
-                                <sin:SinButton
-                                    Grid.Row="0"
-                                    Grid.Column="8"
-                                    Command="{Binding ResetLogicalCommand}"
-                                    CommandParameter="{Binding MotorList[2]}"
-                                    Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=复位工作原点}"
-                                    IsEnabled="{Binding IsIdle}" />
-                                <sin:SinButton
-                                    Grid.Row="0"
-                                    Grid.Column="10"
                                     Command="{Binding StopCommand}"
                                     CommandParameter="{Binding MotorList[2]}"
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=停止}" />
+                                <sin:SinButton
+                                    Grid.Row="0"
+                                    Grid.Column="8"
+                                    Command="{Binding MoveRelateCommand}"
+                                    CommandParameter="{Binding MotorList[2]}"
+                                    Content="{MultiLang:StringResource 0,
+                                                                       DefaultValue=相对移动}"
+                                    IsEnabled="{Binding IsIdle}" />
+
+                                <sin:SinButton
+                                    Grid.Row="0"
+                                    Grid.Column="10"
+                                    Command="{Binding MoveAbsoluteCommand}"
+                                    CommandParameter="{Binding MotorList[2]}"
+                                    Content="{MultiLang:StringResource 0,
+                                                                       DefaultValue=绝对移动}"
+                                    IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="12"
@@ -399,6 +403,7 @@
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=定位原点}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="14"
@@ -407,7 +412,7 @@
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=保存}"
                                     IsEnabled="{Binding IsIdle}" />
-                                <!--#endregion-->
+
                             </sin:SinGrid>
                         </sin:SinGrid>
 
@@ -566,23 +571,24 @@
                                     <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
 
-                                <!--#region 第二个电机-->
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Command="{Binding MoveRelateCommand}"
+                                    Command="{Binding ResetCommand}"
                                     CommandParameter="{Binding MotorList[0]}"
                                     Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=相对移动}"
+                                                                       DefaultValue=复位机械原点}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="2"
-                                    Command="{Binding MoveAbsoluteCommand}"
+                                    Command="{Binding ResetLogicalCommand}"
                                     CommandParameter="{Binding MotorList[0]}"
                                     Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=绝对移动}"
+                                                                       DefaultValue=复位工作原点}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="4"
@@ -591,29 +597,32 @@
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=一直移动}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="6"
-                                    Command="{Binding ResetCommand}"
-                                    CommandParameter="{Binding MotorList[0]}"
-                                    Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=复位机械原点}"
-                                    IsEnabled="{Binding IsIdle}" />
-                                <sin:SinButton
-                                    Grid.Row="0"
-                                    Grid.Column="8"
-                                    Command="{Binding ResetLogicalCommand}"
-                                    CommandParameter="{Binding MotorList[0]}"
-                                    Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=复位工作原点}"
-                                    IsEnabled="{Binding IsIdle}" />
-                                <sin:SinButton
-                                    Grid.Row="0"
-                                    Grid.Column="10"
                                     Command="{Binding StopCommand}"
                                     CommandParameter="{Binding MotorList[0]}"
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=停止}" />
+                                <sin:SinButton
+                                    Grid.Row="0"
+                                    Grid.Column="8"
+                                    Command="{Binding MoveRelateCommand}"
+                                    CommandParameter="{Binding MotorList[0]}"
+                                    Content="{MultiLang:StringResource 0,
+                                                                       DefaultValue=相对移动}"
+                                    IsEnabled="{Binding IsIdle}" />
+
+                                <sin:SinButton
+                                    Grid.Row="0"
+                                    Grid.Column="10"
+                                    Command="{Binding MoveAbsoluteCommand}"
+                                    CommandParameter="{Binding MotorList[0]}"
+                                    Content="{MultiLang:StringResource 0,
+                                                                       DefaultValue=绝对移动}"
+                                    IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="12"
@@ -622,6 +631,7 @@
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=定位原点}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="14"
@@ -630,7 +640,7 @@
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=保存}"
                                     IsEnabled="{Binding IsIdle}" />
-                                <!--#endregion-->
+
                             </sin:SinGrid>
                         </sin:SinGrid>
                     </sin:SinGroupBox>
@@ -788,23 +798,24 @@
                                     <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
 
-                                <!--#region 第三个电机-->
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Command="{Binding MoveRelateCommand}"
+                                    Command="{Binding ResetCommand}"
                                     CommandParameter="{Binding MotorList[1]}"
                                     Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=相对移动}"
+                                                                       DefaultValue=复位机械原点}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="2"
-                                    Command="{Binding MoveAbsoluteCommand}"
+                                    Command="{Binding ResetLogicalCommand}"
                                     CommandParameter="{Binding MotorList[1]}"
                                     Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=绝对移动}"
+                                                                       DefaultValue=复位工作原点}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="4"
@@ -813,29 +824,32 @@
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=一直移动}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="6"
-                                    Command="{Binding ResetCommand}"
-                                    CommandParameter="{Binding MotorList[1]}"
-                                    Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=复位机械原点}"
-                                    IsEnabled="{Binding IsIdle}" />
-                                <sin:SinButton
-                                    Grid.Row="0"
-                                    Grid.Column="8"
-                                    Command="{Binding ResetLogicalCommand}"
-                                    CommandParameter="{Binding MotorList[1]}"
-                                    Content="{MultiLang:StringResource 0,
-                                                                       DefaultValue=复位工作原点}"
-                                    IsEnabled="{Binding IsIdle}" />
-                                <sin:SinButton
-                                    Grid.Row="0"
-                                    Grid.Column="10"
                                     Command="{Binding StopCommand}"
                                     CommandParameter="{Binding MotorList[1]}"
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=停止}" />
+                                <sin:SinButton
+                                    Grid.Row="0"
+                                    Grid.Column="8"
+                                    Command="{Binding MoveRelateCommand}"
+                                    CommandParameter="{Binding MotorList[1]}"
+                                    Content="{MultiLang:StringResource 0,
+                                                                       DefaultValue=相对移动}"
+                                    IsEnabled="{Binding IsIdle}" />
+
+                                <sin:SinButton
+                                    Grid.Row="0"
+                                    Grid.Column="10"
+                                    Command="{Binding MoveAbsoluteCommand}"
+                                    CommandParameter="{Binding MotorList[1]}"
+                                    Content="{MultiLang:StringResource 0,
+                                                                       DefaultValue=绝对移动}"
+                                    IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="12"
@@ -844,6 +858,7 @@
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=定位原点}"
                                     IsEnabled="{Binding IsIdle}" />
+
                                 <sin:SinButton
                                     Grid.Row="0"
                                     Grid.Column="14"
@@ -852,7 +867,7 @@
                                     Content="{MultiLang:StringResource 0,
                                                                        DefaultValue=保存}"
                                     IsEnabled="{Binding IsIdle}" />
-                                <!--#endregion-->
+
                             </sin:SinGrid>
                         </sin:SinGrid>
 
