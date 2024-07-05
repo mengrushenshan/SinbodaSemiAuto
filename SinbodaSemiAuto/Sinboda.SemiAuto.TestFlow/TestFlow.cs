@@ -289,10 +289,11 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             bool NeedCut = true;
             List<Sin_Sample> SampleList = new List<Sin_Sample>();
-            for (int rack = 0; rack < 8; rack++)
+            //for (int rack = 0; rack < 8; rack++)
+            for (int rack = 1; rack < 7; rack++)
             {
                 NeedCut = !NeedCut;
-                for (int pos = 1; pos <= 12; pos++)
+                for (int pos = 2; pos <= 11; pos++)
                 {
                     SampleList.Add(new Sin_Sample()
                     {
@@ -300,6 +301,10 @@ namespace Sinboda.SemiAuto.TestFlow
                         Position = NeedCut ? 13 - pos : pos,
                     });
                 }
+            }
+            for (int i=0; i< SampleList.Count - 1; i++)
+            {
+                Console.WriteLine(SampleList[i].RackDish);
             }
             return SampleList;
         }

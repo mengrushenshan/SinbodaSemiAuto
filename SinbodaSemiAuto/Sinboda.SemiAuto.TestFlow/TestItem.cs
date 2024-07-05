@@ -89,8 +89,8 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             char[] cRack = ItemBoard.Rack.ToCharArray();
 
-            X = x + (ItemBoard.Position - 1) * XaxisOffset;
-            Y = y + (cRack[0] - 65) * YaxisOffset;
+            X = x + (ItemSample.Position - 2) * XaxisOffset;
+            Y = y + (cRack[0] - 'B') * YaxisOffset;
             Z = z;
         }
 
