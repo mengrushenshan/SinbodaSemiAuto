@@ -65,6 +65,11 @@ namespace Sinboda.SemiAuto.Core.Helpers
 
         public bool IsConnected()
         {
+            if (commDriver == null)
+            {
+                return false;
+            }
+
             return commDriver.IsConnected();
         }
 

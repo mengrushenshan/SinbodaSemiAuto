@@ -21,8 +21,8 @@
     <Border BorderThickness="0,1,0,0" Height="90" BorderBrush="#FF1E4D83">
         <Border.Background>
             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" >
-                <GradientStop Color="#FF1E4D83" Offset="1"/>
-                <GradientStop Color="#FF467AB4" Offset="0"/>
+                <GradientStop Color="#393973" Offset="1"/>
+                <GradientStop Color="#6565B1" Offset="0"/>
             </LinearGradientBrush>
         </Border.Background>
 
@@ -30,7 +30,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="auto"/>
@@ -44,8 +44,35 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
 
-            <Border Grid.Column="1" BorderThickness="0" CornerRadius="8" BorderBrush="#33000000" Background="#661E3B5D" Margin="5,5,0,5">
-                <mainBlue:WarningView Width="48" Height="48" Level="{Binding Source={StaticResource SystemResources}, Path=Instance.AnalyzerAlarmLevel}"/>
+            <Border Grid.Column="1" BorderThickness="0" CornerRadius="8" BorderBrush="#33000000" Background="#661E3B5D" Margin="0,0,1,0" Height="75" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <!--<TextBlock  Foreground="White" MinWidth="400" VerticalAlignment="Center" FontSize="20" Text="欢迎使用解决方案管理器！aaaaaaaaaaaaaaaaaabbbbbbbbbbbb"></TextBlock>-->
+                    <Grid x:Name="AlarmInfo" MinWidth="400" VerticalAlignment="Center">
+                        <Canvas VerticalAlignment="Top" Height="46" ClipToBounds="True" Margin="0,15,0,0">
+
+                            <StackPanel Name="StatueWithFireMachine" Margin="7,5,0,0" Height="34" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <StackPanel.RenderTransform>
+                                    <TranslateTransform Y="0" />
+                                </StackPanel.RenderTransform>
+                                <TextBlock FontSize="20" Foreground="White" Name="text_FireMachineStatue" />
+                            </StackPanel>
+                            <Canvas.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="-200" Duration="0:0:20" 
+                        RepeatBehavior="Forever" 
+                        FillBehavior="HoldEnd"
+                        Storyboard.TargetName="StatueWithFireMachine"
+                        Storyboard.TargetProperty="RenderTransform.X"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Canvas.Triggers>
+                        </Canvas>
+                    </Grid>
+                    <mainBlue:WarningView  Width="48" Height="48" Level="{Binding Source={StaticResource SystemResources}, Path=Instance.AnalyzerAlarmLevel}"/>
+                </StackPanel>
             </Border>
 
             <Border Grid.Column="2" BorderThickness="0" CornerRadius="8" BorderBrush="#33000000" Background="#661E3B5D" Margin="5,5,0,5">

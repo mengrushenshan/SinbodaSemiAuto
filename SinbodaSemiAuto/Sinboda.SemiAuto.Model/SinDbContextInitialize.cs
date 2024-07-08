@@ -560,6 +560,19 @@ namespace Sinboda.SemiAuto.Model
 
                 db.SaveChanges();
 
+                db.ModuleInfoModel.Add(new ModuleInfoModel() 
+                { 
+                    Id = Guid.NewGuid(),
+                    IsShow = true,
+                    ModuleID = 1,
+                    ModuleType = sinboda001ModelType.Id,
+                    ModuleTypeCode = (int)ProductType.Sinboda001,
+                    ModuleName = "SimdaX-100",
+                    Create_time = DateTime.Now,
+                    Create_user = "Sinboda"
+
+                });
+                db.SaveChanges();
                 #endregion
 
                 #region 初始化数据

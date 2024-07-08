@@ -4,6 +4,7 @@ using Sinboda.Framework.Core.StaticResource;
 using Sinboda.Framework.Infrastructure;
 using Sinboda.Framework.Infrastructure.Model;
 using Sinboda.SemiAuto.Core.Manager;
+using Sinboda.SemiAuto.TestFlow.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,8 @@ namespace Sinboda.SemiAuto.View
         public InitTaskResult InitializeResource()
         {
             ClearVersionInfo();
+            // 加载模块信息
+            MultiModuleManager.Instance.Reload();
 
             VirtualModuleCacheManager.AddData();
             SoftWareVersionCacheManager.AddData();
