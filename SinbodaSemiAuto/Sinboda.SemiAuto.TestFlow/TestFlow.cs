@@ -357,8 +357,8 @@ namespace Sinboda.SemiAuto.TestFlow
                         }
                         break;
                     case TestType.Focus:
-                        { 
-
+                        {
+                            FocusTestFlow(Z - 100, Z + 100);
                         }
                         break;
 
