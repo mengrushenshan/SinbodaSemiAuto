@@ -1,0 +1,34 @@
+﻿<sin:SinWindow x:Class="Sinboda.SemiAuto.View.WinView.StartTestFlowWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.SemiAuto.View.WinView"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             xmlns:MultiLang="clr-namespace:Sinboda.Framework.Common.ResourceExtensions;assembly=Sinboda.Framework.Common"
+             mc:Ignorable="d" 
+             Height="300" Width="500">
+    <Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Margin="100,10,20,0" Text="{MultiLang:StringResource 1878,DefaultValue=实验板号}"/>
+            <sin:SinNumricTextBox Width="150" Text="{Binding BoardId}"/>
+        </StackPanel>
+    </Grid>
+    <sin:SinWindow.BottomPanel>
+        <sin:SinButton Margin="10,0,0,0" Command="{Binding StartTestCommand}" Source="{Binding ElementName=normalGrid}">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Path Data="{DynamicResource Glyphicon-Ok}" 
+                  Width="18" Height="18" Stretch="Uniform" Fill="White" HorizontalAlignment="Center" />
+                <TextBlock Text="{MultiLang:StringResource 1878,DefaultValue=发送}" Margin="10,0,0,0"/>
+            </StackPanel>
+        </sin:SinButton>
+
+        <sin:SinButton Margin="10,0,0,0" Click="SinButton_Click">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Path Data="{DynamicResource Glyphicon-Remove}" 
+                  Width="18" Height="18" Stretch="Uniform" Fill="White" HorizontalAlignment="Center" />
+                <TextBlock Text="{MultiLang:StringResource 144,DefaultValue=关闭}" Margin="0,0,0,0"/>
+            </StackPanel>
+        </sin:SinButton>
+    </sin:SinWindow.BottomPanel>
+</sin:SinWindow>

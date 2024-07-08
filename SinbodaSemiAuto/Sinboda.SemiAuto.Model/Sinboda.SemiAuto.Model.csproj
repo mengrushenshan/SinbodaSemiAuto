@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="DatabaseModel\Enum\EnumType.cs" />
     <Compile Include="DatabaseModel\Enum\EnumTypeResource.cs" />
+    <Compile Include="DatabaseModel\ModuleSettingInfo.cs" />
     <Compile Include="DatabaseModel\RegexLC\RegexLCClass.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_BoardMap.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Mapping\Sin_BoardTemplateMap.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="DatabaseModel\SemiAuto\Sin_Patient.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Sample.cs" />
     <Compile Include="DatabaseModel\SemiAuto\Sin_Test_Result.cs" />
+    <Compile Include="DataOperation\Module_DataOperation.cs" />
     <Compile Include="DataOperation\SemiAuto\Sin_BoardOperation.cs" />
     <Compile Include="DataOperation\SemiAuto\Sin_BoardTemplateOperation.cs" />
     <Compile Include="DataOperation\SemiAuto\Sin_Cell_DataOperation.cs" />

@@ -75,21 +75,6 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public List<TestItem> Items { get; set; } = new List<TestItem>();
 
-        /// <summary>
-        /// X轴电机
-        /// </summary>
-        public Sin_Motor XAxisMotor { get; set; }
-
-        /// <summary>
-        /// Y轴电机
-        /// </summary>
-        public Sin_Motor YAxisMotor { get; set; }
-
-        /// <summary>
-        /// Z轴电机
-        /// </summary>
-        public Sin_Motor ZAxisMotor { get; set; }
-
         private bool agingIsChannel = false;
         /// <summary>
         /// 测试流程初始化
@@ -105,11 +90,11 @@ namespace Sinboda.SemiAuto.TestFlow
             }
 
             //启动测试时，实时获取电机所在位置
-            ResMotorStatus xStatus = MotorBusiness.Instance.GetMotorStatus((int)XAxisMotor.MotorId);
-            ResMotorStatus yStatus = MotorBusiness.Instance.GetMotorStatus((int)YAxisMotor.MotorId);
-            ResMotorStatus zStatus = MotorBusiness.Instance.GetMotorStatus((int)ZAxisMotor.MotorId);
+            ResMotorStatus xStatus = MotorBusiness.Instance.MotorX_GetMotorStatus();
+            ResMotorStatus yStatus = MotorBusiness.Instance.MotorY_GetMotorStatus();
+            ResMotorStatus zStatus = MotorBusiness.Instance.MotorZ_GetMotorStatus();
 
-            Z = ZAxisMotor.TargetPos;
+            Z = zStatus.CurrPos;
 
             if (xStatus != null)
             {
@@ -143,13 +128,6 @@ namespace Sinboda.SemiAuto.TestFlow
             return isInitComplete = true;
         }
 
-        public void SetMotorObj(Sin_Motor xAxis, Sin_Motor yAxis, Sin_Motor zAxis)
-        {
-            XAxisMotor = xAxis;
-            YAxisMotor = yAxis;
-            ZAxisMotor = zAxis;
-        }
-
         /// <summary>
         /// 老化停止标志
         /// </summary>
@@ -159,6 +137,14 @@ namespace Sinboda.SemiAuto.TestFlow
             agingIsChannel = isChannel;
         }
 
+        /// <summary>
+        /// 测试板号设置
+        /// </summary>
+        /// <param name="id"></param>
+        public void SetBoardId(int id)
+        {
+            BoardId = id;
+        }
         /// <summary>
         /// 根据1位置创建测试缓存
         /// </summary>
@@ -235,11 +221,11 @@ namespace Sinboda.SemiAuto.TestFlow
         public void CreateAgingTest()
         {
             SetAgingIsChannel(false);
-            ResMotorStatus xStatus = MotorBusiness.Instance.GetMotorStatus((int)XAxisMotor.MotorId);
-            ResMotorStatus yStatus = MotorBusiness.Instance.GetMotorStatus((int)YAxisMotor.MotorId);
-            ResMotorStatus zStatus = MotorBusiness.Instance.GetMotorStatus((int)ZAxisMotor.MotorId);
+            ResMotorStatus xStatus = MotorBusiness.Instance.MotorX_GetMotorStatus();
+            ResMotorStatus yStatus = MotorBusiness.Instance.MotorY_GetMotorStatus();
+            ResMotorStatus zStatus = MotorBusiness.Instance.MotorZ_GetMotorStatus();
 
-            Z = ZAxisMotor.TargetPos;
+            Z = zStatus.CurrPos;
 
             if (xStatus != null)
             {
@@ -320,7 +306,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public void MoveFocusPos()
         {
-            MotorBusiness.Instance.MoveAbsolute((int)ZAxisMotor.MotorId, Z);
+            MotorBusiness.Instance.MotorZ_MoveAbsolute(Z);
         }
 
         /// <summary>
@@ -328,8 +314,8 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public void MoveTestItemPos()
         {
-            CurTestItem.MoveTestItemXPos((int)XAxisMotor.MotorId);
-            CurTestItem.MoveTestItemYPos((int)YAxisMotor.MotorId);
+            CurTestItem.MoveTestItemXPos();
+            CurTestItem.MoveTestItemYPos();
         }
 
         /// <summary>
@@ -338,8 +324,8 @@ namespace Sinboda.SemiAuto.TestFlow
         public void MoveTestPointPos()
         {
             //移动xy
-            CurTestItem.CurTestPoint.MoveTestItemXPos((int)XAxisMotor.MotorId);
-            CurTestItem.CurTestPoint.MoveTestItemYPos((int)YAxisMotor.MotorId);
+            CurTestItem.CurTestPoint.MoveTestItemXPos();
+            CurTestItem.CurTestPoint.MoveTestItemYPos();
         }
 
         /// <summary>
@@ -371,8 +357,8 @@ namespace Sinboda.SemiAuto.TestFlow
                         }
                         break;
                     case TestType.Focus:
-                        { 
-
+                        {
+                            FocusTestFlow(Z - 100, Z + 100);
                         }
                         break;
 
@@ -430,7 +416,7 @@ namespace Sinboda.SemiAuto.TestFlow
             MoveFocusPos();
 
             //计算聚焦位置
-            int autoFocusPos = AutofocusHelper.Instance.ZPos(ZAxisMotor, FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
+            int autoFocusPos = AutofocusHelper.Instance.ZPos(FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
 
             //移动到最佳聚焦位置
             Z = autoFocusPos;
@@ -528,9 +514,6 @@ namespace Sinboda.SemiAuto.TestFlow
             CurTestItem.ChannelPoint();
             CurTestItem = null;
             isInitComplete = false;
-            XAxisMotor = null;
-            YAxisMotor = null;
-            ZAxisMotor = null;
         }
 
         public void ReceiveImageComplete(object obj)

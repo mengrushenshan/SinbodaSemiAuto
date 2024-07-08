@@ -431,6 +431,85 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
     }
     #endregion
 
+    #region 系统状态枚举 SystemState
+    /// <summary>
+    /// 系统状态枚举
+    /// </summary>
+    [EnumAnnotate("系统状态", 8034)]
+    public enum SystemState
+    {
+        /// <summary>
+        /// 状态获取中
+        /// </summary>
+        [EnumAnnotate("状态获取中", 7319)]
+        None,
+        /// <summary>
+        /// 断线
+        /// </summary>
+        [EnumAnnotate("断线", 8035)]
+        OffLine,
+        /// <summary>
+        /// 待机
+        /// </summary>
+        [EnumAnnotate("待机", 4207)]
+        StandBy,
+        /// <summary>
+        /// 测试
+        /// </summary>
+        [EnumAnnotate("测试", 1678)]
+        Testing,
+        /// <summary>
+        /// 故障
+        /// </summary>
+        [EnumAnnotate("故障", 8036)]
+        Error,
+        /// <summary>
+        /// 维护
+        /// </summary>
+        [EnumAnnotate("维护", 6811)]
+        MainTenance,
+        /// <summary>
+        /// 休眠
+        /// </summary>
+        [EnumAnnotate("休眠", 543)]
+        Sleep,
+    }
+    #endregion
+
+    #region Ise指示灯状态 PilotStatus
+
+    /// <summary>
+    /// 指示灯状态
+    /// </summary>
+    public enum PilotStatus
+    {
+        /// <summary>
+        /// 不存在（不显示）
+        /// </summary>
+        Inexistence,
+
+        /// <summary>
+        /// 停用（灰灯）
+        /// </summary>
+        BlockUp,
+
+        /// <summary>
+        /// 预警（黄灯）
+        /// </summary>
+        Warning,
+
+        /// <summary>
+        /// 正常（绿灯）
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// 故障（红灯）
+        /// </summary>
+        Fault
+    }
+    #endregion
+
     [AttributeUsage(AttributeTargets.All)]
     public sealed class EnumAnnotate : Attribute
     {

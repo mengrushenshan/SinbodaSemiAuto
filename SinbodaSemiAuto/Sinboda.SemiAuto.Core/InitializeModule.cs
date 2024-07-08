@@ -16,7 +16,7 @@ namespace Sinboda.SemiAuto.Core
     {
         public void FinalizeResource()
         {
-
+            TcpCmdActuators.Instance.Dispose();
         }
 
         public List<ModuleMenuItem> GetMenus()

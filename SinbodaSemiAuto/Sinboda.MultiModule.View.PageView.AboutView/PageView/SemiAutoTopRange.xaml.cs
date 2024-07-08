@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sinboda.SemiAuto.View.WinView;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,8 @@ namespace Sinboda.SemiAuto.View.PageView
         /// <param name="e"></param>
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            StartTestFlowWindow startTestFlowWindow = new StartTestFlowWindow();
+            startTestFlowWindow.Show();
         }
 
 

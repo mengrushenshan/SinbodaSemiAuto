@@ -157,6 +157,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CmdHandler\AbstractClass\ModuleContextBase.cs" />
     <Compile Include="Command\Cmds.cs" />
     <Compile Include="Command\ICmd.cs" />
     <Compile Include="Converts\NullNumericConverter.cs" />
@@ -177,8 +178,10 @@
     <Compile Include="InitializeModule.cs" />
     <Compile Include="Interfaces\ICommDriver.cs" />
     <Compile Include="Interfaces\IDataFrame.cs" />
+    <Compile Include="Interfaces\IModuleManager.cs" />
     <Compile Include="Interfaces\IRequest.cs" />
     <Compile Include="Interfaces\ISubSystem.cs" />
+    <Compile Include="Manager\ModuleSettingManager.cs" />
     <Compile Include="Manager\ModuleVersionCacheManager.cs" />
     <Compile Include="Models\BoardInfo.cs" />
     <Compile Include="Models\Common\DataFrame.cs" />
@@ -189,6 +192,8 @@
     <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\MotorData.cs" />
     <Compile Include="Models\MouseKeyboardEvent.cs" />
+    <Compile Include="Models\PilotInfo.cs" />
+    <Compile Include="Models\ValidationInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pvcam\PvcamController.cs" />
     <Compile Include="Resources\MessageToken.cs" />

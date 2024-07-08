@@ -1,0 +1,104 @@
+﻿<local:ModuleViewUserControl x:Class="Sinboda.SemiAuto.View.PageView.SemiAutoModuleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sinboda.SemiAuto.View.PageView"
+             xmlns:converter="clr-namespace:Sinboda.SemiAuto.View.Converter"
+             xmlns:sin="clr-namespace:Sinboda.Framework.Control.Controls;assembly=Sinboda.Framework.Control"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converter:SystemStateConverter x:Key="ConnectStatusConverter"/>
+        <converter:PilotStateConverter x:Key="PilotStateConverter"/>
+        <converter:PilotVisibilityConverter x:Key="PilotVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <sin:ConcaveBox Name="border" Padding="5,2,5,0">
+            <Grid SnapsToDevicePixels="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Control Width="12" Height="27" VerticalAlignment="Center" Margin="0,0,1,0" Template="{Binding CurrentSystemState, Converter={StaticResource ConnectStatusConverter}}" />
+
+                <Border Height="30" SnapsToDevicePixels="True" BorderThickness="1,1,1.5,1.5" CornerRadius="4" BorderBrush="#4C000000" Background="#FF2A5284" Grid.Column="1">
+                    <TextBlock Text="{Binding ModuleName,Mode=TwoWay}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0"/>
+                </Border>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
+
+                    <!--温度-->
+                    <Border Height="30" Width="23" CornerRadius="4" 
+                        ToolTip="{Binding Temp_PilotInfo.Massage}"
+                        Visibility="{Binding Temp_PilotInfo.Status, Converter={StaticResource PilotVisibilityConverter}}"
+                        Background="{Binding Temp_PilotInfo.Status, Converter={StaticResource PilotStateConverter}}" Margin="2,0,0,0">
+                        <Path Data="{DynamicResource Glyphicon-temperature}" Width="18" Height="18" Stretch="Uniform" Fill="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <!--校准-->
+                    <Border Height="30" Width="23" CornerRadius="4"  Cursor="Hand" MouseDown="Border_MouseDown_2"
+                        ToolTip="{Binding CAL_PilotInfo.Massage}"
+                        Visibility="{Binding CAL_PilotInfo.Status, Converter={StaticResource PilotVisibilityConverter}}"
+                        Background="{Binding CAL_PilotInfo.Status, Converter={StaticResource PilotStateConverter}}" Margin="2,0,0,0">
+                        <Path Data="{DynamicResource Glyphicon-Calibration}" Width="18" Height="18" Stretch="Uniform" Fill="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <!--质控-->
+                    <Border Height="30" Width="23" CornerRadius="4" MouseDown="Border_MouseDown" Cursor="Hand"
+                        ToolTip="{Binding QC_PilotInfo.Massage}"
+                        Visibility="{Binding QC_PilotInfo.Status, Converter={StaticResource PilotVisibilityConverter}}"
+                        Background="{Binding QC_PilotInfo.Status, Converter={StaticResource PilotStateConverter}}" Margin="2,0,0,0">
+                        <Path Data="{DynamicResource Glyphicon-QC}" Width="18" Height="18" Stretch="Uniform" Fill="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <!--维护-->
+                    <Border Height="30" Width="23" CornerRadius="4"  Cursor="Hand" MouseDown="Border_MouseDown_3"
+                        ToolTip="{Binding Maintain_PilotInfo.Massage}"
+                        Visibility="{Binding Maintain_PilotInfo.Status, Converter={StaticResource PilotVisibilityConverter}}"
+                        Background="{Binding Maintain_PilotInfo.Status, Converter={StaticResource PilotStateConverter}}" Margin="2,0,0,0">
+                        <Path Data="{DynamicResource Glyphicon-Maintance}" Width="18" Height="18" Stretch="Uniform" Fill="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <!--废料-->
+                    <Border Height="30" Width="23" CornerRadius="4"  Cursor="Hand" MouseDown="Border_MouseDown_4"
+                        ToolTip="{Binding Waste_PilotInfo.Massage}"
+                        Visibility="{Binding Waste_PilotInfo.Status, Converter={StaticResource PilotVisibilityConverter}}"
+                        Background="{Binding Waste_PilotInfo.Status, Converter={StaticResource PilotStateConverter}}" Margin="2,0,0,0">
+                        <Path Data="{DynamicResource Glyphicon-consumable}" Width="18" Height="18" Stretch="Uniform" Fill="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <!--试剂-->
+                    <Border Height="30" Width="23" CornerRadius="4"  Cursor="Hand" MouseDown="Border_MouseDown_1"
+                        ToolTip="{Binding Reagent_PilotInfo.Massage}"
+                        Visibility="{Binding Reagent_PilotInfo.Status, Converter={StaticResource PilotVisibilityConverter}}"
+                        Background="{Binding Reagent_PilotInfo.Status, Converter={StaticResource PilotStateConverter}}" Margin="2,0,0,0">
+                        <Path Data="{DynamicResource Glyphicon-Reagent}" Width="18" Height="18" Stretch="Uniform" Fill="White" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                </StackPanel>
+
+                <!--<Border Grid.Row="1" BorderThickness="0,1,0,0" Grid.ColumnSpan="5" BorderBrush="#66171717" Margin="0,2" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">-->
+                <Border Grid.Row="1" BorderThickness="0,1,0,0" Grid.ColumnSpan="5" BorderBrush="#66171717" Margin="0,2">
+                    <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                        <!--<TextBlock Text="{Binding StatusDisplayValue, Mode=TwoWay}" Foreground="White" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding SecondRemain, Mode=TwoWay}" Foreground="White" VerticalAlignment="Center" Margin="15,0" />-->
+                        <!--<TextBlock Text="剩余43分42秒" Foreground="White" VerticalAlignment="Center" Margin="15,0" />-->
+                        <TextBlock Text="{Binding StatusForShow, Mode=TwoWay}" ToolTip="{Binding StatusDisplayValue}" Foreground="White" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding SecondRemain, Mode=TwoWay}" Foreground="White" VerticalAlignment="Center" Margin="15,0" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </sin:ConcaveBox>
+
+        <Grid Name="grid" Visibility="Collapsed">
+            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" Margin="1" CornerRadius="7" Opacity="0.4" IsHitTestVisible="False"/>
+            <Path Data="{DynamicResource Glyphicon-ban_circle}" Fill="Red" Stretch="Uniform" Width="60" Height="60" Opacity="0.2" />
+        </Grid>
+    </Grid>
+</local:ModuleViewUserControl>

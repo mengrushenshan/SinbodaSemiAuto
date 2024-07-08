@@ -6,14 +6,14 @@
     xmlns:local="clr-namespace:Sinboda.SemiAuto.View.Samples.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="66"
-    d:DesignWidth="900"
+    d:DesignWidth="1000"
     Cursor="Hand"
     MouseLeftButtonDown="UserControl_MouseLeftButtonDown"
     mc:Ignorable="d">
 
     <Border
         x:Name="cover_Border"
-        Width="900"
+        Width="1000"
         Height="66"
         BorderBrush="#FFFFFFFF"
         BorderThickness="2"
