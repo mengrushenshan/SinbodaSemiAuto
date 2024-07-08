@@ -41,6 +41,7 @@ using System.Windows.Shapes;
 using System.Collections;
 using System.Runtime.InteropServices.ComTypes;
 using Sinboda.SemiAuto.TestFlow;
+using System.Web;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -633,10 +634,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             //初始化电机
             MotorList.Clear();
             MotorList = MotorBusiness.Instance.GetMotorList();
-            if (MotorList.Count() != 3)
+            if (MotorList.Count() != GlobalData.NumMotor)
             {
                 MotorList.Clear();
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < GlobalData.NumMotor; i++)
                 {
                     MotorList.Add(new Sin_Motor() { MotorId = (MotorId)i });
                 }
@@ -1824,7 +1825,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
         public void ImageRefersh(Mat bitmap)
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            InvokeAsync(() =>
             {
                 if (NeedRoi)
                 {
@@ -1838,9 +1839,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     OpenCvSharp.Point endPos = new OpenCvSharp.Point() { X = x + showSize, Y = y + showSize };
                     Cv2.Rectangle(bitmap, beginPos, endPos, new Scalar(0, 0, 255), 2, LineTypes.AntiAlias, 0);
                 }
-
-                CameraSouce = bitmap.ToBitmapSource();
-            });
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    CameraSouce = bitmap.ToBitmapSource();
+                });
+            });            
         }
 
         /// <summary>
@@ -1861,25 +1864,31 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             if(isSave)
                 return;
-            DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            InvokeAsync(() =>
             {
                 System.Drawing.Size imageSize = new System.Drawing.Size() { Width = PVCamHelper.Instance.GetWidth(), Height = PVCamHelper.Instance.GetHeight() };
                 int lenth = imageSize.Width * imageSize.Height;
                 byte[] bufBytes = new byte[lenth * 2];
-
+                if (bufBytes.Length != src.Length)
+                {
+                    LogHelper.logSoftWare.Error($"界面刷新数据帧长度不正确，理论帧长度：[{bufBytes.Length}],实际帧长度：[{src.Length}]!");
+                    return;
+                }
                 IntPtr intptr = Marshal.UnsafeAddrOfPinnedArrayElement(src, 0);
                 Marshal.Copy(intptr, bufBytes, 0, src.Length);
 
                 BitmapPalette myPalette = BitmapPalettes.Gray16;
                 int rawStride = (imageSize.Width * 16 + 7) / 8;
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    bmpSouce = BitmapSource.Create(imageSize.Width, imageSize.Height, 96, 96, System.Windows.Media.PixelFormats.Gray16, myPalette, bufBytes, rawStride);
 
-                bmpSouce = BitmapSource.Create(imageSize.Width, imageSize.Height, 96, 96, System.Windows.Media.PixelFormats.Gray16, myPalette, bufBytes, rawStride);
-
-                //TODO::有一定可行性 暂时不可用
-                //var dst = bmpSouce.ToMat();
-                //Cv2.ConvertScaleAbs(dst, dst,0.5,0.5);   //把dst中的数据映射到0-65535的范围中
-                //CameraSouce = dst.ToBitmapSource();
-            });
+                    //TODO::有一定可行性 暂时不可用
+                    //var dst = bmpSouce.ToMat();
+                    //Cv2.ConvertScaleAbs(dst, dst,0.5,0.5);   //把dst中的数据映射到0-65535的范围中
+                    //CameraSouce = dst.ToBitmapSource();
+                });
+            });            
         }
 
         /// <summary>

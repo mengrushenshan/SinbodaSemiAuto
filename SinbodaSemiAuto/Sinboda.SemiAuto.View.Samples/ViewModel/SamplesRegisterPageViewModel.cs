@@ -486,10 +486,11 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             //初始化电机
             var MotorList = MotorBusiness.Instance.GetMotorList();
-            if (MotorList.Count() != 2)
+            if (MotorList.Count() !=GlobalData.NumMotor)
             {
                 XAxisMotor = new Sin_Motor() { MotorId = MotorId.Xaxis };
                 YAxisMotor = new Sin_Motor() { MotorId = MotorId.Yaxis };
+                ZaxisMotor = new Sin_Motor() { MotorId = MotorId.Zaxis };
             }
             else
             {
@@ -505,6 +506,11 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                         case MotorId.Yaxis:
                             {
                                 YAxisMotor = motorItem;
+                            }
+                            break; 
+                        case MotorId.Zaxis:
+                            {
+                                ZaxisMotor = motorItem;
                             }
                             break;
                     }

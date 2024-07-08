@@ -162,7 +162,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 return false;
             }
 
-            string samplePath = MapPath.TifPath + "Result\\" + $"{BoardList.First().ItemName}\\";
+            string samplePath = MapPath.TifPath + "Result\\" + $"{BoardList.Where(o => o.IsEnable == true).First().ItemName}_{DateTime.Now.ToString("yyyyMMdd")}_{BoardId}\\";
             if (!Directory.Exists(samplePath))
             {
                 Directory.CreateDirectory(samplePath);
