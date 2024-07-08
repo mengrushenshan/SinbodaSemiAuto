@@ -76,7 +76,9 @@ namespace Sinboda.SemiAuto.Business.Samples
                 var sampleTemp = sampleList.Where(o => o.RackDish == rack && o.Position == pos && o.BoardId == boardId).ToList();
                 if (sampleTemp.Count > 0)
                 {
-                    return sampleTemp.FirstOrDefault();
+                    Sin_Sample sample = sampleTemp.FirstOrDefault();
+                    sample.TestResult = Sin_Test_Result_DataOperation.Instance.Query(o => o.Sample_id == sample.Id && o.Test_state != TestState.Complete).First();
+                    return sample;
                 }
             }
             return null;

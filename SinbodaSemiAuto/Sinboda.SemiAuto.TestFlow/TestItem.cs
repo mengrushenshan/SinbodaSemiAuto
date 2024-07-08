@@ -89,7 +89,7 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             char[] cRack = ItemBoard.Rack.ToCharArray();
 
-            X = x + (ItemSample.Position - 2) * XaxisOffset;
+            X = x + (ItemBoard.Position - 2) * XaxisOffset;
             Y = y + (cRack[0] - 'B') * YaxisOffset;
             Z = z;
         }
@@ -163,7 +163,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 testPoint.Status = TestState.Untested;
                 testPoint.SetTestPointPos(X, Y, Z);
                 testPoint.FileName = $"{fileName}_{i}.tif";
-                testPoint.FilePath = filePath ;
+                testPoint.FilePath = filePath;
                 points.Add(testPoint);
             }
 
