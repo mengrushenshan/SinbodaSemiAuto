@@ -88,7 +88,7 @@ namespace Sinboda.SemiAuto.TestFlow
             {
                 return true;
             }
-
+            MotorBusiness.Instance.PlatformResetMotor(0);
             //启动测试时，实时获取电机所在位置
             ResMotorStatus xStatus = MotorBusiness.Instance.MotorX_GetMotorStatus();
             ResMotorStatus yStatus = MotorBusiness.Instance.MotorY_GetMotorStatus();
@@ -220,6 +220,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public void CreateAgingTest()
         {
+            MotorBusiness.Instance.PlatformResetMotor(0);
             SetAgingIsChannel(false);
             ResMotorStatus xStatus = MotorBusiness.Instance.MotorX_GetMotorStatus();
             ResMotorStatus yStatus = MotorBusiness.Instance.MotorY_GetMotorStatus();
@@ -254,13 +255,13 @@ namespace Sinboda.SemiAuto.TestFlow
                 return;
             }
 
-            List<Sin_Sample> SampleList = NewNoneBoard();
+            List<Sin_Board> BoardList = NewNoneBoard();
 
-            foreach (var sampleItem in SampleList)
+            foreach (var boardItem in BoardList)
             {
-                string fileName = sampleItem.RackDish + "_" + sampleItem.Position;
+                string fileName = boardItem.Rack + "_" + boardItem.Position;
                 TestItem testItem = new TestItem();
-                testItem.ItemSample = sampleItem;
+                testItem.ItemBoard = boardItem;
                 testItem.Testid = ++testId;
                 testItem.State = TestState.Untested;
                 testItem.SetTestItemPos(X, Y, Z);
@@ -277,28 +278,28 @@ namespace Sinboda.SemiAuto.TestFlow
         /// 创建新的板
         /// </summary>
         /// <param name="BoardItemList"></param>
-        private List<Sin_Sample> NewNoneBoard()
+        private List<Sin_Board> NewNoneBoard()
         {
             bool NeedCut = true;
-            List<Sin_Sample> SampleList = new List<Sin_Sample>();
+            List<Sin_Board> BoardList = new List<Sin_Board>();
             //for (int rack = 0; rack < 8; rack++)
             for (int rack = 1; rack < 7; rack++)
             {
                 NeedCut = !NeedCut;
                 for (int pos = 2; pos <= 11; pos++)
                 {
-                    SampleList.Add(new Sin_Sample()
+                    BoardList.Add(new Sin_Board()
                     {
-                        RackDish = Convert.ToChar('A' + rack).ToString(),
+                        Rack = Convert.ToChar('A' + rack).ToString(),
                         Position = NeedCut ? 13 - pos : pos,
                     });
                 }
             }
-            for (int i=0; i< SampleList.Count - 1; i++)
+            for (int i=0; i< BoardList.Count - 1; i++)
             {
-                Console.WriteLine(SampleList[i].RackDish);
+                Console.WriteLine(BoardList[i].Rack);
             }
-            return SampleList;
+            return BoardList;
         }
 
         /// <summary>
@@ -316,6 +317,7 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             CurTestItem.MoveTestItemXPos();
             CurTestItem.MoveTestItemYPos();
+            CurTestItem.MoveTestItemZPos();
         }
 
         /// <summary>

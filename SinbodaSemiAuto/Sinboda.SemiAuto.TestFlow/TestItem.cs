@@ -117,9 +117,9 @@ namespace Sinboda.SemiAuto.TestFlow
         /// 移动到Z轴位置
         /// </summary>
         /// <param name="ximcArm"></param>
-        public void MoveTestItemZPos(int motorId)
+        public void MoveTestItemZPos()
         {
-            MotorBusiness.Instance.MoveAbsolute(motorId, Z);
+            MotorBusiness.Instance.MotorY_MoveAbsolute(Z);
         }
 
         /// <summary>
