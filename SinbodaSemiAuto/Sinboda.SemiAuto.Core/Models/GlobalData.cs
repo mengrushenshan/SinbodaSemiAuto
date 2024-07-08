@@ -103,6 +103,11 @@ namespace Sinboda.SemiAuto.Core.Models
         public const int XimcFocusSlowStep = 4;
 
         /// <summary>
+        /// 电机数量
+        /// </summary>
+        public const int NumMotor = 3;
+
+        /// <summary>
         /// ip地址
         /// </summary>
         public static string IpAddress { get; set; } = "192.168.1.30";

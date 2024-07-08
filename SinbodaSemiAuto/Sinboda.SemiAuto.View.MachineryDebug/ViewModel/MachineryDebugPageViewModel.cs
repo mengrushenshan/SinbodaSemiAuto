@@ -633,10 +633,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             //初始化电机
             MotorList.Clear();
             MotorList = MotorBusiness.Instance.GetMotorList();
-            if (MotorList.Count() != 3)
+            if (MotorList.Count() != GlobalData.NumMotor)
             {
                 MotorList.Clear();
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < GlobalData.NumMotor; i++)
                 {
                     MotorList.Add(new Sin_Motor() { MotorId = (MotorId)i });
                 }
