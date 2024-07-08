@@ -211,6 +211,10 @@
       <Project>{EC0027FF-D323-49F7-AD88-5A65899E7414}</Project>
       <Name>Sinboda.Framework.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sinboda.MultiModule.View.PageView.AboutView\Sinboda.SemiAuto.View.csproj">
+      <Project>{A38C2F93-2FF7-4A70-9725-A28E9866FAE5}</Project>
+      <Name>Sinboda.SemiAuto.View</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sinboda.SemiAuto.Business.Items\Sinboda.SemiAuto.Business.Items.csproj">
       <Project>{26441ED0-84BF-4645-B177-59BE4D83E1E6}</Project>
       <Name>Sinboda.SemiAuto.Business.Items</Name>

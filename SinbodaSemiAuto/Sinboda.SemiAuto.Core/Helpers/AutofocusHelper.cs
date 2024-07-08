@@ -6,6 +6,7 @@ using sin_mole_flu_analyzer.Models.Command;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.SemiAuto.Core.Models;
 using Sinboda.SemiAuto.Core.Resources;
+using Sinboda.SemiAuto.Model.DatabaseModel.Enum;
 using Sinboda.SemiAuto.Model.DatabaseModel.SemiAuto;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <param name="start">起始坐标</param>
         /// <param name="interval">间隔</param>
         /// <param name="num">照片数量</param>
-        public int ZPos(Sin_Motor obj,int start, int interval, int num, string file = "", int holdTimeMS = 100)
+        public int ZPos(int start, int interval, int num, string file = "", int holdTimeMS = 100)
         {
             try
             {
@@ -88,8 +89,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
                     //移动z轴
                     CmdMoveAbsolute cmdMoveAbsolute = new CmdMoveAbsolute()
                     {
-                        Id = (int)obj.MotorId,
-                        TargetPos = obj.TargetPos
+                        Id = (int)MotorId.Zaxis,
+                        TargetPos = zStart + i * zInterval
                     };
                     cmdMoveAbsolute.Execute();
                     Thread.Sleep(holdTimeMS);

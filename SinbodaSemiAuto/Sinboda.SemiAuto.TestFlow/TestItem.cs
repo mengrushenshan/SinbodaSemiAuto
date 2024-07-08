@@ -98,9 +98,9 @@ namespace Sinboda.SemiAuto.TestFlow
         /// 移动到X轴位置
         /// </summary>
         /// <param name="motorId"></param>
-        public void MoveTestItemXPos(int motorId)
+        public void MoveTestItemXPos()
         {
-            MotorBusiness.Instance.MoveAbsolute(motorId, X);
+            MotorBusiness.Instance.MotorX_MoveAbsolute(X);
 
         }
 
@@ -108,9 +108,9 @@ namespace Sinboda.SemiAuto.TestFlow
         /// 移动到Y轴位置
         /// </summary>
         /// <param name="motorId"></param>
-        public void MoveTestItemYPos(int motorId)
+        public void MoveTestItemYPos()
         {
-            MotorBusiness.Instance.MoveAbsolute(motorId, Y);
+            MotorBusiness.Instance.MotorY_MoveAbsolute(Y);
         }
 
         /// <summary>

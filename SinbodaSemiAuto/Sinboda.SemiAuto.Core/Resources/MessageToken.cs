@@ -14,6 +14,19 @@ namespace Sinboda.SemiAuto.Core.Resources
 
         //图像采集完成通知
         public static string AcquiringImageComplete = "AcquiringImage";
+        /// <summary>
+        /// 仪器检查状态
+        /// </summary>
+        public static string EXAM_STATUS = "exam_status";
+        /// <summary>
+        /// 维护刷新界面
+        /// </summary>
+        public static string MAINTANCE_REFRESH = "maintance_refresh";
+
+        /// <summary>
+        /// 维护刷新界面
+        /// </summary>
+        public static string MACHINE_REFRESH = "machine_refresh";
 
     }
 }

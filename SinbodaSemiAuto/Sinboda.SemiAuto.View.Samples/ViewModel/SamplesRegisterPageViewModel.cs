@@ -35,6 +35,7 @@ using Sinboda.Framework.Common;
 using System.IO;
 using DevExpress.CodeParser;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Sinboda.SemiAuto.View.WinView;
 
 namespace Sinboda.SemiAuto.View.Samples.ViewModel
 {
@@ -795,7 +796,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 MotorBusiness.Instance.MoveAbsolute((int)ZaxisMotor.MotorId, 5033000);
 
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor, ZaxisMotor.TargetPos, 64, FocusImageCount, filePath + fileName);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor.TargetPos, 64, FocusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
                 MotorBusiness.Instance.MoveAbsolute((int)ZaxisMotor.MotorId, autoFocusPos);
@@ -812,30 +813,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// </summary>
         private void TestPointStart()
         {
-            LoadingHelper.Instance.ShowLoadingWindow(ancBegin =>
-            {
-                // 1.初始化
-                ancBegin.Title = SystemResources.Instance.GetLanguage(12396, "正在准备测试数据，请等待...");
-
-                TestFlow.TestFlow.Instance.SetMotorObj(XAxisMotor, YAxisMotor, ZaxisMotor);
-                TestFlow.TestFlow.Instance.CreateTest();
-
-                LogHelper.logSoftWare.Debug($"prepare test complete ..... ");
-
-            }, 0, ancBegin =>
-            {
-                if (!PVCamHelper.Instance.GetOpenFlag())
-                {
-                    PVCamHelper.Instance.StartCont();
-                    ChangeButtonText();
-                }
-                Task.Run(() =>
-                {
-                    TestFlow.TestFlow.Instance.StartItemTest();
-                });
-            });
-
-
+            StartTestFlowWindow startTestFlowWindow = new StartTestFlowWindow();
+            startTestFlowWindow.Show();
         }
 
         public Sin_Board GetSinBoard(string tag)

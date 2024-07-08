@@ -20,6 +20,9 @@ namespace Sinboda.SemiAuto.Business.Items
 {
     public class MotorBusiness : BusinessBase<MotorBusiness>
     {
+        private Sin_Motor xMotor;
+        private Sin_Motor yMotor;
+        private Sin_Motor zMotor;
         /// <summary>
         /// 获取全部电机列表
         /// </summary>
@@ -30,6 +33,28 @@ namespace Sinboda.SemiAuto.Business.Items
             if (motorList == null || motorList.Count == 0)
             {
                 return null;
+            }
+
+            foreach (var motor in motorList)
+            {
+                switch (motor.MotorId)
+                {
+                    case MotorId.Xaxis:
+                        {
+                            xMotor = motor;
+                        }
+                        break;
+                    case MotorId.Yaxis:
+                        {
+                            yMotor = motor;
+                        }
+                        break;
+                    case MotorId.Zaxis:
+                        {
+                            zMotor = motor;
+                        }
+                        break;
+                }
             }
 
             return motorList;
@@ -220,6 +245,234 @@ namespace Sinboda.SemiAuto.Business.Items
             return null;
         }
         #endregion
-      
+
+        #region X电机
+        /// <summary>
+        /// X电机绝对移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void MotorX_MoveAbsolute(int pos)
+        {
+            if (xMotor == null)
+            {
+                return;
+            }
+
+            MoveAbsolute((int)xMotor.MotorId, pos);
+        }
+
+        /// <summary>
+        /// 电机相对移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void MotorX_MoveRelative(int pos)
+        {
+            if (xMotor == null)
+            {
+                return;
+            }
+
+            MoveRelative((int)xMotor.MotorId, pos);
+        }
+
+        /// <summary>
+        /// 电机持续移动
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="dir"></param>
+        /// <param name="useFastSpeed"></param>
+        public void MotorX_MoveCon(Sin_Motor obj, int dir, int useFastSpeed)
+        {
+            if (xMotor == null)
+            {
+                return;
+            }
+
+            MoveCon(xMotor, dir, useFastSpeed);
+        }
+
+        /// <summary>
+        /// 电机停止
+        /// </summary>
+        /// <param name="motorObj"></param>
+        /// <returns></returns>
+        public bool MotorX_StopMotor()
+        {
+            if (xMotor == null)
+            {
+                return false;
+            }
+
+            return StopMotor(xMotor);
+        }
+
+        /// <summary>
+        /// 获取电机状态
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+        public ResMotorStatus MotorX_GetMotorStatus()
+        {
+            if (xMotor == null)
+            {
+                return null;
+            }
+
+            return GetMotorStatus((int)xMotor.MotorId);
+        }
+        #endregion
+
+        #region Y电机
+        /// <summary>
+        /// X电机绝对移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void MotorY_MoveAbsolute(int pos)
+        {
+            if (yMotor == null)
+            {
+                return;
+            }
+
+            MoveAbsolute((int)yMotor.MotorId, pos);
+        }
+
+        /// <summary>
+        /// 电机相对移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void MotorY_MoveRelative(int pos)
+        {
+            if (yMotor == null)
+            {
+                return;
+            }
+
+            MoveRelative((int)yMotor.MotorId, pos);
+        }
+
+        /// <summary>
+        /// 电机持续移动
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="dir"></param>
+        /// <param name="useFastSpeed"></param>
+        public void MotorY_MoveCon(Sin_Motor obj, int dir, int useFastSpeed)
+        {
+            if (yMotor == null)
+            {
+                return;
+            }
+
+            MoveCon(yMotor, dir, useFastSpeed);
+        }
+
+        /// <summary>
+        /// 电机停止
+        /// </summary>
+        /// <param name="motorObj"></param>
+        /// <returns></returns>
+        public bool MotorY_StopMotor()
+        {
+            if (yMotor == null)
+            {
+                return false;
+            }
+
+            return StopMotor(yMotor);
+        }
+
+        /// <summary>
+        /// 获取电机状态
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+        public ResMotorStatus MotorY_GetMotorStatus()
+        {
+            if (yMotor == null)
+            {
+                return null;
+            }
+
+            return GetMotorStatus((int)yMotor.MotorId);
+        }
+        #endregion
+
+        #region Z电机
+        /// <summary>
+        /// X电机绝对移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void MotorZ_MoveAbsolute(int pos)
+        {
+            if (zMotor == null)
+            {
+                return;
+            }
+
+            MoveAbsolute((int)zMotor.MotorId, pos);
+        }
+
+        /// <summary>
+        /// 电机相对移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void MotorZ_MoveRelative(int pos)
+        {
+            if (zMotor == null)
+            {
+                return;
+            }
+
+            MoveRelative((int)zMotor.MotorId, pos);
+        }
+
+        /// <summary>
+        /// 电机持续移动
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="dir"></param>
+        /// <param name="useFastSpeed"></param>
+        public void MotorZ_MoveCon(Sin_Motor obj, int dir, int useFastSpeed)
+        {
+            if (zMotor == null)
+            {
+                return;
+            }
+
+            MoveCon(zMotor, dir, useFastSpeed);
+        }
+
+        /// <summary>
+        /// 电机停止
+        /// </summary>
+        /// <param name="motorObj"></param>
+        /// <returns></returns>
+        public bool MotorZ_StopMotor()
+        {
+            if (zMotor == null)
+            {
+                return false;
+            }
+
+            return StopMotor(zMotor);
+        }
+
+        /// <summary>
+        /// 获取电机状态
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+        public ResMotorStatus MotorZ_GetMotorStatus()
+        {
+            if (zMotor == null)
+            {
+                return null;
+            }
+
+            return GetMotorStatus((int)zMotor.MotorId);
+        }
+        #endregion
+
     }
 }

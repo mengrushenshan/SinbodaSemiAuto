@@ -946,7 +946,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             InvokeAsync(() =>
             {
-                TestFlow.TestFlow.Instance.SetMotorObj(MotorList[0], MotorList[1], MotorList[2]);
                 TestFlow.TestFlow.Instance.CreateAgingTest();
                 TestFlow.TestFlow.Instance.StartAgingTest();
 
@@ -1346,7 +1345,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 MoveAbsolute(MotorList[2]);
 
                 //计算聚焦位置
-                int autoFocusPos = AutofocusHelper.Instance.ZPos(MotorList[2], FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
+                int autoFocusPos = AutofocusHelper.Instance.ZPos(FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
 
                 //移动到最佳聚焦位置
                 PosZaxis = autoFocusPos;
