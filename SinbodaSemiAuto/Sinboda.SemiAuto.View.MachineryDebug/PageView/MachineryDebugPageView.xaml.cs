@@ -126,5 +126,65 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
             }
             
         }
+
+        /// <summary>
+        /// x轴一直左移
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnXmotorLeft_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            vm.AlawysLeftMove(vm.MotorList[0]);
+        }
+
+        /// <summary>
+        /// x轴一直右移
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnXmotorRight_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            vm.AlawysRightMove(vm.MotorList[0]);
+        }
+
+        /// <summary>
+        /// y轴一直左移
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnYmotorLeft_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            vm.AlawysLeftMove(vm.MotorList[1]);
+        }
+
+        /// <summary>
+        /// y轴一直右移
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnYmotorRight_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            vm.AlawysRightMove(vm.MotorList[1]);
+        }
+
+        /// <summary>
+        /// z轴一直左移
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnZmotorLeft_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            vm.AlawysLeftMove(vm.MotorList[2]);
+        }
+
+        /// <summary>
+        /// z轴一直右移
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnZmotorRight_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            vm.AlawysRightMove(vm.MotorList[2]);
+        }
     }
 }

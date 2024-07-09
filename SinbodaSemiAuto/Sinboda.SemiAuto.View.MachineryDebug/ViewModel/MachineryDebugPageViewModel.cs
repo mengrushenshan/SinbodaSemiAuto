@@ -237,8 +237,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         {
             get { return originYaxis; }
             set { Set(ref originYaxis, value); }
-        } 
-        
+        }
+
         /// <summary>
         /// Z轴位置
         /// </summary>
@@ -370,6 +370,16 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         public RelayCommand<Sin_Motor> AlwaysCommand { get; set; }
 
         /// <summary>
+        /// 电机一直左移
+        /// </summary>
+        public RelayCommand<Sin_Motor> AlwaysLeftCommand { get; set; }
+
+        /// <summary>
+        /// 电机一直右移
+        /// </summary>
+        public RelayCommand<Sin_Motor> AlwaysRightCommand { get; set; }
+
+        /// <summary>
         /// 电机设定原点
         /// </summary>
         public RelayCommand<Sin_Motor> SetOriginCommand { get; set; }
@@ -384,58 +394,18 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// </summary>
         public RelayCommand<Sin_Motor> MoveAbsoluteCommand { get; set; }
 
-        #endregion
-
-        #region z轴
         /// <summary>
-        /// 机械原点复位
+        /// 电机向左相对移动
         /// </summary>
-        public RelayCommand<Sin_Motor> XimcResetCommand { get; set; }
+        public RelayCommand<Sin_Motor> LeftCommand { get; set; }
 
         /// <summary>
-        /// 工作原点复位
+        /// 电机向右相对移动
         /// </summary>
-        public RelayCommand<Sin_Motor> XimcWorkResetCommand { get; set; }
+        public RelayCommand<Sin_Motor> RightCommand { get; set; }
 
-        /// <summary>
-        /// 停止
-        /// </summary>
-        public RelayCommand<Sin_Motor> XimcStopCommand { get; set; }
 
-        /// <summary>
-        /// 一直左移
-        /// </summary>
-        public RelayCommand<Sin_Motor> XimcLeftAlwaysCommand { get; set; }
 
-        /// <summary>
-        /// 一直右移
-        /// </summary>
-        public RelayCommand<Sin_Motor> XimcRightAlwaysCommand { get; set; }
-
-        /// <summary>
-        /// 一直右移
-        /// </summary>
-        public RelayCommand<Sin_Motor> XimcMoveRelativeCommand { get; set; }
-
-        /// <summary>
-        /// 设定原点
-        /// </summary>
-        public RelayCommand<Sin_Motor> XimcSetOriginCommand { get; set; }
-
-        /// <summary>
-        /// 慢速原点
-        /// </summary>
-        public RelayCommand<Sin_Motor> XimcSlowMoveCommand { get; set; }
-
-        /// <summary>
-        /// 快速原点
-        /// </summary>
-        public RelayCommand<Sin_Motor> XimcFastMoveCommand { get; set; }
-
-        /// <summary>
-        /// 保存按钮
-        /// </summary>
-        public RelayCommand<Sin_Motor> XimcSaveCommand { get; set; }
         #endregion
 
         #region 风扇
@@ -521,7 +491,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             //界面线程初始化
             DispatcherHelper.Initialize();
 
-            InitXimcCommon();
             InitMotorCommon();
             InitPlatformCommon();
             OpenAndCloseCommand = new RelayCommand(CameraOpenAndClose);
@@ -600,27 +569,14 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             ResetLogicalCommand = new RelayCommand<Sin_Motor>(ResetLogicalMotor);
             StopCommand = new RelayCommand<Sin_Motor>(StopMotor);
             AlwaysCommand = new RelayCommand<Sin_Motor>(AlawysMove);
+            AlwaysLeftCommand = new RelayCommand<Sin_Motor>(AlawysLeftMove);
+            AlwaysRightCommand = new RelayCommand<Sin_Motor>(AlawysRightMove);
             MoveRelateCommand = new RelayCommand<Sin_Motor>(MoveRelate);
             MoveAbsoluteCommand = new RelayCommand<Sin_Motor>(MoveAbsolute);
+            LeftCommand = new RelayCommand<Sin_Motor>(MoveRelateLeft);
+            RightCommand = new RelayCommand<Sin_Motor>(MoveRelateRight);
             SetOriginCommand = new RelayCommand<Sin_Motor>(SetOrigin);
 
-        }
-
-        /// <summary>
-        /// 初始化Z轴指令
-        /// </summary>
-        private void InitXimcCommon()
-        {
-            XimcResetCommand = new RelayCommand<Sin_Motor>(ResetPhysicalMotor);
-            XimcWorkResetCommand = new RelayCommand<Sin_Motor>(ResetLogicalMotor);
-            XimcStopCommand = new RelayCommand<Sin_Motor>(StopMotor);
-            XimcLeftAlwaysCommand = new RelayCommand<Sin_Motor>(AlawysMove);
-            XimcRightAlwaysCommand = new RelayCommand<Sin_Motor>(AlawysMove);
-            XimcMoveRelativeCommand = new RelayCommand<Sin_Motor>(MoveRelate);
-            XimcSetOriginCommand = new RelayCommand<Sin_Motor>(SetOrigin);
-            XimcSlowMoveCommand = new RelayCommand<Sin_Motor>(MoveAbsolute);
-            XimcFastMoveCommand = new RelayCommand<Sin_Motor>(MoveAbsolute);
-            //XimcSaveCommand = new RelayCommand<Sin_Motor>(XimcSaveMotroParam);
         }
 
         /// <summary>
@@ -760,7 +716,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 CmdPlatformReset cmdPlatformReset = new CmdPlatformReset()
                 {
                     ReturnHome = isReturnHome,
-                    CloseLaser = 0
+                    CloseLaser = 1
                 };
 
                 if (!cmdPlatformReset.Execute())
@@ -903,7 +859,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     return;
                 }
 
-                MotorList[2].TargetPos= PosZaxis = 3000;
+                MotorList[2].TargetPos = PosZaxis = 3000;
                 MoveAbsolute(MotorList[2]);
 
                 CmdPlatformMove cmdPlatformMove = new CmdPlatformMove()
@@ -1028,6 +984,16 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         /// <summary>
+        /// 电机停止
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void StopMotor()
+        {
+            if (curr_Sin_Motor != null)
+                StopMotor(curr_Sin_Motor);
+        }
+
+        /// <summary>
         /// 电机定位原点
         /// </summary>
         /// <param name="obj"></param>
@@ -1062,7 +1028,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                                 OriginYaxis = PosYaxis;
                                 obj.OriginPoint = PosYaxis;
                             }
-                            break; 
+                            break;
                         case MotorId.Zaxis:
                             {
                                 OriginZaxis = PosZaxis;
@@ -1085,6 +1051,47 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             InvokeAsync(() =>
             {
                 MoveCon(obj, (int)obj.Dir, (int)obj.UseFastSpeed);
+            });
+        }
+
+        /// <summary>
+        /// 当前操作电机
+        /// </summary>
+        private Sin_Motor curr_Sin_Motor;
+
+        /// <summary>
+        /// 电机持续向左移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void AlawysLeftMove(Sin_Motor obj)
+        {
+            curr_Sin_Motor = obj;
+            InvokeAsync(() =>
+            {
+                MoveCon(obj, (int)Direction.Forward, (int)obj.UseFastSpeed);
+                while (MouseKeyBoardHelper.IsLeftBtnDown())
+                {
+                    Thread.Sleep(50);
+                }
+                StopMotor();
+            });
+        }
+
+        /// <summary>
+        /// 电机持续向右移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void AlawysRightMove(Sin_Motor obj)
+        {
+            curr_Sin_Motor = obj;
+            InvokeAsync(() =>
+            {
+                MoveCon(obj, (int)Direction.Backward, (int)obj.UseFastSpeed);
+                while (MouseKeyBoardHelper.IsLeftBtnDown())
+                {
+                    Thread.Sleep(50);
+                }
+                StopMotor();
             });
         }
 
@@ -1112,6 +1119,69 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 obj.IsRunning = true;
             }
         }
+
+        /// <summary>
+        /// 电机相对向左移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        private void MoveRelateLeft(Sin_Motor obj)
+        {
+            InvokeAsync(() =>
+            {
+                CmdMoveRelate cmdMoveRelate = new CmdMoveRelate()
+                {
+                    Id = (int)obj.MotorId,
+                    Steps = Math.Abs(obj.Steps)
+                };
+
+                if (!cmdMoveRelate.Execute())
+                {
+                    LogHelper.logSoftWare.Error("MoveRelateLeft  failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机相对移动失败"));
+                }
+                else
+                {
+                    ResMove resMove = cmdMoveRelate.GetResponse() as ResMove;
+                    obj.TargetPos = resMove.CurPos;
+                    ChangeTextBoxText(obj);
+
+
+                    MotorBusiness.Instance.SaveMotorItem(obj);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 电机相对向右移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        private void MoveRelateRight(Sin_Motor obj)
+        {
+            InvokeAsync(() =>
+            {
+                CmdMoveRelate cmdMoveRelate = new CmdMoveRelate()
+                {
+                    Id = (int)obj.MotorId,
+                    Steps = Math.Abs(obj.Steps) * -1
+                };
+
+                if (!cmdMoveRelate.Execute())
+                {
+                    LogHelper.logSoftWare.Error("MoveRelateRight failed");
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "电机相对移动失败"));
+                }
+                else
+                {
+                    ResMove resMove = cmdMoveRelate.GetResponse() as ResMove;
+                    obj.TargetPos = resMove.CurPos;
+                    ChangeTextBoxText(obj);
+
+
+                    MotorBusiness.Instance.SaveMotorItem(obj);
+                }
+            });
+        }
+
         /// <summary>
         /// 电机相对移动
         /// </summary>
@@ -1427,7 +1497,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 }
 
             }
-            isSave=false;
+            isSave = false;
         }
 
         private void Point100ImageCollect()
@@ -1843,7 +1913,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 {
                     CameraSouce = bitmap.ToBitmapSource();
                 });
-            });            
+            });
         }
 
         /// <summary>
@@ -1854,7 +1924,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <summary>
         /// 正在保存图像
         /// </summary>
-        private bool isSave=false;
+        private bool isSave = false;
 
         /// <summary>
         /// 刷新界面
@@ -1862,7 +1932,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="src"></param>
         private void ImageBufferRefersh(byte[] src)
         {
-            if(isSave)
+            if (isSave)
                 return;
             InvokeAsync(() =>
             {
@@ -1888,7 +1958,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     //Cv2.ConvertScaleAbs(dst, dst,0.5,0.5);   //把dst中的数据映射到0-65535的范围中
                     //CameraSouce = dst.ToBitmapSource();
                 });
-            });            
+            });
         }
 
         /// <summary>
