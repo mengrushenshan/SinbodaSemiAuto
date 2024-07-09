@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
 using log4net;
 using Sinboda.Framework.Common.Log;
 using Sinboda.Framework.Core.BusinessModels;
@@ -55,6 +56,17 @@ namespace Sinboda.SemiAuto.View.PageView
                 timer = null;
             }
             timer = new Timer(RefTime, null, 0, 1000);
+
+            Messenger.Default.Register<object>(this, "NotifyAlarmRefresh", (messenger) =>
+            {
+                AlarmHistoryInfoModel info = null;
+                if (null != messenger && messenger is AlarmHistoryInfoModel)
+                {
+                    info = messenger as AlarmHistoryInfoModel;
+                }
+
+                RefreshAlarmInfo(info);
+            });
         }
 
         private void MultiModuleBottomRange_Unloaded(object sender, RoutedEventArgs e)
@@ -134,6 +146,46 @@ namespace Sinboda.SemiAuto.View.PageView
             {
                 
             }
+        }
+
+        /// <summary>
+        /// 刷新报警跑马灯信息
+        /// </summary>
+        /// <param name="alarmInfo"></param>
+        public void RefreshAlarmInfo(AlarmHistoryInfoModel alarmInfo)
+        {
+            if (null != alarmInfo)
+            {
+                string strInfo = string.Empty;
+
+                if (!string.IsNullOrEmpty(alarmInfo.Info))
+                {
+                    strInfo += alarmInfo.Info;
+                }
+
+                Task.Run(() => DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+                    if (!string.IsNullOrEmpty(strInfo))
+                    {
+                        text_FireMachineStatue.Text = strInfo;
+                    }
+                }));
+            }
+            else
+            {
+                Task.Run(() => DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+                    text_FireMachineStatue.Text = string.Empty;
+                }));
+
+            }
+        }
+
+        private void WarningView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            text_FireMachineStatue.Text = string.Empty;
         }
     }
 

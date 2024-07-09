@@ -88,7 +88,7 @@ namespace Sinboda.SemiAuto.TestFlow
             {
                 return true;
             }
-
+            MotorBusiness.Instance.PlatformWorkReset();
             //启动测试时，实时获取电机所在位置
             ResMotorStatus xStatus = MotorBusiness.Instance.MotorX_GetMotorStatus();
             ResMotorStatus yStatus = MotorBusiness.Instance.MotorY_GetMotorStatus();
@@ -145,6 +145,7 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             BoardId = id;
         }
+
         /// <summary>
         /// 根据1位置创建测试缓存
         /// </summary>
@@ -162,7 +163,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 return false;
             }
 
-            string samplePath = MapPath.TifPath + "Result\\" + $"{BoardList.First().ItemName}\\";
+            string samplePath = MapPath.TifPath + "Result\\" + $"{BoardList.Where(o => o.IsEnable == true).First().ItemName}_{DateTime.Now.ToString("yyyyMMdd")}_{BoardId}\\";
             if (!Directory.Exists(samplePath))
             {
                 Directory.CreateDirectory(samplePath);
@@ -215,92 +216,7 @@ namespace Sinboda.SemiAuto.TestFlow
             return true;
         }
 
-        /// <summary>
-        /// 老化测试
-        /// </summary>
-        public void CreateAgingTest()
-        {
-            SetAgingIsChannel(false);
-            ResMotorStatus xStatus = MotorBusiness.Instance.MotorX_GetMotorStatus();
-            ResMotorStatus yStatus = MotorBusiness.Instance.MotorY_GetMotorStatus();
-            ResMotorStatus zStatus = MotorBusiness.Instance.MotorZ_GetMotorStatus();
-
-            Z = zStatus.CurrPos;
-
-            if (xStatus != null)
-            {
-                X = xStatus.CurrPos;
-            }
-            else
-            {
-                return;
-            }
-
-            if (yStatus != null)
-            {
-                Y = yStatus.CurrPos;
-            }
-            else
-            {
-                return;
-            }
-
-            if (zStatus != null)
-            {
-                Z = zStatus.CurrPos;
-            }
-            else
-            {
-                return;
-            }
-
-            List<Sin_Sample> SampleList = NewNoneBoard();
-
-            foreach (var sampleItem in SampleList)
-            {
-                string fileName = sampleItem.RackDish + "_" + sampleItem.Position;
-                TestItem testItem = new TestItem();
-                testItem.ItemSample = sampleItem;
-                testItem.Testid = ++testId;
-                testItem.State = TestState.Untested;
-                testItem.SetTestItemPos(X, Y, Z);
-                testItem.CreatePoint();
-
-                Items.Add(testItem);
-            }
-
-            CurTestItem = Items[0];
-
-        }
-
-        /// <summary>
-        /// 创建新的板
-        /// </summary>
-        /// <param name="BoardItemList"></param>
-        private List<Sin_Sample> NewNoneBoard()
-        {
-            bool NeedCut = true;
-            List<Sin_Sample> SampleList = new List<Sin_Sample>();
-            //for (int rack = 0; rack < 8; rack++)
-            for (int rack = 1; rack < 7; rack++)
-            {
-                NeedCut = !NeedCut;
-                for (int pos = 2; pos <= 11; pos++)
-                {
-                    SampleList.Add(new Sin_Sample()
-                    {
-                        RackDish = Convert.ToChar('A' + rack).ToString(),
-                        Position = NeedCut ? 13 - pos : pos,
-                    });
-                }
-            }
-            for (int i=0; i< SampleList.Count - 1; i++)
-            {
-                Console.WriteLine(SampleList[i].RackDish);
-            }
-            return SampleList;
-        }
-
+        
         /// <summary>
         /// 移动到聚焦位置
         /// </summary>
@@ -316,6 +232,7 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             CurTestItem.MoveTestItemXPos();
             CurTestItem.MoveTestItemYPos();
+            CurTestItem.MoveTestItemZPos();
         }
 
         /// <summary>
@@ -356,19 +273,13 @@ namespace Sinboda.SemiAuto.TestFlow
                             SampleTestFlow();
                         }
                         break;
-                    case TestType.Focus:
-                        {
-                            FocusTestFlow(Z - 100, Z + 100);
-                        }
-                        break;
-
-
                 }
                 
             }
         }
         private void SampleTestFlow()
         {
+            FocusTestFlow(CurTestItem.Z - 100, CurTestItem.Z + 100);
             PointAcquiringImage();
 
             //点位测试完成后，移动到下一个点
@@ -423,39 +334,6 @@ namespace Sinboda.SemiAuto.TestFlow
             MoveFocusPos();
             //关闭激光
             ControlBusiness.Instance.LightEnableCtrl(0, 0.5, 1);
-        }
-
-        /// <summary>
-        /// 测试流程
-        /// </summary>
-        public void StartAgingTest()
-        {
-            while (true)
-            {
-                if (agingIsChannel)
-                {
-                    break;
-                }
-
-                foreach (var item in Items)
-                {
-                    CurTestItem = item;
-
-                    if (agingIsChannel)
-                    {
-                        break;
-                    }
-
-                    if (CurTestItem.X != X && CurTestItem.Y != Y)
-                    {
-                        MoveTestItemPos();
-                    }
-
-                    PointAgingTest();
-
-                }
-            }
-            
         }
 
         /// <summary>
@@ -520,5 +398,129 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             AcquiringImageFinish.Set();
         }
+
+        #region 老化相关
+        /// <summary>
+        /// 老化测试
+        /// </summary>
+        public void CreateAgingTest()
+        {
+            MotorBusiness.Instance.PlatformWorkReset();
+            SetAgingIsChannel(false);
+            ResMotorStatus xStatus = MotorBusiness.Instance.MotorX_GetMotorStatus();
+            ResMotorStatus yStatus = MotorBusiness.Instance.MotorY_GetMotorStatus();
+            ResMotorStatus zStatus = MotorBusiness.Instance.MotorZ_GetMotorStatus();
+
+            Z = zStatus.CurrPos;
+
+            if (xStatus != null)
+            {
+                X = xStatus.CurrPos;
+            }
+            else
+            {
+                return;
+            }
+
+            if (yStatus != null)
+            {
+                Y = yStatus.CurrPos;
+            }
+            else
+            {
+                return;
+            }
+
+            if (zStatus != null)
+            {
+                Z = zStatus.CurrPos;
+            }
+            else
+            {
+                return;
+            }
+
+            List<Sin_Board> BoardList = NewNoneBoard();
+
+            foreach (var boardItem in BoardList)
+            {
+                string fileName = boardItem.Rack + "_" + boardItem.Position;
+                TestItem testItem = new TestItem();
+                testItem.ItemBoard = boardItem;
+                testItem.Testid = ++testId;
+                testItem.State = TestState.Untested;
+                testItem.SetTestItemPos(X, Y, Z);
+                testItem.CreatePoint();
+
+                Items.Add(testItem);
+            }
+
+            CurTestItem = Items[0];
+
+        }
+
+        /// <summary>
+        /// 创建新的板
+        /// </summary>
+        /// <param name="BoardItemList"></param>
+        private List<Sin_Board> NewNoneBoard()
+        {
+            bool NeedCut = true;
+            List<Sin_Board> BoardList = new List<Sin_Board>();
+            //for (int rack = 0; rack < 8; rack++)
+            for (int rack = 1; rack < 7; rack++)
+            {
+                NeedCut = !NeedCut;
+                for (int pos = 2; pos <= 11; pos++)
+                {
+                    BoardList.Add(new Sin_Board()
+                    {
+                        Rack = Convert.ToChar('A' + rack).ToString(),
+                        Position = NeedCut ? 13 - pos : pos,
+                    });
+                }
+            }
+            for (int i = 0; i < BoardList.Count - 1; i++)
+            {
+                Console.WriteLine(BoardList[i].Rack);
+            }
+            return BoardList;
+        }
+
+        /// <summary>
+        /// 测试流程
+        /// </summary>
+        public void StartAgingTest()
+        {
+            while (true)
+            {
+                if (agingIsChannel)
+                {
+                    break;
+                }
+
+                foreach (var item in Items)
+                {
+                    CurTestItem = item;
+
+                    if (agingIsChannel)
+                    {
+                        break;
+                    }
+
+                    if (CurTestItem.X != X && CurTestItem.Y != Y)
+                    {
+                        MoveTestItemPos();
+                    }
+
+                    PointAgingTest();
+
+                }
+            }
+
+        }
+
+        #endregion
+
     }
 }

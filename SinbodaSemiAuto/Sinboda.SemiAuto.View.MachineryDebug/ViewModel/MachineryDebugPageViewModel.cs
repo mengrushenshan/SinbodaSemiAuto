@@ -721,7 +721,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 
                 if (!cmdPlatformReset.Execute())
                 {
-                    LogHelper.logSoftWare.Error("StopMotor failed");
+                    LogHelper.logSoftWare.Error("PlatformResetMotor failed");
                     NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台电机复位失败"));
                 }
                 else

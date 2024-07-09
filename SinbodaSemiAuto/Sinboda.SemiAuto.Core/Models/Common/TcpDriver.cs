@@ -36,6 +36,11 @@ namespace Sinboda.SemiAuto.Core.Models.Common
 
         public bool IsConnected()
         {
+            if (tcpClient == null || tcpClient.Client == null)
+            {
+                return false;
+            }
+                
             return tcpClient.Connected;
         }
 

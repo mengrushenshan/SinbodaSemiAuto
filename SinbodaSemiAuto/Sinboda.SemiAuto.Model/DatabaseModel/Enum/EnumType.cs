@@ -411,8 +411,8 @@ namespace Sinboda.SemiAuto.Model.DatabaseModel.Enum
         None,
         [EnumAnnotate("样本", 0)]
         Sample,
-        [EnumAnnotate("聚焦", 0)]
-        Focus,
+        //[EnumAnnotate("聚焦", 0)]
+        //Focus,
         [EnumAnnotate("质控", 0)]
         QualityControl,
         [EnumAnnotate("校准", 0)]

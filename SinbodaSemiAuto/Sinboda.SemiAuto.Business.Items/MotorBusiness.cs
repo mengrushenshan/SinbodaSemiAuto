@@ -116,7 +116,46 @@ namespace Sinboda.SemiAuto.Business.Items
                 return result;
             }
         }
+        #region 平台
+        /// <summary>
+        /// 平台机械原点复位
+        /// </summary>
+        public void PlatformMachineReset()
+        {
+            PlatformResetMotor(0);
+        }
 
+        /// <summary>
+        /// 平台工作原点复位
+        /// </summary>
+        public void PlatformWorkReset()
+        {
+            PlatformResetMotor(1);
+        }
+
+        /// <summary>
+        /// 平台复位
+        /// </summary>
+        /// <param name="isReturnHome"></param>
+        private void PlatformResetMotor(int isReturnHome)
+        {
+            CmdPlatformReset cmdPlatformReset = new CmdPlatformReset()
+            {
+                ReturnHome = isReturnHome,
+                CloseLaser = 1
+            };
+
+            if (!cmdPlatformReset.Execute())
+            {
+                LogHelper.logSoftWare.Error("PlatformResetMotor failed");
+                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "平台电机复位失败"));
+            }
+            else
+            {
+                ResPlatformReset resPlatformReset = cmdPlatformReset.GetResponse() as ResPlatformReset;
+            }
+        }
+        #endregion
         #region 电机
 
         /// <summary>
