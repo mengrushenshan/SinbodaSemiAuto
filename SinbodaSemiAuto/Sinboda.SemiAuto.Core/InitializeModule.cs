@@ -35,7 +35,7 @@ namespace Sinboda.SemiAuto.Core
             GlobalData.Init();
 
             //相机初始化
-            //PVCamHelper.Instance.Init();
+            PVCamHelper.Instance.Init();
 
             //tcp指令通讯器初始化 并连接
             TcpCmdActuators.Instance.Init();

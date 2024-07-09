@@ -716,7 +716,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 CmdPlatformReset cmdPlatformReset = new CmdPlatformReset()
                 {
                     ReturnHome = isReturnHome,
-                    CloseLaser = 0
+                    CloseLaser = 1
                 };
 
                 if (!cmdPlatformReset.Execute())
