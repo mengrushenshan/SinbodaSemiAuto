@@ -623,6 +623,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                             }
                             break;
                     }
+                    SetOrigin(motorItem);
                 }
             }
 
@@ -1005,7 +1006,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 {
                     Id = (int)obj.MotorId,
                     ParamID = 2,
-                    ParamValue = obj.TargetPos
+                    ParamValue = obj.MotorId == MotorId.Xaxis ? OriginXaxis : (obj.MotorId == MotorId.Yaxis ? OriginYaxis : OriginZaxis)
                 };
 
                 if (!cmdSetMotorParam.Execute())
