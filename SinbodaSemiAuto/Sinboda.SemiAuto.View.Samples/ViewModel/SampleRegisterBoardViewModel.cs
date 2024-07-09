@@ -3,6 +3,7 @@
 using DevExpress.CodeParser;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
+using Sinboda.Framework.Control.Controls;
 using Sinboda.Framework.Control.Loading;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.Framework.Core.Services;
@@ -285,14 +286,14 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 if (BoardTemplateBusiness.Instance.DeleteTemplateNameList(TemplateList))
                 {
                     WriteOperateLog(SystemResources.Instance.GetLanguage(0, "模板删除成功"));
-                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "模板删除成功"));
+                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "模板删除成功"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                     SetTemplateNameAndList();
                     InitTemplateList();
                 }
                 else
                 {
                     WriteOperateLog(SystemResources.Instance.GetLanguage(0, "模板删除失败"));
-                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "模板删除失败"));
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "模板删除失败"));
                 }
             });
         }
@@ -313,13 +314,13 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 if (BoardTemplateBusiness.Instance.SaveTemplateNameList(TemplateList))
                 {
                     WriteOperateLog(SystemResources.Instance.GetLanguage(0, "模板保存完成"));
-                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "模板保存完成"));
+                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "模板保存完成"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                     
                 }
                 else
                 {
                     WriteOperateLog(SystemResources.Instance.GetLanguage(0, "模板保存失败"));
-                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "模板保存失败"));
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "模板保存失败"));
                 }
             });
             
@@ -334,7 +335,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             if (createBoardTemplateWindow.ShowDialog() == true)
             {
                 WriteOperateLog(SystemResources.Instance.GetLanguage(0, "模板创建成功"));
-                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "模板创建成功"));
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "模板创建成功"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                 SetTemplateNameAndList();
                 InitTemplateList();
             }
@@ -387,7 +388,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                 }
                 else
                 {
-                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(3086, "登记成功"));
+                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(3086, "登记成功"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                     BoardId = SampleBusiness.Instance.GetMaxBoardId();
                 }
             });

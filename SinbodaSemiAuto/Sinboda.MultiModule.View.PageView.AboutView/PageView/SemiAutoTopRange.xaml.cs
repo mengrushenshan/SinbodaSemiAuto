@@ -1,4 +1,6 @@
-﻿using Sinboda.SemiAuto.View.WinView;
+﻿using Sinboda.Framework.Core.Services;
+using Sinboda.Framework.Core.StaticResource;
+using Sinboda.SemiAuto.View.WinView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +48,10 @@ namespace Sinboda.SemiAuto.View.PageView
         /// <param name="e"></param>
         private void btnStop_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            if (NotificationService.Instance.ShowQuestion(SystemResources.Instance.GetLanguage(0, "是否停止测试")) == MessageBoxResult.Yes)
+            {
+                TestFlow.TestFlow.Instance.SetTestIsChannel(true);
+            }
         }
     }
 }

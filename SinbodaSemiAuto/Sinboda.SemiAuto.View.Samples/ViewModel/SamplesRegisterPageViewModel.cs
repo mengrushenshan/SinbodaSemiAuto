@@ -532,7 +532,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             if (CurBoardItemList.Count(o => o.IsEnable == true) == 0)
             {
-                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "没有可登记样本"));
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "没有可登记样本"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                 return;
             }
 
@@ -558,7 +558,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
                         }
                         else
                         {
-                            NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "登记成功"));
+                            NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "登记成功"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                             ResetBoardPage();
                         }
 
@@ -567,7 +567,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             }
             else
             {
-                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "板号已经存在"));
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "板号已经存在"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                 return;
             }
         }

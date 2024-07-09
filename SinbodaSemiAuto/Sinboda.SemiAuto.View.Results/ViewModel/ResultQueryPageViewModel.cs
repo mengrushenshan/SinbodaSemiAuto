@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 using Sinboda.Framework.Common;
+using Sinboda.Framework.Common.Log;
 using Sinboda.Framework.Control.Controls.Navigation;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.SemiAuto.Business.Samples;
@@ -220,6 +221,7 @@ namespace Sinboda.SemiAuto.View.Results.ViewModel
                 return;
             }
             string samplePath = MapPath.TifPath + "Result\\" + $"{SelectTestResult.Test_file_name}\\";
+            LogHelper.logSoftWare.Info("SetImagePath use path:" + samplePath);
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
                 ImagePath1 = samplePath + $"{SelectSample.RackDish}_{SelectSample.Position}_1.jpg";

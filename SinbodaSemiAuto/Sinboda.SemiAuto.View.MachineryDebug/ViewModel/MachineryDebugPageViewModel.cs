@@ -838,7 +838,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 }
                 else
                 {
-                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "点位计算完成"));
+                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "点位计算完成"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                 }
             });
         }
@@ -1786,7 +1786,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             {
                 if (result)
                 {
-                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "升级成功"));
+                    NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "升级成功"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                     return;
                 }
                 else

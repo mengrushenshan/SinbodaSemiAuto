@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using OpenCvSharp;
 using Sinboda.Framework.Common;
+using Sinboda.Framework.Common.Log;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.Framework.Core.Services;
 using Sinboda.Framework.Core.StaticResource;
@@ -75,13 +76,23 @@ namespace Sinboda.SemiAuto.TestFlow
         /// </summary>
         public List<TestItem> Items { get; set; } = new List<TestItem>();
 
+        /// <summary>
+        /// 老化停止标志
+        /// </summary>
         private bool agingIsChannel = false;
+
+        /// <summary>
+        /// 测试停止标志
+        /// </summary>
+        private bool testIsChannel = false;
+
         /// <summary>
         /// 测试流程初始化
         /// </summary>
         private bool Init()
         {
             AcquiringImageFinish.Reset();
+            SetTestIsChannel(false);
             DateTime today = DateTime.Now.Date;
             DateTime tomorrow = DateTime.Now.AddDays(1).Date;
             if (isInitComplete)
@@ -135,6 +146,15 @@ namespace Sinboda.SemiAuto.TestFlow
         public void SetAgingIsChannel(bool isChannel)
         {
             agingIsChannel = isChannel;
+        }
+
+        /// <summary>
+        /// 测试停止标志
+        /// </summary>
+        /// <param name="isChannel"></param>
+        public void SetTestIsChannel(bool isChannel)
+        {
+            testIsChannel = isChannel;
         }
 
         /// <summary>
@@ -252,6 +272,12 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             foreach (var item in Items)
             {
+                if (testIsChannel)
+                {
+                    LogHelper.logSoftWare.Info("StartItemTest is Channel");
+                    break;
+                }
+
                 if (item.State == TestState.Complete)
                 {
                     continue;
@@ -276,6 +302,7 @@ namespace Sinboda.SemiAuto.TestFlow
                 }
                 
             }
+            CannelTest();
         }
         private void SampleTestFlow()
         {

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
+using Sinboda.Framework.Control.Controls;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.Framework.Core.Services;
 using Sinboda.Framework.Core.StaticResource;
@@ -45,7 +46,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             var tempList = BoardTemplateBusiness.Instance.GetBoardList(TemplateName);
             if (tempList != null && tempList.Count != 0)
             {
-                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "方案名已经存在"));
+                NotificationService.Instance.ShowMessage(SystemResources.Instance.GetLanguage(0, "方案名已经存在"), MessageBoxButton.OK, SinMessageBoxImage.Information);
                 return;
             }
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
