@@ -118,10 +118,26 @@ namespace Sinboda.SemiAuto.Business.Items
         }
         #region 平台
         /// <summary>
+        /// 平台机械原点复位
+        /// </summary>
+        public void PlatformMachineReset()
+        {
+            PlatformResetMotor(0);
+        }
+
+        /// <summary>
+        /// 平台工作原点复位
+        /// </summary>
+        public void PlatformWorkReset()
+        {
+            PlatformResetMotor(1);
+        }
+
+        /// <summary>
         /// 平台复位
         /// </summary>
         /// <param name="isReturnHome"></param>
-        public void PlatformResetMotor(int isReturnHome)
+        private void PlatformResetMotor(int isReturnHome)
         {
             CmdPlatformReset cmdPlatformReset = new CmdPlatformReset()
             {

@@ -74,9 +74,6 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                     case TestType.Sample:
                         SetColor("1", true);
                         break;
-                    case TestType.Focus:
-                        SetColor("2", true);
-                        break;
                     case TestType.QualityControl:
                         SetColor("3", true);
                         break;
@@ -107,9 +104,6 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                 {
                     case TestType.Sample:
                         SetColor("1", true);
-                        break;
-                    case TestType.Focus:
-                        SetColor("2", true);
                         break;
                     case TestType.QualityControl:
                         SetColor("3", true);

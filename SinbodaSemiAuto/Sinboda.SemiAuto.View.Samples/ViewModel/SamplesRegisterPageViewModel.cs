@@ -883,6 +883,7 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         /// <param name="reagent"></param>
         public void ShowBoardInfo(Sin_Board board)
         {
+            board.ItemName = SelectItem;
             RefTemplateBoard(true);
             if (SelectBoard.Contains(board))
             {

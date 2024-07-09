@@ -88,7 +88,7 @@ namespace Sinboda.SemiAuto.TestFlow
             {
                 return true;
             }
-            MotorBusiness.Instance.PlatformResetMotor(0);
+            MotorBusiness.Instance.PlatformWorkReset();
             //启动测试时，实时获取电机所在位置
             ResMotorStatus xStatus = MotorBusiness.Instance.MotorX_GetMotorStatus();
             ResMotorStatus yStatus = MotorBusiness.Instance.MotorY_GetMotorStatus();
@@ -145,6 +145,7 @@ namespace Sinboda.SemiAuto.TestFlow
         {
             BoardId = id;
         }
+
         /// <summary>
         /// 根据1位置创建测试缓存
         /// </summary>
@@ -215,12 +216,196 @@ namespace Sinboda.SemiAuto.TestFlow
             return true;
         }
 
+        
+        /// <summary>
+        /// 移动到聚焦位置
+        /// </summary>
+        public void MoveFocusPos()
+        {
+            MotorBusiness.Instance.MotorZ_MoveAbsolute(Z);
+        }
+
+        /// <summary>
+        /// 移动测试位置
+        /// </summary>
+        public void MoveTestItemPos()
+        {
+            CurTestItem.MoveTestItemXPos();
+            CurTestItem.MoveTestItemYPos();
+            CurTestItem.MoveTestItemZPos();
+        }
+
+        /// <summary>
+        /// 移动测试点
+        /// </summary>
+        public void MoveTestPointPos()
+        {
+            //移动xy
+            CurTestItem.CurTestPoint.MoveTestItemXPos();
+            CurTestItem.CurTestPoint.MoveTestItemYPos();
+        }
+
+        /// <summary>
+        /// 测试流程
+        /// </summary>
+        public void StartItemTest()
+        {
+            foreach (var item in Items)
+            {
+                if (item.State == TestState.Complete)
+                {
+                    continue;
+                }
+
+                if (CurTestItem.State == TestState.Complete)
+                {
+                    CurTestItem = item;
+                }
+
+                if (CurTestItem.X != X && CurTestItem.Y != Y)
+                {
+                    MoveTestItemPos();
+                }
+                switch (CurTestItem.Type)
+                {
+                    case TestType.Sample:
+                        {
+                            SampleTestFlow();
+                        }
+                        break;
+                }
+                
+            }
+        }
+        private void SampleTestFlow()
+        {
+            FocusTestFlow(CurTestItem.Z - 100, CurTestItem.Z + 100);
+            PointAcquiringImage();
+
+            //点位测试完成后，移动到下一个点
+            if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
+            {
+                CurTestItem.State = TestState.Complete;
+                string rack = CurTestItem.ItemSample.RackDish;
+                int pos = CurTestItem.ItemSample.Position;
+                Task.Run(async () => {
+                    await semaphoreSlim.WaitAsync();
+                    //AnalysisHelper.Instance.Init();
+                    AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, rack.ToCharArray()[0], pos);
+                    //AnalysisHelper.Instance.Shutdown();
+                    semaphoreSlim.Release();
+                });
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void FocusTestFlow(int FocusBeginPos, int FocusEndPos)
+        {
+            string dateText = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
+            string fileName = $"{dateText}.tif";
+
+            if (FocusBeginPos > FocusEndPos)
+            {
+                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "聚焦起始位置大于结束位置"));
+                return;
+            }
+
+            int focusImageCount = (FocusEndPos - FocusBeginPos) / focusMoveStep;
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            //开启激光
+            ControlBusiness.Instance.LightEnableCtrl(1, 0.5, 1);
+            //移动到暂定起始位置
+            Z = FocusBeginPos;
+            MoveFocusPos();
+
+            //计算聚焦位置
+            int autoFocusPos = AutofocusHelper.Instance.ZPos(FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
+
+            //移动到最佳聚焦位置
+            Z = autoFocusPos;
+            MoveFocusPos();
+            //关闭激光
+            ControlBusiness.Instance.LightEnableCtrl(0, 0.5, 1);
+        }
+
+        /// <summary>
+        /// 9点数据采集
+        /// </summary>
+        private void PointAgingTest()
+        {
+            //同一孔位9点测试
+            List<TestPoint> points = CurTestItem.points.Where(o => o.Status == TestState.Untested).ToList();
+
+            foreach (var point in points)
+            {
+                if (agingIsChannel)
+                {
+                    break;
+                }
+                CurTestItem.CurTestPoint = point;
+                MoveTestPointPos();
+            }
+        }
+
+        /// <summary>
+        /// 9点数据采集
+        /// </summary>
+        private void PointAcquiringImage()
+        {
+            //同一孔位9点测试
+            List<TestPoint> points = CurTestItem.points.Where(o => o.Status == TestState.Untested).ToList();
+
+            foreach (var point in points)
+            {
+                CurTestItem.CurTestPoint = point;
+                CurTestItem.CurTestPoint.Status = TestState.Testing;
+                MoveTestPointPos();
+                //开始拍照
+                CurTestItem.CurTestPoint.StartAcquiringImage();
+                //100张图曝光30us，增加1秒超时时间
+                if (AcquiringImageFinish.WaitOne(35000))
+                {
+                    AcquiringImageFinish.Reset();
+                    //等待记录100张图像
+                    CurTestItem.CurTestPoint.Status = TestState.Complete;
+                }
+                else
+                {
+                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "图像采集失败"));
+                    break;
+                }
+
+            }
+        }
+
+        public void CannelTest()
+        {
+            Messenger.Default.Unregister<object>(this, MessageToken.AcquiringImageComplete, ReceiveImageComplete);
+            CurTestItem.ChannelPoint();
+            CurTestItem = null;
+            isInitComplete = false;
+        }
+
+        public void ReceiveImageComplete(object obj)
+        {
+            AcquiringImageFinish.Set();
+        }
+
+        #region 老化相关
         /// <summary>
         /// 老化测试
         /// </summary>
         public void CreateAgingTest()
         {
-            MotorBusiness.Instance.PlatformResetMotor(0);
+            MotorBusiness.Instance.PlatformWorkReset();
             SetAgingIsChannel(false);
             ResMotorStatus xStatus = MotorBusiness.Instance.MotorX_GetMotorStatus();
             ResMotorStatus yStatus = MotorBusiness.Instance.MotorY_GetMotorStatus();
@@ -295,136 +480,11 @@ namespace Sinboda.SemiAuto.TestFlow
                     });
                 }
             }
-            for (int i=0; i< BoardList.Count - 1; i++)
+            for (int i = 0; i < BoardList.Count - 1; i++)
             {
                 Console.WriteLine(BoardList[i].Rack);
             }
             return BoardList;
-        }
-
-        /// <summary>
-        /// 移动到聚焦位置
-        /// </summary>
-        public void MoveFocusPos()
-        {
-            MotorBusiness.Instance.MotorZ_MoveAbsolute(Z);
-        }
-
-        /// <summary>
-        /// 移动测试位置
-        /// </summary>
-        public void MoveTestItemPos()
-        {
-            CurTestItem.MoveTestItemXPos();
-            CurTestItem.MoveTestItemYPos();
-            CurTestItem.MoveTestItemZPos();
-        }
-
-        /// <summary>
-        /// 移动测试点
-        /// </summary>
-        public void MoveTestPointPos()
-        {
-            //移动xy
-            CurTestItem.CurTestPoint.MoveTestItemXPos();
-            CurTestItem.CurTestPoint.MoveTestItemYPos();
-        }
-
-        /// <summary>
-        /// 测试流程
-        /// </summary>
-        public void StartItemTest()
-        {
-            foreach (var item in Items)
-            {
-                if (item.State == TestState.Complete)
-                {
-                    continue;
-                }
-
-                if (CurTestItem.State == TestState.Complete)
-                {
-                    CurTestItem = item;
-                }
-
-                if (CurTestItem.X != X && CurTestItem.Y != Y)
-                {
-                    MoveTestItemPos();
-                }
-                switch (CurTestItem.Type)
-                {
-                    case TestType.Sample:
-                        {
-                            SampleTestFlow();
-                        }
-                        break;
-                    case TestType.Focus:
-                        {
-                            FocusTestFlow(Z - 100, Z + 100);
-                        }
-                        break;
-
-
-                }
-                
-            }
-        }
-        private void SampleTestFlow()
-        {
-            PointAcquiringImage();
-
-            //点位测试完成后，移动到下一个点
-            if (CurTestItem.points.Where(o => o.Status == TestState.Complete).Count() == CurTestItem.points.Count)
-            {
-                CurTestItem.State = TestState.Complete;
-                string rack = CurTestItem.ItemSample.RackDish;
-                int pos = CurTestItem.ItemSample.Position;
-                Task.Run(async () => {
-                    await semaphoreSlim.WaitAsync();
-                    //AnalysisHelper.Instance.Init();
-                    AnalysisHelper.Instance.Analysis(CurTestItem.ItemSample.TestResult, rack.ToCharArray()[0], pos);
-                    //AnalysisHelper.Instance.Shutdown();
-                    semaphoreSlim.Release();
-                });
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void FocusTestFlow(int FocusBeginPos, int FocusEndPos)
-        {
-            string dateText = DateTime.Now.ToString("yyyyMMddHHmmss");
-            string filePath = MapPath.TifPath + $"Focus\\{dateText.Substring(0, 8)}\\";
-            string fileName = $"{dateText}.tif";
-
-            if (FocusBeginPos > FocusEndPos)
-            {
-                NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "聚焦起始位置大于结束位置"));
-                return;
-            }
-
-            int focusImageCount = (FocusEndPos - FocusBeginPos) / focusMoveStep;
-
-            if (!Directory.Exists(filePath))
-            {
-                Directory.CreateDirectory(filePath);
-            }
-
-            //开启激光
-            ControlBusiness.Instance.LightEnableCtrl(1, 0.5, 1);
-            //移动到暂定起始位置
-            Z = FocusBeginPos;
-            MoveFocusPos();
-
-            //计算聚焦位置
-            int autoFocusPos = AutofocusHelper.Instance.ZPos(FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
-
-            //移动到最佳聚焦位置
-            Z = autoFocusPos;
-            MoveFocusPos();
-            //关闭激光
-            ControlBusiness.Instance.LightEnableCtrl(0, 0.5, 1);
         }
 
         /// <summary>
@@ -457,70 +517,10 @@ namespace Sinboda.SemiAuto.TestFlow
 
                 }
             }
-            
+
         }
 
-        /// <summary>
-        /// 9点数据采集
-        /// </summary>
-        private void PointAgingTest()
-        {
-            //同一孔位9点测试
-            List<TestPoint> points = CurTestItem.points.Where(o => o.Status == TestState.Untested).ToList();
+        #endregion
 
-            foreach (var point in points)
-            {
-                if (agingIsChannel)
-                {
-                    break;
-                }
-                CurTestItem.CurTestPoint = point;
-                MoveTestPointPos();
-            }
-        }
-
-        /// <summary>
-        /// 9点数据采集
-        /// </summary>
-        private void PointAcquiringImage()
-        {
-            //同一孔位9点测试
-            List<TestPoint> points = CurTestItem.points.Where(o => o.Status == TestState.Untested).ToList();
-
-            foreach (var point in points)
-            {
-                CurTestItem.CurTestPoint = point;
-                CurTestItem.CurTestPoint.Status = TestState.Testing;
-                MoveTestPointPos();
-                //开始拍照
-                CurTestItem.CurTestPoint.StartAcquiringImage();
-                //100张图曝光30us，增加1秒超时时间
-                if (AcquiringImageFinish.WaitOne(35000))
-                {
-                    AcquiringImageFinish.Reset();
-                    //等待记录100张图像
-                    CurTestItem.CurTestPoint.Status = TestState.Complete;
-                }
-                else
-                {
-                    NotificationService.Instance.ShowError(SystemResources.Instance.GetLanguage(0, "图像采集失败"));
-                    break;
-                }
-
-            }
-        }
-
-        public void CannelTest()
-        {
-            Messenger.Default.Unregister<object>(this, MessageToken.AcquiringImageComplete, ReceiveImageComplete);
-            CurTestItem.ChannelPoint();
-            CurTestItem = null;
-            isInitComplete = false;
-        }
-
-        public void ReceiveImageComplete(object obj)
-        {
-            AcquiringImageFinish.Set();
-        }
     }
 }
