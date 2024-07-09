@@ -36,12 +36,15 @@ using System.IO;
 using DevExpress.CodeParser;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Sinboda.SemiAuto.View.WinView;
+using DevExpress.XtraSpellChecker;
 
 namespace Sinboda.SemiAuto.View.Samples.ViewModel
 {
     public class SamplesRegisterPageViewModel : NavigationViewModelBase
     {
         public Action<bool> RefTemplateBoard;
+        public Action<int, bool> RefBoardCol;
+        public Action<string, bool> RefBoardRow;
         /// <summary>
         /// 线程锁
         /// </summary>
@@ -573,6 +576,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         {
             SetBoardId();
             CurBoardItemList = NewNoneBoard();
+            BoardType = TestType.None;
+            IsBoardEnable = false;
             RefTemplateBoard(false);
         }
         private void SampleDelete()
@@ -884,6 +889,9 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
         public void ShowBoardInfo(Sin_Board board)
         {
             board.ItemName = SelectItem;
+            board.IsEnable = IsBoardEnable;
+            board.TestType = BoardType;
+
             RefTemplateBoard(true);
             if (SelectBoard.Contains(board))
             {
@@ -895,31 +903,53 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             }
         }
 
-        public void ShowRackBoard(string rack)
+        public void ShowRackBoard(string rack, bool isAddList)
         {
-            RefTemplateBoard(true);
             if (!string.IsNullOrEmpty(rack))
             {
                 CurBoardItemList.Where(o => o.Rack == rack).ToList().ForEach(p => {
-                    if (!SelectBoard.Contains(p))
+                    if (isAddList)
                     {
-                        SelectBoard.Add(p);
+                        if (!SelectBoard.Contains(p))
+                        {
+                            p.ItemName = SelectItem;
+                            SelectBoard.Add(p);
+                        }
+                    }
+                    else
+                    {
+                        if (SelectBoard.Contains(p))
+                        {
+                            SelectBoard.Remove(p);
+                        }
                     }
                 });
+                RefBoardRow(rack, isAddList);
             }
         }
 
-        public void ShowColBoard(int col)
+        public void ShowColBoard(int col, bool isAddList)
         {
-            RefTemplateBoard(true);
             if (col != 0)
             {
                 CurBoardItemList.Where(o => o.Position == col).ToList().ForEach(p => {
-                    if (!SelectBoard.Contains(p))
+                    if (isAddList)
                     {
-                        SelectBoard.Add(p);
+                        if (!SelectBoard.Contains(p))
+                        {
+                            p.ItemName = SelectItem;
+                            SelectBoard.Add(p);
+                        }
+                    }
+                    else
+                    {
+                        if (SelectBoard.Contains(p))
+                        {
+                            SelectBoard.Remove(p);
+                        }
                     }
                 });
+                RefBoardCol(col, isAddList);
             }
         }
 

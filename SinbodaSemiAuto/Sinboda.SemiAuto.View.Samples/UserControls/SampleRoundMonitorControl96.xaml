@@ -20,20 +20,20 @@
                 MinHeight="580"
                 Background="{DynamicResource colorWhite}">
 
-                <local:SampleControl Canvas.Left="50" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-1" />
-                <local:SampleControl Canvas.Left="130" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-2" />
-                <local:SampleControl Canvas.Left="210" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-3" />
-                <local:SampleControl Canvas.Left="290" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-4" />
-                <local:SampleControl Canvas.Left="370" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-5" />
-                <local:SampleControl Canvas.Left="450" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-6" />
-                <local:SampleControl Canvas.Left="530" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-7" />
-                <local:SampleControl Canvas.Left="610" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-8" />
-                <local:SampleControl Canvas.Left="690" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-9" />
-                <local:SampleControl Canvas.Left="770" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-10" />
-                <local:SampleControl Canvas.Left="850" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-11" />
-                <local:SampleControl Canvas.Left="930" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-12" />
+                <local:SampleControl Canvas.Left="50" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-1" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="130" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-2" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="210" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-3" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="290" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-4" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="370" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-5" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="450" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-6" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="530" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-7" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="610" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-8" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="690" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-9" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="770" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-10" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="850" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-11" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="930" Canvas.Top="35" Background="{DynamicResource colorWhite}" Tag="A-12" Visibility="Hidden"/>
 
-                <local:SampleControl Canvas.Left="50" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-1" />
+                <local:SampleControl Canvas.Left="50" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-1" Visibility="Hidden"/>
                 <local:SampleControl Canvas.Left="130" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-2" />
                 <local:SampleControl Canvas.Left="210" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-3" />
                 <local:SampleControl Canvas.Left="290" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-4" />
@@ -44,9 +44,9 @@
                 <local:SampleControl Canvas.Left="690" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-9" />
                 <local:SampleControl Canvas.Left="770" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-10" />
                 <local:SampleControl Canvas.Left="850" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-11" />
-                <local:SampleControl Canvas.Left="930" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-12" />
+                <local:SampleControl Canvas.Left="930" Canvas.Top="102" Background="{DynamicResource colorWhite}" Tag="B-12" Visibility="Hidden"/>
 
-                <local:SampleControl Canvas.Left="50" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-1" />
+                <local:SampleControl Canvas.Left="50" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-1" Visibility="Hidden"/>
                 <local:SampleControl Canvas.Left="130" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-2" />
                 <local:SampleControl Canvas.Left="210" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-3" />
                 <local:SampleControl Canvas.Left="290" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-4" />
@@ -57,9 +57,9 @@
                 <local:SampleControl Canvas.Left="690" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-9" />
                 <local:SampleControl Canvas.Left="770" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-10" />
                 <local:SampleControl Canvas.Left="850" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-11" />
-                <local:SampleControl Canvas.Left="930" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-12" />
+                <local:SampleControl Canvas.Left="930" Canvas.Top="169" Background="{DynamicResource colorWhite}" Tag="C-12" Visibility="Hidden"/>
 
-                <local:SampleControl Canvas.Left="50" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-1" />
+                <local:SampleControl Canvas.Left="50" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-1" Visibility="Hidden"/>
                 <local:SampleControl Canvas.Left="130" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-2" />
                 <local:SampleControl Canvas.Left="210" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-3" />
                 <local:SampleControl Canvas.Left="290" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-4" />
@@ -70,9 +70,9 @@
                 <local:SampleControl Canvas.Left="690" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-9" />
                 <local:SampleControl Canvas.Left="770" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-10" />
                 <local:SampleControl Canvas.Left="850" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-11" />
-                <local:SampleControl Canvas.Left="930" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-12" />
+                <local:SampleControl Canvas.Left="930" Canvas.Top="236" Background="{DynamicResource colorWhite}" Tag="D-12" Visibility="Hidden"/>
 
-                <local:SampleControl Canvas.Left="50" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-1" />
+                <local:SampleControl Canvas.Left="50" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-1" Visibility="Hidden"/>
                 <local:SampleControl Canvas.Left="130" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-2" />
                 <local:SampleControl Canvas.Left="210" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-3" />
                 <local:SampleControl Canvas.Left="290" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-4" />
@@ -83,9 +83,9 @@
                 <local:SampleControl Canvas.Left="690" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-9" />
                 <local:SampleControl Canvas.Left="770" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-10" />
                 <local:SampleControl Canvas.Left="850" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-11" />
-                <local:SampleControl Canvas.Left="930" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-12" />
+                <local:SampleControl Canvas.Left="930" Canvas.Top="303" Background="{DynamicResource colorWhite}" Tag="E-12" Visibility="Hidden"/>
 
-                <local:SampleControl Canvas.Left="50" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-1" />
+                <local:SampleControl Canvas.Left="50" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-1" Visibility="Hidden"/>
                 <local:SampleControl Canvas.Left="130" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-2" />
                 <local:SampleControl Canvas.Left="210" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-3" />
                 <local:SampleControl Canvas.Left="290" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-4" />
@@ -96,9 +96,9 @@
                 <local:SampleControl Canvas.Left="690" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-9" />
                 <local:SampleControl Canvas.Left="770" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-10" />
                 <local:SampleControl Canvas.Left="850" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-11" />
-                <local:SampleControl Canvas.Left="930" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-12" />
+                <local:SampleControl Canvas.Left="930" Canvas.Top="370" Background="{DynamicResource colorWhite}" Tag="F-12" Visibility="Hidden"/>
 
-                <local:SampleControl Canvas.Left="50" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-1" />
+                <local:SampleControl Canvas.Left="50" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-1" Visibility="Hidden"/>
                 <local:SampleControl Canvas.Left="130" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-2" />
                 <local:SampleControl Canvas.Left="210" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-3" />
                 <local:SampleControl Canvas.Left="290" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-4" />
@@ -109,22 +109,22 @@
                 <local:SampleControl Canvas.Left="690" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-9" />
                 <local:SampleControl Canvas.Left="770" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-10" />
                 <local:SampleControl Canvas.Left="850" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-11" />
-                <local:SampleControl Canvas.Left="930" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-12" />
+                <local:SampleControl Canvas.Left="930" Canvas.Top="437" Background="{DynamicResource colorWhite}" Tag="G-12" Visibility="Hidden"/>
 
-                <local:SampleControl Canvas.Left="50" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-1" />
-                <local:SampleControl Canvas.Left="130" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-2" />
-                <local:SampleControl Canvas.Left="210" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-3" />
-                <local:SampleControl Canvas.Left="290" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-4" />
-                <local:SampleControl Canvas.Left="370" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-5" />
-                <local:SampleControl Canvas.Left="450" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-6" />
-                <local:SampleControl Canvas.Left="530" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-7" />
-                <local:SampleControl Canvas.Left="610" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-8" />
-                <local:SampleControl Canvas.Left="690" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-9" />
-                <local:SampleControl Canvas.Left="770" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-10" />
-                <local:SampleControl Canvas.Left="850" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-11" />
-                <local:SampleControl Canvas.Left="930" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-12" />
+                <local:SampleControl Canvas.Left="50" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-1" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="130" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-2" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="210" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-3" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="290" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-4" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="370" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-5" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="450" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-6" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="530" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-7" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="610" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-8" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="690" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-9" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="770" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-10" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="850" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-11" Visibility="Hidden"/>
+                <local:SampleControl Canvas.Left="930" Canvas.Top="506" Background="{DynamicResource colorWhite}" Tag="H-12" Visibility="Hidden"/>
 
-                <local:SampleColControl Canvas.Left="48" Tag="1"/>
+                <local:SampleColControl Canvas.Left="48" Tag="1" Visibility="Hidden"/>
                 <local:SampleColControl Canvas.Left="128" Tag="2"/>
                 <local:SampleColControl Canvas.Left="208" Tag="3"/>
                 <local:SampleColControl Canvas.Left="288" Tag="4"/>
@@ -135,16 +135,16 @@
                 <local:SampleColControl Canvas.Left="688" Tag="9"/>
                 <local:SampleColControl Canvas.Left="768" Tag="10"/>
                 <local:SampleColControl Canvas.Left="848" Tag="11"/>
-                <local:SampleColControl Canvas.Left="928" Tag="12"/>
+                <local:SampleColControl Canvas.Left="928" Tag="12" Visibility="Hidden"/>
 
-                <local:SampleRowControl Canvas.Top="33" Tag="A"/>
+                <local:SampleRowControl Canvas.Top="33" Tag="A" Visibility="Hidden"/>
                 <local:SampleRowControl Canvas.Top="100" Tag="B"/>
                 <local:SampleRowControl Canvas.Top="167" Tag="C"/>
                 <local:SampleRowControl Canvas.Top="234" Tag="D"/>
                 <local:SampleRowControl Canvas.Top="301" Tag="E"/>
                 <local:SampleRowControl Canvas.Top="368" Tag="F"/>
                 <local:SampleRowControl Canvas.Top="435" Tag="G"/>
-                <local:SampleRowControl Canvas.Top="504" Tag="H"/>
+                <local:SampleRowControl Canvas.Top="504" Tag="H" Visibility="Hidden"/>
             </Canvas>
         </Viewbox>
     </Grid>

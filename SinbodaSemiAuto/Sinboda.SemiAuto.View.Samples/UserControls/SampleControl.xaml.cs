@@ -72,22 +72,35 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                 switch (sinBoard.TestType)
                 {
                     case TestType.Sample:
-                        SetColor("1", true);
+                        {
+                            SetColor("1", true);
+                        }
                         break;
                     case TestType.QualityControl:
-                        SetColor("3", true);
+                        {
+                            SetColor("3", true);
+                        }
                         break;
                     case TestType.Calibration:
-                        SetColor("4", true);
+                        {
+                            SetColor("4", true);
+                        }
                         break;
                     case TestType.None:
-                        SetColor("6", true);
+                        {
+                            SetColor("6", true);
+                        }
                         break;
                 }
             }
             else
             {
                 SetColor("6", true);
+            }
+
+            if (isSelected)
+            {
+                SetColor("5", false);
             }
         }
 
@@ -177,16 +190,12 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                 middle_border.Background = new SolidColorBrush(colorDic[index].MiddleRangeColor);
             }
 
-            if (!isSelected)
-            {
-                cover_Border.BorderBrush = new SolidColorBrush(colorDic[index].RoundColor);
-            }
-            
+            cover_Border.BorderBrush = new SolidColorBrush(colorDic[index].RoundColor);
         }
 
-        public void SetIsSelectedFalse()
+        public void SetIsSelected(bool flag)
         {
-            isSelected = false;
+            isSelected = flag;
         }
 
         private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
