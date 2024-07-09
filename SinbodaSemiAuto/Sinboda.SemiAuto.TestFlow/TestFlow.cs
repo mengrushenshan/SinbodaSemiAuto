@@ -169,10 +169,10 @@ namespace Sinboda.SemiAuto.TestFlow
                 Directory.CreateDirectory(samplePath);
             }
 
-            for (char rack = 'A'; rack <= 'H'; rack++)
+            for (char rack = 'B'; rack < 'H'; rack++)
             {
                 isOrder = !isOrder;
-                for (int i = 1; i <= 12; i++)
+                for (int i = 2; i <= 11; i++)
                 {
                     var pos = isOrder ? i : 13 - i;
                     Sin_Board boardItem = BoardList.Where(o => o.Rack == rack.ToString() && o.Position ==  pos).First();

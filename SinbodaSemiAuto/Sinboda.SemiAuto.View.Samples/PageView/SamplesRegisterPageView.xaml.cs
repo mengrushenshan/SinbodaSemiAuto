@@ -26,6 +26,8 @@ namespace Sinboda.SemiAuto.View.Samples.PageView
             sampleRoundMonitorControl96.InitBoardData();
             SampleGrid.Children.Add(sampleRoundMonitorControl96);
             viewModel.RefTemplateBoard = sampleRoundMonitorControl96.SetBoardData;
+            viewModel.RefBoardCol = sampleRoundMonitorControl96.SetColData;
+            viewModel.RefBoardRow = sampleRoundMonitorControl96.SetRowData;
 
             this.PreviewMouseWheel += img_PreviewMouseWheel;
             this.PreviewKeyDown += Grid_PreviewKeyDown;

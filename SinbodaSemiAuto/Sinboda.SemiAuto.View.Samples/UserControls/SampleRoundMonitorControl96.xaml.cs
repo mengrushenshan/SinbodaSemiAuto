@@ -24,8 +24,8 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
     {
         public Action<Sin_BoardTemplate> GetBoardTemplate;
         public Action<Sin_Board> GetBoard;
-        public Action<string> SetRowBoard;
-        public Action<int> SetColBoard;
+        public Action<string, bool> SetRowBoard;
+        public Action<int, bool> SetColBoard;
         SamplesRegisterPageViewModel boardViewModel;
         SampleRegisterBoardViewModel TempLateViewModel;
         public SampleRoundMonitorControl96()
@@ -82,6 +82,7 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
             }
 
         }
+
         /// <summary>
         /// 遍历每一个试剂，进行数据赋值
         /// </summary>
@@ -99,14 +100,86 @@ namespace Sinboda.SemiAuto.View.Samples.UserControls
                     SampleControl temp = item as SampleControl;
                     if (temp.Tag != null)
                     {
-                        
+
                         Sin_Board board = boardViewModel.GetSinBoard(temp.Tag.ToString());
                         if (!isSelected)
                         {
-                            temp.SetIsSelectedFalse();
+                            temp.SetIsSelected(isSelected);
                         }
                         temp.InitBoardData(board);
+
+                    }
+                }
+                else if (item is SampleColControl)
+                {
+                    SampleColControl temp = item as SampleColControl;
+                    if (!isSelected)
+                    {
+                        temp.SetIsSelect(isSelected);
+                    } 
+                }
+            }
+        }
+
+        /// <summary>
+        /// 遍历每一个试剂，进行数据赋值
+        /// </summary>
+        public void SetColData(int pos, bool isSelected)
+        {
+            if (boardViewModel == null)
+            {
+                return;
+            }
+            //遍历每一个试剂，进行数据赋值,Tag里存放的是架号-位置
+            foreach (var item in canvasControl.Children)
+            {
+                if (item is SampleControl)
+                {
+                    SampleControl temp = item as SampleControl;
+                    if (temp.Tag != null)
+                    {
+                        string[] rackPos = temp.Tag.ToString().Split('-');
+                        int tempPos = int.Parse(rackPos[1]);
+                        if (tempPos == pos)
+                        {
+                            Sin_Board board = boardViewModel.GetSinBoard(temp.Tag.ToString());
+                            temp.SetIsSelected(isSelected);
+                            temp.InitBoardData(board);
+                        }
                         
+
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 遍历每一个试剂，进行数据赋值
+        /// </summary>
+        public void SetRowData(string rack, bool isSelected)
+        {
+            if (boardViewModel == null)
+            {
+                return;
+            }
+            //遍历每一个试剂，进行数据赋值,Tag里存放的是架号-位置
+            foreach (var item in canvasControl.Children)
+            {
+                if (item is SampleControl)
+                {
+                    SampleControl temp = item as SampleControl;
+                    if (temp.Tag != null)
+                    {
+                        string[] rackPos = temp.Tag.ToString().Split('-');
+                        
+                        if (rackPos[0] == rack)
+                        {
+                            Sin_Board board = boardViewModel.GetSinBoard(temp.Tag.ToString());
+                            temp.SetIsSelected(isSelected);
+                            temp.InitBoardData(board);
+                        }
+
+
                     }
                 }
             }
