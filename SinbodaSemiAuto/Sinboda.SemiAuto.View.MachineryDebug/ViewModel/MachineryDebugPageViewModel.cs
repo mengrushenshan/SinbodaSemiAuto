@@ -1188,6 +1188,10 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="obj">电机</param>
         private void MoveRelate(Sin_Motor obj)
         {
+            //电机正在移动时 不接收指令
+            if (obj.IsRunning)
+                return;
+            obj.IsRunning = true;
             InvokeAsync(() =>
             {
                 CmdMoveRelate cmdMoveRelate = new CmdMoveRelate()
@@ -1206,10 +1210,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     ResMove resMove = cmdMoveRelate.GetResponse() as ResMove;
                     obj.TargetPos = resMove.CurPos;
                     ChangeTextBoxText(obj);
-
-
                     MotorBusiness.Instance.SaveMotorItem(obj);
                 }
+                obj.IsRunning = false;
             });
         }
 
@@ -1574,7 +1577,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         public void TMainWinMouseWheelEvent(MouseWheelEvent message)
         {
             //加锁
-            Monitor.Enter(objLock);
             try
             {
                 //控制左侧 上下机械臂
@@ -1582,14 +1584,18 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 {
                     if (MouseKeyBoardHelper.IsAltDown())
                     {
-                        //移动固定步长
+                        //移动固定步长 4步
+                        if (message.IsWheelDown)
+                            MotorList[2].Steps = 4 * -1;
+                        else
+                            MotorList[2].Steps = 4;
                         MoveRelate(MotorList[2]);
-                        //MoveRelativePos(ZaxisMotor, false, message.Delta);
                         LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
                     }
                     else
                     {
                         //移动固定步长
+                        MotorList[2].Steps = message.Delta;
                         MoveRelate(MotorList[2]);
                         LogHelper.logSoftWare.Info($"滚轮事件，相对位移,Right_Z:[{message.Delta}]");
                     }
@@ -1601,7 +1607,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
             finally
             {
-                Monitor.Exit(objLock);
+                
             }
         }
 
