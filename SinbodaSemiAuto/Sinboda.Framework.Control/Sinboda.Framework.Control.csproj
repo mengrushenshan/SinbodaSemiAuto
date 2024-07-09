@@ -108,6 +108,7 @@
     <Compile Include="Controls\Navigation\NavigationItem.cs" />
     <Compile Include="Controls\Navigation\NavigationPage.cs" />
     <Compile Include="Controls\SinButton.cs" />
+    <Compile Include="Controls\SinButtonEx.cs" />
     <Compile Include="Controls\SinButtonsControl.cs" />
     <Compile Include="Controls\SinComboBox.cs" />
     <Compile Include="Controls\SinDatePicker.cs" />
