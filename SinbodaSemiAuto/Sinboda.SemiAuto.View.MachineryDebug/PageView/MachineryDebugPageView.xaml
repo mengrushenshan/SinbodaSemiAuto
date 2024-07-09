@@ -56,138 +56,167 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding PlatformResetCommand}"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=平台机械原点复位}"
-                        IsEnabled="{Binding IsIdle}" />
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding PlatformResetLogicalCommand}"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=平台工作原点复位}"
-                        IsEnabled="{Binding IsIdle}" />
-                    <StackPanel
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                        <TextBlock Margin="5,20,0,0" Text="X:" />
-                        <sin:SinTextBox
-                            Width="150"
-                            Margin="10,0,0,0"
-                            Text="{Binding PosXaxis, UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
-                    <StackPanel
-                        Grid.Row="0"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                        <TextBlock Margin="5,20,0,0" Text="Y:" />
-                        <sin:SinTextBox
-                            Width="150"
-                            Margin="10,0,0,0"
-                            Text="{Binding PosYaxis, UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding PlatformResetCommand}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=平台机械原点复位}"
+                            IsEnabled="{Binding IsIdle}" />
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding PlatformResetLogicalCommand}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=平台工作原点复位}"
+                            IsEnabled="{Binding IsIdle}" />
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="5,20,0,0"
+                                VerticalAlignment="Center"
+                                Text="X:" />
+                            <sin:SinTextBox
+                                Width="150"
+                                Margin="10,0,0,0"
+                                Text="{Binding PosXaxis, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock Margin="5,20,0,0" Text="Y:" />
+                            <sin:SinTextBox
+                                Width="150"
+                                Margin="10,0,0,0"
+                                Text="{Binding PosYaxis, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock Margin="5,20,0,0" Text="Z:" />
+                            <sin:SinTextBox
+                                Width="150"
+                                Margin="10,0,0,0"
+                                Text="{Binding PosZaxis, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
 
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="4"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding PlatformMoveCommand}"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=平台移动}"
-                        IsEnabled="{Binding IsIdle}" />
-                    <Button
-                        Grid.Row="0"
-                        Grid.Column="5"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding PlatformStopCommand}"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=平台停止}"
-                        IsEnabled="{Binding IsIdle}" />
 
-                    <StackPanel
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal">
-                        <sin:SinComboBox
-                            Width="70"
-                            Margin="10,0,0,0"
-                            ItemsSource="{Binding RackSouce}"
-                            SelectedItem="{Binding RackDish}" />
-                        <TextBlock Margin="5,20,0,0" Text="-" />
-                        <sin:SinComboBox
-                            Width="70"
-                            Margin="10,0,0,0"
-                            ItemsSource="{Binding PosSouce}"
-                            SelectedItem="{Binding Position}" />
-                    </StackPanel>
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding PlatformAgingCommand}"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=平台老化}"
-                        IsEnabled="{Binding IsIdle}" />
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding AgingStopCommand}"
-                        CommandParameter="1"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=停止老化}" />
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding SetCellCommand}"
-                        CommandParameter="2"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=设置点位2}"
-                        IsEnabled="{Binding IsIdle}" />
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="4"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding SetCellCommand}"
-                        CommandParameter="3"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=设置点位3}"
-                        IsEnabled="{Binding IsIdle}" />
-                    <Button
-                        Grid.Row="1"
-                        Grid.Column="5"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{Binding CalCellCommand}"
-                        Content="{MultiLang:StringResource 0,
-                                                           DefaultValue=计算所有点}"
-                        IsEnabled="{Binding IsIdle}" />
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding PlatformMoveCommand}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=平台移动}"
+                            IsEnabled="{Binding IsIdle}" />
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <sin:SinComboBox
+                                Width="70"
+                                Margin="10,0,0,0"
+                                ItemsSource="{Binding RackSouce}"
+                                SelectedItem="{Binding RackDish}" />
+                            <TextBlock Margin="5,20,0,0" Text="-" />
+                            <sin:SinComboBox
+                                Width="70"
+                                Margin="10,0,0,0"
+                                ItemsSource="{Binding PosSouce}"
+                                SelectedItem="{Binding Position}" />
+                        </StackPanel>
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding PlatformAgingCommand}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=平台老化}"
+                            IsEnabled="{Binding IsIdle}" />
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding AgingStopCommand}"
+                            CommandParameter="1"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=停止老化}" />
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding SetCellCommand}"
+                            CommandParameter="2"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=设置点位2}"
+                            IsEnabled="{Binding IsIdle}" />
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding SetCellCommand}"
+                            CommandParameter="3"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=设置点位3}"
+                            IsEnabled="{Binding IsIdle}" />
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding CalCellCommand}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=计算所有点}"
+                            IsEnabled="{Binding IsIdle}" />
+
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="6"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding PlatformStopCommand}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=平台停止}"
+                            IsEnabled="{Binding IsIdle}" />
+                    </Grid>
                 </sin:SinGrid>
             </sin:SinGroupBox>
 
@@ -283,32 +312,32 @@
                                                                DefaultValue=定位原点}"
                             IsEnabled="{Binding IsIdle}" />
 
-                        <sin:SinButton
-                            Grid.Row="0"
-                            Grid.Column="8"
-                            Command="{Binding SaveCommand}"
-                            CommandParameter="{Binding MotorList[0]}"
-                            Content="{MultiLang:StringResource 0,
-                                                               DefaultValue=保存}"
-                            IsEnabled="{Binding IsIdle}" />
-
-                        <sin:SinButton
+                        <sin:SinButtonEx
                             Grid.Row="0"
                             Grid.Column="10"
-                            Command="{Binding ResetCommand}"
+                            Command="{Binding LeftCommand}"
                             CommandParameter="{Binding MotorList[0]}"
                             Content="{MultiLang:StringResource 0,
-                                                               DefaultValue=复位机械原点}"
-                            IsEnabled="{Binding IsIdle}" />
+                                                               DefaultValue=相对左移}"
+                            IsEnabled="{Binding IsIdle}"
+                            Style="{DynamicResource styleBtnLeft}" />
 
-                        <sin:SinButton
+                        <sin:SinTextBox
                             Grid.Row="0"
                             Grid.Column="12"
-                            Command="{Binding ResetLogicalCommand}"
+                            Text="{Binding MotorList[0].Steps, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <sin:SinButtonEx
+                            Grid.Row="0"
+                            Grid.Column="14"
+                            Command="{Binding RightCommand}"
                             CommandParameter="{Binding MotorList[0]}"
                             Content="{MultiLang:StringResource 0,
-                                                               DefaultValue=复位工作原点}"
-                            IsEnabled="{Binding IsIdle}" />
+                                                               DefaultValue=相对右移}"
+                            IsEnabled="{Binding IsIdle}"
+                            Style="{DynamicResource styleBtnRight}" />
+
+
                     </sin:SinGrid>
 
                     <sin:SinGrid Grid.Row="1">
@@ -334,10 +363,59 @@
                             <ColumnDefinition Width="20" />
                         </Grid.ColumnDefinitions>
 
+                        <sin:SinButton
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Command="{Binding ResetCommand}"
+                            CommandParameter="{Binding MotorList[0]}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=复位机械原点}"
+                            IsEnabled="{Binding IsIdle}" />
+
+                        <sin:SinButton
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Command="{Binding ResetLogicalCommand}"
+                            CommandParameter="{Binding MotorList[0]}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=复位工作原点}"
+                            IsEnabled="{Binding IsIdle}" />
+
+                        <sin:SinButton
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            Command="{Binding SaveCommand}"
+                            CommandParameter="{Binding MotorList[0]}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=保存}"
+                            IsEnabled="{Binding IsIdle}" />
+
+                        <sin:SinButton
+                            Grid.Row="0"
+                            Grid.Column="6"
+                            Command="{Binding MoveAbsoluteCommand}"
+                            CommandParameter="{Binding MotorList[0]}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=移动到}"
+                            IsEnabled="{Binding IsIdle}" />
+
+                        <sin:SinTextBox
+                            Grid.Row="0"
+                            Grid.Column="8"
+                            Text="{Binding PosXaxis, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <sin:SinButton
+                            Grid.Row="0"
+                            Grid.Column="10"
+                            Command="{Binding StopCommand}"
+                            CommandParameter="{Binding MotorList[0]}"
+                            Content="{MultiLang:StringResource 0,
+                                                               DefaultValue=停止}" />
+
                         <sin:SinButtonEx
                             x:Name="btnXmotorLeft"
                             Grid.Row="0"
-                            Grid.Column="0"
+                            Grid.Column="12"
                             Content="{MultiLang:StringResource 0,
                                                                DefaultValue=一直左移}"
                             IsEnabled="{Binding IsIdle}"
@@ -347,59 +425,12 @@
                         <sin:SinButtonEx
                             x:Name="btnXmotorRight"
                             Grid.Row="0"
-                            Grid.Column="2"
+                            Grid.Column="14"
                             Content="{MultiLang:StringResource 0,
                                                                DefaultValue=一直右移}"
                             IsEnabled="{Binding IsIdle}"
                             PreviewMouseDown="btnXmotorRight_PreviewMouseDown"
                             Style="{DynamicResource styleBtnRightCon}" />
-
-                        <sin:SinButtonEx
-                            Grid.Row="0"
-                            Grid.Column="4"
-                            Command="{Binding LeftCommand}"
-                            CommandParameter="{Binding MotorList[0]}"
-                            Content="{MultiLang:StringResource 0,
-                                                               DefaultValue=相对左移}"
-                            IsEnabled="{Binding IsIdle}"
-                            Style="{DynamicResource styleBtnLeft}" />
-
-                        <sin:SinTextBox
-                            Grid.Row="0"
-                            Grid.Column="6"
-                            Text="{Binding MotorList[0].Steps, UpdateSourceTrigger=PropertyChanged}" />
-
-                        <sin:SinButtonEx
-                            Grid.Row="0"
-                            Grid.Column="8"
-                            Command="{Binding RightCommand}"
-                            CommandParameter="{Binding MotorList[0]}"
-                            Content="{MultiLang:StringResource 0,
-                                                               DefaultValue=相对右移}"
-                            IsEnabled="{Binding IsIdle}"
-                            Style="{DynamicResource styleBtnRight}" />
-
-                        <sin:SinButton
-                            Grid.Row="0"
-                            Grid.Column="10"
-                            Command="{Binding MoveAbsoluteCommand}"
-                            CommandParameter="{Binding MotorList[0]}"
-                            Content="{MultiLang:StringResource 0,
-                                                               DefaultValue=移动到}"
-                            IsEnabled="{Binding IsIdle}" />
-
-                        <sin:SinTextBox
-                            Grid.Row="0"
-                            Grid.Column="12"
-                            Text="{Binding PosXaxis, UpdateSourceTrigger=PropertyChanged}" />
-
-                        <sin:SinButton
-                            Grid.Row="0"
-                            Grid.Column="14"
-                            Command="{Binding StopCommand}"
-                            CommandParameter="{Binding MotorList[0]}"
-                            Content="{MultiLang:StringResource 0,
-                                                               DefaultValue=停止}" />
 
 
                     </sin:SinGrid>
@@ -810,19 +841,19 @@
                         <sin:SinButtonEx
                             x:Name="btnZmotorLeft"
                             Grid.Column="0"
-                            PreviewMouseDown="btnZmotorLeft_PreviewMouseDown"
                             Content="{MultiLang:StringResource 0,
                                                                DefaultValue=一直左移}"
                             IsEnabled="{Binding IsIdle}"
+                            PreviewMouseDown="btnZmotorLeft_PreviewMouseDown"
                             Style="{DynamicResource styleBtnUpCon}" />
 
                         <sin:SinButtonEx
                             x:Name="btnZmotorRight"
-                            PreviewMouseDown="btnZmotorRight_PreviewMouseDown"
                             Grid.Column="2"
                             Content="{MultiLang:StringResource 0,
                                                                DefaultValue=一直右移}"
                             IsEnabled="{Binding IsIdle}"
+                            PreviewMouseDown="btnZmotorRight_PreviewMouseDown"
                             Style="{DynamicResource styleBtnDownCon}" />
 
                         <sin:SinButtonEx
