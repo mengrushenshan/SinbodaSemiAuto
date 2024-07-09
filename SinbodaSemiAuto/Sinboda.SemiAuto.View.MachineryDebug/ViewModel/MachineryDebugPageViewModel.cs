@@ -1020,20 +1020,17 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     {
                         case MotorId.Xaxis:
                             {
-                                OriginXaxis = PosXaxis;
-                                obj.OriginPoint = PosXaxis;
+                                obj.OriginPoint = OriginXaxis;
                             }
                             break;
                         case MotorId.Yaxis:
                             {
-                                OriginYaxis = PosYaxis;
-                                obj.OriginPoint = PosYaxis;
+                                obj.OriginPoint = OriginYaxis;
                             }
                             break;
                         case MotorId.Zaxis:
                             {
-                                OriginZaxis = PosZaxis;
-                                obj.OriginPoint = PosZaxis;
+                                obj.OriginPoint = OriginZaxis;
                             }
                             break;
                     }
