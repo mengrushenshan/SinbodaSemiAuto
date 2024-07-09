@@ -119,7 +119,7 @@ namespace Sinboda.SemiAuto.TestFlow
         /// <param name="ximcArm"></param>
         public void MoveTestItemZPos()
         {
-            MotorBusiness.Instance.MotorY_MoveAbsolute(Z);
+            MotorBusiness.Instance.MotorZ_MoveAbsolute(Z);
         }
 
         /// <summary>
