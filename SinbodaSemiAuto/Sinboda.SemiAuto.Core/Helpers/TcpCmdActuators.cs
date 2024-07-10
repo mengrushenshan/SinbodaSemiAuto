@@ -150,9 +150,11 @@ namespace Sinboda.SemiAuto.Core.Helpers
                             {
                                 kpFrame.Value.UnPacking(frameRcv.GetUPData());
                                 FramesConfirmd.Remove(frameRcv.FrameID());
+                                LogHelper.logCommunication.Error($"Confirm Frame Error:[{frameRcv.GetUPData()}]");
                             }
                             else
                             {
+                                
                             }
                         }
                         //结果帧
@@ -164,6 +166,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                             //TODO:结果帧返回错误  具体处理暂缺
                             if (frameRcv.GetError() != ErrType.EC_NoError)
                             {
+                                LogHelper.logCommunication.Error($"Result Frame Error:[{frameRcv.GetUPData()}]");
                             }
                             else
                             {
@@ -176,7 +179,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                         if (frameRcv.GetCmd() == CmdType.Message)
                         {
                             LogHelper.logCommunication.Info($"message frame receive, FrameID:[{frameRcv.FrameID()}] cmd:[{frameRcv.GetCmd()}]");
-                            //TODO::消息帧暂不做处理
+                            //消息帧推送
                             Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
                             {
                                 Messenger.Default.Send<IResponse>(frameRcv.CreateResponse(), GlobalData.TokenTcpMsg);
@@ -326,7 +329,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                 else
                 {
                     PauseSequence();
-                    LogHelper.logCommunication.Error($"Send Frame error :[{frame}]!");
+                    LogHelper.logCommunication.Error($"Send Frame error :[{frame.GetInData()}]!");
                 }
                 return res;
             }

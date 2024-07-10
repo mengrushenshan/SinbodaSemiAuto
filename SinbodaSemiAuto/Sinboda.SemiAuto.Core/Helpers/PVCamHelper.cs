@@ -790,7 +790,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
         /// <param name="message"></param>
         private void SetStatusStripMessage(string message)
         {
-            LogHelper.logCommunication.Info(message);
+            LogHelper.logSoftWare.Info(message);
         }
 
         private void tempTimer_Tick()
