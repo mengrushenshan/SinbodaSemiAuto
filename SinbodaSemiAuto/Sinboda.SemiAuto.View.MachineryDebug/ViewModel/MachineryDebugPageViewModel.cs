@@ -642,7 +642,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         private void FanEnable(FanData obj)
         {
             //加载py运动环境
-            int cellNum = PyHelper.DataAnalyze("D:\\Sinboda\\simoa\\python\\py\\ProjectData\\AD_20240620_0001", 'A', 1);
+            int cellNum = PyHelper.DataAnalyzeImageJ("D:\\Sinboda\\simoa\\python\\py\\ProjectData\\AD_20240620_0001", 'A', 1);
             Console.WriteLine("cell number is: " + cellNum);
 
             obj.State = !obj.State;
@@ -1020,20 +1020,17 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     {
                         case MotorId.Xaxis:
                             {
-                                OriginXaxis = PosXaxis;
-                                obj.OriginPoint = PosXaxis;
+                                obj.OriginPoint = OriginXaxis;
                             }
                             break;
                         case MotorId.Yaxis:
                             {
-                                OriginYaxis = PosYaxis;
-                                obj.OriginPoint = PosYaxis;
+                                obj.OriginPoint = OriginYaxis;
                             }
                             break;
                         case MotorId.Zaxis:
                             {
-                                OriginZaxis = PosZaxis;
-                                obj.OriginPoint = PosZaxis;
+                                obj.OriginPoint = OriginZaxis;
                             }
                             break;
                     }

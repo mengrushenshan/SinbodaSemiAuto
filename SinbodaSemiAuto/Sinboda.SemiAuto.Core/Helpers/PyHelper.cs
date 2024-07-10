@@ -70,5 +70,31 @@ namespace Sinboda.SemiAuto.Core.Helpers
             }
             return cellNum;
         }
+
+        /// <summary>
+        /// 分析荧光点数量
+        /// </summary>
+        /// <param name="tifPath">图片地址</param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public static int DataAnalyzeImageJ(string tifPath, int row, int col)
+        {
+            int cellNum = -1;
+            string currPath = System.AppDomain.CurrentDomain.BaseDirectory;
+            string imageJ_path  = Path.Combine(currPath, "Fiji.App");
+
+            if (flgInit)
+            {
+                PythonEngine.Initialize();
+                using (Py.GIL())
+                {
+                    dynamic pyDataAnalyzer = Py.Import("data_analyzer_imageJ");
+                    cellNum = (int)PyInt.AsInt(pyDataAnalyzer.analyze_single(tifPath, (char)row, col, imageJ_path));
+                }
+                PythonEngine.Shutdown();
+            }
+            return cellNum;
+        }
     }
 }

@@ -288,10 +288,8 @@ namespace Sinboda.SemiAuto.TestFlow
                     CurTestItem = item;
                 }
 
-                if (CurTestItem.X != X && CurTestItem.Y != Y)
-                {
-                    MoveTestItemPos();
-                }
+                MoveTestItemPos();
+
                 switch (CurTestItem.Type)
                 {
                     case TestType.Sample:

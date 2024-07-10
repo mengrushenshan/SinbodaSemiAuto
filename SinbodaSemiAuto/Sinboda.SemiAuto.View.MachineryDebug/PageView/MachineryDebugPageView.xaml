@@ -517,7 +517,7 @@
                             <sin:SinTextBox
                                 Grid.Row="0"
                                 Grid.Column="6"
-                                Text="{Binding OriginZaxis, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding OriginYaxis, UpdateSourceTrigger=PropertyChanged}" />
 
                             <sin:SinButton
                                 Grid.Row="0"

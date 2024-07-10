@@ -217,7 +217,11 @@ xcopy $(SolutionDir)Python310 $(TargetDir)Python310  /e /y /h /q /r
 
 if exist $(TargetDir)scripts rd /s /q $(TargetDir)scripts
 md $(TargetDir)scripts  
-xcopy $(SolutionDir)scripts $(TargetDir)scripts  /e /y /h /q /r</PostBuildEvent>
+xcopy $(SolutionDir)scripts $(TargetDir)scripts  /e /y /h /q /r
+
+if exist $(TargetDir)Fiji.App rd /s /q $(TargetDir)Fiji.App
+md $(TargetDir)Fiji.App 
+xcopy $(SolutionDir)Fiji.App $(TargetDir)Fiji.App  /e /y /h /q /r</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

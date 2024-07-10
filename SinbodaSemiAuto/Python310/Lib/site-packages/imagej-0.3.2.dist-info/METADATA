@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: imagej
+Version: 0.3.2
+Summary: imagej is now pyimagej
+Classifier: Development Status :: 7 - Inactive
+Description-Content-Type: text/markdown
+Requires-Dist: pyimagej
+
+# The imagej Python package has been renamed to pyimagej
+
+This package has been renamed. Use `pip install pyimagej` instead.
+
+New package: https://pypi.org/project/pyimagej/
