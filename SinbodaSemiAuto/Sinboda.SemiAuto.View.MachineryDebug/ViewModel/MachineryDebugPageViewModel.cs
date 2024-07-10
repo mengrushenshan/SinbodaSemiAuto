@@ -569,8 +569,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             ResetLogicalCommand = new RelayCommand<Sin_Motor>(ResetLogicalMotor);
             StopCommand = new RelayCommand<Sin_Motor>(StopMotor);
             AlwaysCommand = new RelayCommand<Sin_Motor>(AlawysMove);
-            AlwaysLeftCommand = new RelayCommand<Sin_Motor>(AlawysLeftMove);
-            AlwaysRightCommand = new RelayCommand<Sin_Motor>(AlawysRightMove);
+            AlwaysLeftCommand = new RelayCommand<Sin_Motor>(AlwaysLeftMove);
+            AlwaysRightCommand = new RelayCommand<Sin_Motor>(AlwaysRightMove);
             MoveRelateCommand = new RelayCommand<Sin_Motor>(MoveRelate);
             MoveAbsoluteCommand = new RelayCommand<Sin_Motor>(MoveAbsolute);
             LeftCommand = new RelayCommand<Sin_Motor>(MoveRelateLeft);
@@ -890,16 +890,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             });
         }
 
-        /// <summary>
-        /// 电机全部停止
-        /// </summary>
-        private void StopAllMotor()
-        {
-            StopMotor(MotorList[0]);
-            StopMotor(MotorList[1]);
-            StopMotor(MotorList[2]);
-        }
-
         private void PlatformAging()
         {
             InvokeAsync(() =>
@@ -985,13 +975,23 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         /// <summary>
-        /// 电机停止
+        /// 电机停止 按钮控制
         /// </summary>
         /// <param name="obj">电机</param>
-        public void StopMotor()
+        public void StopMotor_LeftBtn()
         {
-            if (curr_Sin_Motor != null)
-                StopMotor(curr_Sin_Motor);
+            if (curr_Sin_Motor_LeftBtn != null)
+                StopMotor(curr_Sin_Motor_LeftBtn);
+        }
+
+        /// <summary>
+        /// 电机停止 键鼠控制
+        /// </summary>
+        /// <param name="obj">电机</param>
+        public void StopMotor_Ctrl()
+        {
+            if (curr_Sin_Motor_Ctrl != null)
+                StopMotor(curr_Sin_Motor_Ctrl);
         }
 
         /// <summary>
@@ -1056,17 +1056,22 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         }
 
         /// <summary>
-        /// 当前操作电机
+        /// 当前按钮操作电机
         /// </summary>
-        private Sin_Motor curr_Sin_Motor;
+        private Sin_Motor curr_Sin_Motor_LeftBtn;
+
+        /// <summary>
+        /// 当前键鼠操作电机
+        /// </summary>
+        private Sin_Motor curr_Sin_Motor_Ctrl;
 
         /// <summary>
         /// 电机持续向左移动
         /// </summary>
         /// <param name="obj">电机</param>
-        public void AlawysLeftMove(Sin_Motor obj)
+        public void AlwaysLeftMove(Sin_Motor obj)
         {
-            curr_Sin_Motor = obj;
+            curr_Sin_Motor_LeftBtn = obj;
             InvokeAsync(() =>
             {
                 MoveCon(obj, (int)Direction.Forward, (int)obj.UseFastSpeed);
@@ -1074,7 +1079,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 {
                     Thread.Sleep(50);
                 }
-                StopMotor();
+                StopMotor_LeftBtn();
             });
         }
 
@@ -1082,9 +1087,9 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// 电机持续向右移动
         /// </summary>
         /// <param name="obj">电机</param>
-        public void AlawysRightMove(Sin_Motor obj)
+        public void AlwaysRightMove(Sin_Motor obj)
         {
-            curr_Sin_Motor = obj;
+            curr_Sin_Motor_LeftBtn = obj;
             InvokeAsync(() =>
             {
                 MoveCon(obj, (int)Direction.Backward, (int)obj.UseFastSpeed);
@@ -1092,7 +1097,51 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 {
                     Thread.Sleep(50);
                 }
-                StopMotor();
+                StopMotor_LeftBtn();
+            });
+        }
+
+        /// <summary>
+        /// 电机持续向左移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        private void AlwaysLeftMove_Ctrl(Sin_Motor obj, Rate rate)
+        {
+            if (obj.IsRunning)
+            {
+                return;
+            }
+            curr_Sin_Motor_Ctrl = obj;
+            InvokeAsync(() =>
+            {
+                MoveCon(obj, (int)Direction.Forward, (int)rate);
+                while (MouseKeyBoardHelper.IsCtrlDown())
+                {
+                    Thread.Sleep(50);
+                }
+                StopMotor_Ctrl();
+            });
+        }
+
+        /// <summary>
+        /// 电机持续向右移动
+        /// </summary>
+        /// <param name="obj">电机</param>
+        private void AlwaysRightMove_Ctrl(Sin_Motor obj, Rate rate)
+        {
+            if (obj.IsRunning)
+            {
+                return;
+            }
+            curr_Sin_Motor_Ctrl = obj;
+            InvokeAsync(() =>
+            {
+                MoveCon(obj, (int)Direction.Backward, (int)rate);
+                while (MouseKeyBoardHelper.IsCtrlDown())
+                {
+                    Thread.Sleep(50);
+                }
+                StopMotor_Ctrl();
             });
         }
 
@@ -1608,7 +1657,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             }
             finally
             {
-                
+
             }
         }
 
@@ -1620,119 +1669,58 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <exception cref="NotImplementedException"></exception>
         public void MWinKeyEvent(KeyBoardEvent msg)
         {
-            //加锁
-            Monitor.Enter(objLock);
             try
             {
-                //ctrl键 抬起 停止所有电机
-                if (!MouseKeyBoardHelper.IsCtrlDown())
-                {
-                    StopAllMotor();
-                    return;
-                }
                 //左键
-                if (msg.KeyCode == System.Windows.Input.Key.Left)
+                if (msg.KeyCode == System.Windows.Input.Key.Left && MouseKeyBoardHelper.IsCtrlDown())
                 {
-                    //按下
-                    if (msg.IsKeyDown)
-                    {
-                        if (MouseKeyBoardHelper.IsAltDown())
-                            MoveCon(MotorList[0], (int)Direction.Forward, (int)Rate.slow);
-                        else
-                            MoveCon(MotorList[0], (int)Direction.Forward, (int)Rate.fast);
-                    }
+                    if (MouseKeyBoardHelper.IsAltDown())
+                        AlwaysLeftMove_Ctrl(MotorList[0], Rate.slow);
                     else
-                    {
-                        StopMotor(MotorList[0]);
-                    }
+                        AlwaysLeftMove_Ctrl(MotorList[0], Rate.fast);
                 }
                 //右键
-                else if (msg.KeyCode == System.Windows.Input.Key.Right)
+                else if (msg.KeyCode == System.Windows.Input.Key.Right && MouseKeyBoardHelper.IsCtrlDown())
                 {
-                    //按下
-                    if (msg.IsKeyDown)
-                    {
-                        if (MouseKeyBoardHelper.IsAltDown())
-                            MoveCon(MotorList[0], (int)Direction.Backward, (int)Rate.slow);
-                        else
-                            MoveCon(MotorList[0], (int)Direction.Backward, (int)Rate.fast);
-                    }
+                    if (MouseKeyBoardHelper.IsAltDown())
+                        AlwaysRightMove_Ctrl(MotorList[0], Rate.slow);
                     else
-                    {
-                        StopMotor(MotorList[0]);
-                    }
+                        AlwaysRightMove_Ctrl(MotorList[0], Rate.fast);
                 }
                 //上键
-                else if (msg.KeyCode == System.Windows.Input.Key.Up)
+                else if (msg.KeyCode == System.Windows.Input.Key.Up && MouseKeyBoardHelper.IsCtrlDown())
                 {
-                    //按下
-                    if (msg.IsKeyDown)
-                    {
-                        if (MouseKeyBoardHelper.IsAltDown())
-                            MoveCon(MotorList[1], (int)Direction.Backward, (int)Rate.slow);
-                        else
-                            MoveCon(MotorList[1], (int)Direction.Backward, (int)Rate.fast);
-                    }
+                    if (MouseKeyBoardHelper.IsAltDown())
+                        AlwaysLeftMove_Ctrl(MotorList[1], Rate.slow);
                     else
-                    {
-                        StopMotor(MotorList[1]);
-                    }
+                        AlwaysLeftMove_Ctrl(MotorList[1], Rate.fast);
                 }
                 //下键
-                else if (msg.KeyCode == System.Windows.Input.Key.Down)
+                else if (msg.KeyCode == System.Windows.Input.Key.Down && MouseKeyBoardHelper.IsCtrlDown())
                 {
-                    //按下
-                    if (msg.IsKeyDown)
-                    {
-                        if (MouseKeyBoardHelper.IsAltDown())
-                            MoveCon(MotorList[1], (int)Direction.Forward, (int)Rate.slow);
-                        else
-                            MoveCon(MotorList[1], (int)Direction.Forward, (int)Rate.fast);
-                    }
+                    if (MouseKeyBoardHelper.IsAltDown())
+                        AlwaysRightMove_Ctrl(MotorList[1], Rate.slow);
                     else
-                    {
-                        StopMotor(MotorList[1]);
-                    }
+                        AlwaysRightMove_Ctrl(MotorList[1], Rate.fast);
                 }
-                else if (msg.KeyCode == System.Windows.Input.Key.W)
+                else if (msg.KeyCode == System.Windows.Input.Key.W && MouseKeyBoardHelper.IsCtrlDown())
                 {
-                    //按下
-                    if (msg.IsKeyDown)
-                    {
-                        if (MouseKeyBoardHelper.IsAltDown())
-                            MoveCon(MotorList[2], (int)Direction.Backward, (int)Rate.slow);
-                        else
-                            MoveCon(MotorList[2], (int)Direction.Backward, (int)Rate.fast);
-                    }
+                    if (MouseKeyBoardHelper.IsAltDown())
+                        AlwaysLeftMove_Ctrl(MotorList[2], Rate.slow);
                     else
-                    {
-                        StopMotor(MotorList[2]);
-                    }
+                        AlwaysLeftMove_Ctrl(MotorList[2], Rate.fast);
                 }
                 else if (msg.KeyCode == System.Windows.Input.Key.S)
                 {
-                    //按下
-                    if (msg.IsKeyDown)
-                    {
-                        if (MouseKeyBoardHelper.IsAltDown())
-                            MoveCon(MotorList[2], (int)Direction.Forward, (int)Rate.slow);
-                        else
-                            MoveCon(MotorList[2], (int)Direction.Forward, (int)Rate.fast);
-                    }
+                    if (MouseKeyBoardHelper.IsAltDown())
+                        AlwaysRightMove_Ctrl(MotorList[2], Rate.slow);
                     else
-                    {
-                        StopMotor(MotorList[2]);
-                    }
+                        AlwaysRightMove_Ctrl(MotorList[2], Rate.fast);
                 }
             }
             catch (Exception ex)
             {
                 LogHelper.logSoftWare.Error($"MWinMouseDown error:{ex.Message}");
-            }
-            finally
-            {
-                //释放
-                Monitor.Exit(objLock);
             }
         }
 

@@ -33,7 +33,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
             InitializeComponent();
             this.PreviewMouseWheel += img_PreviewMouseWheel;
             this.PreviewKeyDown += Grid_PreviewKeyDown;
-            this.PreviewKeyUp += Grid_PreviewKeyUp;
+            //this.PreviewKeyUp += Grid_PreviewKeyUp;
             DataContext = vm = new MachineryDebugPageViewModel();
         }
 
@@ -69,8 +69,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         {
             if (e.Key == Key.LeftCtrl ||
                 e.Key == Key.RightCtrl ||
-                e.Key == Key.LeftShift ||
-                e.Key == Key.RightShift ||
+                e.Key == Key.LeftAlt ||
+                e.Key == Key.RightAlt ||
                 e.Key == Key.Left ||
                 e.Key == Key.Up ||
                 e.Key == Key.Right ||
@@ -94,8 +94,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         {
             if (e.Key == Key.LeftCtrl ||
                e.Key == Key.RightCtrl ||
-               e.Key == Key.LeftShift ||
-               e.Key == Key.RightShift ||
+               e.Key == Key.LeftAlt ||
+               e.Key == Key.RightAlt ||
                e.Key == Key.Left ||
                e.Key == Key.Up ||
                e.Key == Key.Right ||
@@ -134,7 +134,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         /// <param name="e"></param>
         private void btnXmotorLeft_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            vm.AlawysLeftMove(vm.MotorList[0]);
+            vm.AlwaysLeftMove(vm.MotorList[0]);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         /// <param name="e"></param>
         private void btnXmotorRight_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            vm.AlawysRightMove(vm.MotorList[0]);
+            vm.AlwaysRightMove(vm.MotorList[0]);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         /// <param name="e"></param>
         private void btnYmotorLeft_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            vm.AlawysLeftMove(vm.MotorList[1]);
+            vm.AlwaysLeftMove(vm.MotorList[1]);
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         /// <param name="e"></param>
         private void btnYmotorRight_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            vm.AlawysRightMove(vm.MotorList[1]);
+            vm.AlwaysRightMove(vm.MotorList[1]);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         /// <param name="e"></param>
         private void btnZmotorLeft_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            vm.AlawysLeftMove(vm.MotorList[2]);
+            vm.AlwaysLeftMove(vm.MotorList[2]);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         /// <param name="e"></param>
         private void btnZmotorRight_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            vm.AlawysRightMove(vm.MotorList[2]);
+            vm.AlwaysRightMove(vm.MotorList[2]);
         }
     }
 }
