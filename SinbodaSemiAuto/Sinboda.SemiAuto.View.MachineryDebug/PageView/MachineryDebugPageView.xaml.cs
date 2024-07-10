@@ -32,8 +32,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
         {
             InitializeComponent();
             this.PreviewMouseWheel += img_PreviewMouseWheel;
-            this.PreviewKeyDown += Grid_PreviewKeyDown;
-            //this.PreviewKeyUp += Grid_PreviewKeyUp;
             DataContext = vm = new MachineryDebugPageViewModel();
         }
 
@@ -58,56 +56,6 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.PageView
                 //滚轮事件通知
             }
             vm.TMainWinMouseWheelEvent(mouseWheel);
-        }
-
-        /// <summary>
-        /// 鼠标按下事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Grid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.LeftCtrl ||
-                e.Key == Key.RightCtrl ||
-                e.Key == Key.LeftAlt ||
-                e.Key == Key.RightAlt ||
-                e.Key == Key.Left ||
-                e.Key == Key.Up ||
-                e.Key == Key.Right ||
-                e.Key == Key.Down ||
-               e.Key == Key.W ||
-               e.Key == Key.S
-                )
-            {
-                KeyBoardEvent keyEvent = new KeyBoardEvent(true, e.Key);
-                //键盘事件通知
-                vm.MWinKeyEvent(keyEvent);
-            }
-        }
-
-        /// <summary>
-        /// 鼠标抬起事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Grid_PreviewKeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.LeftCtrl ||
-               e.Key == Key.RightCtrl ||
-               e.Key == Key.LeftAlt ||
-               e.Key == Key.RightAlt ||
-               e.Key == Key.Left ||
-               e.Key == Key.Up ||
-               e.Key == Key.Right ||
-               e.Key == Key.Down ||
-               e.Key == Key.W ||
-               e.Key == Key.S 
-               )
-            {
-                KeyBoardEvent keyEvent = new KeyBoardEvent(false, e.Key);
-                //键盘事件通知
-                vm.MWinKeyEvent(keyEvent);
-            }
         }
 
         private void image_MouseDown(object sender, MouseButtonEventArgs e)

@@ -5,6 +5,7 @@ using Sinboda.Framework.Core.Services;
 using Sinboda.Framework.Core.StaticResource;
 using Sinboda.Framework.Infrastructure;
 using Sinboda.Framework.MainWindow.Blue.ViewModels;
+using Sinboda.SemiAuto.Core.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,8 +68,7 @@ namespace Sinboda.Framework.MainWindow.Blue.Views
         /// <param name="e"></param>
         private void AppWindow_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.KeyStates == Keyboard.GetKeyStates(Key.F) && Keyboard.Modifiers == ModifierKeys.Control)//屏蔽Control+F
-                e.Handled = true;
+            Messenger.Default.Send<KeyEventArgs > (e, MessageToken.TokenKeyDown);
         }
 
         internal void HideEx()

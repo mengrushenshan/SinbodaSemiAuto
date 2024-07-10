@@ -42,6 +42,7 @@ using System.Collections;
 using System.Runtime.InteropServices.ComTypes;
 using Sinboda.SemiAuto.TestFlow;
 using System.Web;
+using System.Windows.Input;
 
 namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
 {
@@ -1664,10 +1665,29 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
         /// <param name="recipient"></param>
         /// <param name="msg"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void MWinKeyEvent(KeyBoardEvent msg)
+        public void MWinKeyEvent(System.Windows.Input.KeyEventArgs e)
         {
             try
             {
+                KeyBoardEvent msg;
+                if (e.Key == Key.LeftCtrl ||
+                    e.Key == Key.RightCtrl ||
+                    e.Key == Key.LeftAlt ||
+                    e.Key == Key.RightAlt ||
+                    e.Key == Key.Left ||
+                    e.Key == Key.Up ||
+                    e.Key == Key.Right ||
+                    e.Key == Key.Down ||
+                    e.Key == Key.W ||
+                    e.Key == Key.S
+                )
+                {
+                    msg = new KeyBoardEvent(true, e.Key);
+                }
+                else
+                {
+                    return;
+                }
                 //左键
                 if (msg.KeyCode == System.Windows.Input.Key.Left && MouseKeyBoardHelper.IsCtrlDown())
                 {
@@ -1700,6 +1720,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                     else
                         AlwaysRightMove_Ctrl(MotorList[1], Rate.fast);
                 }
+                //s和w控制z轴
                 else if (msg.KeyCode == System.Windows.Input.Key.W && MouseKeyBoardHelper.IsCtrlDown())
                 {
                     if (MouseKeyBoardHelper.IsAltDown())
@@ -1882,6 +1903,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             IsCameraOpenEnable = PVCamHelper.Instance.GetInitFlag();
             // 注册刷新消息
             Messenger.Default.Register<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
+            Messenger.Default.Register<System.Windows.Input.KeyEventArgs>(this, MessageToken.TokenKeyDown, MWinKeyEvent);
             Messenger.Default.Register<byte[]>(this, MessageToken.TokenCameraBuffer, ImageBufferRefersh);
         }
 
@@ -1970,6 +1992,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
             // 离开页面时删除刷新消息
             Messenger.Default.Unregister<Mat>(this, MessageToken.TokenCamera, ImageRefersh);
             Messenger.Default.Unregister<byte[]>(this, MessageToken.TokenCameraBuffer, ImageBufferRefersh);
+            Messenger.Default.Unregister<System.Windows.Input.KeyEventArgs>(this, MessageToken.TokenKeyDown, MWinKeyEvent);
 
             //if (isOpenCamera)
             //{

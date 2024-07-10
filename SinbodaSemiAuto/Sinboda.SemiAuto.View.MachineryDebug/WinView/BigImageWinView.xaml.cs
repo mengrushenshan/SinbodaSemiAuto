@@ -31,7 +31,7 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.WinView
             this.PreviewKeyUp += Grid_PreviewKeyUp;
             DataContext = vm = viewModel;
             InitializeComponent();
-            
+
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -69,20 +69,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.WinView
         /// <param name="e"></param>
         private void Grid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.LeftCtrl ||
-                e.Key == Key.RightCtrl ||
-                e.Key == Key.LeftShift ||
-                e.Key == Key.RightShift ||
-                e.Key == Key.Left ||
-                e.Key == Key.Up ||
-                e.Key == Key.Right ||
-                e.Key == Key.Down
-                )
-            {
-                KeyBoardEvent keyEvent = new KeyBoardEvent(true, e.Key);
-                //键盘事件通知
-                vm.MWinKeyEvent(keyEvent);
-            }
+            //键盘事件通知
+            vm.MWinKeyEvent(e);
         }
 
         /// <summary>
@@ -92,20 +80,8 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.WinView
         /// <param name="e"></param>
         private void Grid_PreviewKeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.LeftCtrl ||
-               e.Key == Key.RightCtrl ||
-               e.Key == Key.LeftShift ||
-               e.Key == Key.RightShift ||
-               e.Key == Key.Left ||
-               e.Key == Key.Up ||
-               e.Key == Key.Right ||
-               e.Key == Key.Down
-               )
-            {
-                KeyBoardEvent keyEvent = new KeyBoardEvent(false, e.Key);
-                //键盘事件通知
-                vm.MWinKeyEvent(keyEvent);
-            }
+            //键盘事件通知
+            vm.MWinKeyEvent(e);
         }
     }
 }

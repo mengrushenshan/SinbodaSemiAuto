@@ -10,6 +10,7 @@ namespace Sinboda.SemiAuto.Core.Resources
     {
         //图像接收通知
         public static string TokenCamera = "Camera";
+        public static string TokenKeyDown = "KeyDown";
         public static string TokenCameraBuffer = "CameraBuffer";
 
         //图像采集完成通知

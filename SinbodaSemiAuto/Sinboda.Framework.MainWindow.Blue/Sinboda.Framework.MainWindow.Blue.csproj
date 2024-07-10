@@ -191,6 +191,10 @@
       <Project>{ec0027ff-d323-49f7-ad88-5a65899e7414}</Project>
       <Name>Sinboda.Framework.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sinboda.SemiAuto.Core\Sinboda.SemiAuto.Core.csproj">
+      <Project>{FB80F0D5-02FE-4A86-8FAA-072E1ED1B373}</Project>
+      <Name>Sinboda.SemiAuto.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\AboutView.xaml">
