@@ -22,8 +22,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// <summary>
         /// 无错误
         /// </summary>
-        EC_NoError = 0,
-
+        EC_NoError = 0x0,       // 流程和结果都正确
         EC_False,               // 流程不对但结果正确
         EC_Finish,              // 已经完成
                                 //
@@ -38,14 +37,16 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         EC_BufferFull,          // 缓冲已满
         EC_Busy,                // 模块忙(指令缓存满)
                                 // Motor
+        EC_MotorNotReset,       // 电机没有复位
         EC_MotorStart,          // 电机起动失败
         EC_MotorStop,           // 电机停止失败
         EC_MotorSoftLimitPos,   // 电机行程超上限
         EC_MotorSoftLimitNeg,   // 电机行程超下限
         EC_MotorForceStopped,   // 电机被强制停止
-        EC_Encoder,             // 编码器错误
-        EC_OutSensor,           // 出光耦失败(出光耦动作完成后光耦仍然触发)
-        EC_InSensor,            // 入光耦失败(入光耦动作完成后光耦仍然未触发)
+        EC_LoseStep,            // 电机丢步
+        EC_ResetOutSide,        // 出光耦失败(出光耦动作完成后光耦仍然触发)
+        EC_ResetInSide,         // 入光耦失败(入光耦动作完成后光耦仍然未触发)
+        EC_HotSwap,             // 电机热插拔
                                 // SPI
         EC_SPI_Status,          // SPI 状态异常
                                 // PWM
@@ -64,11 +65,6 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         EC_TCP_ClientOffline,   // TCP 客户端离线
 
         EC_Unknown,             // 未知错误
-
-        /// <summary>
-        /// 超时
-        /// </summary>
-        TimeOut = 110,
     }
 
     /// <summary>
