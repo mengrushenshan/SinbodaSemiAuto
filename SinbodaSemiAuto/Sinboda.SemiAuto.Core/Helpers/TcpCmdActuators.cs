@@ -93,6 +93,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
         {
             lock (_lockObj)
             {
+                _timerSend.Dispose();
+                _timerRev.Dispose();
                 commDriver?.Dispose();
             }
         }
@@ -251,6 +253,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
             lock (_lockObj)
             {
                 _timerSend.Stop();
+                _timerRev.Dispose();
                 revEnabled = false;
             }
         }
@@ -318,6 +321,12 @@ namespace Sinboda.SemiAuto.Core.Helpers
         {
             lock (_lockObj)
             {
+                //连接状态错误
+                if (!commDriver.IsConnected())
+                {
+                    PauseSequence();
+                    return false;
+                }
                 //发送
                 bool res = commDriver.Write(frame.Packing());
                 LogHelper.logCommunication.Info($"Send Frame :[{frame.GetInData()}]");
@@ -339,6 +348,12 @@ namespace Sinboda.SemiAuto.Core.Helpers
         {
             lock (_lockObj)
             {
+                //连接状态错误
+                if (!commDriver.IsConnected())
+                {
+                    PauseSequence();
+                    return null;
+                }
                 //将接收到的数据添加到列表
                 byte[] data = commDriver.Read();
                 if ((!data.IsNull()) && data.Length > 0)
