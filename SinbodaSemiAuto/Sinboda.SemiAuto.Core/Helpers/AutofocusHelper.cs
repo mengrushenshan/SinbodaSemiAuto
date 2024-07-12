@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Threading;
 using Mapster.Utils;
 using OpenCvSharp;
 using sin_mole_flu_analyzer.Models.Command;
+using Sinboda.Framework.Common.Log;
 using Sinboda.Framework.Core.AbstractClass;
 using Sinboda.SemiAuto.Core.Models;
 using Sinboda.SemiAuto.Core.Resources;
@@ -139,7 +140,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
                         encoder.Frames.Add(BitmapFrame.Create(image));
                     }
                 }
-                string path = $"{GlobalData.DirectoryPic}\\123.tiff";
+                string path = $"{GlobalData.DirectoryPic}\\ZPos_Deaf_Name.tiff";
                 if (!file.IsNullOrWhiteSpace())
                     path = file;
                 FileStream f = new FileStream(path, FileMode.Create);
@@ -149,6 +150,8 @@ namespace Sinboda.SemiAuto.Core.Helpers
 
                 //调用解析程序
                 List<int> frameIds = PyHelper.Autofocus(path);
+
+                LogHelper.logSoftWare.Info($"AutoFocus file:[{file}]，frameIds 0：[{frameIds[0]}],frameIds 1：[{frameIds[1]}]!");
 
                 //计算对焦点坐标
                 return frameIds[0] * zInterval + zStart;

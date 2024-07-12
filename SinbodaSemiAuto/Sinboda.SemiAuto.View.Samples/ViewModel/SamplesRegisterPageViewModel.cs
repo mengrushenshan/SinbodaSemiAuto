@@ -803,8 +803,8 @@ namespace Sinboda.SemiAuto.View.Samples.ViewModel
             {
                 //开启激光
                 ControlBusiness.Instance.LightEnableCtrl(1, 1);
-                //移动到暂定起始位置
-                MotorBusiness.Instance.MoveAbsolute((int)ZaxisMotor.MotorId, 5033000);
+                ////移动到暂定起始位置
+                //MotorBusiness.Instance.MoveAbsolute((int)ZaxisMotor.MotorId, 5033000);
 
                 //计算聚焦位置
                 int autoFocusPos = AutofocusHelper.Instance.ZPos(ZaxisMotor.TargetPos, 64, FocusImageCount, filePath + fileName);

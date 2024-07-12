@@ -347,9 +347,9 @@ namespace Sinboda.SemiAuto.TestFlow
 
             //开启激光
             ControlBusiness.Instance.LightEnableCtrl(1, 0.5, 1);
-            //移动到暂定起始位置
-            Z = FocusBeginPos;
-            MoveFocusPos();
+            ////移动到暂定起始位置
+            //Z = FocusBeginPos;
+            //MoveFocusPos();
 
             //计算聚焦位置
             int autoFocusPos = AutofocusHelper.Instance.ZPos(FocusBeginPos, focusMoveStep, focusImageCount, filePath + fileName);
