@@ -214,8 +214,7 @@
                             VerticalAlignment="Center"
                             Command="{Binding PlatformStopCommand}"
                             Content="{MultiLang:StringResource 0,
-                                                               DefaultValue=平台停止}"
-                            IsEnabled="{Binding IsIdle}" />
+                                                               DefaultValue=平台停止}" />
                     </Grid>
                 </sin:SinGrid>
             </sin:SinGroupBox>

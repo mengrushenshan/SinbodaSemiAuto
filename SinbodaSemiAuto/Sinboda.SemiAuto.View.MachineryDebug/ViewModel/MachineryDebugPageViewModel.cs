@@ -1966,6 +1966,11 @@ namespace Sinboda.SemiAuto.View.MachineryDebug.ViewModel
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
                     bmpSouce = BitmapSource.Create(imageSize.Width, imageSize.Height, 96, 96, System.Windows.Media.PixelFormats.Gray16, myPalette, bufBytes, rawStride);
+                    //Cv2.GaussianBlur();
+                    //Cv2.Sobel();
+                    //Cv2.ConvertScaleAbs(cv2.addWeighted(sobelx, 0.5, sobely, 0.5, 0));
+                    //Mat mat = new Mat();
+                    //mat.
 
                     //TODO::有一定可行性 暂时不可用
                     //var dst = bmpSouce.ToMat();

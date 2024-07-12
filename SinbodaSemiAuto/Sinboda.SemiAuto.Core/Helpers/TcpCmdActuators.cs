@@ -94,7 +94,7 @@ namespace Sinboda.SemiAuto.Core.Helpers
             lock (_lockObj)
             {
                 _timerSend.Dispose();
-                _timerRev.Dispose();
+                revEnabled = false;
                 commDriver?.Dispose();
             }
         }
@@ -253,7 +253,6 @@ namespace Sinboda.SemiAuto.Core.Helpers
             lock (_lockObj)
             {
                 _timerSend.Stop();
-                _timerRev.Dispose();
                 revEnabled = false;
             }
         }

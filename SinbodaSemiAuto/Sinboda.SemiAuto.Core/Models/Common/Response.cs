@@ -65,6 +65,11 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         EC_TCP_ClientOffline,   // TCP 客户端离线
 
         EC_Unknown,             // 未知错误
+
+        /// <summary>
+        /// 超时
+        /// </summary>
+        TimeOut = 255
     }
 
     /// <summary>
@@ -171,8 +176,8 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         {
             return data.JsonDeserialize<ResMove>();
         }
-    } 
-    
+    }
+
     /// <summary>
     /// 平台复位应答
     /// </summary>
@@ -197,8 +202,8 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         /// y当前坐标
         /// </summary>
         [JsonProperty("CurrPosY")]
-        public int CurrPosY { get; set; } 
-        
+        public int CurrPosY { get; set; }
+
         /// <summary>
         /// z当前坐标
         /// </summary>
@@ -216,7 +221,7 @@ namespace Sinboda.SemiAuto.Core.Models.Common
         }
     }
 
-     /// <summary>
+    /// <summary>
     /// 获取下位机版本应答
     /// </summary>
     public class ResGetVersion : Response
